@@ -1,0 +1,17 @@
+NewXML/  growth plate prep
+
+Get/ strain/ strain
+
+Get/ media/ media
+
+GetExpID/ {startDate}_{strain}
+
+Get/ number/ cultureVolume/ Enter the culture volume per well (uL):
+
+UserPrompt/ Add Yeast/ Add 1000 uL of Yeast starting stock to each of wells A1 and B1 in the Abgene plate./ 
+
+Hamilton/ C:\Program Files (x86)\HAMILTON\Methods\GSF-IMS Project\Cell gradient plate.lmsf.hsl
+
+WaitFor/ Hamilton/ 
+
+SaveXML/ 
