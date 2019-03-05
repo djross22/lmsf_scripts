@@ -1,0 +1,23 @@
+Set/ outFolder/ C:\Users\Public\Documents\Experiments\
+
+Set/ neoProt1/ C:\Users\Public\Documents\Protocols\Short Neo Test 1.prt
+Set/ neoProt2/ C:\Users\Public\Documents\Protocols\Short Neo Test 2.prt
+
+Set/ epochProt1/ \\129.6.167.34\Protocols\Short Reader Test 1.prt
+Set/ epochProt2/ \\129.6.167.34\Protocols\Short Reader Test 2.prt
+
+Set/ expId1/ test-1
+Set/ expId2/ test-2
+
+Gen5/ Neo/ RunExp/ {neoProt1}/ {expId1}-1/ {outFolder}
+
+Gen5/ Epoch1/ RunExp/ {epochProt1}/ {expId1}-1/ {outFolder}
+
+WaitFor/ Neo
+
+WaitFor/ Epoch1
+
+Gen5/ Neo/ RunExp/ {neoProt2}/ {expId2}-1/ {outFolder}
+
+WaitFor/ Neo
+

@@ -1,0 +1,72 @@
+RemoteHam/ S-Cell-STAR/ RunMethod/ C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\Fill 5 plates with media and bacteria.hsl
+
+Timer/ 120
+
+WaitFor/ Timer/ 
+
+WaitFor/ S-Cell-STAR
+
+
+RemoteHam/ S-Cell-STAR/ RunMethod/ C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\Fill 5 plates with media and bacteria.hsl
+
+Timer/ 120
+
+WaitFor/ Timer/ 
+
+WaitFor/ S-Cell-STAR
+
+
+RemoteHam/ S-Cell-STAR/ RunMethod/ C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\Fill 5 plates with media and bacteria.hsl
+
+Timer/ 120
+
+WaitFor/ Timer/ 
+
+WaitFor/ S-Cell-STAR
+
+
+RemoteHam/ S-Cell-STAR/ RunMethod/ C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\Fill 5 plates with media and bacteria.hsl
+
+Timer/ 120
+
+WaitFor/ Timer/ 
+
+WaitFor/ S-Cell-STAR
+
+
+RemoteHam/ S-Cell-STAR/ RunMethod/ C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\Fill 5 plates with media and bacteria.hsl
+
+Timer/ 120
+
+WaitFor/ Timer/ 
+
+WaitFor/ S-Cell-STAR
+
+
+RemoteHam/ S-Cell-STAR/ RunMethod/ C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\Fill 5 plates with media and bacteria.hsl
+
+Timer/ 120
+
+WaitFor/ Timer/ 
+
+WaitFor/ S-Cell-STAR
+
+
+RemoteHam/ S-Cell-STAR/ RunMethod/ C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\Fill 5 plates with media and bacteria.hsl
+
+Timer/ 120
+
+WaitFor/ Timer/ 
+
+WaitFor/ S-Cell-STAR
+
+
+RemoteHam/ S-Cell-STAR/ RunMethod/ C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\Fill 5 plates with media and bacteria.hsl
+
+Timer/ 120
+
+WaitFor/ Timer/ 
+
+WaitFor/ S-Cell-STAR
+
+

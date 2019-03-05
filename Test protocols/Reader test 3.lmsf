@@ -1,0 +1,32 @@
+Gen5/ Epoch1/ CarrierOut
+
+Gen5/ Epoch2/ CarrierOut
+
+Gen5/ Epoch3/ CarrierOut
+
+Gen5/ Epoch4/ CarrierOut
+
+WaitFor/ Epoch1
+
+WaitFor/ Epoch2
+
+WaitFor/ Epoch3
+
+WaitFor/ Epoch4
+
+Gen5/ Epoch1/ CarrierIn
+
+Gen5/ Epoch2/ CarrierIn
+
+Gen5/ Epoch3/ CarrierIn
+
+Gen5/ Epoch4/ CarrierIn
+
+WaitFor/ Epoch1
+
+WaitFor/ Epoch2
+
+WaitFor/ Epoch3
+
+WaitFor/ Epoch4
+
