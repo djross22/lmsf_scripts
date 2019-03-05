@@ -1,0 +1,151 @@
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set/ isPipetting/ false
+//isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
+Set/ isDebugging/ false
+
+Set/ hamiltonMethodDir/ C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth
+Set/ ovpDirectory/ C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth
+
+//Testing section; set variables for Hamilton method for method testing
+Set/ gradPlateNum/ 1
+
+Set/ strain1/ MG-1655
+Set/ plasmid1/ pAN1818
+
+Set/ inducer/ IPTG
+Set/ inducerStockConc/ 1
+Set/ inducerStockUnits/ mmol/L
+
+Set/ leftAdditive/ Tet
+Set/ leftAdditiveStockConc/ 2
+Set/ leftAdditiveStockUnits/ mg/mL
+
+Set/ rightAdditive/ DOG
+Set/ rightAdditiveStockConc/ 4
+Set/ rightAdditiveStockUnits/ %
+
+Set/ workListDir/ C:\Shared Files\Data\LMSF-testing\2019-03-03-1523_IPTG_Tet_DOG_2DGradients
+Set/ worklistFile/ {workListDir}\2019-03-03-1523_IPTG_Tet_DOG_2DGradients_growth plate_1.csv
+
+//End testing section
+
+//StartPrompt/ Overnight Repeated Double 2D Gradient Protocol/ 
+
+//NewXML/  growth plate prep
+
+//gradPlateNum is the number of gradient plate preps - used to keep track of which wells to use in the Abgene plate for gradient prep
+Set/ gradPlateNum/ 1
+
+//keepOldPlate is a variable passed to Hamilton Venus; used in the "Dilute-copy plate with 96-head" method, to indicate if the old growth plate is kept (keepOldPlate == true) or thrown to waste (keepOldPlate != true)
+Set/ keepOldPlate/ true
+
+//Venus method constrains 200<=cultureVolume<=500
+Set/ cultureVolume/ 500
+
+//Tip counter check
+//UserPrompt/ Tip Counters/ Click 'OK', then switch to the Hamilton computer to verify and, if necessary, reset or update the Hamilton tip counters.
+
+//RemoteHam/ S-Cell-STAR/ RunMethod/ C:\Program Files (x86)\Hamilton\Methods\Common\Tip Handling\With 96-Head\Edit Tip Counters.hsl
+//WaitFor/ S-Cell-STAR/ 
+
+//RemoteHam/ S-Cell-STAR/ RunMethod/ C:\Program Files (x86)\Hamilton\Methods\Common\Clear STAR Deck for Handoff.hsl
+//WaitFor/ S-Cell-STAR/ 
+
+
+Set/ plateNum/ 1
+
+//- 1 ------------------------------------------------------------------------------
+Overlord/ {ovpDirectory}\Move Growth Plate from Stack 7 to STAR.ovp
+WaitFor/ Overlord/ 
+
+Set/ worklistFile/ {workListDir}\2019-03-03-1523_IPTG_Tet_DOG_2DGradients_growth plate_1.csv
+RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Uniform non-selective plate prep plus starting bacteria.hsl
+WaitFor/ S-Cell-STAR/ 
+
+Overlord/ {ovpDirectory}\Move Growth Plate from STAR to Shelf.ovp/ [Carousel.Shelf] {plateNum}
+WaitFor/ Overlord/ 
+
+//Gen5/ Epoch1/ 
+//WaitFor/ Epoch1
+//- 2 ----------------------------------------------------------------------------- 
+
+Overlord/ {ovpDirectory}\Move Growth Plate from Stack 7 to STAR.ovp
+WaitFor/ Overlord/ 
+
+Set/ worklistFile/ {workListDir}\2019-03-03-1523_IPTG_Tet_DOG_2DGradients_growth plate_2.csv
+RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Uniform non-selective plate prep.hsl
+WaitFor/ S-Cell-STAR/ 
+
+Overlord/ {ovpDirectory}\Move Growth Plate from Shelf to STAR.ovp/ [Carousel.Shelf] 1
+WaitFor/ Overlord/ 
+
+Set/ keepOldPlate/ false
+RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Dilute-copy plate with 96-head.hsl
+WaitFor/ S-Cell-STAR/ 
+
+Overlord/ {ovpDirectory}\Move Growth Plate from STAR to Shelf.ovp/ [Carousel.Shelf] 1
+WaitFor/ Overlord/ 
+
+//Gen5/ Epoch1/ 
+//WaitFor/ Epoch1
+//- 3 ----------------------------------------------------------------------------- 
+
+Overlord/ {ovpDirectory}\Move Growth Plate from Stack 7 to STAR.ovp
+WaitFor/ Overlord/ 
+
+Set/ worklistFile/ {workListDir}\2019-03-03-1523_IPTG_Tet_DOG_2DGradients_growth plate_3.csv
+RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Double 2D gradient plate prep.hsl
+WaitFor/ S-Cell-STAR/ 
+
+Overlord/ {ovpDirectory}\Move Growth Plate from Shelf to STAR.ovp/ [Carousel.Shelf] 1
+WaitFor/ Overlord/ 
+
+Set/ keepOldPlate/ true
+RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Dilute-copy plate with 96-head.hsl
+WaitFor/ S-Cell-STAR/ 
+
+Overlord/ {ovpDirectory}\Move Growth Plate from STAR to Shelf.ovp/ [Carousel.Shelf] 1
+WaitFor/ Overlord/ 
+
+//Gen5/ Epoch1/ 
+//WaitFor/ Epoch1
+
+RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Move old growth plate to handoff.hsl
+WaitFor/ S-Cell-STAR/  
+
+Overlord/ {ovpDirectory}\Move Growth Plate from STAR to Shelf.ovp/ [Carousel.Shelf] 2
+WaitFor/ Overlord/ 
+
+//Gen5/ Epoch2/ 
+//WaitFor/ Epoch2
+//- 4 ----------------------------------------------------------------------------- 
+
+Overlord/ {ovpDirectory}\Move Growth Plate from Stack 7 to STAR.ovp
+WaitFor/ Overlord/ 
+
+Set/ worklistFile/ {workListDir}\2019-03-03-1523_IPTG_Tet_DOG_2DGradients_growth plate_4.csv
+RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Double 2D gradient plate prep.hsl
+WaitFor/ S-Cell-STAR/ 
+
+Overlord/ {ovpDirectory}\Move Growth Plate from Shelf to STAR.ovp/ [Carousel.Shelf] 1
+WaitFor/ Overlord/ 
+
+Set/ keepOldPlate/ true
+RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Dilute-copy plate with 96-head.hsl
+WaitFor/ S-Cell-STAR/ 
+
+Overlord/ {ovpDirectory}\Move Growth Plate from STAR to Shelf.ovp/ [Carousel.Shelf] 1
+WaitFor/ Overlord/ 
+
+//Gen5/ Epoch1/ 
+//WaitFor/ Epoch1
+
+RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Move old growth plate to handoff.hsl
+WaitFor/ S-Cell-STAR/  
+
+Overlord/ {ovpDirectory}\Move Growth Plate from STAR to Shelf.ovp/ [Carousel.Shelf] 3
+WaitFor/ Overlord/ 
+
+//Gen5/ Epoch3/ 
+//WaitFor/ Epoch3
+
