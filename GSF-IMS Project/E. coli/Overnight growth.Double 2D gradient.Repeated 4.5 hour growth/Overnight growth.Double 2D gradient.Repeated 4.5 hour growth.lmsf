@@ -23,29 +23,6 @@ Set(extraLongProtocol, {testProtocol})
 //Set any other short-hand dictionary keys that will be used repeatedly
 Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
 
-///////////////////////////////////////////////////////////////////////////////////////
-//Testing section; set variables for Hamilton method for method testing
-Set(gradPlateNum, 1)
-
-Set(strain1, MG-1655)
-Set(plasmid1, pAN1818)
-
-Set(inducer, IPTG)
-Set(inducerStockConc, 1)
-Set(inducerStockUnits, mmol/L)
-
-Set(leftAdditive, Tet)
-Set(leftAdditiveStockConc, 2)
-Set(leftAdditiveStockUnits, mg/mL)
-
-Set(rightAdditive, DOG)
-Set(rightAdditiveStockConc, 4)
-Set(rightAdditiveStockUnits, %)
-
-Set(expId, test)
-
-//End testing section
-///////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////
 //User input and Overlord initialization section
