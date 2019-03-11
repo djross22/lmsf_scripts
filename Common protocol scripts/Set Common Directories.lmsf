@@ -1,0 +1,12 @@
+
+//Directories where .hsl, .prt, and .opv files are to be found:
+
+Set(hamiltonTipDir, C:\Program Files (x86)\Hamilton\Methods\Common\Tip Handling\With 96-Head)
+
+Set(ovpCommDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\Common)
+
+Set(lmsfCommDirectory, C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts)
+
+Set(lmsfImageDirectory, C:\Users\PAA\Documents\LMSF Scheduler\Image files)
+
+Set(gen5ProtDir, \\129.6.167.34\Protocols\GSF-IMS-E-Coli)

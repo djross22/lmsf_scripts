@@ -1,0 +1,7 @@
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+
+
+UserPrompt(Edit Tip Counters, Switch to the the S-Cell-STAR PC and verify or edit the tip counters.)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
+WaitFor(S-Cell-STAR)

@@ -1,0 +1,13 @@
+//Dictionary entries that need to be set before calling this script:
+//    addTips
+//    ovpCommDirectory
+//    tipSize
+//    tipIndex
+//    hamiltonTipDir
+
+If({addTips}==true, Overlord({ovpCommDirectory}\LabWare\Move Tips from Carousel to STAR.ovp, [STAR.Plate.Handling.Labware.Name] "Tips{tipSize}" [STAR.Tip.{tipSize}.Index] {tipIndex}))
+If({addTips}==true, WaitFor(Overlord))
+If({addTips}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Add Tips {tipSize} to Support w Counters.hsl))
+If({addTips}==true, WaitFor(S-Cell-STAR))
+If({addTips}==true, Overlord({ovpCommDirectory}\LabWare\Move Tips from STAR to Waste.ovp))
+If({addTips}==true, WaitFor(Overlord))
