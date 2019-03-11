@@ -1,0 +1,27 @@
+
+//ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+
+//RemoteHam(S-Cell-STAR, ReadCounters)
+//RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
+//WaitFor(S-Cell-STAR)
+
+//1000 uL tips ---------------------------------------------------------
+Set(tipSize, 1000)
+Set(tipIndex, 1)
+If({tips1000Total}<94, Set(addTips, true))
+If({tips1000Total}>=94, Set(addTips, false))
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+//-----------------------------------------------------------------------
+
+//300 uL tips -----------------------------------------------------------
+Set(tipSize, 300)
+Set(tipIndex, 1)
+If({tips300Total}<96, Set(addTips, true))
+If({tips300Total}>=96, Set(addTips, false))
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+//----------------------------------------------------------------------
+
+RemoteHam(S-Cell-STAR, ReadCounters)
+WaitFor(S-Cell-STAR)
