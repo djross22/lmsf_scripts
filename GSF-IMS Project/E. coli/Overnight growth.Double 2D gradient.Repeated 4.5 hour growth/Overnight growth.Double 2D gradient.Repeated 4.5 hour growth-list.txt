@@ -1,12 +1,14 @@
-One 4titude growth plate
-One Media trough
-Two Abgene plates, 1.2 mL per well
-66 high-volume (1000 uL) tips (in main racks)
-32 standard-volume (300 uL) tips (in main racks)
-12 high-volume (1000 uL) tips in the offset pickup (one row)
+Four 4titude growth plates, with lides, in stack 7 of the Carousel
+One Media trough, with lid extender and lid, on deck of STAR
+One Abgene plate, 1.2 mL per well, with lid, on deck of STAR
+Two Agilent 6-reservoir plates, with lids, on deck of STAR
 
-120 mL of media
-3 mL of inducer at 10x concentration (in FACS tube)
-2 mL of additive for left-side gradient (e.g. tet; in FACS tube)
-2 mL of additive for right-side gradient (e.g. DOG; in FACS tube)
-1.0 mL of bacteria at 1000x concentration (in 14 mL culture tube)
+94 high-volume (1000 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
+96 standard-volume (300 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
+Three additional full racks of standard-volume (300 uL) tips on the Carousel
+
+250 mL of media
+16 mL of inducer at 10x concentration (in column 1 of reagent plate)
+13 mL of additive for left-side gradient (e.g. tet; in column 2 of reagent plate)
+13 mL of additive for right-side gradient (e.g. DOG; in column 3 of reagent plate)
+10 mL of bacteria stock (in column 1 of cell plate)

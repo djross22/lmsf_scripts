@@ -23,20 +23,50 @@ keepOldPlate is a variable passed to Hamilton Venus; used in the "Dilute-copy pl
 
 New method to move old growth plate to handoff position (to be put back in reader)
 
-TODO:
-
-Manually count Growth Plates from stack (stack inventory procedure doesn't work reliably)
-
 Reagent plate to EasyPick; Reagent plate lid parking to current spot where reagent plate is
 
 Only initialize Overlord hardware once
 
 
+Remove empty tip racks after putting GP in Epoch - add clearWasteRack variable in Tips procedure
+
+
+TODO:
+
+If AbortCalled, stop trying to send TCP message.
+Also, need to check connection before sending, otherwise it goes into an endless loop - or automatically recconect if sending message fails N times.
+
+Tip requirements for Offset tips - 
+
+vibrate STAR waste while moving lids
+
+Are you sure you want to abort?
+
+Move tip hotel prompt to before StartXML
+
+Edit tip counters "manually"
+
+Automatically write to tip status file after add tip methods in Venus
+
+Prompt to make sure STAR in not in simulatoon mode BEFORE edit tip counters
+
+Take out User prompts for "running X hour read..." and add in Timers.
+
+Set up STAR deck layout- image way too small
+
+Make sure user prompts are always on top
+
+EPOCHXGP slow down movements a bit?
+
+
+
+Find good source of universal sterile lids
+
+Manually count Growth Plates from stack (stack inventory procedure doesn't work reliably)
+
 Add sequence definitions for different plate numbers and for different bacteria
 
 Check mixing in all methods
-
-Check LLD settings for new labware
 
 
 Experiment sequence:
@@ -54,7 +84,7 @@ OV: GP STAR->Seal->Epoch1
 Gen5:
 - 3 ---------------------------------
 OV: GP Stack->STAR
-Ham: Double Grad prep (worklistFile = ...3)
+Ham: Double Grad prep (worklistFile = ...3, gradPlateNum=1)
 OV: GP Epoch1->Peal->STAR
 Ham: Dilute-copy (keepOldPlate = true)
 OV: GP STAR->Seal->Epoch1
@@ -64,7 +94,7 @@ OV: GP STAR->Seal->Epoch2
 Gen5:
 - 4 ---------------------------------
 OV: GP Stack->STAR
-Ham: Double Grad prep (worklistFile = ...4)
+Ham: Double Grad prep (worklistFile = ...4, gradPlateNum=2)
 OV: GP Epoch1->Peal->STAR
 Ham: Dilute-copy (keepOldPlate = true)
 OV: GP STAR->Seal->Epoch1

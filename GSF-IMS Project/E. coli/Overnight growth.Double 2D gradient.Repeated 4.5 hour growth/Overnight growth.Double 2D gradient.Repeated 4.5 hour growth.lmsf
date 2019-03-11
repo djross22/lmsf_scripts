@@ -1,151 +1,278 @@
 //isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
-Set/ isPipetting/ false
+Set(isPipetting, true)
 //isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
-Set/ isDebugging/ false
+Set(isDebugging, false)
 
-Set/ hamiltonMethodDir/ C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth
-Set/ ovpDirectory/ C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth
+//Read in commonly used directories
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth)
 
+//Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
+Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth)
+Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth)
+
+//Gen5 protcols to be run:
+Set(testProtocol, \\129.6.167.34\Protocols\Growth Plate w Membrane short test.prt)
+Set(overNightProtocol, {testProtocol})
+Set(repeatProtocol, {testProtocol})
+Set(extraLongProtocol, {testProtocol})
+//Set(overNightProtocol, {gen5ProtDir}\Growth Plate w Membrane 15m.37C.1C.prt)
+//Set(repeatProtocol, {gen5ProtDir}\Growth Plate w Membrane 15m.37C.1C.prt)
+//Set(extraLongProtocol, {gen5ProtDir}\Growth Plate w Membrane 15m.37C.1C.prt)
+
+//Set any other short-hand dictionary keys that will be used repeatedly
+Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+
+///////////////////////////////////////////////////////////////////////////////////////
 //Testing section; set variables for Hamilton method for method testing
-Set/ gradPlateNum/ 1
+Set(gradPlateNum, 1)
 
-Set/ strain1/ MG-1655
-Set/ plasmid1/ pAN1818
+Set(strain1, MG-1655)
+Set(plasmid1, pAN1818)
 
-Set/ inducer/ IPTG
-Set/ inducerStockConc/ 1
-Set/ inducerStockUnits/ mmol/L
+Set(inducer, IPTG)
+Set(inducerStockConc, 1)
+Set(inducerStockUnits, mmol/L)
 
-Set/ leftAdditive/ Tet
-Set/ leftAdditiveStockConc/ 2
-Set/ leftAdditiveStockUnits/ mg/mL
+Set(leftAdditive, Tet)
+Set(leftAdditiveStockConc, 2)
+Set(leftAdditiveStockUnits, mg/mL)
 
-Set/ rightAdditive/ DOG
-Set/ rightAdditiveStockConc/ 4
-Set/ rightAdditiveStockUnits/ %
+Set(rightAdditive, DOG)
+Set(rightAdditiveStockConc, 4)
+Set(rightAdditiveStockUnits, %)
 
-Set/ workListDir/ C:\Shared Files\Data\LMSF-testing\2019-03-03-1523_IPTG_Tet_DOG_2DGradients
-Set/ worklistFile/ {workListDir}\2019-03-03-1523_IPTG_Tet_DOG_2DGradients_growth plate_1.csv
+Set(expId, test)
 
 //End testing section
+///////////////////////////////////////////////////////////////////////////////////////
 
-//StartPrompt/ Overnight Repeated Double 2D Gradient Protocol/ 
+//////////////////////////////////////////////////////////////////////////////////////
+//User input and Overlord initialization section
 
-//NewXML/  growth plate prep
+StartPrompt(Overnight Double 2D Gradient Plate Prep, {protocolDir}\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth-list.txt)
 
-//gradPlateNum is the number of gradient plate preps - used to keep track of which wells to use in the Abgene plate for gradient prep
-Set/ gradPlateNum/ 1
+NewXML(growth plate prep)
 
-//keepOldPlate is a variable passed to Hamilton Venus; used in the "Dilute-copy plate with 96-head" method, to indicate if the old growth plate is kept (keepOldPlate == true) or thrown to waste (keepOldPlate != true)
-Set/ keepOldPlate/ true
+Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
 //Venus method constrains 200<=cultureVolume<=500
-Set/ cultureVolume/ 500
+Set(cultureVolume, 500)
 
-//Tip counter check
-//UserPrompt/ Tip Counters/ Click 'OK', then switch to the Hamilton computer to verify and, if necessary, reset or update the Hamilton tip counters.
+Get(user, user)
 
-//RemoteHam/ S-Cell-STAR/ RunMethod/ C:\Program Files (x86)\Hamilton\Methods\Common\Tip Handling\With 96-Head\Edit Tip Counters.hsl
-//WaitFor/ S-Cell-STAR/ 
+Get(media, media)
 
-//RemoteHam/ S-Cell-STAR/ RunMethod/ C:\Program Files (x86)\Hamilton\Methods\Common\Clear STAR Deck for Handoff.hsl
-//WaitFor/ S-Cell-STAR/ 
+Get(strain, strain1, Select the bacteria strain used for the protocol:)
+Get(plasmid, plasmid1, Select the plasmid used for the protocol:)
+
+Get(additive, inducer)
+Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:)
+
+Get(additive, leftAdditive,Select the additive for the left-side gradient)
+Get(concentration, leftAdditiveStock, Enter the concentration of the {leftAdditive} starting stock:)
+
+Get(additive, rightAdditive,Select the additive for the right-side gradient)
+Get(concentration, rightAdditiveStock, Enter the concentration of the {rightAdditive} starting stock:)
+
+Get(note, note)
+
+GetExpID({startDateTime}_{inducer}_{leftAdditive}_{rightAdditive}_2DGradients)
+
+//review experiment ok/abort dialog
+Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
+Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1}\n\n)
+Set(msg3, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n \tLeft-side additive:  \t{leftAdditive}, stock concentration: {leftAdditiveStock}\n)
+Set(msg4, \tRight-side additive:  \t{rightAdditive}, stock concentration: {rightAdditiveStock}\n  \n)
+Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
+UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2} {msg3} {msg4} {msg5})
+
+Set(msg1, Make sure there is at least one rack of 1000 uL tips in the PAA Carousel (hotel no. 1).\n)
+Set(msg2, Make sure there are at least four racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
+UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip Hotels 1-2.png)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Edit Tip Counters.lmsf)
+
+Set(msg1, Set up the STAR deck layout as shown.                                                                                                        )
+UserPrompt(Media Trough, {msg1}, {protocolDir}\Overnight Double Gradient Layout.PNG)
+
+Set(msg1, Close the front cover on the STAR, and make sure that the Hamilton Run Control program is NOT in simulation mode.\n)
+Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
+Set(msg3, Check that all the doors of the S-Cell system are closed.\n)
+Set(msg4, Then clisk 'OK' to start the protocol.\n)
+UserPrompt(Ready to Start, {msg1}{msg2}{msg3}{msg4}, {lmsfImageDirectory}\dialog-warning.png)
 
 
-Set/ plateNum/ 1
+WaitFor(Overlord)
+//End User input and Ovrlord initialization section
+//////////////////////////////////////////////////////////////////////////////////////
 
-//- 1 ------------------------------------------------------------------------------
-Overlord/ {ovpDirectory}\Move Growth Plate from Stack 7 to STAR.ovp
-WaitFor/ Overlord/ 
+/////////////////////////////////////////////////////////////////////////////////////
+//Run the protocol
+////////////////////////////////////////////////////////////////////////////////////
 
-Set/ worklistFile/ {workListDir}\2019-03-03-1523_IPTG_Tet_DOG_2DGradients_growth plate_1.csv
-RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Uniform non-selective plate prep plus starting bacteria.hsl
-WaitFor/ S-Cell-STAR/ 
+//--- 0 ------------------------------------------------------------------------------
+//Set up the initial allocation of tips
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth\Starting Tips.lmsf)
 
-Overlord/ {ovpDirectory}\Move Growth Plate from STAR to Shelf.ovp/ [Carousel.Shelf] {plateNum}
-WaitFor/ Overlord/ 
+//--- 1 ------------------------------------------------------------------------------
+Set(plateNum, 1)
 
-//Gen5/ Epoch1/ 
-//WaitFor/ Epoch1
-//- 2 ----------------------------------------------------------------------------- 
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] 10)
+WaitFor(Overlord)
 
-Overlord/ {ovpDirectory}\Move Growth Plate from Stack 7 to STAR.ovp
-WaitFor/ Overlord/ 
+Set(worklistFile, {dataDirectory}\{experimentId}_growth plate_{plateNum}.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Uniform non-selective plate prep plus starting bacteria.hsl)
+WaitFor(S-Cell-STAR)
 
-Set/ worklistFile/ {workListDir}\2019-03-03-1523_IPTG_Tet_DOG_2DGradients_growth plate_2.csv
-RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Uniform non-selective plate prep.hsl
-WaitFor/ S-Cell-STAR/ 
+Gen5(Epoch1, CarrierOut)
+WaitFor(Epoch1, false)
 
-Overlord/ {ovpDirectory}\Move Growth Plate from Shelf to STAR.ovp/ [Carousel.Shelf] 1
-WaitFor/ Overlord/ 
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch1")
+WaitFor(Overlord)
 
-Set/ keepOldPlate/ false
-RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Dilute-copy plate with 96-head.hsl
-WaitFor/ S-Cell-STAR/ 
+Gen5(Epoch1, RunExp, {overNightProtocol}, {expId}_growth-plate_1a, {dataDirectory})
+//WaitFor(Epoch1)
 
-Overlord/ {ovpDirectory}\Move Growth Plate from STAR to Shelf.ovp/ [Carousel.Shelf] 1
-WaitFor/ Overlord/ 
+UserPrompt(Reading Plate, Now running 12 h growth)
 
-//Gen5/ Epoch1/ 
-//WaitFor/ Epoch1
-//- 3 ----------------------------------------------------------------------------- 
+//--- 2 ----------------------------------------------------------------------------- 
+Set(plateNum, 2)
 
-Overlord/ {ovpDirectory}\Move Growth Plate from Stack 7 to STAR.ovp
-WaitFor/ Overlord/ 
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] 9 [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] 2)
+WaitFor(Overlord)
 
-Set/ worklistFile/ {workListDir}\2019-03-03-1523_IPTG_Tet_DOG_2DGradients_growth plate_3.csv
-RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Double 2D gradient plate prep.hsl
-WaitFor/ S-Cell-STAR/ 
+Set(worklistFile, {dataDirectory}\{experimentId}_growth plate_{plateNum}.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Uniform non-selective plate prep.hsl)
+WaitFor(S-Cell-STAR)
 
-Overlord/ {ovpDirectory}\Move Growth Plate from Shelf to STAR.ovp/ [Carousel.Shelf] 1
-WaitFor/ Overlord/ 
+WaitFor(Epoch1)
+Gen5(Epoch1, CarrierOut)
+WaitFor(Epoch1, false)
 
-Set/ keepOldPlate/ true
-RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Dilute-copy plate with 96-head.hsl
-WaitFor/ S-Cell-STAR/ 
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "Epoch1")
+WaitFor(Overlord)
 
-Overlord/ {ovpDirectory}\Move Growth Plate from STAR to Shelf.ovp/ [Carousel.Shelf] 1
-WaitFor/ Overlord/ 
+Gen5(Epoch1, CarrierIn)
+WaitFor(Epoch1, false)
 
-//Gen5/ Epoch1/ 
-//WaitFor/ Epoch1
+Set(keepOldPlate, false)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Dilute-copy plate with 96-head.hsl)
+WaitFor(S-Cell-STAR)
 
-RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Move old growth plate to handoff.hsl
-WaitFor/ S-Cell-STAR/  
+Gen5(Epoch1, CarrierOut)
+WaitFor(Epoch1, false)
 
-Overlord/ {ovpDirectory}\Move Growth Plate from STAR to Shelf.ovp/ [Carousel.Shelf] 2
-WaitFor/ Overlord/ 
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch1")
+WaitFor(Overlord)
 
-//Gen5/ Epoch2/ 
-//WaitFor/ Epoch2
-//- 4 ----------------------------------------------------------------------------- 
+Gen5(Epoch1, RunExp, {repeatProtocol}, {expId}_growth-plate_2a, {dataDirectory})
+//WaitFor(Epoch1)
 
-Overlord/ {ovpDirectory}\Move Growth Plate from Stack 7 to STAR.ovp
-WaitFor/ Overlord/ 
+UserPrompt(Reading Plate, Now running 4.5 h growth)
 
-Set/ worklistFile/ {workListDir}\2019-03-03-1523_IPTG_Tet_DOG_2DGradients_growth plate_4.csv
-RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Double 2D gradient plate prep.hsl
-WaitFor/ S-Cell-STAR/ 
+//--- 3 ----------------------------------------------------------------------------- 
+Set(plateNum, 3)
 
-Overlord/ {ovpDirectory}\Move Growth Plate from Shelf to STAR.ovp/ [Carousel.Shelf] 1
-WaitFor/ Overlord/ 
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] 8 [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] 3 [STAR.Tip.ClearWaste] "true")
+WaitFor(Overlord)
 
-Set/ keepOldPlate/ true
-RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Dilute-copy plate with 96-head.hsl
-WaitFor/ S-Cell-STAR/ 
+Set(worklistFile, {dataDirectory}\{experimentId}_growth plate_{plateNum}.csv)
+Set(gradPlateNum, 1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Double 2D gradient plate prep.hsl)
+WaitFor(S-Cell-STAR)
 
-Overlord/ {ovpDirectory}\Move Growth Plate from STAR to Shelf.ovp/ [Carousel.Shelf] 1
-WaitFor/ Overlord/ 
+WaitFor(Epoch1)
+Gen5(Epoch1, CarrierOut)
+WaitFor(Epoch1, false)
 
-//Gen5/ Epoch1/ 
-//WaitFor/ Epoch1
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "Epoch1")
+WaitFor(Overlord)
 
-RemoteHam/ S-Cell-STAR/ RunMethod/ {hamiltonMethodDir}\Move old growth plate to handoff.hsl
-WaitFor/ S-Cell-STAR/  
+Gen5(Epoch1, CarrierIn)
+WaitFor(Epoch1, false)
 
-Overlord/ {ovpDirectory}\Move Growth Plate from STAR to Shelf.ovp/ [Carousel.Shelf] 3
-WaitFor/ Overlord/ 
+Set(keepOldPlate, true)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Dilute-copy plate with 96-head.hsl)
+WaitFor(S-Cell-STAR)
 
-//Gen5/ Epoch3/ 
-//WaitFor/ Epoch3
+Gen5(Epoch1, CarrierOut)
+WaitFor(Epoch1, false)
 
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch1")
+WaitFor(Overlord)
+
+Gen5(Epoch1, RunExp, {repeatProtocol}, {expId}_growth-plate_3a, {dataDirectory})
+//WaitFor(Epoch1)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
+WaitFor(S-Cell-STAR)
+
+Gen5(Epoch2, CarrierOut)
+WaitFor(Epoch2, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch2")
+WaitFor(Overlord)
+
+Gen5(Epoch2, RunExp, {extraLongProtocol}, {expId}_growth-plate_2b, {dataDirectory})
+//WaitFor(Epoch2)
+
+UserPrompt(Reading Plate, Now running 4.5 h growth)
+
+//--- 4 ----------------------------------------------------------------------------- 
+Set(plateNum, 4)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] 7 [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] 4 [STAR.Tip.ClearWaste] "true")
+WaitFor(Overlord)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth plate_{plateNum}.csv)
+Set(gradPlateNum, 2)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Double 2D gradient plate prep.hsl)
+WaitFor(S-Cell-STAR)
+
+WaitFor(Epoch1)
+Gen5(Epoch1, CarrierOut)
+WaitFor(Epoch1, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "Epoch1")
+WaitFor(Overlord)
+
+Gen5(Epoch1, CarrierIn)
+WaitFor(Epoch1, false)
+
+Set(keepOldPlate, true)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Dilute-copy plate with 96-head.hsl)
+WaitFor(S-Cell-STAR)
+
+Gen5(Epoch1, CarrierOut)
+WaitFor(Epoch1, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch1")
+WaitFor(Overlord)
+
+Gen5(Epoch1, RunExp, {overNightProtocol}, {expId}_growth-plate_4a, {dataDirectory})
+//WaitFor(Epoch1)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
+WaitFor(S-Cell-STAR)
+
+Gen5(Epoch3, CarrierOut)
+WaitFor(Epoch3, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch3")
+WaitFor(Overlord)
+
+Gen5(Epoch3, RunExp, {overNightProtocol}, {expId}_growth-plate_3b, {dataDirectory})
+//WaitFor(Epoch3)
+//---5--------------------------------------------------------------------------------------
+
+WaitFor(Epoch1)
+WaitFor(Epoch2)
+WaitFor(Epoch3)
+
+SaveXML()
+
+CopyRemoteFiles()
+
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp, [Gen5.Reader.Name] "Epoch3")
+WaitFor(Overlord)
