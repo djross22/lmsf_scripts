@@ -1,0 +1,66 @@
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+
+RemoteHam(S-Cell-STAR, ReadCounters)
+//RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
+WaitFor(S-Cell-STAR)
+
+UserPrompt(Tips 1000, {tips1000Total})
+UserPrompt(Tips 300, {tips300Total})
+UserPrompt(Tips 50, {tips50Total})
+
+//1000 uL tips ---------------------------------------------------------
+Set(tipSize, 1000)
+Set(tipIndex, 1)
+If({tips1000Status1}==0, Set(addTips, true))
+If({tips1000Status1}==1, Set(addTips, false))
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+
+//Add second rack
+Set(tipIndex, 2)
+If({tips1000Status2}==0, Set(addTips, true))
+If({tips1000Status2}==1, Set(addTips, false))
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+//-----------------------------------------------------------------------
+
+//300 uL tips -----------------------------------------------------------
+Set(tipSize, 300)
+Set(tipIndex, 1)
+If({tips300Status1}==0, Set(addTips, true))
+If({tips300Status1}==1, Set(addTips, false))
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+
+//Add second rack
+Set(tipIndex, 2)
+If({tips300Status2}==0, Set(addTips, true))
+If({tips300Status2}==1, Set(addTips, false))
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+//----------------------------------------------------------------------
+
+//50 uL tips -----------------------------------------------------------
+Set(tipSize, 50)
+Set(tipIndex, 1)
+If({tips50Status1}==0, Set(addTips, true))
+If({tips50Status1}==1, Set(addTips, false))
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+
+//Add second rack
+Set(tipIndex, 2)
+If({tips50Status2}==0, Set(addTips, true))
+If({tips50Status2}==1, Set(addTips, false))
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+//----------------------------------------------------------------------
+
+RemoteHam(S-Cell-STAR, ReadCounters)
+//RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
+WaitFor(S-Cell-STAR)
+
+UserPrompt(Tips 1000, {tips1000Total})
+UserPrompt(Tips 300, {tips300Total})
+UserPrompt(Tips 50, {tips50Total})

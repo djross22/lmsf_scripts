@@ -1,0 +1,14 @@
+//Set the Directories where .hsl, .prt, and .opv files are to be found:
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+
+Set(msg, Put an empty tip rack in the handoff position of the STAR, then click 'OK' to continue)
+UserPrompt(Returning Tips from STAR to Carousel, {msg})
+
+Set(tipSize, 300)
+Set(tipIndex, 1)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Old\Return Tips{tipSize} To Handoff.hsl)
+WaitFor(S-Cell-STAR)
+
+Overlord({ovpCommDirectory}\LabWare\Move Tips from STAR to Carousel.ovp, [STAR.Plate.Handling.Labware.Name] "Tips{tipSize}" [STAR.Tip.{tipSize}.Index] {tipIndex})
+WaitFor(Overlord)

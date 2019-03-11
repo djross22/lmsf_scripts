@@ -1,2 +1,2 @@
-Overlord/ C:\Program Files (x86)\PAA\Overlord3\Procedures\Testing\Test - LMSF Scheduler variable set.ovp/ [Carousel.Shelf] 7
-WaitFor/ Overlord/ 
+Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Testing\Test - LMSF Scheduler variable set.ovp, [Carousel.Shelf] 7 [Gen5.Reader.Name] "Epoch1")
+WaitFor(Overlord)
