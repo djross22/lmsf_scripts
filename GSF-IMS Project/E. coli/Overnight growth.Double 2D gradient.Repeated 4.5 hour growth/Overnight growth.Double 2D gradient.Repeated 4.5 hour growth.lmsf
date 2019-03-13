@@ -100,6 +100,8 @@ WaitFor(Overlord)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Uniform non-selective plate prep plus starting bacteria.hsl)
+Timer(600)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 Gen5(Epoch1, CarrierOut)
@@ -111,7 +113,8 @@ WaitFor(Overlord)
 Gen5(Epoch1, RunExp, {overNightProtocol}, {expId}_growth-plate_1a, {dataDirectory})
 //WaitFor(Epoch1)
 
-UserPrompt(Reading Plate, Now running 12 h growth)
+Timer(42600)
+WaitFor(Timer)
 
 //--- 2 ----------------------------------------------------------------------------- 
 Set(plateNum, 2)
@@ -146,7 +149,8 @@ WaitFor(Overlord)
 Gen5(Epoch1, RunExp, {repeatProtocol}, {expId}_growth-plate_2a, {dataDirectory})
 //WaitFor(Epoch1)
 
-UserPrompt(Reading Plate, Now running 4.5 h growth)
+Timer(13500)
+WaitFor(Timer)
 
 //--- 3 ----------------------------------------------------------------------------- 
 Set(plateNum, 3)
@@ -157,6 +161,8 @@ WaitFor(Overlord)
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(gradPlateNum, 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Double 2D gradient plate prep.hsl)
+Timer(2100)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 WaitFor(Epoch1)
@@ -194,7 +200,8 @@ WaitFor(Overlord)
 Gen5(Epoch2, RunExp, {extraLongProtocol}, {expId}_growth-plate_2b, {dataDirectory})
 //WaitFor(Epoch2)
 
-UserPrompt(Reading Plate, Now running 4.5 h growth)
+Timer(13500)
+WaitFor(Timer)
 
 //--- 4 ----------------------------------------------------------------------------- 
 Set(plateNum, 4)
@@ -241,6 +248,8 @@ WaitFor(Overlord)
 
 Gen5(Epoch3, RunExp, {overNightProtocol}, {expId}_growth-plate_3b, {dataDirectory})
 //WaitFor(Epoch3)
+Timer(42600)
+WaitFor(Timer)
 //---5--------------------------------------------------------------------------------------
 
 WaitFor(Epoch1)
