@@ -112,7 +112,7 @@ WaitFor(Epoch1, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch1")
 WaitFor(Overlord)
 
-Gen5(Epoch1, RunExp, {overNightProtocol}, {expId}_growth-plate_1a, {dataDirectory})
+Gen5(Epoch1, RunExp, {overNightProtocol}, {experimentId}_growth-plate_1a, {dataDirectory})
 //WaitFor(Epoch1)
 
 Timer(42600)
@@ -148,7 +148,7 @@ WaitFor(Epoch1, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch1")
 WaitFor(Overlord)
 
-Gen5(Epoch1, RunExp, {repeatProtocol}, {expId}_growth-plate_2a, {dataDirectory})
+Gen5(Epoch1, RunExp, {repeatProtocol}, {experimentId}_growth-plate_2a, {dataDirectory})
 //WaitFor(Epoch1)
 
 Timer(13500)
@@ -187,7 +187,7 @@ WaitFor(Epoch1, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch1")
 WaitFor(Overlord)
 
-Gen5(Epoch1, RunExp, {repeatProtocol}, {expId}_growth-plate_3a, {dataDirectory})
+Gen5(Epoch1, RunExp, {repeatProtocol}, {experimentId}_growth-plate_3a, {dataDirectory})
 //WaitFor(Epoch1)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
@@ -199,7 +199,7 @@ WaitFor(Epoch2, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch2")
 WaitFor(Overlord)
 
-Gen5(Epoch2, RunExp, {extraLongProtocol}, {expId}_growth-plate_2b, {dataDirectory})
+Gen5(Epoch2, RunExp, {extraLongProtocol}, {experimentId}_growth-plate_2b, {dataDirectory})
 //WaitFor(Epoch2)
 
 Timer(13500)
@@ -214,6 +214,8 @@ WaitFor(Overlord)
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(gradPlateNum, 2)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Double 2D gradient plate prep.hsl)
+Timer(2100)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 WaitFor(Epoch1)
@@ -236,7 +238,7 @@ WaitFor(Epoch1, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch1")
 WaitFor(Overlord)
 
-Gen5(Epoch1, RunExp, {overNightProtocol}, {expId}_growth-plate_4a, {dataDirectory})
+Gen5(Epoch1, RunExp, {overNightProtocol}, {experimentId}_growth-plate_4a, {dataDirectory})
 //WaitFor(Epoch1)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
@@ -248,8 +250,9 @@ WaitFor(Epoch3, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch3")
 WaitFor(Overlord)
 
-Gen5(Epoch3, RunExp, {overNightProtocol}, {expId}_growth-plate_3b, {dataDirectory})
+Gen5(Epoch3, RunExp, {overNightProtocol}, {experimentId}_growth-plate_3b, {dataDirectory})
 //WaitFor(Epoch3)
+
 Timer(42600)
 WaitFor(Timer)
 //---5--------------------------------------------------------------------------------------
