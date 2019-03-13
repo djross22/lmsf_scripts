@@ -9,4 +9,4 @@ Set(lmsfCommDirectory, C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scr
 
 Set(lmsfImageDirectory, C:\Users\PAA\Documents\LMSF Scheduler\Image files)
 
-Set(gen5ProtDir, \\129.6.167.34\Protocols\GSF-IMS-E-Coli)
+Set(gen5ProtDir, \\129.6.167.34\Protocols)
