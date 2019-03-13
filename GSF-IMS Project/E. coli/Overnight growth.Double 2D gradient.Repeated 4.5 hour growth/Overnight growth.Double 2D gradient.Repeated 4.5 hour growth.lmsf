@@ -29,6 +29,10 @@ Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate
 
 StartPrompt(Overnight Double 2D Gradient Plate Prep, {protocolDir}\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth-list.txt)
 
+Set(msg1, Make sure there is at least one rack of 1000 uL tips in the PAA Carousel (hotel no. 1).\n)
+Set(msg2, Make sure there are at least four racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
+UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip Hotels 1-2.png)
+
 NewXML(growth plate prep)
 
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
@@ -64,16 +68,14 @@ Set(msg4, \tRight-side additive:  \t{rightAdditive}, stock concentration: {right
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
 UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2} {msg3} {msg4} {msg5})
 
-Set(msg1, Make sure there is at least one rack of 1000 uL tips in the PAA Carousel (hotel no. 1).\n)
-Set(msg2, Make sure there are at least four racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
-UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip Hotels 1-2.png)
+UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Edit Tip Counters.lmsf)
 
 Set(msg1, Set up the STAR deck layout as shown.                                                                                                        )
 UserPrompt(Media Trough, {msg1}, {protocolDir}\Overnight Double Gradient Layout.PNG)
 
-Set(msg1, Close the front cover on the STAR, and make sure that the Hamilton Run Control program is NOT in simulation mode.\n)
+Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
 Set(msg3, Check that all the doors of the S-Cell system are closed.\n)
 Set(msg4, Then clisk 'OK' to start the protocol.\n)
