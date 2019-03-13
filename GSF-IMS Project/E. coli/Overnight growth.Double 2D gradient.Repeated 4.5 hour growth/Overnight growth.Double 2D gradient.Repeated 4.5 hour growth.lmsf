@@ -12,13 +12,13 @@ Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. col
 Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth)
 
 //Gen5 protcols to be run:
-Set(testProtocol, \\129.6.167.34\Protocols\Growth Plate w Membrane short test.prt)
-Set(overNightProtocol, {testProtocol})
-Set(repeatProtocol, {testProtocol})
-Set(extraLongProtocol, {testProtocol})
-//Set(overNightProtocol, {gen5ProtDir}\Growth Plate w Membrane 15m.37C.1C.prt)
-//Set(repeatProtocol, {gen5ProtDir}\Growth Plate w Membrane 15m.37C.1C.prt)
-//Set(extraLongProtocol, {gen5ProtDir}\Growth Plate w Membrane 15m.37C.1C.prt)
+//Set(testProtocol, \\129.6.167.34\Protocols\Growth Plate w Membrane short test.prt)
+//Set(overNightProtocol, {testProtocol})
+//Set(repeatProtocol, {testProtocol})
+//Set(extraLongProtocol, {testProtocol})
+Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.prt)
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 4.5h.37C.1C.prt)
+Set(extraLongProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
 
 //Set any other short-hand dictionary keys that will be used repeatedly
 Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
