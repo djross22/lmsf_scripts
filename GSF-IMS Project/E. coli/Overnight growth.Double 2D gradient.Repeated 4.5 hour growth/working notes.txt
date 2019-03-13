@@ -30,31 +30,30 @@ Only initialize Overlord hardware once
 
 Remove empty tip racks after putting GP in Epoch - add clearWasteRack variable in Tips procedure
 
-
-TODO:
-
-If AbortCalled, stop trying to send TCP message.
-Also, need to check connection before sending, otherwise it goes into an endless loop - or automatically recconect if sending message fails N times.
-
-Tip requirements for Offset tips - 
-
-vibrate STAR waste while moving lids
-
-Are you sure you want to abort?
-
 Move tip hotel prompt to before StartXML
-
-Edit tip counters "manually"
-
-Automatically write to tip status file after add tip methods in Venus
 
 Prompt to make sure STAR in not in simulatoon mode BEFORE edit tip counters
 
 Take out User prompts for "running X hour read..." and add in Timers.
 
-Set up STAR deck layout- image way too small
+If AbortCalled, stop trying to send TCP message.
+Also, need to check connection before sending, otherwise it goes into an endless loop - or automatically recconect if sending message fails N times.
+
+Are you sure you want to abort?
+
+No Hamilton method filename attached to XML for ReadCounters
 
 Make sure user prompts are always on top
+
+
+TODO:
+
+
+Tip requirements for Offset tips - 
+
+Automatically write to tip status file after add tip methods in Venus
+
+Set up STAR deck layout- image way too small
 
 EPOCHXGP slow down movements a bit?
 
