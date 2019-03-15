@@ -37,12 +37,25 @@ NewXML(growth plate prep)
 
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
-//Venus method constrains 200<=cultureVolume<=500
-Set(cultureVolume, 500)
-
 Get(user, user)
 
 Get(media, media)
+
+GetUserYesNo(usingBeads, Beads in Wells?, Are you using beads in the wells of the growth plates?)
+
+//Venus method constrains 200<=cultureVolume<=500
+If({usingBeads} == "No", Set(cultureVolume, 500))
+If({usingBeads} == "Yes", Set(cultureVolume, 425))
+
+If({usingBeads} == "No", Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl))
+If({usingBeads} == "Yes", Set(startMethod, Uniform non-selective plate prep plus starting bacteria.beads.hsl))
+
+If({usingBeads} == "No", Set(nonSelectivePlateMethod, Uniform non-selective plate prep.hsl))
+If({usingBeads} == "Yes", Set(nonSelectivePlateMethod, Uniform non-selective plate prep.beads.hsl))
+
+If({usingBeads} == "No", Set(doubleGradMethod, Double 2D gradient plate prep.hsl))
+If({usingBeads} == "Yes", Set(doubleGradMethod, Double 2D gradient plate prep.beads.hsl))
+
 
 Get(strain, strain1, Select the bacteria strain used for the protocol:)
 Get(plasmid, plasmid1, Select the plasmid used for the protocol:)
@@ -101,7 +114,7 @@ Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] 10)
 WaitFor(Overlord)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Uniform non-selective plate prep plus starting bacteria.hsl)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startMethod})
 Timer(600)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
@@ -125,7 +138,7 @@ Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] 9 [STAR.Plate.Han
 WaitFor(Overlord)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Uniform non-selective plate prep.hsl)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
 WaitFor(S-Cell-STAR)
 
 WaitFor(Epoch1)
@@ -162,7 +175,7 @@ WaitFor(Overlord)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(gradPlateNum, 1)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Double 2D gradient plate prep.hsl)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{doubleGradMethod})
 Timer(2100)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
@@ -213,7 +226,7 @@ WaitFor(Overlord)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(gradPlateNum, 2)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Double 2D gradient plate prep.hsl)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{doubleGradMethod})
 Timer(2100)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
