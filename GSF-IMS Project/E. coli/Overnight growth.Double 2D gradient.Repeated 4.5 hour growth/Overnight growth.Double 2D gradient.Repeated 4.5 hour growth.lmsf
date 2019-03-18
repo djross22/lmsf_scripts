@@ -56,17 +56,17 @@ Get(media, media)
 GetUserYesNo(usingBeads, Beads in Wells?, Are you using beads in the wells of the growth plates?)
 
 //Venus method constrains 200<=cultureVolume<=500
-If({usingBeads} == "No", Set(cultureVolume, 500))
-If({usingBeads} == "Yes", Set(cultureVolume, 425))
+If({usingBeads} == No, Set(cultureVolume, 500))
+If({usingBeads} == Yes, Set(cultureVolume, 450))
 
-If({usingBeads} == "No", Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl))
-If({usingBeads} == "Yes", Set(startMethod, Uniform non-selective plate prep plus starting bacteria.beads.hsl))
+If({usingBeads} == No, Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl))
+If({usingBeads} == Yes, Set(startMethod, Uniform non-selective plate prep plus starting bacteria.beads.hsl))
 
-If({usingBeads} == "No", Set(nonSelectivePlateMethod, Uniform non-selective plate prep.hsl))
-If({usingBeads} == "Yes", Set(nonSelectivePlateMethod, Uniform non-selective plate prep.beads.hsl))
+If({usingBeads} == No, Set(nonSelectivePlateMethod, Uniform non-selective plate prep.hsl))
+If({usingBeads} == Yes, Set(nonSelectivePlateMethod, Uniform non-selective plate prep.beads.hsl))
 
-If({usingBeads} == "No", Set(doubleGradMethod, Double 2D gradient plate prep.hsl))
-If({usingBeads} == "Yes", Set(doubleGradMethod, Double 2D gradient plate prep.beads.hsl))
+If({usingBeads} == No, Set(doubleGradMethod, Double 2D gradient plate prep.hsl))
+If({usingBeads} == Yes, Set(doubleGradMethod, Double 2D gradient plate prep.beads.hsl))
 
 
 Get(strain, strain1, Select the bacteria strain used for the protocol:)
