@@ -100,8 +100,8 @@ UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Cont
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Edit Tip Counters.lmsf)
 
-Set(msg1, Set up the STAR deck layout as shown.                                                                                                        )
-UserPrompt(Media Trough, {msg1}, {protocolDir}\Overnight Double Gradient Layout.PNG)
+Set(msg1, Set up the STAR deck layout as shown.)
+UserPrompt(Media Trough, {msg1}, {protocolDir}\Overnight Double Gradient Layout.PNG, 1000)
 
 Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
