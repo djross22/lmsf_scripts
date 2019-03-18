@@ -68,6 +68,9 @@ If({usingBeads} == Yes, Set(nonSelectivePlateMethod, Uniform non-selective plate
 If({usingBeads} == No, Set(doubleGradMethod, Double 2D gradient plate prep.hsl))
 If({usingBeads} == Yes, Set(doubleGradMethod, Double 2D gradient plate prep.beads.hsl))
 
+If({usingBeads} == No, Set(copyPlateMethod, Dilute-copy plate with 96-head.hsl))
+If({usingBeads} == Yes, Set(copyPlateMethod, Dilute-copy plate with 96-head.beads.hsl))
+
 
 Get(strain, strain1, Select the bacteria strain used for the protocol:)
 Get(plasmid, plasmid1, Select the plasmid used for the protocol:)
