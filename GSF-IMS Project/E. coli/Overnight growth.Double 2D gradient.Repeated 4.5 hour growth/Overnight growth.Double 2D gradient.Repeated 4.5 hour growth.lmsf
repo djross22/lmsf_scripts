@@ -167,7 +167,7 @@ Gen5(Epoch1, CarrierIn)
 WaitFor(Epoch1, false)
 
 Set(keepOldPlate, false)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Dilute-copy plate with 96-head.hsl)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
 WaitFor(S-Cell-STAR)
 
 Gen5(Epoch1, CarrierOut)
@@ -206,7 +206,7 @@ Gen5(Epoch1, CarrierIn)
 WaitFor(Epoch1, false)
 
 Set(keepOldPlate, true)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Dilute-copy plate with 96-head.hsl)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
 WaitFor(S-Cell-STAR)
 
 Gen5(Epoch1, CarrierOut)
@@ -257,7 +257,7 @@ Gen5(Epoch1, CarrierIn)
 WaitFor(Epoch1, false)
 
 Set(keepOldPlate, true)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Dilute-copy plate with 96-head.hsl)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
 WaitFor(S-Cell-STAR)
 
 Gen5(Epoch1, CarrierOut)
