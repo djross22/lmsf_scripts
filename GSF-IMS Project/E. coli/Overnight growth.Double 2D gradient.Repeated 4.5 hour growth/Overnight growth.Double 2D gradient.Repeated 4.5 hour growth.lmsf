@@ -143,7 +143,7 @@ WaitFor(Overlord)
 Gen5(Epoch1, RunExp, {overNightProtocol}, {experimentId}_growth-plate_1a, {dataDirectory})
 //WaitFor(Epoch1)
 
-Timer(42600)
+Timer({overnightWait})
 WaitFor(Timer)
 
 //--- 2 ----------------------------------------------------------------------------- 
@@ -179,7 +179,7 @@ WaitFor(Overlord)
 Gen5(Epoch1, RunExp, {repeatProtocol}, {experimentId}_growth-plate_2a, {dataDirectory})
 //WaitFor(Epoch1)
 
-Timer(13500)
+Timer({repeatWait})
 WaitFor(Timer)
 
 //--- 3 ----------------------------------------------------------------------------- 
@@ -230,7 +230,7 @@ WaitFor(Overlord)
 Gen5(Epoch2, RunExp, {extraLongProtocol}, {experimentId}_growth-plate_2b, {dataDirectory})
 //WaitFor(Epoch2)
 
-Timer(13500)
+Timer({repeatWait})
 WaitFor(Timer)
 
 //--- 4 ----------------------------------------------------------------------------- 
@@ -281,7 +281,7 @@ WaitFor(Overlord)
 Gen5(Epoch3, RunExp, {overNightProtocol}, {experimentId}_growth-plate_3b, {dataDirectory})
 //WaitFor(Epoch3)
 
-Timer(42600)
+Timer({overnightWait})
 WaitFor(Timer)
 //---5--------------------------------------------------------------------------------------
 
