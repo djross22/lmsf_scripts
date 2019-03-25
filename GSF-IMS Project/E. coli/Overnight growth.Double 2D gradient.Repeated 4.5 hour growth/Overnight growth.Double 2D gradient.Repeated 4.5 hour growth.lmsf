@@ -21,15 +21,15 @@ Set(repeatWait, 13500)
 Set(extraLongProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 24h.37C.1C.prt)
 
 /////////////////////////////////////
-//This section just for testing
-Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt)
-Set(overNightProtocol, {testProtocol})
+//This section just for testing, comment out all of these lines for actual experiment
+//Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt)
+//Set(overNightProtocol, {testProtocol})
 //overnightWait = nominal run time - 600
-Set(overnightWait, 3000)
-Set(repeatProtocol, {testProtocol})
+//Set(overnightWait, 3000)
+//Set(repeatProtocol, {testProtocol})
 //repeatWait = nominal run time - 2700
-Set(repeatWait, 900)
-Set(extraLongProtocol, {testProtocol})
+//Set(repeatWait, 900)
+//Set(extraLongProtocol, {testProtocol})
 /////////////////////////////////////////
 
 //Set any other short-hand dictionary keys that will be used repeatedly
