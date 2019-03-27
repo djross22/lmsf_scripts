@@ -161,9 +161,15 @@ Set(plateNum, 2)
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] 9 [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] 2)
 WaitFor(Overlord)
 
+//Seal and peel throw-away plate to make sure peeler works
+Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Seal and Peel plate from Rack 6 shelf 1.ovp)
+
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
 WaitFor(S-Cell-STAR)
+
+//WaitFor(Overlord) step here so that Seal and Peel runs concurrently with Hamilton pipetting
+WaitFor(Overlord)
 
 WaitFor(Epoch1)
 Gen5(Epoch1, CarrierOut)
