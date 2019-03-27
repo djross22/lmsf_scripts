@@ -12,13 +12,13 @@ Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. col
 Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth)
 
 //Gen5 protcols to be run:
-Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 20h.37C.1C.prt)
+Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
 //overnightWait = nominal run time - 600
-Set(overnightWait, 71400)
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 4.5h.37C.1C.prt)
+Set(overnightWait, 57000)
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h20m.37C.1C.prt)
 //repeatWait = nominal run time - 2700
-Set(repeatWait, 13500)
-Set(extraLongProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 24h.37C.1C.prt)
+Set(repeatWait, 9300)
+Set(extraLongProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 20h.37C.1C.prt)
 
 /////////////////////////////////////
 //This section just for testing, comment out all of these lines for actual experiment
@@ -70,6 +70,9 @@ If({usingBeads} == Yes, Set(doubleGradMethod, Double 2D gradient plate prep.bead
 
 If({usingBeads} == No, Set(copyPlateMethod, Dilute-copy plate with 96-head.hsl))
 If({usingBeads} == Yes, Set(copyPlateMethod, Dilute-copy plate with 96-head.beads.hsl))
+
+If({usingBeads} == No, Set(firstCopyPlateMethod, Dilute-copy plate 25x with 96-head.hsl))
+If({usingBeads} == Yes, Set(firstCopyPlateMethod, Dilute-copy plate with 96-head.beads.hsl))
 
 
 Get(strain, strain1, Select the bacteria strain used for the protocol:)
@@ -143,14 +146,14 @@ Timer(600)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
-Gen5(Epoch1, CarrierOut)
-WaitFor(Epoch1, false)
+Gen5(Neo, CarrierOut)
+WaitFor(Neo, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch1")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Neo")
 WaitFor(Overlord)
 
-Gen5(Epoch1, RunExp, {overNightProtocol}, {experimentId}_growth-plate_1a, {dataDirectory})
-//WaitFor(Epoch1)
+Gen5(Neo, RunExp, {overNightProtocol}, {experimentId}_growth-plate_1a, {dataDirectory})
+//WaitFor(Neo)
 
 Timer({overnightWait})
 WaitFor(Timer)
@@ -171,28 +174,28 @@ WaitFor(S-Cell-STAR)
 //WaitFor(Overlord) step here so that Seal and Peel runs concurrently with Hamilton pipetting
 WaitFor(Overlord)
 
-WaitFor(Epoch1)
-Gen5(Epoch1, CarrierOut)
-WaitFor(Epoch1, false)
+WaitFor(Neo)
+Gen5(Neo, CarrierOut)
+WaitFor(Neo, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "Epoch1")
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "Neo")
 WaitFor(Overlord)
 
-Gen5(Epoch1, CarrierIn)
-WaitFor(Epoch1, false)
+Gen5(Neo, CarrierIn)
+WaitFor(Neo, false)
 
 Set(keepOldPlate, false)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
 WaitFor(S-Cell-STAR)
 
-Gen5(Epoch1, CarrierOut)
-WaitFor(Epoch1, false)
+Gen5(Neo, CarrierOut)
+WaitFor(Neo, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch1")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Neo")
 WaitFor(Overlord)
 
-Gen5(Epoch1, RunExp, {repeatProtocol}, {experimentId}_growth-plate_2a, {dataDirectory})
-//WaitFor(Epoch1)
+Gen5(Neo, RunExp, {repeatProtocol}, {experimentId}_growth-plate_2a, {dataDirectory})
+//WaitFor(Neo)
 
 Timer({repeatWait})
 WaitFor(Timer)
@@ -210,40 +213,40 @@ Timer(2100)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
-WaitFor(Epoch1)
-Gen5(Epoch1, CarrierOut)
-WaitFor(Epoch1, false)
+WaitFor(Neo)
+Gen5(Neo, CarrierOut)
+WaitFor(Neo, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "Epoch1")
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "Neo")
 WaitFor(Overlord)
 
-Gen5(Epoch1, CarrierIn)
-WaitFor(Epoch1, false)
+Gen5(Neo, CarrierIn)
+WaitFor(Neo, false)
 
 Set(keepOldPlate, true)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
 WaitFor(S-Cell-STAR)
 
-Gen5(Epoch1, CarrierOut)
-WaitFor(Epoch1, false)
+Gen5(Neo, CarrierOut)
+WaitFor(Neo, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch1")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Neo")
 WaitFor(Overlord)
 
-Gen5(Epoch1, RunExp, {repeatProtocol}, {experimentId}_growth-plate_3a, {dataDirectory})
-//WaitFor(Epoch1)
+Gen5(Neo, RunExp, {repeatProtocol}, {experimentId}_growth-plate_3a, {dataDirectory})
+//WaitFor(Neo)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
 WaitFor(S-Cell-STAR)
 
-Gen5(Epoch2, CarrierOut)
-WaitFor(Epoch2, false)
+Gen5(Epoch4, CarrierOut)
+WaitFor(Epoch4, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch2")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch4")
 WaitFor(Overlord)
 
-Gen5(Epoch2, RunExp, {extraLongProtocol}, {experimentId}_growth-plate_2b, {dataDirectory})
-//WaitFor(Epoch2)
+Gen5(Epoch4, RunExp, {extraLongProtocol}, {experimentId}_growth-plate_2b, {dataDirectory})
+//WaitFor(Epoch4)
 
 Timer({repeatWait})
 WaitFor(Timer)
@@ -261,28 +264,28 @@ Timer(2100)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
-WaitFor(Epoch1)
-Gen5(Epoch1, CarrierOut)
-WaitFor(Epoch1, false)
+WaitFor(Neo)
+Gen5(Neo, CarrierOut)
+WaitFor(Neo, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "Epoch1")
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "Neo")
 WaitFor(Overlord)
 
-Gen5(Epoch1, CarrierIn)
-WaitFor(Epoch1, false)
+Gen5(Neo, CarrierIn)
+WaitFor(Neo, false)
 
 Set(keepOldPlate, true)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
 WaitFor(S-Cell-STAR)
 
-Gen5(Epoch1, CarrierOut)
-WaitFor(Epoch1, false)
+Gen5(Neo, CarrierOut)
+WaitFor(Neo, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Epoch1")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "Neo")
 WaitFor(Overlord)
 
-Gen5(Epoch1, RunExp, {overNightProtocol}, {experimentId}_growth-plate_4a, {dataDirectory})
-//WaitFor(Epoch1)
+Gen5(Neo, RunExp, {overNightProtocol}, {experimentId}_growth-plate_4a, {dataDirectory})
+//WaitFor(Neo)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
 WaitFor(S-Cell-STAR)
@@ -300,13 +303,13 @@ Timer({overnightWait})
 WaitFor(Timer)
 //---5--------------------------------------------------------------------------------------
 
-WaitFor(Epoch1)
-WaitFor(Epoch2)
+WaitFor(Neo)
+WaitFor(Epoch4)
 WaitFor(Epoch3)
 
 SaveXML()
 
 CopyRemoteFiles()
 
-Overlord({ovpCommDirectory}\Sealer Heater Off.ovp, [Gen5.Reader.Name] "Epoch3")
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
 WaitFor(Overlord)
