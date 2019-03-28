@@ -71,7 +71,7 @@ If({usingBeads} == Yes, Set(doubleGradMethod, Double 2D gradient plate prep.bead
 If({usingBeads} == No, Set(copyPlateMethod, Dilute-copy plate with 96-head.hsl))
 If({usingBeads} == Yes, Set(copyPlateMethod, Dilute-copy plate with 96-head.beads.hsl))
 
-If({usingBeads} == No, Set(firstCopyPlateMethod, Dilute-copy plate 25x with 96-head.hsl))
+If({usingBeads} == No, Set(firstCopyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl))
 If({usingBeads} == Yes, Set(firstCopyPlateMethod, Dilute-copy plate with 96-head.beads.hsl))
 
 
