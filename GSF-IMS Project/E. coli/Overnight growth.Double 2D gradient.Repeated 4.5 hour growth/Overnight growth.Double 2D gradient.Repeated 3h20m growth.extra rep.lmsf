@@ -89,7 +89,7 @@ Get(concentration, rightAdditiveStock, Enter the concentration of the {rightAddi
 
 Get(note, note)
 
-GetExpID({startDateTime}_{inducer}_{leftAdditive}_{rightAdditive}_2DGradients)
+GetExpID({startDateTime}_{inducer}_{leftAdditive}_{rightAdditive}_2DGrad_repeats)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
