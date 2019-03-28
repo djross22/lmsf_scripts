@@ -188,7 +188,7 @@ Gen5(Neo, CarrierIn)
 WaitFor(Neo, false)
 
 Set(keepOldPlate, false)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{firstCopyPlateMethod})
 WaitFor(S-Cell-STAR)
 
 Gen5(Neo, CarrierOut)
