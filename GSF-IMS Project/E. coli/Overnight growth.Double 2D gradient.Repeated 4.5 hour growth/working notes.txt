@@ -48,12 +48,12 @@ Make sure user prompts are always on top
 
 TODO:
 
+Run lid movement check Venus method with user prompts before starting run
+
 
 Tip requirements for Offset tips - 
 
 Automatically write to tip status file after add tip methods in Venus
-
-Set up STAR deck layout- image way too small
 
 EPOCHXGP slow down movements a bit?
 
