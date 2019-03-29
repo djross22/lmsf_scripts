@@ -171,6 +171,7 @@ WaitFor(Overlord)
 Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Seal and Peel plate from Rack 6 shelf 1.ovp)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+Set(dilutionFactor, 75)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
 WaitFor(S-Cell-STAR)
 
