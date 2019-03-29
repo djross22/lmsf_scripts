@@ -142,6 +142,19 @@ WaitFor(Overlord)
 //Set up the initial allocation of tips
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth\Starting Tips.lmsf)
 
+//Test readers
+Gen5({mainReader}, CarrierOut)
+Gen5({reader2b}, CarrierOut)
+Gen5({reader3b}, CarrierOut)
+WaitFor({mainReader}, false)
+WaitFor({reader2b}, false)
+WaitFor({reader3b}, false)
+Set(msg, Readers {mainReader}, {reader2b}, and {reader3b} should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
+UserPrompt(Check Readers, msg)
+Gen5({mainReader}, RunExp, {initProtocol}, test, C:\Users\Public\Documents\Experiments)
+Gen5({reader2b}, RunExp, {initProtocol}, test, C:\Users\Public\Documents\Experiments)
+Gen5({reader3b}, RunExp, {initProtocol}, test, C:\Users\Public\Documents\Experiments)
+
 //--- 1 ------------------------------------------------------------------------------
 Set(plateNum, 1)
 Set(platesInStack, 5)
@@ -155,6 +168,10 @@ RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startMethod})
 Timer(600)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
+
+WaitFor({mainReader}, false)
+WaitFor({reader2b}, false)
+WaitFor({reader3b}, false)
 
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
