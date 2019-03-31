@@ -7,20 +7,37 @@
 
 //1000 uL tips ---------------------------------------------------------
 Set(tipSize, 1000)
-Set(tipIndex, 1)
-If({tips1000Total}<120, Set(addTips, true))
-If({tips1000Total}>=120, Set(addTips, false))
 
+Set(addTips, false)
+Set(tipIndex, {tips1000Index})
+If({tips1000Total}<120, Set(addTips, true))
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+Math(tips1000Index, {tips1000Index} - 1)
+
+Set(addTips, false)
+Set(tipIndex, {tips1000Index})
+If({tips1000Total}==0, Set(addTips, true))
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+Math(tips1000Index, {tips1000Index} - 1)
+
 //-----------------------------------------------------------------------
 
 //300 uL tips -----------------------------------------------------------
 Set(tipSize, 300)
-Set(tipIndex, 1)
-If({tips300Total}<128, Set(addTips, true))
-If({tips300Total}>=128, Set(addTips, false))
 
+Set(addTips, false)
+Set(tipIndex, {tips300Index})
+If({tips300Total}<128, Set(addTips, true))
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+Math(tips300Index, {tips300Index} - 1)
+
+Set(addTips, false)
+Set(tipIndex, {tips300Index})
+If({tips300Total}==0, Set(addTips, true))
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+Math(tips300Index, {tips300Index} - 1)
+
+
 //----------------------------------------------------------------------
 
 RemoteHam(S-Cell-STAR, ReadCounters)
