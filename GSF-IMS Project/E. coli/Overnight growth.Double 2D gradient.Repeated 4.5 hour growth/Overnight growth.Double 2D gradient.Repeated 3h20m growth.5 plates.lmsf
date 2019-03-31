@@ -35,16 +35,16 @@ Set(reader3b, Epoch3)
 //This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
 Set(isTesting, true)
 If({isTesting}==true, Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt))
-If({isTesting}==true, Set(overNightProtocol, {testProtocol})
+If({isTesting}==true, Set(overNightProtocol, {testProtocol}))
 //overnightWait = nominal run time - 600
-If({isTesting}==true, Set(overnightWait, 3000)
-If({isTesting}==true, Set(repeatProtocol, {testProtocol})
+If({isTesting}==true, Set(overnightWait, 3000))
+If({isTesting}==true, Set(repeatProtocol, {testProtocol}))
 //repeatWait = nominal run time - 2700
-If({isTesting}==true, Set(repeatWait, 900)
-If({isTesting}==true, Set(lastProtocol, {testProtocol})
+If({isTesting}==true, Set(repeatWait, 900))
+If({isTesting}==true, Set(lastProtocol, {testProtocol}))
 //lastWait = nominal run time
-If({isTesting}==true, Set(lastWait, 3600)
-If({isTesting}==true, Set(bPlateProtocol, {testProtocol})
+If({isTesting}==true, Set(lastWait, 3600))
+If({isTesting}==true, Set(bPlateProtocol, {testProtocol}))
 /////////////////////////////////////////
 
 //Set any other short-hand dictionary keys that will be used repeatedly
@@ -69,7 +69,7 @@ If({tips1000Total}==0, Set(clear1000Tips, false))
 
 If({clear1000Tips}==true, Set(msg1, This protocol will require two racks of 1000 uL tips on the STAR to be used by the 8-channnel head.\n))
 If({clear1000Tips}==true, Set(msg2, Manually clear the remaining tips from the 1000 uL tip racks then switch to the STAR computer and re-edit the 1000 uL tip counter.\n))
-If({clear1000Tips}==true, UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip supports 1000.PNG)
+If({clear1000Tips}==true, UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip supports 1000.PNG))
 If({clear1000Tips}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counter-1000.hsl))
 
 
@@ -82,7 +82,7 @@ If({tips300Total}==0, Set(clear300Tips, false))
 
 If({clear300Tips}==true, Set(msg1, This protocol will require two racks of 300 uL tips on the STAR to be used by the 8-channnel head.\n))
 If({clear300Tips}==true, Set(msg2, Manually clear the remaining tips from the 300 uL tip racks then switch to the STAR computer and re-edit the 300 uL tip counter.\n))
-If({clear300Tips}==true, UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip supports 300.PNG)
+If({clear300Tips}==true, UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip supports 300.PNG))
 If({clear300Tips}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counter-300.hsl))
 
 If({racksNeeded1000Tips}==0, Set(msg1,  \n))
@@ -320,7 +320,7 @@ WaitFor({reader2b}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader2b}")
 WaitFor(Overlord)
 
-Math(oldPlateNum, plateNum - 1)
+Math(oldPlateNum, {plateNum} - 1)
 Gen5({reader2b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
 //WaitFor({reader2b})
 
@@ -374,7 +374,7 @@ WaitFor({reader3b}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader3b}")
 WaitFor(Overlord)
 
-Math(oldPlateNum, plateNum - 1)
+Math(oldPlateNum, {plateNum} - 1)
 Gen5({reader3b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
 //WaitFor({reader3b})
 
