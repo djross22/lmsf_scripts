@@ -32,18 +32,19 @@ Set(reader2b, Epoch4)
 Set(reader3b, Epoch3)
 
 /////////////////////////////////////
-//This section just for testing, comment out all of these lines for actual experiment
-//Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt)
-//Set(overNightProtocol, {testProtocol})
+//This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
+Set(isTesting, true)
+If({isTesting}==true, Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt))
+If({isTesting}==true, Set(overNightProtocol, {testProtocol})
 //overnightWait = nominal run time - 600
-//Set(overnightWait, 3000)
-//Set(repeatProtocol, {testProtocol})
+If({isTesting}==true, Set(overnightWait, 3000)
+If({isTesting}==true, Set(repeatProtocol, {testProtocol})
 //repeatWait = nominal run time - 2700
-//Set(repeatWait, 900)
-//Set(lastProtocol, {testProtocol})
+If({isTesting}==true, Set(repeatWait, 900)
+If({isTesting}==true, Set(lastProtocol, {testProtocol})
 //lastWait = nominal run time
-//Set(lastWait, 3600)
-//Set(bPlateProtocol, {testProtocol})
+If({isTesting}==true, Set(lastWait, 3600)
+If({isTesting}==true, Set(bPlateProtocol, {testProtocol})
 /////////////////////////////////////////
 
 //Set any other short-hand dictionary keys that will be used repeatedly
