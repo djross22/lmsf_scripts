@@ -193,9 +193,9 @@ WaitFor({reader2b}, false)
 WaitFor({reader3b}, false)
 Set(msg, Readers {mainReader}, {reader2b}, and {reader3b} should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
 UserPrompt(Check Readers, {msg})
-Gen5({mainReader}, RunExp, {initProtocol}, test, C:\Users\Public\Documents\Experiments)
-Gen5({reader2b}, RunExp, {initProtocol}, test, C:\Users\Public\Documents\Experiments)
-Gen5({reader3b}, RunExp, {initProtocol}, test, C:\Users\Public\Documents\Experiments)
+Gen5({mainReader}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader2b}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader3b}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 
 //--- 1 ------------------------------------------------------------------------------
 Set(plateNum, 1)
