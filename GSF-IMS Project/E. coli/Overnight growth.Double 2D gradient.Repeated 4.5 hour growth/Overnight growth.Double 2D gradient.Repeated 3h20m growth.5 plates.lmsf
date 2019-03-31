@@ -40,6 +40,9 @@ Set(reader3b, Epoch3)
 //Set(repeatProtocol, {testProtocol})
 //repeatWait = nominal run time - 2700
 //Set(repeatWait, 900)
+//Set(lastProtocol, {testProtocol})
+//lastWait = nominal run time
+//Set(lastWait, 3600)
 //Set(bPlateProtocol, {testProtocol})
 /////////////////////////////////////////
 
@@ -208,6 +211,10 @@ Timer(600)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
+WaitFor({mainReader}, false)
+WaitFor({reader2b}, false)
+WaitFor({reader3b}, false)
+
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
@@ -354,7 +361,7 @@ WaitFor({mainReader}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}")
 WaitFor(Overlord)
 
-Gen5({mainReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
 //WaitFor({mainReader})
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
@@ -370,7 +377,7 @@ Math(oldPlateNum, plateNum - 1)
 Gen5({reader3b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
 //WaitFor({reader3b})
 
-Timer({overnightWait})
+Timer({repeatWait})
 WaitFor(Timer)
 
 //--- 5 ----------------------------------------------------------------------------- 
@@ -408,10 +415,10 @@ WaitFor({mainReader}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}")
 WaitFor(Overlord)
 
-Gen5({mainReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+Gen5({mainReader}, RunExp, {lastProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
 //WaitFor({mainReader})
 
-Timer({overnightWait})
+Timer({lastWait})
 WaitFor(Timer)
 //---6--------------------------------------------------------------------------------------
 
