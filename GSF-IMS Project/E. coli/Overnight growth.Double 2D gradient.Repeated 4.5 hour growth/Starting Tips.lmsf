@@ -12,13 +12,13 @@ Set(addTips, false)
 Set(tipIndex, {tips1000Index})
 If({tips1000Total}<120, Set(addTips, true))
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
-Math(tips1000Index, {tips1000Index} - 1)
+If({addTips}==true, Math(tips1000Index, {tips1000Index} - 1))
 
 Set(addTips, false)
 Set(tipIndex, {tips1000Index})
 If({tips1000Total}==0, Set(addTips, true))
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
-Math(tips1000Index, {tips1000Index} - 1)
+If({addTips}==true, Math(tips1000Index, {tips1000Index} - 1))
 
 //-----------------------------------------------------------------------
 
@@ -29,13 +29,13 @@ Set(addTips, false)
 Set(tipIndex, {tips300Index})
 If({tips300Total}<128, Set(addTips, true))
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
-Math(tips300Index, {tips300Index} - 1)
+If({addTips}==true, Math(tips300Index, {tips300Index} - 1))
 
 Set(addTips, false)
 Set(tipIndex, {tips300Index})
 If({tips300Total}==0, Set(addTips, true))
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
-Math(tips300Index, {tips300Index} - 1)
+If({addTips}==true, Math(tips300Index, {tips300Index} - 1))
 
 
 //----------------------------------------------------------------------
