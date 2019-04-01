@@ -67,6 +67,10 @@ If({tips1000Total}<24, Set(racksNeeded1000Tips, 2))
 If({tips1000Total}<24, Set(clear1000Tips, true))
 If({tips1000Total}==0, Set(clear1000Tips, false))
 
+//Set msg1 and msg2 to place-holders to avoid error at teh UserPrompt line
+Set(msg1, place-holder)
+Set(msg2, place-holder)
+
 If({clear1000Tips}==true, Set(msg1, This protocol will require two racks of 1000 uL tips on the STAR to be used by the 8-channnel head.\n))
 If({clear1000Tips}==true, Set(msg2, Manually clear the remaining tips from the 1000 uL tip racks then switch to the STAR computer and re-edit the 1000 uL tip counter.\n))
 If({clear1000Tips}==true, UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip supports 1000.PNG))
