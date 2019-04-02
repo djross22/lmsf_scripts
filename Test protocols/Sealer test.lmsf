@@ -1,0 +1,5 @@
+GetUserYesNo(manualSeal, Manual Seal?, Do you want to mnually seal plates?)
+
+Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Seal and Peel plate from Rack 6 shelf 1.ovp, [Sealer.ManualSeal] "{manualSeal}")
+
+WaitFor(Overlord)
