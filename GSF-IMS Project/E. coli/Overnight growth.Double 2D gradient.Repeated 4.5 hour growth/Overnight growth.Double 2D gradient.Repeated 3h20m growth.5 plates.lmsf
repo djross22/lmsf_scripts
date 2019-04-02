@@ -3,6 +3,10 @@ Set(isPipetting, true)
 //isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
 Set(isDebugging, false)
 
+//manualSeal controls whether sealing is manual or automatic
+Set(manualSeal, Yes)
+//Set(manualSeal, No)
+
 //Read in commonly used directories
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
 Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth)
@@ -223,7 +227,7 @@ WaitFor({reader3b}, false)
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
@@ -241,7 +245,7 @@ Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
 //Seal and peel throw-away plate to make sure peeler works
-Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Seal and Peel plate from Rack 6 shelf 1.ovp)
+Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Seal and Peel plate from Rack 6 shelf 1.ovp [Sealer.ManualSeal] "No")
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(dilutionFactor, 50)
@@ -268,7 +272,7 @@ WaitFor(S-Cell-STAR)
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
@@ -309,7 +313,7 @@ WaitFor(S-Cell-STAR)
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
@@ -321,7 +325,7 @@ WaitFor(S-Cell-STAR)
 Gen5({reader2b}, CarrierOut)
 WaitFor({reader2b}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader2b}")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader2b}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
 Math(oldPlateNum, {plateNum} - 1)
@@ -363,7 +367,7 @@ WaitFor(S-Cell-STAR)
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
@@ -375,7 +379,7 @@ WaitFor(S-Cell-STAR)
 Gen5({reader3b}, CarrierOut)
 WaitFor({reader3b}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader3b}")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader3b}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
 Math(oldPlateNum, {plateNum} - 1)
@@ -417,7 +421,7 @@ WaitFor(S-Cell-STAR)
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {lastProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
