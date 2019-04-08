@@ -1,0 +1,75 @@
+
+//This script is meant to be used in the middle of a longer protocol to add tips to the deck of the STAR if they are needed
+//By default, it does not add any tips
+
+//The hamiltonTipDir needs to be set before calling this script
+
+//Variables that should be set via the call to this script are: tips1000Need, tips300Need, tips50Need, tipsOffsetNeed, and userEditCounters
+Set(tips1000Need, 0)
+Set(tips300Need, 0)
+Set(tips50Need, 0)
+Set(tipsOffsetNeed, 0)
+Set(userEditCounters, false)
+
+#InsertVariables
+
+//This script should not be used for requirements of more than 96 of each tip type
+If({tips1000Need}>96, Set(tips1000Need, 96))
+If({tips300Need}>96, Set(tips300Need, 96))
+If({tips50Need}>96, Set(tips50Need, 96))
+
+If({userEditCounters}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl))
+If({userEditCounters}==true, WaitFor(S-Cell-STAR))
+If({userEditCounters}!=true, RemoteHam(S-Cell-STAR, ReadCounters))
+Set(countersChanged, false)
+
+//1000 uL tips ---------------------------------------------------------
+Set(tipSize, 1000)
+
+Set(addTips, false)
+Set(tipIndex, {tips1000Index})
+If({tips1000Total}<{tips1000Need}, Set(addTips, true))
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+If({addTips}==true, Math(tips1000Index, {tips1000Index} - 1))
+If({addTips}==true, Set(countersChanged, true))
+
+//-----------------------------------------------------------------------
+
+//300 uL tips -----------------------------------------------------------
+Set(tipSize, 300)
+
+Set(addTips, false)
+Set(tipIndex, {tips300Index})
+If({tips300Total}<{tips300Need}, Set(addTips, true))
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+If({addTips}==true, Math(tips300Index, {tips300Index} - 1))
+If({addTips}==true, Set(countersChanged, true))
+
+//----------------------------------------------------------------------
+
+//50 uL tips -----------------------------------------------------------
+Set(tipSize, 50)
+
+Set(addTips, false)
+Set(tipIndex, {tips50Index})
+If({tips50Total}<{tips50Need}, Set(addTips, true))
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+If({addTips}==true, Math(tips50Index, {tips50Index} - 1))
+If({addTips}==true, Set(countersChanged, true))
+
+//----------------------------------------------------------------------
+
+//Offset pickup 1000 uL tips -----------------------------------------------------------
+Set(tipSize, 1000)
+
+Set(addTips, false)
+Set(tipIndex, {tips1000Index})
+If({tipsOffsetTotal}<{tipsOffsetNeed}, Set(addTips, true))
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf, isOffset=true)
+If({addTips}==true, Math(tips1000Index, {tips1000Index} - 1))
+If({addTips}==true, Set(countersChanged, true))
+
+//----------------------------------------------------------------------
+
+If({countersChanged}==true, RemoteHam(S-Cell-STAR, ReadCounters))
+If({countersChanged}==true, WaitFor(S-Cell-STAR))
