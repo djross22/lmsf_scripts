@@ -1,0 +1,350 @@
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set(isPipetting, true)
+//isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
+Set(isDebugging, false)
+
+//manualSeal controls whether sealing is manual or automatic
+//Set(manualSeal, Yes)
+Set(manualSeal, No)
+
+//Read in commonly used directories for this protocol
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Five Simple Plates Overnight Growth)
+
+//Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
+Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Five Simple Plates Overnight Growth)
+Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Five Simple Plates Overnight Growth)
+
+//Gen5 protcols to be run:
+Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 24h.37C.1C.prt)
+
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.37C.1C.prt)
+//repeatWait = nominal run time
+Set(repeatWait, 7200)
+
+//For testing readers at beginning of run to give consistent starting state
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
+
+//Set readers to be used
+Set(reader1, Neo)
+Set(reader2, Epoch1)
+Set(reader3, Epoch2)
+Set(reader4, Epoch3)
+Set(reader5, Epoch4)
+
+/////////////////////////////////////
+//This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
+Set(isTesting, false)
+
+If({isTesting}==true, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt))
+
+If({isTesting}==true, Set(repeatProtocol, {initProtocol}))
+//repeatWait = nominal run time - 2000
+If({isTesting}==true, Set(repeatWait, 5))
+
+/////////////////////////////////////////
+
+//Set any other short-hand dictionary keys that will be used repeatedly
+Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+//User input and Overlord initialization section
+
+Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
+
+StartPrompt(Overnight Double 2D Gradient Plate Prep, {protocolDir}\Five Simple Plates Overnight Growth-list.txt)
+
+Set(msg1, Make sure there are at least 80 1000 uL tips on the deck of the STAR or that there is a new rack of 1000 uL tips in the PAA Carousel (hotel no. 1).)
+Set(tips1000Index, 1)
+UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip supports 1000.PNG)
+
+UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
+
+//the Need Tips.lmsf script Checks whether or no there are enough tips and loads from the Carousel if necessary; it uses the Robot arm, so first make sure Overlord is done with the init sequence
+WaitFor(Overlord)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 80, userEditCounters = true)
+
+
+NewXML(multiple growth plate prep)
+
+Get(user, user)
+
+Get(media, media)
+
+//Venus method constrains 200<=cultureVolume<=500
+Set(cultureVolume, 500)
+
+Set(venusMethod, Five Simple Plates.hsl)
+
+Get(strain, strain1, Select the bacteria strain used for the protocol:)
+Get(plasmid, plasmid1, Select the plasmid used for the protocol:)
+
+Set(inducer, none)
+Set(leftAdditive, none)
+Set(rightAdditive, none)
+
+Get(note, note)
+
+GetExpID({startDateTime}_{strain1}_{plasmid1})
+
+//review experiment ok/abort dialog
+Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
+Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1}\n\n)
+Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
+UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2} {msg5})
+
+Set(msg1, Set up the STAR deck layout as shown.)
+UserPrompt(STAR Deck Layout, {msg1}, {protocolDir}\Five Simple Plates Layout.PNG, 1000)
+
+Set(msg1, Close the front cover on the STAR.\n)
+Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
+Set(msg3, Check that all the doors of the S-Cell system are closed.\n)
+Set(msg4, Then clisk 'OK' to start the protocol.\n)
+UserPrompt(Ready to Start, {msg1}{msg2}{msg3}{msg4}, {lmsfImageDirectory}\dialog-warning.png)
+
+//Lid movement test
+UserPrompt(Lid Movement Test, Switch to the STAR computer and observe the lid movement test.)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Pre-run lid test.hsl)
+Timer(50)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+UserPrompt(Lid Movement Test, If the STAR sucessfully moved the lids click 'OK' to start the protocol.)
+// end lid movement test
+
+
+
+
+//End User input and Overlord initialization section
+//////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////
+//Run the protocol
+////////////////////////////////////////////////////////////////////////////////////
+
+//--- 0 ------------------------------------------------------------------------------
+
+//Test readers
+Gen5({reader1}, CarrierOut)
+Gen5({reader2}, CarrierOut)
+Gen5({reader3}, CarrierOut)
+Gen5({reader4}, CarrierOut)
+Gen5({reader5}, CarrierOut)
+WaitFor({reader1}, false)
+WaitFor({reader2}, false)
+WaitFor({reader3}, false)
+WaitFor({reader4}, false)
+WaitFor({reader5}, false)
+Set(msg, Readers {reader1}, {reader2}, {reader3}, {reader4}, and {reader5} should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+Gen5({reader1}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader2}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader3}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader4}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader5}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+
+//--- 1 ------------------------------------------------------------------------------
+Set(plateNum, 1)
+Set(platesInStack, 5)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{venusMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+WaitFor({reader1}, false)
+WaitFor({reader2}, false)
+WaitFor({reader3}, false)
+WaitFor({reader4}, false)
+WaitFor({reader5}, false)
+
+Set(thisReader, {reader1})
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({thisReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{plateNum}, {dataDirectory})
+//WaitFor({thisReader})
+
+//--- 2 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{venusMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Set(thisReader, {reader2})
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({thisReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{plateNum}, {dataDirectory})
+//WaitFor({thisReader})
+
+
+//--- 3 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{venusMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Set(thisReader, {reader3})
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({thisReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{plateNum}, {dataDirectory})
+//WaitFor({thisReader})
+
+
+//--- 4 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{venusMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Set(thisReader, {reader4})
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({thisReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{plateNum}, {dataDirectory})
+//WaitFor({thisReader})
+
+
+//--- 5 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{venusMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Set(thisReader, {reader5})
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Set(repNumber, 1)
+Set(keepGoing, true)
+
+Gen5({thisReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}-{repNumber}, {dataDirectory})
+Timer({repeatWait})
+WaitFor(Timer)
+
+If({keepGoing}==true, Math(repNumber, {repNumber} + 1))
+If({keepGoing}==true, Gen5({thisReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}-{repNumber}, {dataDirectory}))
+If({keepGoing}==true, Timer({repeatWait}))
+If({keepGoing}==true, WaitFor(Timer))
+
+If({keepGoing}==true, Math(repNumber, {repNumber} + 1))
+If({keepGoing}==true, Gen5({thisReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}-{repNumber}, {dataDirectory}))
+If({keepGoing}==true, Timer({repeatWait}))
+If({keepGoing}==true, WaitFor(Timer))
+
+If({keepGoing}==true, Math(repNumber, {repNumber} + 1))
+If({keepGoing}==true, Gen5({thisReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}-{repNumber}, {dataDirectory}))
+If({keepGoing}==true, Timer({repeatWait}))
+If({keepGoing}==true, WaitFor(Timer))
+
+If({keepGoing}==true, Math(repNumber, {repNumber} + 1))
+If({keepGoing}==true, Gen5({thisReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}-{repNumber}, {dataDirectory}))
+If({keepGoing}==true, Timer({repeatWait}))
+If({keepGoing}==true, WaitFor(Timer))
+
+If({keepGoing}==true, Math(repNumber, {repNumber} + 1))
+If({keepGoing}==true, Gen5({thisReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}-{repNumber}, {dataDirectory}))
+If({keepGoing}==true, Timer({repeatWait}))
+If({keepGoing}==true, WaitFor(Timer))
+
+If({keepGoing}==true, Math(repNumber, {repNumber} + 1))
+If({keepGoing}==true, Gen5({thisReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}-{repNumber}, {dataDirectory}))
+If({keepGoing}==true, Timer({repeatWait}))
+If({keepGoing}==true, WaitFor(Timer))
+
+If({keepGoing}==true, Math(repNumber, {repNumber} + 1))
+If({keepGoing}==true, Gen5({thisReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}-{repNumber}, {dataDirectory}))
+If({keepGoing}==true, Timer({repeatWait}))
+If({keepGoing}==true, WaitFor(Timer))
+
+If({keepGoing}==true, Math(repNumber, {repNumber} + 1))
+If({keepGoing}==true, Gen5({thisReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}-{repNumber}, {dataDirectory}))
+If({keepGoing}==true, Timer({repeatWait}))
+If({keepGoing}==true, WaitFor(Timer))
+
+If({keepGoing}==true, Math(repNumber, {repNumber} + 1))
+If({keepGoing}==true, Gen5({thisReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}-{repNumber}, {dataDirectory}))
+If({keepGoing}==true, Timer({repeatWait}))
+If({keepGoing}==true, WaitFor(Timer))
+
+If({keepGoing}==true, Math(repNumber, {repNumber} + 1))
+If({keepGoing}==true, Gen5({thisReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}-{repNumber}, {dataDirectory}))
+If({keepGoing}==true, Timer({repeatWait}))
+If({keepGoing}==true, WaitFor(Timer))
+
+If({keepGoing}==true, Math(repNumber, {repNumber} + 1))
+If({keepGoing}==true, Gen5({thisReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}-{repNumber}, {dataDirectory}))
+If({keepGoing}==true, Timer({repeatWait}))
+If({keepGoing}==true, WaitFor(Timer))
+
+
+
+//---6--------------------------------------------------------------------------------------
+
+WaitFor({reader1})
+WaitFor({reader2})
+WaitFor({reader3})
+WaitFor({reader4})
+WaitFor({reader5})
+
+SaveXML()
+
+CopyRemoteFiles()
+
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
+WaitFor(Overlord)
