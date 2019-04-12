@@ -88,7 +88,7 @@ Set(rightAdditive, none)
 
 Get(note, note)
 
-GetExpID({startDateTime}_{strain1}_{plasmid1})
+GetExpID({startDate}_{strain1}_{plasmid1})
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
