@@ -1,0 +1,11 @@
+Four 4titude growth plates, with lids, in stack 7 of the Carousel
+One Media trough, with lid extender and lid, on deck of STAR
+One Abgene plate, 1.2 mL per well, with lid, on deck of STAR
+
+160 high-volume (1000 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
+32 standard-volume (300 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
+
+250 mL of media
+
+15.0 mL of antibiotic (chloramphenicol) stock, conenetration 1.7 mg/mL in media (in 14 mL culture tube)
+3.0 mL of bacteria at 1000x concentration (in 14 mL culture tube)
