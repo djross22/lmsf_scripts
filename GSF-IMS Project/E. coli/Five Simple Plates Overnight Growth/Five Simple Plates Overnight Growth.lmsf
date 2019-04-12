@@ -57,6 +57,8 @@ StartPrompt(Overnight Double 2D Gradient Plate Prep, {protocolDir}\Five Simple P
 
 Set(msg1, Make sure there are at least 80 1000 uL tips on the deck of the STAR or that there is a new rack of 1000 uL tips in the PAA Carousel (hotel no. 1).)
 Set(tips1000Index, 1)
+Set(tips300Index, 0)
+Set(tips50Index, 0)
 UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip supports 1000.PNG)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
