@@ -17,8 +17,8 @@ Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Reader OD
 //Gen5 protcols to be run:
 Set(eightHourProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 8h.37C.1C.prt)
 Set(oneHourProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt)
-//eightHourWait = nominal run time - 5400
-Set(eightHourWait, 23400)
+//eightHourWait = nominal run time - 1800
+Set(eightHourWait, 27000)
 
 //For testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
@@ -144,13 +144,11 @@ Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
-
+GetTimeNow(startPlate1)
 Timer(600)
 Set(plateNumber, 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startPlateMethod})
 WaitFor(Timer)
-//Starting new timer to space out plate preps by one hour
-Timer(3000)
 WaitFor(S-Cell-STAR)
 
 WaitFor({reader1}, false)
@@ -165,6 +163,7 @@ Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Rea
 WaitFor(Overlord)
 
 Gen5({thisReader}, RunExp, {eightHourProtocol}, {experimentId}_growth-plate, {dataDirectory})
+GetTimeNow(startRead1)
 //WaitFor({thisReader})
 
 
@@ -175,6 +174,8 @@ Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
 //Wait for timer to space out plate preps by one hour
+Math(startPlate2, {startPlate1} + 3600)
+Timer({startPlate2})
 WaitFor(Timer)
 Timer(600)
 Set(plateNumber, 2)
@@ -191,10 +192,8 @@ Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Rea
 WaitFor(Overlord)
 
 Gen5({thisReader}, RunExp, {eightHourProtocol}, {experimentId}_growth-plate, {dataDirectory})
+GetTimeNow(startRead2)
 //WaitFor({thisReader})
-
-Timer({eightHourWait})
-WaitFor(Timer)
 
 //While the two growth plates are in the readers, check and add more tips if necessary
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 80, tips300Need = 32)
@@ -207,12 +206,14 @@ Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
+Math(nextHamStart, {startRead1} + {eightHourWait})
+Timer({nextHamStart})
+WaitFor(Timer)
+
 Set(plateNumber, 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{prepDilutionPlateMethod})
 Timer(600)
 WaitFor(Timer)
-//New timer for one-hour spacing
-Timer(2800)
 WaitFor(S-Cell-STAR)
 
 Set(thisReader, {reader1})
@@ -244,9 +245,11 @@ Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
-Set(plateNumber, 2)
-//Wait for timer to space out plate preps by one hour
+Math(nextHamStart, {startRead2} + {eightHourWait})
+Timer({nextHamStart})
 WaitFor(Timer)
+
+Set(plateNumber, 2)
 Timer(600)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{prepDilutionPlateMethod})
 WaitFor(Timer)
