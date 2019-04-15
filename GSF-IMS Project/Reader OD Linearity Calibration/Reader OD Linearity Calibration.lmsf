@@ -270,6 +270,9 @@ Gen5({thisReader}, RunExp, {twentyHourProtocol}, {experimentId}_growth-plate_{pl
 GetTimeNow(startReader4)
 //WaitFor({thisReader})
 
+//Need more media at this point
+UserPrompt(Add Media to STAR, Re-fill media trouhg on STAR up to 250 mL.)
+
 
 //--- 5 ----------------------------------------------------------------------------- 
 
