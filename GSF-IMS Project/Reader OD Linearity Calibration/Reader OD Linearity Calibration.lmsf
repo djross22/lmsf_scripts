@@ -15,10 +15,16 @@ Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\R
 Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Reader OD Linearity Calibration)
 
 //Gen5 protcols to be run:
+Set(twentyHourProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 20h.37C.1C.prt)
 Set(eightHourProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 8h.37C.1C.prt)
 Set(oneHourProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt)
+//twentyHourWait = nominal run time - 1800
+Set(twentyHourWait, 70200)
 //eightHourWait = nominal run time - 1800
 Set(eightHourWait, 27000)
+
+//spacingTime is time between starts of first 4 plates
+Set(spacingTime, 1800)
 
 //For testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
@@ -26,13 +32,17 @@ Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 //Set readers to be used
 Set(reader1, Neo)
 Set(reader2, Epoch1)
+Set(reader3, Epoch3)
+Set(reader4, Epoch4)
 
 /////////////////////////////////////
 //This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
 Set(isTesting, false)
 
+If({isTesting}==true, Set(twentyHourProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h30m.37C.1C.prt))
 If({isTesting}==true, Set(eightHourProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt))
 If({isTesting}==true, Set(oneHourProtocol, {initProtocol}))
+If({isTesting}==true, Set(twentyHourWait, 5))
 If({isTesting}==true, Set(eightHourWait, 5))
 
 /////////////////////////////////////////
@@ -48,20 +58,15 @@ Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
 StartPrompt(Reader OD Linearity Calibration, {protocolDir}\Reader OD Linearity Calibration-list.txt)
 
-Set(msg1, Make sure there are at least 160 1000 uL tips on the deck of the STAR or that there are two new racks of 1000 uL tips in the PAA Carousel (hotel no. 1).)
-Set(tips1000Index, 2)
+Set(msg1, Make sure there are four new racks of 1000 uL tips in the PAA Carousel (hotel no. 1).)
+Set(tips1000Index, 4)
 UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip supports 1000.PNG)
 
-Set(msg1, Make sure there are at least 32 300 uL tips on the deck of the STAR or that there is a new rack of 300 uL tips in the PAA Carousel (hotel no. 2).)
+Set(msg1, Make sure there are at least 64 300 uL tips on the deck of the STAR or that there is a new rack of 300 uL tips in the PAA Carousel (hotel no. 2).)
 Set(tips300Index, 1)
 UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip supports 300.PNG)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
-
-//the Need Tips.lmsf script Checks whether or no there are enough tips and loads from the Carousel if necessary; it uses the Robot arm, so first make sure Overlord is done with the init sequence
-WaitFor(Overlord)
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 80, userEditCounters = true)
-
 
 NewXML(OD linearity calibration)
 
@@ -71,7 +76,6 @@ Get(media, media)
 
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
-
 
 Set(lidTestMethod, Pre-run lid test.hsl)
 Set(startPlateMethod, Starting plate with bacteria.hsl)
@@ -92,8 +96,8 @@ Set(worklistFile, {dataDirectory}\{experimentId}_growth plate.csv)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
-Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1}\n\n)
-Set(msg3, \tAntibiotic: \t\t\t{antibiotic}, stock concentration: {antibioticStock}\n)
+Set(msg2, \tMedia: \t\t{media}\n\n \tBacteria: \t\t{strain1}, with {plasmid1}\n\n)
+Set(msg3, \tAntibiotic: \t{antibiotic}, stock concentration: {antibioticStock}\n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
 UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2} {msg3} {msg5})
 
@@ -103,7 +107,7 @@ UserPrompt(STAR Deck Layout, {msg1}, {protocolDir}\Reader OD Linearity Calibrati
 Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
 Set(msg3, Check that all the doors of the S-Cell system are closed.\n)
-Set(msg4, Then clisk 'OK' to start the protocol.\n)
+Set(msg4, Then click 'OK' to start the protocol.\n)
 UserPrompt(Ready to Start, {msg1}{msg2}{msg3}{msg4}, {lmsfImageDirectory}\dialog-warning.png)
 
 //Lid movement test
@@ -125,20 +129,28 @@ UserPrompt(Lid Movement Test, If the STAR sucessfully moved the lids click 'OK' 
 //Run the protocol
 ////////////////////////////////////////////////////////////////////////////////////
 
-//--- 0 ------------------------------------------------------------------------------
+//--- 0 ------------------------------------------------------------------------------//the Need Tips.lmsf script Checks whether or no there are enough tips and loads from the Carousel if necessary; it uses the Robot arm, so first make sure Overlord is done with the init sequence
+WaitFor(Overlord)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 80, userEditCounters = true)
 
 //Test readers
 Gen5({reader1}, CarrierOut)
 Gen5({reader2}, CarrierOut)
+Gen5({reader3}, CarrierOut)
+Gen5({reader4}, CarrierOut)
 WaitFor({reader1}, false)
 WaitFor({reader2}, false)
-Set(msg, Readers {reader1} and {reader2} should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
+WaitFor({reader3}, false)
+WaitFor({reader4}, false)
+Set(msg, Readers {reader1}, {reader2}, {reader3}, and {reader4} should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
 UserPrompt(Check Readers, {msg})
 Gen5({reader1}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 Gen5({reader2}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader3}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader4}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 
 //--- 1 ------------------------------------------------------------------------------
-Set(platesInStack, 4)
+Set(platesInStack, 8)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
 Math(platesInStack, {platesInStack} - 1)
@@ -153,6 +165,8 @@ WaitFor(S-Cell-STAR)
 
 WaitFor({reader1}, false)
 WaitFor({reader2}, false)
+WaitFor({reader3}, false)
+WaitFor({reader4}, false)
 
 Set(thisReader, {reader1})
 
@@ -162,8 +176,8 @@ WaitFor({thisReader}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
-Gen5({thisReader}, RunExp, {eightHourProtocol}, {experimentId}_growth-plate, {dataDirectory})
-GetTimeNow(startRead1)
+Gen5({thisReader}, RunExp, {eightHourProtocol}, {experimentId}_growth-plate_{plateNumber}, {dataDirectory})
+GetTimeNow(startReader1)
 //WaitFor({thisReader})
 
 
@@ -174,7 +188,7 @@ Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
 //Wait for timer to space out plate preps by one hour
-Math(startPlate2, {startPlate1} + 3600)
+Math(startPlate2, {startPlate1} + {spacingTime})
 Timer({startPlate2})
 WaitFor(Timer)
 Timer(600)
@@ -191,22 +205,82 @@ WaitFor({thisReader}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
-Gen5({thisReader}, RunExp, {eightHourProtocol}, {experimentId}_growth-plate, {dataDirectory})
-GetTimeNow(startRead2)
+Gen5({thisReader}, RunExp, {eightHourProtocol}, {experimentId}_growth-plate_{plateNumber}, {dataDirectory})
+GetTimeNow(startReader2)
 //WaitFor({thisReader})
-
-//While the two growth plates are in the readers, check and add more tips if necessary
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 80, tips300Need = 32)
-
 
 
 //--- 3 ----------------------------------------------------------------------------- 
+
+//Before plate 3, check and add more tips if necessary
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 80)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
-Math(nextHamStart, {startRead1} + {eightHourWait})
+//Wait for timer to space out plate preps by one hour
+Math(startPlate3, {startPlate2} + {spacingTime})
+Timer({startPlate3})
+WaitFor(Timer)
+Timer(600)
+Set(plateNumber, 3)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startPlateMethod})
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Set(thisReader, {reader3})
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({thisReader}, RunExp, {twentyHourProtocol}, {experimentId}_growth-plate_{plateNumber}, {dataDirectory})
+GetTimeNow(startReader3)
+//WaitFor({thisReader})
+
+
+//--- 4 ----------------------------------------------------------------------------- 
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+//Wait for timer to space out plate preps by one hour
+Math(startPlate4, {startPlate3} + {spacingTime})
+Timer({startPlate4})
+WaitFor(Timer)
+Timer(600)
+Set(plateNumber, 4)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startPlateMethod})
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Set(thisReader, {reader4})
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({thisReader}, RunExp, {twentyHourProtocol}, {experimentId}_growth-plate_{plateNumber}, {dataDirectory})
+GetTimeNow(startReader4)
+//WaitFor({thisReader})
+
+
+//--- 5 ----------------------------------------------------------------------------- 
+
+//Before plate 5, check and add more tips if necessary
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 80, tips300Need = 32)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+Math(nextHamStart, {startReader1} + {eightHourWait})
 Timer({nextHamStart})
 WaitFor(Timer)
 
@@ -235,17 +309,18 @@ WaitFor(S-Cell-STAR)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
-Gen5({thisReader}, RunExp, {oneHourProtocol}, {experimentId}_dilution-plate, {dataDirectory})
+Gen5({thisReader}, RunExp, {oneHourProtocol}, {experimentId}_dilution-plate_{plateNumber}, {dataDirectory})
+GetTimeNow(startReader1)
 //WaitFor({thisReader})
 
 
-//--- 4 ----------------------------------------------------------------------------- 
+//--- 6 ----------------------------------------------------------------------------- 
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
-Math(nextHamStart, {startRead2} + {eightHourWait})
+Math(nextHamStart, {startReader2} + {eightHourWait})
 Timer({nextHamStart})
 WaitFor(Timer)
 
@@ -274,16 +349,148 @@ WaitFor(S-Cell-STAR)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
-Gen5({thisReader}, RunExp, {oneHourProtocol}, {experimentId}_dilution-plate, {dataDirectory})
+Gen5({thisReader}, RunExp, {oneHourProtocol}, {experimentId}_dilution-plate_{plateNumber}, {dataDirectory})
+GetTimeNow(startReader2)
 //WaitFor({thisReader})
 
+//--- 7 ----------------------------------------------------------------------------- 
+//Before plate 7, check and add more tips if necessary
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 80, tips300Need = 32)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+//Wait for reader 1 to be done, then take plate out and throw it away
+Math(oneHourPlateDone, {startReader1} + 3600)
+Timer({oneHourPlateDone})
+WaitFor(Timer)
+WaitFor({reader1})
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Waste.ovp, [Gen5.Reader.Name] "{reader1}")
+WaitFor(Overlord)
+
+Math(nextHamStart, {startReader3} + {twentyHourWait})
+Timer({nextHamStart})
+WaitFor(Timer)
+
+Set(plateNumber, 3)
+Timer(600)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{prepDilutionPlateMethod})
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Set(thisReader, {reader3})
+
+WaitFor({thisReader})
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{thisReader}")
+WaitFor(Overlord)
+
+Gen5({thisReader}, CarrierIn)
+WaitFor({thisReader}, false)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{diluteCellsMethod})
+WaitFor(S-Cell-STAR)
+
+//Want to put the plate back into reader no. 1 (Neo) instead of 3 here
+Set(thisReader, {reader1})
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({thisReader}, RunExp, {oneHourProtocol}, {experimentId}_dilution-plate_{plateNumber}, {dataDirectory})
+GetTimeNow(startReader1)
+//WaitFor({thisReader})
+
+//--- 8 ----------------------------------------------------------------------------- 
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+//Wait for reader 2 to be done, then take plate out and throw it away
+Math(oneHourPlateDone, {startReader2} + 3600)
+Timer({oneHourPlateDone})
+WaitFor(Timer)
+WaitFor({reader2})
+Gen5({reader2}, CarrierOut)
+WaitFor({reader2}, false)
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Waste.ovp, [Gen5.Reader.Name] "{reader2}")
+WaitFor(Overlord)
+
+Math(nextHamStart, {startReader4} + {twentyHourWait})
+Timer({nextHamStart})
+WaitFor(Timer)
+
+Set(plateNumber, 4)
+Timer(600)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{prepDilutionPlateMethod})
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Set(thisReader, {reader4})
+
+WaitFor({thisReader})
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{thisReader}")
+WaitFor(Overlord)
+
+Gen5({thisReader}, CarrierIn)
+WaitFor({thisReader}, false)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{diluteCellsMethod})
+WaitFor(S-Cell-STAR)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({thisReader}, RunExp, {oneHourProtocol}, {experimentId}_dilution-plate_{plateNumber}, {dataDirectory})
+GetTimeNow(startReader4)
+//WaitFor({thisReader})
+
+//--- 9 --------------------------------------------------------------------------------------
+
+//Wait for reader 1 to be done, then take plate out and put it in reader 2 to run again
+Set(plateNumber, 3)
+
+Math(oneHourPlateDone, {startReader1} + 3600)
+Timer({oneHourPlateDone})
+WaitFor(Timer)
+WaitFor({reader1})
+
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{reader1}")
+WaitFor(Overlord)
+Gen5({reader1}, CarrierIn)
+WaitFor({reader1}, false)
+
+Gen5({reader2}, CarrierOut)
+WaitFor({reader2}, false)
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader No Seal.ovp, [Gen5.Reader.Name] "{reader2}")
+WaitFor(Overlord)
+
+Gen5({reader2}, RunExp, {oneHourProtocol}, {experimentId}_dilution-plate_{plateNumber}, {dataDirectory})
+GetTimeNow(startReader2)
 
 
+//--- 10 --------------------------------------------------------------------------------------
 
-//---5--------------------------------------------------------------------------------------
-
+Math(oneHourPlateDone, {startReader2} + 3600)
+Timer({oneHourPlateDone})
+WaitFor(Timer)
 WaitFor({reader1})
 WaitFor({reader2})
+WaitFor({reader3})
+WaitFor({reader4})
 
 SaveXML()
 
