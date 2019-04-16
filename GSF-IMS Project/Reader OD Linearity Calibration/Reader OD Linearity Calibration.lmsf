@@ -37,7 +37,7 @@ Set(reader4, Epoch4)
 
 /////////////////////////////////////
 //This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
-Set(isTesting, true)
+Set(isTesting, false)
 
 If({isTesting}==true, Set(twentyHourProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1.5h.37C.1C.prt))
 If({isTesting}==true, Set(eightHourProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt))
