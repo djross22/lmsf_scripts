@@ -1,0 +1,15 @@
+Five 4titude growth plates, with lides, in stack 7 of the Carousel
+One Media trough, with lid extender and lid, on deck of STAR
+One Abgene plate, 1.2 mL per well, with lid, on deck of STAR
+Two Agilent 6-reservoir plates, with lids, on deck of STAR
+
+120 high-volume (1000 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
+128 standard-volume (300 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
+Three rows of high-volume tips (36 tips) on the offset tip pickup position of the STAR
+Four additional full racks of standard-volume (300 uL) tips on the Carousel
+
+300 mL of media
+16 mL of inducer at 10x concentration (in column 1 of reagent plate)
+13 mL of additive for left-side gradient (e.g. tet; in column 2 of reagent plate)
+13 mL of additive for right-side gradient (e.g. DOG; in column 3 of reagent plate)
+10 mL of bacteria stock (in column 1 of cell plate)
