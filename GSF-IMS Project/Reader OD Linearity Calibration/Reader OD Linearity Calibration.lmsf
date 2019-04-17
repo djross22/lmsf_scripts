@@ -39,7 +39,7 @@ Set(reader4, Epoch4)
 //This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
 Set(isTesting, false)
 
-If({isTesting}==true, Set(twentyHourProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h30m.37C.1C.prt))
+If({isTesting}==true, Set(twentyHourProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1.5h.37C.1C.prt))
 If({isTesting}==true, Set(eightHourProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt))
 If({isTesting}==true, Set(oneHourProtocol, {initProtocol}))
 If({isTesting}==true, Set(twentyHourWait, 5))
@@ -65,6 +65,8 @@ UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip supports 1000.PNG)
 Set(msg1, Make sure there are at least 64 300 uL tips on the deck of the STAR or that there is a new rack of 300 uL tips in the PAA Carousel (hotel no. 2).)
 Set(tips300Index, 1)
 UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip supports 300.PNG)
+
+Set(tips50Index, 0)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 
@@ -157,7 +159,7 @@ Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
 GetTimeNow(startPlate1)
-Timer(600)
+Timer(720)
 Set(plateNumber, 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startPlateMethod})
 WaitFor(Timer)
@@ -191,7 +193,7 @@ WaitFor(Overlord)
 Math(startPlate2, {startPlate1} + {spacingTime})
 Timer({startPlate2})
 WaitFor(Timer)
-Timer(600)
+Timer(720)
 Set(plateNumber, 2)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startPlateMethod})
 WaitFor(Timer)
@@ -223,7 +225,7 @@ WaitFor(Overlord)
 Math(startPlate3, {startPlate2} + {spacingTime})
 Timer({startPlate3})
 WaitFor(Timer)
-Timer(600)
+Timer(720)
 Set(plateNumber, 3)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startPlateMethod})
 WaitFor(Timer)
@@ -252,7 +254,7 @@ WaitFor(Overlord)
 Math(startPlate4, {startPlate3} + {spacingTime})
 Timer({startPlate4})
 WaitFor(Timer)
-Timer(600)
+Timer(720)
 Set(plateNumber, 4)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startPlateMethod})
 WaitFor(Timer)
@@ -270,6 +272,9 @@ Gen5({thisReader}, RunExp, {twentyHourProtocol}, {experimentId}_growth-plate_{pl
 GetTimeNow(startReader4)
 //WaitFor({thisReader})
 
+//Need more media at this point
+UserPrompt(Add Media to STAR, Re-fill media trouhg on STAR up to 250 mL.)
+
 
 //--- 5 ----------------------------------------------------------------------------- 
 
@@ -286,7 +291,7 @@ WaitFor(Timer)
 
 Set(plateNumber, 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{prepDilutionPlateMethod})
-Timer(600)
+Timer(720)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
@@ -304,7 +309,12 @@ Gen5({thisReader}, CarrierIn)
 WaitFor({thisReader}, false)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{diluteCellsMethod})
+Timer(600)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
 
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
@@ -325,8 +335,8 @@ Timer({nextHamStart})
 WaitFor(Timer)
 
 Set(plateNumber, 2)
-Timer(600)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{prepDilutionPlateMethod})
+Timer(720)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
@@ -344,7 +354,12 @@ Gen5({thisReader}, CarrierIn)
 WaitFor({thisReader}, false)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{diluteCellsMethod})
+Timer(600)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
 
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
@@ -370,14 +385,16 @@ Gen5({reader1}, CarrierOut)
 WaitFor({reader1}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Waste.ovp, [Gen5.Reader.Name] "{reader1}")
 WaitFor(Overlord)
+Gen5({reader1}, CarrierIn)
+WaitFor({reader1}, false)
 
 Math(nextHamStart, {startReader3} + {twentyHourWait})
 Timer({nextHamStart})
 WaitFor(Timer)
 
 Set(plateNumber, 3)
-Timer(600)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{prepDilutionPlateMethod})
+Timer(720)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
@@ -395,10 +412,15 @@ Gen5({thisReader}, CarrierIn)
 WaitFor({thisReader}, false)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{diluteCellsMethod})
+Timer(600)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 //Want to put the plate back into reader no. 1 (Neo) instead of 3 here
 Set(thisReader, {reader1})
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
 
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
@@ -422,14 +444,16 @@ Gen5({reader2}, CarrierOut)
 WaitFor({reader2}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Waste.ovp, [Gen5.Reader.Name] "{reader2}")
 WaitFor(Overlord)
+Gen5({reader2}, CarrierIn)
+WaitFor({reader2}, false)
 
 Math(nextHamStart, {startReader4} + {twentyHourWait})
 Timer({nextHamStart})
 WaitFor(Timer)
 
 Set(plateNumber, 4)
-Timer(600)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{prepDilutionPlateMethod})
+Timer(720)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
@@ -447,7 +471,12 @@ Gen5({thisReader}, CarrierIn)
 WaitFor({thisReader}, false)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{diluteCellsMethod})
+Timer(600)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
 
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
@@ -468,7 +497,7 @@ WaitFor({reader1})
 
 Gen5({reader1}, CarrierOut)
 WaitFor({reader1}, false)
-Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{reader1}")
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR No XPeel.ovp, [Gen5.Reader.Name] "{reader1}")
 WaitFor(Overlord)
 Gen5({reader1}, CarrierIn)
 WaitFor({reader1}, false)
