@@ -1,15 +1,20 @@
-Five 4titude growth plates, with lides, in stack 7 of the Carousel
+Four 4titude growth plates, with lids, in stack 7 of the Carousel
+Four Falcon round-bottom 96-well plates, with lids, in stack 8 of the Carousel
+
 One Media trough, with lid extender and lid, on deck of STAR
 One Abgene plate, 1.2 mL per well, with lid, on deck of STAR
-Two Agilent 6-reservoir plates, with lids, on deck of STAR
+One Agilent 6-reservoir plate, with lids, on deck of STAR
 
-120 high-volume (1000 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
-128 standard-volume (300 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
-Three rows of high-volume tips (36 tips) on the offset tip pickup position of the STAR
-Four additional full racks of standard-volume (300 uL) tips on the Carousel
+Three new racks of 1000 uL tips in the PAA Carousel (hotel no. 1)
+Four new racks of 300 uL tips in the PAA Carousel (hotel no. 2)
 
 300 mL of media
-16 mL of inducer at 10x concentration (in column 1 of reagent plate)
-13 mL of additive for left-side gradient (e.g. tet; in column 2 of reagent plate)
-13 mL of additive for right-side gradient (e.g. DOG; in column 3 of reagent plate)
-10 mL of bacteria stock (in column 1 of cell plate)
+7.5 mL of inducer 1 at 10x concentration (in column 1 of reagent plate)
+7.5 mL of inducer 2 at 10x concentration (in column 2 of reagent plate)
+
+15 mL of focusing fluid (in column 4 of reagent plate)
+35 mL of PBS with antibiotic (in column 5 of reagent plate)
+35 mL of PBS with antibiotic (in column 6 of reagent plate)
+
+2 mL of bacteria 1 stock (in 14 mL culture tube)
+2 mL of bacteria 2 stock (in 14 mL culture tube)

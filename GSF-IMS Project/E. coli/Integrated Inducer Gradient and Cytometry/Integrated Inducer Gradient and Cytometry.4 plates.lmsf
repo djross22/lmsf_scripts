@@ -1,4 +1,11 @@
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set(isPipetting, true)
+//isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
+Set(isDebugging, false)
 
+//manualSeal controls whether sealing is manual or automatic
+//Set(manualSeal, Yes)
+Set(manualSeal, No)
 
 //Read in commonly used directories
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
@@ -9,20 +16,79 @@ Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. col
 Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\{protocolName})
 Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\{protocolName})
 
+//Gen5 protcols to be run:
+Set(growthProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3.5h.37C.1C.prt)
+//growthWait = nominal run time
+Set(growthWait, 12600)
+
+//Sub scripts for this experiment
+Set(growthPlatePrepScript, Inducer gradient.two strains-two gradients.1000x bacteria.lmsf)
+Set(cytometryPlatePrepScript, Prep cytometer plate from Inducer gradient plate.lmsf)
+
+//spacingTime is time between starts of growth plates; needs to be matched to cytometry plate run time (~1:20)
+Set(spacingTime, 4800)
+
+//For testing readers at beginning of run to give consistent starting state
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
+
+//Set readers to be used
+Set(reader1, Epoch1)
+Set(reader2, Epoch2)
+Set(reader3, Epoch3)
+Set(reader4, Epoch4)
+
+/////////////////////////////////////
+//This section sets shorter Gen5 protocols for testing, set isTesting to false or No for actual experiment
+Set(isTesting, false)
+GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
+
+If({isTesting}==Yes, Set(growthProtocol, {initProtocol}))
+If({isTesting}==Yes, Set(growthWait, 5))
+
+/////////////////////////////////////////
+
+//Set any other short-hand dictionary keys that will be used repeatedly
+Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+Set(getNewCytometryPlate, {ovpCommDirectory}\Labware\Move Cytometry Plate to STAR.ovp)
+
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////
-//Initial tip check and Overlord initialization section
+//Initial user input, tip check, and Overlord initialization section
 
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
-StartPrompt(Overnight Double 2D Gradient Plate Prep, {protocolDir}\Integrated Inducer Gradient and Cytometry.4 plates-list.txt)
+StartPrompt(Itegrated Inducer Gradient and Cytometry Plate Prep, {protocolDir}\Integrated Inducer Gradient and Cytometry.4 plates-list.txt)
 
-UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
+Set(msg1, Make sure there are at least three new racks of 1000 uL tips in the PAA Carousel (hotel no. 1).)
+Set(tips1000Index, 3)
+UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip Hotel 1.png)
+
+Set(msg1, Make sure there are at least four new racks of 300 uL tips in the PAA Carousel (hotel no. 2).)
+Set(tips300Index, 4)
+UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip Hotel 2.png)
+
+//this experiment does not use 50 uL tips
+Set(tips50Index, 0)
+
+Get(antibiotic, antibiotic, Select the antibiotic used in the buffer for the cytometry plates (antibiotic added to buffer to stop transcription and growth for cytometry measurement): )
+Get(concentration, bufferAntibiotic, Enter the concentration of the {antibiotic} in the buffer:)
+
+
+Set(msg0, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.\n)
+Set(msg1, Close the front cover on the STAR.\n)
+Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
+Set(msg3, Check that all the doors of the S-Cell system are closed.\n)
+Set(msg4, Then clisk 'OK' to start the protocol.\n)
+UserPrompt(Ready to Start, {msg0}{msg1}{msg2}{msg3}{msg4}, {lmsfImageDirectory}\dialog-warning.png)
 
 
 //Lid movement test
 UserPrompt(Lid Movement Test, Switch to the STAR computer and observe the lid movement test.)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Pre-run lid test.hsl)
-Timer(100)
+Timer(70)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 UserPrompt(Lid Movement Test, If the STAR sucessfully moved the lids click 'OK' to start the protocol.)
@@ -33,18 +99,135 @@ WaitFor(Overlord)
 //End tip check and Overlord initialization section
 //////////////////////////////////////////////////////////////////////////////////////
 
+//-- 0 -------------------------------------------------------------------------------
+Set(gradPlateNumber, 0)
+Set(growthPlatesInStack, 4)
+Set(cytometryPlatesInStack, 4)
+
+//Test readers
+Gen5({reader1}, CarrierOut)
+Gen5({reader2}, CarrierOut)
+Gen5({reader3}, CarrierOut)
+Gen5({reader4}, CarrierOut)
+WaitFor({reader1}, false)
+WaitFor({reader2}, false)
+WaitFor({reader3}, false)
+WaitFor({reader4}, false)
+Set(msg, Readers {reader1}, {reader2}, {reader3}, and {reader4} should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+Gen5({reader1}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader2}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader3}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader4}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 
 
+//Growth Plates
 
+//-- GP 1 -------------------------------------------------------------------------------
+Set(thisReader, {reader1})
 
-ReadScript({protocolDir}\Inducer gradient plus 1000x bacteria.lmsf)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 62, tips300Need = 8, userEditCounters = true)
 
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {growthPlatesInStack})
+Math(growthPlatesInStack, {growthPlatesInStack} - 1)
+WaitFor(Overlord)
+
+Math(gradPlateNumber, {gradPlateNumber} + 1)
+GetTimeNow(startLastPlate)
+ReadScript({protocolDir}\{growthPlatePrepScript})
 Set(directory1, {dataDirectory})
 
-ReadScript({protocolDir}\Inducer gradient plus 1000x bacteria.lmsf)
+//Wait for readers to finish initialization read
+WaitFor({reader1}, false)
+WaitFor({reader2}, false)
+WaitFor({reader3}, false)
+WaitFor({reader4}, false)
 
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({thisReader}, RunExp, {growthProtocol}, {experimentId}_growth-plate, {dataDirectory})
+GetTimeNow(startReader1)
+
+
+//-- GP 2 -------------------------------------------------------------------------------
+Set(thisReader, {reader2})
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 62, tips300Need = 8)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {growthPlatesInStack})
+Math(growthPlatesInStack, {growthPlatesInStack} - 1)
+WaitFor(Overlord)
+
+
+//Wait for timer to space out plate preps by one hour
+Math(startNextPlate, {startLastPlate} + {spacingTime})
+Timer({startNextPlate})
+WaitFor(Timer)
+
+Math(gradPlateNumber, {gradPlateNumber} + 1)
+GetTimeNow(startLastPlate)
+ReadScript({protocolDir}\{growthPlatePrepScript})
 Set(directory2, {dataDirectory})
 
-ReadScript({protocolDir}\Prep cytometer plate from Inducer gradient plate.lmsf, defaultDirectory={directory1})
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
 
-ReadScript({protocolDir}\Prep cytometer plate from Inducer gradient plate.lmsf, defaultDirectory={directory2})
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{thisReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({thisReader}, RunExp, {growthProtocol}, {experimentId}_growth-plate, {dataDirectory})
+GetTimeNow(startReader2)
+
+
+
+
+//Cytometry Plates
+
+//-- CP 1 -------------------------------------------------------------------------------
+Set(thisReader, {reader1})
+//Get tips needed for the method
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips300Need = 84)
+
+Overlord({getNewCytometryPlate}, [Carousel.Stack.8.Labware.Count] {cytometryPlatesInStack})
+Math(cytometryPlatesInStack, {cytometryPlatesInStack} - 1)
+WaitFor(Overlord)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move Cytometry Plate from handoff.hsl)
+WaitFor(S-Cell-STAR)
+
+Math(readFinished, {startReader1} + {growthWait})
+Timer({readFinished})
+WaitFor(Timer)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{thisReader}")
+WaitFor(Overlord)
+
+ReadScript({protocolDir}\{cytometryPlatePrepScript}, defaultDirectory={directory1})
+
+UserPrompt(Cytometry Plate Ready, Cytometry Plate 1 is ready. Manually carry cytometry plate from STAR to Attune, then pres 'OK' to continue.)
+
+//-- CP 2 -------------------------------------------------------------------------------
+Set(thisReader, {reader2})
+//Get tips needed for the method
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips300Need = 84)
+
+Overlord({getNewCytometryPlate}, [Carousel.Stack.8.Labware.Count] {cytometryPlatesInStack})
+Math(cytometryPlatesInStack, {cytometryPlatesInStack} - 1)
+WaitFor(Overlord)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move Cytometry Plate from handoff.hsl)
+WaitFor(S-Cell-STAR)
+
+Math(readFinished, {startReader1} + {growthWait})
+Timer({readFinished})
+WaitFor(Timer)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{thisReader}")
+WaitFor(Overlord)
+
+ReadScript({protocolDir}\{cytometryPlatePrepScript}, defaultDirectory={directory2})
+
+UserPrompt(Cytometry Plate Ready, Cytometry Plate 1 is ready. Manually carry cytometry plate from STAR to Attune, then pres 'OK' to continue.)
