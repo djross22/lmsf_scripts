@@ -6,6 +6,30 @@ Set(dataDirectory, {defaultDirectory})
 
 AppendXML(cytometry plate prep, NoUser)
 
+
+//Get tips needed for the method
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips300Need = 84)
+
+Overlord({getNewCytometryPlate}, [Carousel.Stack.8.Labware.Count] {cytometryPlatesInStack})
+Math(cytometryPlatesInStack, {cytometryPlatesInStack} - 1)
+WaitFor(Overlord)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move Cytometry Plate from handoff.hsl)
+WaitFor(S-Cell-STAR)
+
+Math(readFinished, {readStarted} + {growthWait})
+Timer({readFinished})
+WaitFor(Timer)
+WaitFor({thisReader})
+
+Gen5({thisReader}, CarrierOut)
+WaitFor({thisReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{thisReader}")
+WaitFor(Overlord)
+
+
+
 //Add info to XML document that would normally be collected from user
 AddXML(users, user, {user})
 AddXML(additives, additive)
@@ -25,6 +49,8 @@ Set(minVolume, 5)
 Set(maxVolume, 100)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Prep cytometer plate from Inducer gradient plate.hsl)
+Timer(720)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 AddXML(hamiltonMethod, inputWorklistFile, {inputWorklist})
@@ -33,3 +59,6 @@ AddXML(hamiltonMethod, outputWorklistFile, {outputWorklist})
 SaveXML()
 
 CopyRemoteFiles()
+
+Set(msg1, Manually carry the cytometry plate from STAR to Attune, then press 'OK' to continue.)
+UserPrompt(Cytometry Plate Ready, {msg1})
