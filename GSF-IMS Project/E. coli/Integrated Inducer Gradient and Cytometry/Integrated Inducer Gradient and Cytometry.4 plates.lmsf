@@ -73,6 +73,8 @@ UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip Hotel 2.png)
 //this experiment does not use 50 uL tips
 Set(tips50Index, 0)
 
+Set(cultureVolume, 500)
+
 Get(antibiotic, antibiotic, Select the antibiotic used in the buffer for the cytometry plates (antibiotic added to buffer to stop transcription and growth for cytometry measurement): )
 Get(concentration, bufferAntibiotic, Enter the concentration of the {antibiotic} in the buffer:)
 
@@ -115,10 +117,10 @@ WaitFor({reader3}, false)
 WaitFor({reader4}, false)
 Set(msg, Readers {reader1}, {reader2}, {reader3}, and {reader4} should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
 UserPrompt(Check Readers, {msg})
-Gen5({reader1}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
-Gen5({reader2}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
-Gen5({reader3}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
-Gen5({reader4}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader1}, RunExp, {initProtocol}, pre-run-test, C:\Users\Public\Documents\Experiments)
+Gen5({reader2}, RunExp, {initProtocol}, pre-run-test, C:\Users\Public\Documents\Experiments)
+Gen5({reader3}, RunExp, {initProtocol}, pre-run-test, C:\Users\Public\Documents\Experiments)
+Gen5({reader4}, RunExp, {initProtocol}, pre-run-test, C:\Users\Public\Documents\Experiments)
 
 
 //Growth Plates
@@ -126,7 +128,7 @@ Gen5({reader4}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 //-- GP 1 -------------------------------------------------------------------------------
 Set(thisReader, {reader1})
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 62, tips300Need = 8, userEditCounters = true)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 46, tips300Need = 8, userEditCounters = true)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {growthPlatesInStack})
 Math(growthPlatesInStack, {growthPlatesInStack} - 1)
@@ -134,7 +136,7 @@ WaitFor(Overlord)
 
 Math(gradPlateNumber, {gradPlateNumber} + 1)
 GetTimeNow(startLastPlate)
-ReadScript({protocolDir}\{growthPlatePrepScript})
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Integrated Inducer Gradient and Cytometry\Inducer gradient.two strains-two gradients.1000x bacteria.lmsf)
 Set(directory1, {dataDirectory})
 
 //Wait for readers to finish initialization read
@@ -155,7 +157,7 @@ GetTimeNow(startReader1)
 
 //-- GP 2 -------------------------------------------------------------------------------
 Set(thisReader, {reader2})
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 62, tips300Need = 8)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 46, tips300Need = 8)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {growthPlatesInStack})
 Math(growthPlatesInStack, {growthPlatesInStack} - 1)
@@ -169,7 +171,7 @@ WaitFor(Timer)
 
 Math(gradPlateNumber, {gradPlateNumber} + 1)
 GetTimeNow(startLastPlate)
-ReadScript({protocolDir}\{growthPlatePrepScript})
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Integrated Inducer Gradient and Cytometry\Inducer gradient.two strains-two gradients.1000x bacteria.lmsf)
 Set(directory2, {dataDirectory})
 
 Gen5({thisReader}, CarrierOut)
@@ -205,9 +207,10 @@ WaitFor(Timer)
 Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{thisReader}")
 WaitFor(Overlord)
 
-ReadScript({protocolDir}\{cytometryPlatePrepScript}, defaultDirectory={directory1})
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Integrated Inducer Gradient and Cytometry\Prep cytometer plate from Inducer gradient plate.lmsf, defaultDirectory={directory1})
 
-UserPrompt(Cytometry Plate Ready, Cytometry Plate 1 is ready. Manually carry cytometry plate from STAR to Attune, then pres 'OK' to continue.)
+Set(msg1, Cytometry Plate 1 is ready. Manually carry cytometry plate from STAR to Attune, then press 'OK' to continue.)
+UserPrompt(Cytometry Plate Ready, {msg1})
 
 //-- CP 2 -------------------------------------------------------------------------------
 Set(thisReader, {reader2})
@@ -228,6 +231,8 @@ WaitFor(Timer)
 Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{thisReader}")
 WaitFor(Overlord)
 
-ReadScript({protocolDir}\{cytometryPlatePrepScript}, defaultDirectory={directory2})
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Integrated Inducer Gradient and Cytometry\Prep cytometer plate from Inducer gradient plate.lmsf, defaultDirectory={directory2})
 
-UserPrompt(Cytometry Plate Ready, Cytometry Plate 1 is ready. Manually carry cytometry plate from STAR to Attune, then pres 'OK' to continue.)
+Set(msg1, Cytometry Plate 1 is ready. Manually carry cytometry plate from STAR to Attune, then press 'OK' to continue.)
+UserPrompt(Cytometry Plate Ready, {msg1})
+

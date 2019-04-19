@@ -4,8 +4,6 @@ Set(defaultDirectory, )
 
 Set(dataDirectory, {defaultDirectory})
 
-StartPrompt(Prep Cytometry Plate from Inducer Gradient, C:\Program Files (x86)\HAMILTON\Methods\GSF-IMS Project\Prep cytometer plate from Inducer gradient plate-list.txt)
-
 AppendXML(cytometry plate prep, NoUser)
 
 //Add info to XML document that would normally be collected from user
@@ -33,3 +31,5 @@ AddXML(hamiltonMethod, inputWorklistFile, {inputWorklist})
 AddXML(hamiltonMethod, outputWorklistFile, {outputWorklist})
 
 SaveXML()
+
+CopyRemoteFiles()
