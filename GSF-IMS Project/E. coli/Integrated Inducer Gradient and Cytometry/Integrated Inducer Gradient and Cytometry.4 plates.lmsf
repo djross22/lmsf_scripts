@@ -79,6 +79,16 @@ Get(antibiotic, antibiotic, Select the antibiotic used in the buffer for the cyt
 Get(concentration, bufferAntibiotic, Enter the concentration of the {antibiotic} in the buffer:)
 
 
+Set(msg1, Make sure there are at least 5 mL of inducer 1 starting stock inducer 1 in column 1 of the reagent plate, )
+Set(msg2, and at least 5 mL of inducer 2 starting stock in column 2 of the reagent plate.)
+Set(msg3, Make sure there is at least 15 mL of focusing fluid in column 4 of the reagent plate.)
+Set(msg4, Make sure there is at least 35 mL of PBS in column 5 of the reagent plate.)
+Set(msg5, and at least 35 mL of PBS in column 6 of the reagent plate.)
+Set(msg6, Insert bacteria stocks into positions 23 and 24 of the right tube rack (in 14 mL cuture tubes).)
+Set(msg7, Set up the STAR deck as shown, then click 'OK' to continue.)
+UserPrompt(Deck Layout, {msg1}\n{msg2}\n{msg3}\n{msg4}\n{msg5}\n{msg6\n{msg7}, {protocolDir}\Full Deck Layout.PNG, 1000)
+
+
 Set(msg0, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.\n)
 Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
