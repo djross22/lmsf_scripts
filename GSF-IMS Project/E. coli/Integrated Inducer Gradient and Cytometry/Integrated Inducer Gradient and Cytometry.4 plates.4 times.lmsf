@@ -178,7 +178,7 @@ Set(directory3, {dataDirectory})
 
 //-- GP 4 -------------------------------------------------------------------------------
 //Gen5 protcols to be run:
-Set(growthProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3.5h.37C.1C.prt)
+Set(growthProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 6.5h.37C.1C.prt)
 //growthWait = nominal run time
 Set(growthWait, 23400)
 
@@ -191,20 +191,32 @@ Set(directory4, {dataDirectory})
 //Cytometry Plates
 
 //-- CP 1 -------------------------------------------------------------------------------
+//growthWait = nominal run time
+Set(growthWait, 12600)
+
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Integrated Inducer Gradient and Cytometry\Prep cytometer plate from Inducer gradient plate.lmsf, defaultDirectory={directory1}, thisReader={reader1}, readStarted={startReader1}, gradPlateNumber=1)
 
 
 
 //-- CP 2 -------------------------------------------------------------------------------
+//growthWait = nominal run time
+Set(growthWait, 16200)
+
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Integrated Inducer Gradient and Cytometry\Prep cytometer plate from Inducer gradient plate.lmsf, defaultDirectory={directory2}, thisReader={reader2}, readStarted={startReader2}, gradPlateNumber=2)
 
 
 
 //-- CP 3 -------------------------------------------------------------------------------
+//growthWait = nominal run time
+Set(growthWait, 19800)
+
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Integrated Inducer Gradient and Cytometry\Prep cytometer plate from Inducer gradient plate.lmsf, defaultDirectory={directory3}, thisReader={reader3}, readStarted={startReader3}, gradPlateNumber=3)
 
 
 
 //-- CP 4 -------------------------------------------------------------------------------
+//growthWait = nominal run time
+Set(growthWait, 23400)
+
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Integrated Inducer Gradient and Cytometry\Prep cytometer plate from Inducer gradient plate.lmsf, defaultDirectory={directory4}, thisReader={reader4}, readStarted={startReader4}, gradPlateNumber=4)
 
