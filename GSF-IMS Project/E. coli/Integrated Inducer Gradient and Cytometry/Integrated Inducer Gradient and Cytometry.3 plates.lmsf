@@ -112,8 +112,8 @@ WaitFor(Overlord)
 
 //-- 0 -------------------------------------------------------------------------------
 Set(gradPlateNumber, 0)
-Set(growthPlatesInStack, 4)
-Set(cytometryPlatesInStack, 4)
+Set(growthPlatesInStack, 3)
+Set(cytometryPlatesInStack, 3)
 
 //Test readers
 Gen5({reader1}, CarrierOut)
