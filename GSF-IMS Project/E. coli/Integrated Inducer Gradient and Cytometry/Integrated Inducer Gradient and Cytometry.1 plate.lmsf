@@ -82,7 +82,7 @@ Set(msg3, Make sure there is at least 8 mL of focusing fluid in column 4 of the 
 Set(msg4, Make sure there is at least 20 mL of PBS in column 5 of the reagent plate.)
 Set(msg6, Insert bacteria stocks into positions 23 and 24 of the right tube rack (in 14 mL cuture tubes).)
 Set(msg7, Set up the STAR deck as shown, then click 'OK' to continue.)
-UserPrompt(Deck Layout, {msg1}\n{msg2}\n{msg3}\n{msg4}\n{msg6\n{msg7}, {protocolDir}\Full Deck Layout.PNG, 1000)
+UserPrompt(Deck Layout, {msg1}\n{msg2}\n{msg3}\n{msg4}\n{msg6}\n{msg7}, {protocolDir}\Full Deck Layout.PNG, 1000)
 
 
 Set(msg0, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.\n)
