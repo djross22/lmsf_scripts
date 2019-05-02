@@ -32,9 +32,9 @@ Set(spacingTime, 4800)
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 
 //Set readers to be used
-Set(reader1, Epoch1)
-Set(reader2, Epoch2)
-Set(reader3, Epoch3)
+Set(reader1, Neo)
+Set(reader2, Epoch1)
+Set(reader3, Epoch2)
 
 /////////////////////////////////////
 //This section sets shorter Gen5 protocols for testing, set isTesting to false or No for actual experiment
@@ -134,6 +134,8 @@ Gen5({reader3}, RunExp, {initProtocol}, pre-run-test, C:\Users\Public\Documents\
 //-- GP 1 -------------------------------------------------------------------------------
 GetTimeNow(startLastPlate)
 
+Set(growthProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3.5h.37C.1C.Ex500Em530.prt)
+
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Integrated Inducer Gradient and Cytometry\Inducer gradient.two strains-two gradients.1000x bacteria.lmsf, thisReader={reader1}, gradPlateNumber=1, isUser=true)
 
 Set(startReader1, {startThisReader})
@@ -142,6 +144,8 @@ Set(directory1, {dataDirectory})
 
 //-- GP 2 -------------------------------------------------------------------------------
 
+Set(growthProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3.5h.37C.1C.prt)
+
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Integrated Inducer Gradient and Cytometry\Inducer gradient.two strains-two gradients.1000x bacteria.lmsf, thisReader={reader2}, gradPlateNumber=2, waitTime={spacingTime})
 
 Set(startReader2, {startThisReader})
@@ -149,6 +153,8 @@ Set(directory2, {dataDirectory})
 
 
 //-- GP 3 -------------------------------------------------------------------------------
+
+Set(growthProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3.5h.37C.1C.prt)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Integrated Inducer Gradient and Cytometry\Inducer gradient.two strains-two gradients.1000x bacteria.lmsf, thisReader={reader3}, gradPlateNumber=3, waitTime={spacingTime})
 
