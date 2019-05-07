@@ -1,0 +1,22 @@
+
+//Set readers to be used
+Set(reader1, Neo)
+Set(reader2, Epoch1)
+Set(reader3, Epoch2)
+Set(reader4, Epoch3)
+Set(reader5, Epoch4)
+
+Gen5({reader1}, CarrierOut)
+Gen5({reader2}, CarrierOut)
+Gen5({reader3}, CarrierOut)
+Gen5({reader4}, CarrierOut)
+Gen5({reader5}, CarrierOut)
+
+UserPrompt(Readers, Readers should be open)
+
+Gen5({reader1}, CarrierIn)
+Gen5({reader2}, CarrierIn)
+Gen5({reader3}, CarrierIn)
+Gen5({reader4}, CarrierIn)
+Gen5({reader5}, CarrierIn)
+
