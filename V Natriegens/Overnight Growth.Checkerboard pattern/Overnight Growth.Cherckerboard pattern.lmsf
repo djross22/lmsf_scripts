@@ -1,0 +1,190 @@
+
+/////////////////////////////////////
+// Get user inputs for variables
+/////////////////////////////////////
+
+StartPrompt(Overnight Growth Checkerboard, C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Uniform non-selective plate prep plus starting bacteria_Vnatriegens-list.txt)
+
+NewXML(growth plate prep)
+Get(user, user)
+Get(media, media)
+Get(strain, strain1, Select the strain for checkerboard pattern (bacteria 1):)
+Get(plasmid, plasmid1, Select the plasmid for bacteria 1:)
+Get(note, note)
+GetExpID({startDateTime}_{strain1}_{plasmid1}_checkerboard)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth plate.csv)
+
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set(isPipetting, true)
+//isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
+Set(isDebugging, false)
+
+//manualSeal controls whether sealing is manual or automatic
+Set(manualSeal, No)
+
+/////////////////////////////////////
+//Read in commonly used directories
+/////////////////////////////////////
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+Set(protocolName, Overnight Growth.Checkerboard pattern)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\V Natriegens\{protocolName})
+Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\{protocolName})
+
+
+/////////////////////////////////////
+//Read in hsl methods to be used
+/////////////////////////////////////
+
+//Hamilton STAR method for filling first plate with 1000 x dilute V Natriegens from stock tube
+Set(startMethod, Uniform non-selective plate prep plus starting bacteria_Vnatriegens.hsl)
+Set(nonSelectivePlateMethod, Uniform non-selective plate prep_Vnatriegens.hsl)
+Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head_Vnatriegens.hsl)
+
+
+/////////////////////////////////////
+//Read in Gen5 methods to be used
+/////////////////////////////////////
+
+//Gen5 protcols to be run:
+Set(overnightProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 24h.37C.1C.V Natriegens.prt)
+Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 90min.37C.1C.V Natriegens.prt)
+
+//set timer for overnight culture growth = 12 hr + 5 min - 30 min 
+Set(overnightWait,41700)
+
+//set timer for short culture growth = 90 min + 5 min - 30 min 
+Set(repeatWait,3900)
+
+//For testing readers at beginning of run to give consistent starting state
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
+
+//Set readers to be used
+Set(reader1, Epoch1)
+
+
+/////////////////////////////////////
+//This section sets shorter Gen5 protocols for testing, set isTesting to false or No for actual experiment
+Set(isTesting, false)
+GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
+
+If({isTesting}==Yes, Set(growthProtocol, {initProtocol}))
+If({isTesting}==Yes, Set(overnightWait,200))
+If({isTesting}==Yes, Set(repeatWait,200))
+
+/////////////////////////////////////////
+//Set any other short-hand dictionary keys that will be used repeatedly
+/////////////////////////////////////////
+
+Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+//Initial user input, tip check, and Overlord initialization section
+//////////////////////////////////////////////////////////////////////////////////////
+
+Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
+
+Set(msg1, Make sure there is at least one new rack of 1000 uL tips in the PAA Carousel (hotel no. 1).)
+Set(tips1000Index, 1)
+UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip Hotel 1.png)
+
+Set(msg1, Make sure there are at least eight new racks of 300 uL tips in the PAA Carousel (hotel no. 2).)
+Set(tips300Index, 8)
+UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip Hotel 2.png)
+
+//this experiment does not use 50 uL tips
+Set(tips50Index, 0)
+
+Set(cultureVolume, 500)
+
+Set(msg6, Insert bacteria stock into positions 24 of the right tube rack (in 14 mL cuture tubes).)
+Set(msg7, Set up the STAR deck as shown, then click 'OK' to continue.)
+UserPrompt(Deck Layout, {msg6}\n{msg7}, {protocolDir}\Full deck layout_plates and tubes.png, 1000)
+
+Set(msg0, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.\n)
+Set(msg1, Close the front cover on the STAR.\n)
+Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
+Set(msg3, Check that all the doors of the S-Cell system are closed.\n)
+Set(msg4, Then clisk 'OK' to start the protocol.\n)
+UserPrompt(Ready to Start, {msg0}{msg1}{msg2}{msg3}{msg4}, {lmsfImageDirectory}\dialog-warning.png)
+
+//Lid movement test
+UserPrompt(Lid Movement Test, Switch to the STAR computer and observe the lid movement test.)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Pre-run lid test_Vnatriegens.hsl)
+Timer(70)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+UserPrompt(Lid Movement Test, If the STAR sucessfully moved the lids click 'OK' to start the protocol.)
+// end lid movement test
+
+
+WaitFor(Overlord)
+//End tip check and Overlord initialization section
+//////////////////////////////////////////////////////////////////////////////////////
+
+//-- 0 -------------------------------------------------------------------------------
+Set(growthPlatesInStack, 9)
+
+//Test reader
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+Set(msg, Readers {reader1} should have their carrier out. \nVerify that the carrier is out and empty, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+Gen5({reader1}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+
+///////////////////////////////////////
+//Growth Plates
+///////////////////////////////////////
+
+//-- GP 1 -------------------------------------------------------------------------------
+Set(growthPlateNumber, 1)
+
+//Tip counters check
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 30, userEditCounters=true)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {growthPlatesInStack})
+Math(growthPlatesInStack, {growthPlatesInStack} - 1)
+WaitFor(Overlord)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startMethod})
+Timer(1200)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+//waiting for test read to finish
+WaitFor({reader1}, false)
+
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader1}" [Sealer.ManualSeal] "false")
+WaitFor(Overlord)
+
+Gen5({reader1}, RunExp, {overnightProtocol}, {experimentId}_growth-plate_{growthPlateNumber}, {dataDirectory})
+//WaitFor({mainReader})
+
+Timer({overnightWait})
+
+//-- GP 2 -------------------------------------------------------------------------------
+Set(dilutionFactor, 50)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
+
+
+//-- GP 3 -------------------------------------------------------------------------------
+Set(dilutionFactor, 10)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
+
+//Clean up
+WaitFor({reader1})
+
+SaveXML()
+
+CopyRemoteFiles()
+
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
+WaitFor(Overlord)

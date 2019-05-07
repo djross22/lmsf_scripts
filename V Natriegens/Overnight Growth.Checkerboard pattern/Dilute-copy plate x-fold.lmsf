@@ -1,0 +1,39 @@
+Math(growthPlateNumber, {growthPlateNumber} + 1)
+
+//Tip counters check
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 8, userEditCounters=false)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {growthPlatesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
+Math(growthPlatesInStack, {growthPlatesInStack} - 1)
+WaitFor(Overlord)
+
+//Waits for overnightWait timer
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+//waits for reader to finish
+WaitFor({reader1}, false)
+
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{reader1}")
+WaitFor(Overlord)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader1}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({reader1}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{growthPlateNumber}, {dataDirectory})
+//WaitFor({reader1})
+
+Timer({repeatWait})
