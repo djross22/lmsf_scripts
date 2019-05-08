@@ -11,7 +11,7 @@ Get(media, media)
 Get(strain, strain1, Select the strain for checkerboard pattern (bacteria 1):)
 Get(plasmid, plasmid1, Select the plasmid for bacteria 1:)
 Get(note, note)
-GetExpID({startDateTime}_{strain1}_{plasmid1}_checkerboard)
+GetExpID({startDate}_{strain1}_checkerbrd)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth plate.csv)
 
@@ -64,18 +64,20 @@ Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 Set(reader1, Epoch1)
 
 
-/////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //This section sets shorter Gen5 protocols for testing, set isTesting to false or No for actual experiment
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Set(isTesting, false)
 GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
 
-If({isTesting}==Yes, Set(growthProtocol, {initProtocol}))
+If({isTesting}==Yes, Set(overnightProtocol, {initProtocol}))
+If({isTesting}==Yes, Set(repeatProtocol, {initProtocol}))
 If({isTesting}==Yes, Set(overnightWait,200))
 If({isTesting}==Yes, Set(repeatWait,200))
 
-/////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 //Set any other short-hand dictionary keys that will be used repeatedly
-/////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
 Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
 
@@ -181,7 +183,8 @@ Set(tipsClear, true)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
 
-//Clean up
+// -- Clean up -------------------------------------------------------------------------------
+
 WaitFor(Timer)
 WaitFor({reader1})
 
