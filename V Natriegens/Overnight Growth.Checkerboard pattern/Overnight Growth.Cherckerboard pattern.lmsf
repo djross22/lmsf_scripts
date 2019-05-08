@@ -183,6 +183,43 @@ Set(tipsClear, true)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
 
+
+//-- GP 4 -------------------------------------------------------------------------------
+Set(dilutionFactor, 10)
+Set(tipsClear, true)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
+
+//-- GP 5 -------------------------------------------------------------------------------
+Set(dilutionFactor, 10)
+Set(tipsClear, true)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
+
+//-- GP 6 -------------------------------------------------------------------------------
+Set(dilutionFactor, 10)
+Set(tipsClear, true)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
+
+//-- GP 7 -------------------------------------------------------------------------------
+Set(dilutionFactor, 10)
+Set(tipsClear, true)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
+
+//-- GP 8 -------------------------------------------------------------------------------
+Set(dilutionFactor, 10)
+Set(tipsClear, true)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
+
+//-- GP 9 -------------------------------------------------------------------------------
+Set(dilutionFactor, 10)
+Set(tipsClear, true)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
+
 // -- Clean up -------------------------------------------------------------------------------
 
 WaitFor(Timer)
