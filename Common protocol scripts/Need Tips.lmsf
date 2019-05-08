@@ -10,10 +10,11 @@ Set(tips300Need, 0)
 Set(tips50Need, 0)
 Set(tipsOffsetNeed, 0)
 Set(userEditCounters, false)
+Set(clearTipRack, false)
 
 #InsertVariables
 
-//This script should not be used for requirements of more than 96 of each tip type
+//This script should NOT be used for requirements of more than 96 of each tip type
 If({tips1000Need}>96, Set(tips1000Need, 96))
 If({tips300Need}>96, Set(tips300Need, 96))
 If({tips50Need}>96, Set(tips50Need, 96))
@@ -29,7 +30,7 @@ Set(tipSize, 1000)
 Set(addTips, false)
 Set(tipIndex, {tips1000Index})
 If({tips1000Total}<{tips1000Need}, Set(addTips, true))
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf, clearRackFirst={clearTipRack})
 If({addTips}==true, Math(tips1000Index, {tips1000Index} - 1))
 If({addTips}==true, Set(countersChanged, true))
 

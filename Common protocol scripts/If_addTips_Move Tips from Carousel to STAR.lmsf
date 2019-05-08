@@ -2,6 +2,7 @@
 //    addTips, ovpCommDirectory, tipSize, tipIndex, hamiltonTipDir
 
 Set(isOffset, false)
+Set(clearRackFirst, false)
 
 #InsertVariables
 
@@ -13,7 +14,7 @@ Set(addRegular, true)
 If({isOffset}==true, Set(addRegular, false))
 If({addTips}!=true, Set(addRegular, false))
 
-If({addTips}==true, Overlord({ovpCommDirectory}\LabWare\Move Tips from Carousel to STAR.ovp, [STAR.Plate.Handling.Labware.Name] "Tips{tipSize}" [STAR.Tip.{tipSize}.Index] {tipIndex}))
+If({addTips}==true, Overlord({ovpCommDirectory}\LabWare\Move Tips from Carousel to STAR.ovp, [STAR.Plate.Handling.Labware.Name] "Tips{tipSize}" [STAR.Tip.{tipSize}.Index] {tipIndex} [STAR.Tip.ClearWaste] "{clearRackFirst}"))
 If({addTips}==true, WaitFor(Overlord))
 
 If({addRegular}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Add Tips {tipSize} to Support w Counters.hsl))
