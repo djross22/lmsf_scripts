@@ -1,9 +1,12 @@
 Math(growthPlateNumber, {growthPlateNumber} + 1)
 
-//Tip counters check
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 8, userEditCounters=false, clearTipRack=true)
+Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Labware\Move Tips from STAR to Waste.ovp)
+WaitFor(Overlord)
 
-Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {growthPlatesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "{tipsClear}")
+//Tip counters check
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 8, userEditCounters=false)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {growthPlatesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
 Math(growthPlatesInStack, {growthPlatesInStack} - 1)
 Math(tips300Index, {tips300Index} - 1)
 WaitFor(Overlord)
