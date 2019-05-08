@@ -48,7 +48,7 @@ Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head_Vnatriegens.hsl)
 /////////////////////////////////////
 
 //Gen5 protcols to be run:
-Set(overnightProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 24h.37C.1C.V Natriegens.prt)
+Set(overnightProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 12h.37C.1C.V Natriegens.prt)
 Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 90min.37C.1C.V Natriegens.prt)
 
 //set timer for overnight culture growth = 12 hr + 5 min - 30 min 
@@ -170,16 +170,19 @@ Timer({overnightWait})
 
 //-- GP 2 -------------------------------------------------------------------------------
 Set(dilutionFactor, 50)
+Set(tipsClear, false)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
 
 
 //-- GP 3 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
+Set(tipsClear, true)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
 
 //Clean up
+WaitFor(Timer)
 WaitFor({reader1})
 
 SaveXML()
