@@ -1,7 +1,7 @@
 Math(growthPlateNumber, {growthPlateNumber} + 1)
 
-Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Labware\Move Tips from STAR to Waste.ovp)
-WaitFor(Overlord)
+If({tipsClear}==true, Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Labware\Move Tips from STAR to Waste.ovp))
+If({tipsClear}==true, WaitFor(Overlord))
 
 //Tip counters check
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 8, userEditCounters=false)
