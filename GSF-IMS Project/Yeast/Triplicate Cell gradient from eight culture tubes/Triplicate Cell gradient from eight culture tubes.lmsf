@@ -1,0 +1,131 @@
+Set(movePlatesAndLids, Yes)
+
+//Read in commonly used directories
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+
+//Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
+Set(protocolName, Triplicate Cell gradient from eight culture tubes)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\Yeast Methods\{protocolName})
+Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\{protocolName})
+
+//Gen5 protcols to be run:
+Set(growthProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 24h.30C.1C.prt)
+
+//For testing readers at beginning of run to give consistent starting state
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.30C.prt)
+
+/////////////////////////////////////
+//This section sets shorter Gen5 protocols for testing, set isTesting to false or No for actual experiment
+Set(isTesting, false)
+GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
+
+If({isTesting}==Yes, Set(growthProtocol, {initProtocol}))
+
+/////////////////////////////////////////
+
+Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
+
+StartPrompt(Itegrated Inducer Gradient and Cytometry Plate Prep, {protocolDir}\Triplicate Cell gradient from eight culture tubes-list.txt)
+
+//====================================================================
+//Ask user to select which Epoch reader to use and check that it is ok
+Set(epochNumber, 1)
+Set(readerOk, true)
+
+Get(integer, epochNumber, Enter the number of the Epoch Reader to use for this growth plate (1-4):)
+Set(reader1, Epoch{epochNumber})
+
+Set(msg1, You selected {reader1}. Verify that the carrier for {reader1} is out and empty, then click 'OK' to continue.)
+If({epochNumber}<1, Set(msg1, The Epoch reader number must be between 1 and 4. You entered {epochNumber}. Click 'Abort' and try again.))
+If({epochNumber}<1, Set(readerOk, false))
+If({epochNumber}>4, Set(msg1, The Epoch reader number must be between 1 and 4. You entered {epochNumber}. Click 'Abort' and try again.))
+If({epochNumber}>4, Set(readerOk, false))
+
+If({readerOk}==true, Gen5({reader1}, CarrierOut))
+If({readerOk}==true, WaitFor({reader1}, false))
+UserPrompt(Epoch Reader, {msg1})
+Gen5({reader1}, RunExp, {initProtocol}, pre-run-test, C:\Users\Public\Documents\Experiments)
+//====================================================================
+
+
+
+NewXML(growth plate prep)
+
+Get(user, user)
+
+Get(media, media)
+
+//--------------------------------------------------------------------------------------------------
+//Get strain and plasmid IDs for all 8 rows of the plate
+Set(row, A)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+
+Set(row, B)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+
+Set(row, C)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+
+Set(row, D)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+
+Set(row, E)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+
+Set(row, F)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+
+Set(row, G)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+
+Set(row, H)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+//--------------------------------------------------------------------------------------------------
+
+Get(note, note)
+
+GetExpID({startDateTime}_yeast constructs)
+
+Set(cultureVolume, 450)
+
+//Tip counter check
+UserPrompt(1000 uL Tips, This protocol requires at least 64 high-volume tips in these two racks:, {lmsfImageDirectory}\tips1000.loc.PNG)
+
+Set(msg1, Set up the STAR deck layout as shown.)
+UserPrompt(STAR Deck layout, {msg1}, {protocolDir}\Deck Layout.PNG)
+
+Set(msg1, Put 8 tubes of yeast starting stocks (in 14 mL cuture tubes) in positions 1-8 of the right tube rack.)
+Set(msg3, \nEach tube needs at least 1 mL of liquid, with a cell concentration 50x higher than max desired concentration in the plate.)
+UserPrompt(Yeast Stocks, {msg1} {msg3}, {protocolDir}\yeast stocks.PNG)
+
+Set(msg1, Close the front cover on the STAR, then click 'OK' to start the method.)
+UserPrompt(Close Cover and Start, {msg1}, {lmsfImageDirectory}\dialog-warning.png)
+
+//End user input section
+
+//Run Hamilton method
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Triplicate Cell gradient from eight culture tubes.hsl)
+Timer(1000)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+//Make sure reader is finished with initProtocol, then open carrier
+WaitFor({reader1}, false)
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+//Move plate to reader
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader1}")
+WaitFor(Overlord)
+
+Gen5({reader1}, RunExp, {growthProtocol}, {experimentId}_growth-plate, {dataDirectory})
+
+SaveXML()
