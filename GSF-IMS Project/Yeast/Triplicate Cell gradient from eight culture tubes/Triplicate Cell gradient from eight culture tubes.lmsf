@@ -30,10 +30,14 @@ StartPrompt(Itegrated Inducer Gradient and Cytometry Plate Prep, {protocolDir}\T
 //====================================================================
 //Ask user to select which Epoch reader to use and check that it is ok
 Set(epochNumber, 1)
+Set(reader1, Epoch1)
 Set(readerOk, true)
 
 Get(integer, epochNumber, Enter the number of the Epoch Reader to use for this growth plate (1-4):)
-Set(reader1, Epoch{epochNumber})
+If({epochNumber}==2, Set(reader1, Epoch2))
+If({epochNumber}==3, Set(reader1, Epoch3))
+If({epochNumber}==4, Set(reader1, Epoch4))
+If({epochNumber}==1, Set(reader1, Epoch1))
 
 Set(msg1, You selected {reader1}. Verify that the carrier for {reader1} is out and empty, then click 'OK' to continue.)
 If({epochNumber}<1, Set(msg1, The Epoch reader number must be between 1 and 4. You entered {epochNumber}. Click 'Abort' and try again.))
@@ -61,38 +65,38 @@ Set(row, A)
 Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
 Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
 
-Set(row, B)
-Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+//Set(row, B)
+//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
 
-Set(row, C)
-Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+//Set(row, C)
+//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
 
-Set(row, D)
-Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+//Set(row, D)
+//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
 
-Set(row, E)
-Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+//Set(row, E)
+//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
 
-Set(row, F)
-Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+//Set(row, F)
+//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
 
-Set(row, G)
-Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+//Set(row, G)
+//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
 
-Set(row, H)
-Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+//Set(row, H)
+//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
+//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
 //--------------------------------------------------------------------------------------------------
 
 Get(note, note)
 
-GetExpID({startDateTime}_yeast constructs)
+GetExpID({startDateTime}_yeast-constructs)
 
 Set(cultureVolume, 450)
 
