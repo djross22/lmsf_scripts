@@ -63,40 +63,32 @@ Get(media, media)
 //Get strain and plasmid IDs for all 8 rows of the plate
 Set(row, A)
 Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
 
-//Set(row, B)
-//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+Set(row, B)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
 
-//Set(row, C)
-//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+Set(row, C)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
 
-//Set(row, D)
-//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+Set(row, D)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
 
-//Set(row, E)
-//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+Set(row, E)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
 
-//Set(row, F)
-//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+Set(row, F)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
 
-//Set(row, G)
-//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+Set(row, G)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
 
-//Set(row, H)
-//Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
-//Get(plasmid, plasmid{row}, Select the plasmid used in the strain in row {row} of the plate:)
+Set(row, H)
+Get(strain, strain{row}, Select the yeast strain used for row {row} of the plate:)
 //--------------------------------------------------------------------------------------------------
 
 Get(note, note)
 
-GetExpID({startDateTime}_yeast-constructs)
+GetExpID({startDateTime}_8Galpha_yeast-constructs)
 
 Set(cultureVolume, 450)
 
@@ -110,7 +102,7 @@ Set(msg1, Put 8 tubes of yeast starting stocks (in 14 mL cuture tubes) in positi
 Set(msg3, \nEach tube needs at least 1 mL of liquid, with a cell concentration 50x higher than max desired concentration in the plate.)
 UserPrompt(Yeast Stocks, {msg1} {msg3}, {protocolDir}\yeast stocks.PNG)
 
-Set(msg1, Close the front cover on the STAR, then click 'OK' to start the method.)
+Set(msg1, Switch to the STAR PC.\nClose the front cover on the STAR, then click 'OK' to start the method.)
 UserPrompt(Close Cover and Start, {msg1}, {lmsfImageDirectory}\dialog-warning.png)
 
 //End user input section
