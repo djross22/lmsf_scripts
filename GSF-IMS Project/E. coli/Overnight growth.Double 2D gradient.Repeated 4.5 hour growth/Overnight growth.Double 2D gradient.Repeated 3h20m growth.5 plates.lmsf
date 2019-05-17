@@ -95,6 +95,7 @@ If({clear300Tips}==true, Set(msg2, Manually clear the remaining tips from the 30
 If({clear300Tips}==true, UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip supports 300.PNG))
 If({clear300Tips}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counter-300.hsl))
 
+Set(tips1000Index, 0)
 If({racksNeeded1000Tips}==0, Set(msg1,  \n))
 If({racksNeeded1000Tips}==1, Set(msg1, Make sure there is at least one rack of 1000 uL tips in the PAA Carousel (hotel no. 1).\n))
 If({racksNeeded1000Tips}==1, Set(tips1000Index, 1))
