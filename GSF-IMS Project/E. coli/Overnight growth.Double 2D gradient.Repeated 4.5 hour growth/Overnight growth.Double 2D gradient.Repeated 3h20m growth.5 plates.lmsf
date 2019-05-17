@@ -4,8 +4,8 @@ Set(isPipetting, true)
 Set(isDebugging, false)
 
 //manualSeal controls whether sealing is manual or automatic
-Set(manualSeal, Yes)
-//Set(manualSeal, No)
+//Set(manualSeal, Yes)
+Set(manualSeal, No)
 
 //Read in commonly used directories
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
