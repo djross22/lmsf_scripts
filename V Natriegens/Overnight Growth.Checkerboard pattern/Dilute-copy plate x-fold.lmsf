@@ -17,6 +17,11 @@ WaitFor(Timer)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
 Timer(300)
 WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preheatGPMethod})
+Timer(800)
+WaitFor(Timer)
+
 WaitFor(S-Cell-STAR)
 
 //waits for reader to finish

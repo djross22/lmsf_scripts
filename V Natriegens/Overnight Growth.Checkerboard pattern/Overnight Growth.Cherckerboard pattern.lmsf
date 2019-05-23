@@ -40,28 +40,37 @@ Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\{protocolNam
 //Hamilton STAR method for filling first plate with 1000 x dilute V Natriegens from stock tube
 Set(startMethod, Uniform non-selective plate prep plus starting bacteria_Vnatriegens.hsl)
 Set(nonSelectivePlateMethod, Uniform non-selective plate prep_Vnatriegens.hsl)
+Set(preheatGPMethod, Pre-heat growth plate_Vnatriegens.hsl)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head_Vnatriegens.hsl)
 
 
 /////////////////////////////////////
-//Read in Gen5 methods to be used
+//Read in Gen5 methods to be used 
 /////////////////////////////////////
 
 //Gen5 protcols to be run:
 Set(overnightProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 12h.37C.1C.V Natriegens.prt)
-Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 90min.37C.1C.V Natriegens.prt)
+Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 2h.37C.1C.V Natriegens.prt)
+//alternative repeat protocol = 3 hr
+//Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 3h.37C.1C.V Natriegens.prt)
 
 //set timer for overnight culture growth = 12 hr + 5 min - 30 min 
 Set(overnightWait,41700)
 
-//set timer for short culture growth = 90 min + 5 min - 30 min 
-Set(repeatWait,3900)
+//set timer for short culture growth = 90 min + 5 min - 30 min - 12.5 min, if growth time = 90 min
+//Set(repeatWait,3900)
+
+//set timer for short culture growth = 2h + 5 min - 30 min - 12.5 min, if growth time = 2 hr
+Set(repeatWait,5700)
+
+//set timer for short culture growth = 3h min + 5 min - 30 min - 12.5 min, if growth time = 3 hr
+//Set(repeatWait,9300)
 
 //For testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 
 //Set readers to be used
-Set(reader1, Epoch1)
+Set(reader1, Epoch2)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,8 +97,8 @@ Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate
 
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
-Set(msg1, Make sure there is at least one new rack of 1000 uL tips in the PAA Carousel (hotel no. 1).)
-Set(tips1000Index, 1)
+Set(msg1, Make sure there are at least two new racks of 1000 uL tips in the PAA Carousel (hotel no. 1).)
+Set(tips1000Index, 2)
 UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip Hotel 1.png)
 
 Set(msg1, Make sure there are at least eight new racks of 300 uL tips in the PAA Carousel (hotel no. 2).)
@@ -109,8 +118,9 @@ Set(msg0, Make sure that the Hamilton Run Control program on the STAR computer i
 Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
 Set(msg3, Check that all the doors of the S-Cell system are closed.\n)
-Set(msg4, Then clisk 'OK' to start the protocol.\n)
-UserPrompt(Ready to Start, {msg0}{msg1}{msg2}{msg3}{msg4}, {lmsfImageDirectory}\dialog-warning.png)
+Set(msg4, Check all 3 waste resepticales and empty if they are > 1/2 full.\n)
+Set(msg5, Then click 'OK' to start the protocol.\n)
+UserPrompt(Ready to Start, {msg0}{msg1}{msg2}{msg3}{msg4}{msg5}, {lmsfImageDirectory}\dialog-warning.png)
 
 //Lid movement test
 UserPrompt(Lid Movement Test, Switch to the STAR computer and observe the lid movement test.)
@@ -143,8 +153,8 @@ Gen5({reader1}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 //-- GP 1 -------------------------------------------------------------------------------
 Set(growthPlateNumber, 1)
 
-//Tip counters check
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 30, userEditCounters=true)
+//Tip counters check and gets tips if needed 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 80, userEditCounters=true)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {growthPlatesInStack})
 Math(growthPlatesInStack, {growthPlatesInStack} - 1)
@@ -152,7 +162,7 @@ WaitFor(Overlord)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate.csv)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startMethod})
-Timer(1200)
+Timer(1500)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
@@ -171,7 +181,7 @@ Gen5({reader1}, RunExp, {overnightProtocol}, {experimentId}_growth-plate_{growth
 Timer({overnightWait})
 
 //-- GP 2 -------------------------------------------------------------------------------
-Set(dilutionFactor, 50)
+Set(dilutionFactor, 10)
 Set(tipsClear, false)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth.Checkerboard pattern\Dilute-copy plate x-fold.lmsf)
