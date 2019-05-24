@@ -48,29 +48,47 @@ Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head_Vnatriegens.hsl)
 //Read in Gen5 methods to be used 
 /////////////////////////////////////
 
-//Gen5 protcols to be run:
+//Gen5 protocols to be run:
 Set(overnightProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 12h.37C.1C.V Natriegens.prt)
 Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 2h.37C.1C.V Natriegens.prt)
 //alternative repeat protocol = 3 hr
 //Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 3h.37C.1C.V Natriegens.prt)
-
-//set timer for overnight culture growth = 12 hr + 5 min - 30 min 
-Set(overnightWait,41700)
-
-//set timer for short culture growth = 90 min + 5 min - 30 min - 12.5 min, if growth time = 90 min
-//Set(repeatWait,3900)
-
-//set timer for short culture growth = 2h + 5 min - 30 min - 12.5 min, if growth time = 2 hr
-Set(repeatWait,5700)
-
-//set timer for short culture growth = 3h min + 5 min - 30 min - 12.5 min, if growth time = 3 hr
-//Set(repeatWait,9300)
 
 //For testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 
 //Set readers to be used
 Set(reader1, Epoch2)
+
+/////////////////////////////////////
+//Set timers
+/////////////////////////////////////
+
+
+//set timer for overnight culture growth in seconds = (growth time) + (5 min required for plate reader to finish) 
+//12 hr + 5 min
+Set(overnightGrowth,43500)
+
+//set timer for short culture growth = (growth time) + (5 min required for plate reader to finish)
+//90 min + 5 min
+//Set(repeatGrowth,5700)
+
+//set timer for short culture growth = (growth time) + (5 min required for plate reader to finish)
+//120 min + 5 min
+Set(repeatGrowth,7500)
+
+//set timer for short culture growth = (growth time) + (5 min required for plate reader to finish)
+//180 min + 5 min
+//Set(repeatGrowth,11100)
+
+//set timer for the length of time it takes to run preheatGPMethod and nonSelectivePlateMethod = 12:16 + 6:59 min
+Set(readyNextGPWait, 1155)
+
+//calculate length of time to wait before starting to prep next plate after overnight growth: overnightGrowth - readyNextGPWait
+Math(overnightWait, {overnightGrowth}-{readyNextGPWait})
+
+//calculate length of time to wait before starting to prep next plate after short growth: repeatGrowth - readyNextGPWait
+Math(repeatWait, {repeatGrowth}-{readyNextGPWait})
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -175,10 +193,13 @@ WaitFor({reader1}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader1}" [Sealer.ManualSeal] "false")
 WaitFor(Overlord)
 
+//run reader with overnight growth protocol and get time stamp
 Gen5({reader1}, RunExp, {overnightProtocol}, {experimentId}_growth-plate_{growthPlateNumber}, {dataDirectory})
-//WaitFor({mainReader})
+GetTimeNow(readerStartTime)
 
-Timer({overnightWait})
+//determine when to end timer
+Math(endTimer, {readerStartTime} + {overnightWait})
+Timer({endTimer})
 
 //-- GP 2 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
