@@ -4,19 +4,26 @@ If({tipsClear}==true, Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\C
 If({tipsClear}==true, WaitFor(Overlord))
 
 //Tip counters check
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 8, userEditCounters=false)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 16, userEditCounters=false)
 
+//load new GP and 300 uL tip rack onto HamSTAR
+//updates tips and plates index
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {growthPlatesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
 Math(growthPlatesInStack, {growthPlatesInStack} - 1)
 Math(tips300Index, {tips300Index} - 1)
 WaitFor(Overlord)
 
-//Waits for overnightWait timer
+//Waits for timer set in main scripts
+//plate 1 uses overnightWait 
+//plates 2-9 use repeatWait
 WaitFor(Timer)
 
+//runs nonSelectivePlateMethod (Uniform non-selective plate prep_Vnatriegens.hsl), then waits for STAR to finish
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
-Timer(300)
-WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+//runs preheatGPMethod (Pre-heat growth plate_Vnatriegens.hsl), then waits for STAR to finish
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preheatGPMethod})
 WaitFor(S-Cell-STAR)
 
 //waits for reader to finish
@@ -39,5 +46,10 @@ WaitFor(Overlord)
 
 Gen5({reader1}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{growthPlateNumber}, {dataDirectory})
 //WaitFor({reader1})
+GetTimeNow(readerStartTime)
 
-Timer({repeatWait})
+//determine when to end timer and wait for that timer
+//Timer({repeatWait})
+Math(endTimer, {readerStartTime} + {repeatWait})
+Timer({endTimer})
+

@@ -4,8 +4,8 @@ Set(isPipetting, true)
 Set(isDebugging, false)
 
 //manualSeal controls whether sealing is manual or automatic
-Set(manualSeal, Yes)
-//Set(manualSeal, No)
+//Set(manualSeal, Yes)
+Set(manualSeal, No)
 
 //Read in commonly used directories
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
@@ -38,17 +38,19 @@ Set(reader3b, Epoch3)
 /////////////////////////////////////
 //This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
 Set(isTesting, false)
-If({isTesting}==true, Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt))
-If({isTesting}==true, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.37C.1C.prt))
+GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
+
+Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt)
+If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.37C.1C.prt))
 //overnightWait = nominal run time - 600
-If({isTesting}==true, Set(overnightWait, 3000))
-If({isTesting}==true, Set(repeatProtocol, {testProtocol}))
+If({isTesting}==Yes, Set(overnightWait, 3000))
+If({isTesting}==Yes, Set(repeatProtocol, {testProtocol}))
 //repeatWait = nominal run time - 2700
-If({isTesting}==true, Set(repeatWait, 900))
-If({isTesting}==true, Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1.5h.37C.1C.prt))
+If({isTesting}==Yes, Set(repeatWait, 900))
+If({isTesting}==Yes, Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1.5h.37C.1C.prt))
 //lastWait = nominal run time
-If({isTesting}==true, Set(lastWait, 3600))
-If({isTesting}==true, Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1.5h.37C.1C.prt))
+If({isTesting}==Yes, Set(lastWait, 3600))
+If({isTesting}==Yes, Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1.5h.37C.1C.prt))
 /////////////////////////////////////////
 
 //Set any other short-hand dictionary keys that will be used repeatedly
@@ -93,6 +95,7 @@ If({clear300Tips}==true, Set(msg2, Manually clear the remaining tips from the 30
 If({clear300Tips}==true, UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip supports 300.PNG))
 If({clear300Tips}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counter-300.hsl))
 
+Set(tips1000Index, 0)
 If({racksNeeded1000Tips}==0, Set(msg1,  \n))
 If({racksNeeded1000Tips}==1, Set(msg1, Make sure there is at least one rack of 1000 uL tips in the PAA Carousel (hotel no. 1).\n))
 If({racksNeeded1000Tips}==1, Set(tips1000Index, 1))
@@ -125,7 +128,8 @@ If({usingBeads} == Yes, Set(cultureVolume, 450))
 Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
 If({usingBeads} == Yes, Set(startMethod, Uniform non-selective plate prep plus starting bacteria.beads.hsl))
 
-Set(nonSelectivePlateMethod, Uniform non-selective plate prep.hsl)
+//Set(nonSelectivePlateMethod, Uniform non-selective plate prep.hsl)
+Set(nonSelectivePlateMethod, Plate 2.1D gradient plate prep.hsl)
 If({usingBeads} == Yes, Set(nonSelectivePlateMethod, Uniform non-selective plate prep.beads.hsl))
 
 Set(doubleGradMethod, Double 2D gradient plate prep.hsl)
@@ -245,7 +249,7 @@ Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
 //Seal and peel throw-away plate to make sure peeler works
-Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Seal and Peel plate from Rack 6 shelf 1.ovp, [Sealer.ManualSeal] "No")
+//Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Seal and Peel plate from Rack 6 shelf 1.ovp, [Sealer.ManualSeal] "No")
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(dilutionFactor, 50)
