@@ -50,9 +50,9 @@ Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head_Vnatriegens.hsl)
 
 //Gen5 protocols to be run:
 Set(overnightProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 12h.37C.1C.V Natriegens.prt)
-Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 2h.37C.1C.V Natriegens.prt)
+//Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 2h.37C.1C.V Natriegens.prt)
 //alternative repeat protocol = 3 hr
-//Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 3h.37C.1C.V Natriegens.prt)
+Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 3h.37C.1C.V Natriegens.prt)
 
 //For testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
@@ -75,11 +75,11 @@ Set(overnightGrowth,43500)
 
 //set timer for short culture growth = (growth time) + (5 min required for plate reader to finish)
 //120 min + 5 min
-Set(repeatGrowth,7500)
+//Set(repeatGrowth,7500)
 
 //set timer for short culture growth = (growth time) + (5 min required for plate reader to finish)
 //180 min + 5 min
-//Set(repeatGrowth,11100)
+Set(repeatGrowth,11100)
 
 //set timer for the length of time it takes to run preheatGPMethod and nonSelectivePlateMethod = 12:16 + 6:59 min
 Set(readyNextGPWait, 1155)
@@ -115,8 +115,8 @@ Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate
 
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
-Set(msg1, Make sure there are at least two new racks of 1000 uL tips in the PAA Carousel (hotel no. 1).)
-Set(tips1000Index, 2)
+Set(msg1, Make sure there are at least three new racks of 1000 uL tips in the PAA Carousel (hotel no. 1).)
+Set(tips1000Index, 3)
 UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip Hotel 1.png)
 
 Set(msg1, Make sure there are at least eight new racks of 300 uL tips in the PAA Carousel (hotel no. 2).)

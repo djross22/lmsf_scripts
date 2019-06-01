@@ -4,7 +4,7 @@ If({tipsClear}==true, Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\C
 If({tipsClear}==true, WaitFor(Overlord))
 
 //Tip counters check
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 8, userEditCounters=false)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 16, userEditCounters=false)
 
 //load new GP and 300 uL tip rack onto HamSTAR
 //updates tips and plates index
