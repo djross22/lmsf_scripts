@@ -45,9 +45,6 @@ Set(overNightProtocolTime, 57900)
 Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h20m.37C.1C.prt)
 //repeatProtocolTime = nominal run time + 300
 Set(repeatProtocolTime, 12300)
-Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
-//lastProtocolTime = nominal run time + 300
-Set(lastProtocolTime, 57900)
 
 //Gen5 protocol for testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
@@ -62,15 +59,12 @@ Set(isTesting, false)
 GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
 
 Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt)
-If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1.5h.37C.1C.prt))
+If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 35m.37C.1C.prt))
 //overNightProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(overNightProtocolTime, 5700))
-If({isTesting}==Yes, Set(repeatProtocol, {testProtocol}))
+If({isTesting}==Yes, Set(overNightProtocolTime, 2400))
+If({isTesting}==Yes, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 30m.37C.1C.prt))
 //repeatProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(repeatProtocolTime, 900))
-If({isTesting}==Yes, Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt))
-//lastProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(lastProtocolTime, 3900))
+If({isTesting}==Yes, Set(repeatProtocolTime, 2100))
 /////////////////////////////////////////
 
 /////////////////////////////////////////
