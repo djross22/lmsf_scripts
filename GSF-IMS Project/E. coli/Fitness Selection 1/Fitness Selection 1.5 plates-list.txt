@@ -10,4 +10,4 @@ Four full racks of standard-volume (300 uL) tips on the Carousel
 300 mL of media
 15 mL of inducer at 10x concentration (in column 1 of reagent plate)
 13 mL of selector (e.g. Tet) at 10x concentration (in column 3 of reagent plate)
-10 mL of bacteria stock (in 60 mL Hamilton reagent carrier on deck of STAR)
+20 mL of bacteria stock (in 60 mL Hamilton reagent carrier on deck of STAR)

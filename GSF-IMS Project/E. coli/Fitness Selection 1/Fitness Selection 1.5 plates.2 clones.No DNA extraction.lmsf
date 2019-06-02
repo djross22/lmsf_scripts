@@ -111,7 +111,7 @@ GetExpID({startDate}_{inducer}_{selector}_Selection-5-plates)
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
 Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1}\n\n)
 Set(msg3, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n)
-Set(msg4, \tSelector:  \t\t\t{selector}, stock concentration: {selectorStock}\n  \n)
+Set(msg4, \tSelector:\t\t\t{selector}, stock concentration: {selectorStock}\n  \n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3} {msg4} {msg5})
 
@@ -188,7 +188,7 @@ Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
-Math(pipetteStartTime, {readEndTime} - 2000)
+Math(pipetteStartTime, {readEndTime} - 2400)
 Timer({pipetteStartTime})
 WaitFor(Timer)
 
