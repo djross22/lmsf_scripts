@@ -13,7 +13,7 @@ Set(manualSeal, No)
 /////////////////////////////////////////////////////////////////
 //Read in commonly used directories
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
-Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Overnight growth.Double 2D gradient.Repeated 4.5 hour growth)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Fitness Selection 1)
 /////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
