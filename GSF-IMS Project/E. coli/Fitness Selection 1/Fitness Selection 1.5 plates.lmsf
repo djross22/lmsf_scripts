@@ -25,6 +25,8 @@ Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fit
 Set(startMethod, Uniform non-selective plate prep plus starting bacteria.2 clones.hsl)
 Set(nonSelectiveGradientMethod, Inducer gradient plate prep.hsl)
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
+//Plate pre-heating method takes 12m:16s to run
+Set(preHeatPlateTime, 736)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(selectiveGradientMethod, Inducer gradient plus selector plate prep.hsl)
 //Venus method constrains 200<=cultureVolume<=500
@@ -152,7 +154,7 @@ Set(msg, Plate reader {mainReader} should have its carrier out. \nVerify that th
 UserPrompt(Check Readers, {msg})
 Gen5({mainReader}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 
-//--- 1 ------------------------------------------------------------------------------
+//--- Plate 1 ------------------------------------------------------------------------------
 Set(plateNum, 1)
 Set(platesInStack, 5)
 
@@ -167,8 +169,6 @@ WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 WaitFor({mainReader}, false)
-WaitFor({reader2b}, false)
-WaitFor({reader3b}, false)
 
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
@@ -177,69 +177,35 @@ Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Rea
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+GetTimeNow(readStartTime)
+Math(readEndTime, {readStartTime} + {overNightProtocolTime})
 //WaitFor({mainReader})
 
-Timer({overnightWait})
-WaitFor(Timer)
-
-//--- 2 ----------------------------------------------------------------------------- 
+//--- Plate 2 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
 
+//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
 Math(tips300Index, {tips300Index} - 1)
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
-//Seal and peel throw-away plate to make sure peeler works
-//Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Seal and Peel plate from Rack 6 shelf 1.ovp, [Sealer.ManualSeal] "No")
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2000)
+Timer({pipetteStartTime})
+WaitFor(Timer)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(dilutionFactor, 50)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
-WaitFor(S-Cell-STAR)
-
-//WaitFor(Overlord) step here so that Seal and Peel runs concurrently with Hamilton pipetting
-WaitFor(Overlord)
-
-WaitFor({mainReader})
-Gen5({mainReader}, CarrierOut)
-WaitFor({mainReader}, false)
-
-Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
-WaitFor(Overlord)
-
-Gen5({mainReader}, CarrierIn)
-WaitFor({mainReader}, false)
-
-Set(keepOldPlate, false)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{firstCopyPlateMethod})
-WaitFor(S-Cell-STAR)
-
-Gen5({mainReader}, CarrierOut)
-WaitFor({mainReader}, false)
-
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
-WaitFor(Overlord)
-
-Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
-//WaitFor({mainReader})
-
-Timer({repeatWait})
-WaitFor(Timer)
-
-//--- 3 ----------------------------------------------------------------------------- 
-Math(plateNum, {plateNum} + 1)
-
-Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
-Math(tips300Index, {tips300Index} - 1)
-Math(platesInStack, {platesInStack} - 1)
-WaitFor(Overlord)
-
-Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(gradPlateNum, 1)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{doubleGradMethod})
-Timer(2100)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectiveGradientMethod})
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
 WaitFor(Timer)
+
+WaitFor(S-Cell-STAR)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
 WaitFor(S-Cell-STAR)
 
 WaitFor({mainReader})
@@ -252,7 +218,6 @@ WaitFor(Overlord)
 Gen5({mainReader}, CarrierIn)
 WaitFor({mainReader}, false)
 
-Set(keepOldPlate, true)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
 WaitFor(S-Cell-STAR)
 
@@ -263,123 +228,25 @@ Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Rea
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+GetTimeNow(readStartTime)
+Math(readEndTime, {readStartTime} + {repeatProtocolTime})
 //WaitFor({mainReader})
 
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
-WaitFor(S-Cell-STAR)
+//--- Plate 3 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.No DNA extraction.lmsf)
 
-Gen5({reader2b}, CarrierOut)
-WaitFor({reader2b}, false)
+//--- Plate 4 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.No DNA extraction.lmsf)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader2b}" [Sealer.ManualSeal] "{manualSeal}")
-WaitFor(Overlord)
+//--- Plate 5 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.No DNA extraction.lmsf)
 
-Math(oldPlateNum, {plateNum} - 1)
-Gen5({reader2b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
-//WaitFor({reader2b})
+//--- Clean up --------------------------------------------------------------------------------------
 
-Timer({repeatWait})
+Timer({readEndTime})
 WaitFor(Timer)
-
-//--- 4 ----------------------------------------------------------------------------- 
-Math(plateNum, {plateNum} + 1)
-
-Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
-Math(tips300Index, {tips300Index} - 1)
-Math(platesInStack, {platesInStack} - 1)
-WaitFor(Overlord)
-
-Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
-Set(gradPlateNum, 2)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{doubleGradMethod})
-Timer(2100)
-WaitFor(Timer)
-WaitFor(S-Cell-STAR)
 
 WaitFor({mainReader})
-Gen5({mainReader}, CarrierOut)
-WaitFor({mainReader}, false)
-
-Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
-WaitFor(Overlord)
-
-Gen5({mainReader}, CarrierIn)
-WaitFor({mainReader}, false)
-
-Set(keepOldPlate, true)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
-WaitFor(S-Cell-STAR)
-
-Gen5({mainReader}, CarrierOut)
-WaitFor({mainReader}, false)
-
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
-WaitFor(Overlord)
-
-Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
-//WaitFor({mainReader})
-
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
-WaitFor(S-Cell-STAR)
-
-Gen5({reader3b}, CarrierOut)
-WaitFor({reader3b}, false)
-
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader3b}" [Sealer.ManualSeal] "{manualSeal}")
-WaitFor(Overlord)
-
-Math(oldPlateNum, {plateNum} - 1)
-Gen5({reader3b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
-//WaitFor({reader3b})
-
-Timer({repeatWait})
-WaitFor(Timer)
-
-//--- 5 ----------------------------------------------------------------------------- 
-Math(plateNum, {plateNum} + 1)
-
-Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
-Math(tips300Index, {tips300Index} - 1)
-Math(platesInStack, {platesInStack} - 1)
-WaitFor(Overlord)
-
-Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
-Set(gradPlateNum, 3)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{doubleGradMethod})
-Timer(2100)
-WaitFor(Timer)
-WaitFor(S-Cell-STAR)
-
-WaitFor({mainReader})
-Gen5({mainReader}, CarrierOut)
-WaitFor({mainReader}, false)
-
-Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
-WaitFor(Overlord)
-
-Gen5({mainReader}, CarrierIn)
-WaitFor({mainReader}, false)
-
-Set(keepOldPlate, true)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
-WaitFor(S-Cell-STAR)
-
-Gen5({mainReader}, CarrierOut)
-WaitFor({mainReader}, false)
-
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
-WaitFor(Overlord)
-
-Gen5({mainReader}, RunExp, {lastProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
-//WaitFor({mainReader})
-
-Timer({lastWait})
-WaitFor(Timer)
-//---6--------------------------------------------------------------------------------------
-
-WaitFor({mainReader})
-WaitFor({reader2b})
-WaitFor({reader3b})
 
 SaveXML()
 
