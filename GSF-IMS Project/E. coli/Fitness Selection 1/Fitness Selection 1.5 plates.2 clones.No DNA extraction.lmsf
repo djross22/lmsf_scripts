@@ -3,6 +3,9 @@ Set(isPipetting, true)
 //isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
 Set(isDebugging, false)
 
+//No DNA extraction for this version of the script
+Set(keepOldGrowthPlate, false)
+
 //manualSeal controls whether sealing is manual or automatic
 //Set(manualSeal, Yes)
 Set(manualSeal, No)
