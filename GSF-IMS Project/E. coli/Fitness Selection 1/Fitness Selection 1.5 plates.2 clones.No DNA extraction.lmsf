@@ -151,6 +151,11 @@ Set(msg, Plate reader {mainReader} should have its carrier out. \nVerify that th
 UserPrompt(Check Readers, {msg})
 Gen5({mainReader}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 
+Set(msg, Switch to STAR computer to edit tip counters, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
+WaitFor(S-Cell-STAR)
+
 //--- Plate 1 ------------------------------------------------------------------------------
 Set(plateNum, 1)
 Set(platesInStack, 5)
