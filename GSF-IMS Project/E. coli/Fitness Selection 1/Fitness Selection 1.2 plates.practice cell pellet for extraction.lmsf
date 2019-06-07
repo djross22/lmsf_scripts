@@ -94,6 +94,8 @@ Get(media, media)
 
 Get(strain, strain1, Select the bacteria strain used for the experiment:)
 Get(plasmid, plasmid1, Select the plasmid used for the experiment:)
+Set(strain2, {strain1})
+Set(plasmid2, {plasmid1})
 
 
 Set(inducer, none)
