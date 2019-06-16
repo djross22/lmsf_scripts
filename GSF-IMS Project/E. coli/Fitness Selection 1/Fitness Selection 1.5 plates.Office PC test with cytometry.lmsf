@@ -12,15 +12,17 @@ Set(manualSeal, No)
 
 /////////////////////////////////////////////////////////////////
 //Read in commonly used directories
-ReadScript(C:\Users\djross\Documents\LMSFoundry\LMSF Scripts\Common protocol scripts\Set Common Directories.lmsf)
+//ReadScript(C:\Users\djross\Documents\LMSFoundry\LMSF Scripts\Common protocol scripts\Set Common Directories.lmsf)
+ReadScript(C:\Users\djross\Documents\LMSF stuff\lmsf-scripts\Common protocol scripts\Set Common Directories.lmsf)
 Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Fitness Selection 1)
-Set(lmsfImageDirectory, C:\Users\djross\Documents\LMSFoundry\LMSF Scripts\Image files)
+Set(scriptsRoot, C:\Users\djross\Documents\LMSF stuff\lmsf-scripts)
+Set(lmsfImageDirectory, {scriptsRoot}\Image files)
 /////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
 //Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
 //Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
-Set(scriptDir, C:\Users\djross\Documents\LMSFoundry\LMSF Scripts\GSF-IMS Project\E. coli\Fitness Selection 1)
+Set(scriptDir, {scriptsRoot}\GSF-IMS Project\E. coli\Fitness Selection 1)
 /////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
@@ -110,7 +112,7 @@ Get(concentration, selectorStock, Enter the concentration of the {selector} star
 
 Get(note, note)
 
-GetExpID({startDate}_{inducer}_{selector}_Selection-5-plates)
+GetExpID({startDate}_{inducer}_Select-Cytom-3-plates)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
@@ -241,11 +243,14 @@ Math(readEndTime, {readStartTime} + {repeatProtocolTime})
 //WaitFor({mainReader})
 
 
-//--- Plate 3 ----------------------------------------------------------------------------- 
+//--- Growth Plate 3 prep and Cytometry Plate 2 prep ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\djross\Documents\LMSF stuff\lmsf-scripts\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.Office PC test with cytometry.lmsf)
 
-//--- Plate 4 ----------------------------------------------------------------------------- 
+//--- Growth Plate 4 and Cytometry Plate 3 prep ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\djross\Documents\LMSF stuff\lmsf-scripts\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.Office PC test with cytometry.lmsf)
+
+//--- Plate 5 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\djross\Documents\LMSF stuff\lmsf-scripts\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.Office PC test.lmsf)
 
 //--- Clean up --------------------------------------------------------------------------------------
 
