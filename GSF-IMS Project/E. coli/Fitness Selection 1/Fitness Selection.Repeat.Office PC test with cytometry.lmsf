@@ -1,0 +1,68 @@
+//Sub-script for plates 3, 4, 5...
+
+//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
+//Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
+Math(tips300Index, {tips300Index} - 1)
+Math(platesInStack, {platesInStack} - 1)
+//WaitFor(Overlord)
+
+//Set up timer to wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2600)
+//Start the cytometry plate prep 30 minutes before next growth plate prep
+Math(cytometryStartTime, {pipetteStartTime} - 1800)
+
+//Timer({cytometryStartTime})
+//WaitFor(Timer)
+Hamilton({hamiltonMethodDir}\{cytometryPrepMethod})
+WaitFor(Hamilton)
+
+
+//Timer({pipetteStartTime})
+//WaitFor(Timer)
+
+Math(plateNum, {plateNum} + 1)
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+Set(dilutionFactor, 10)
+Math(gradPlateNum, {gradPlateNum} + 1)
+Hamilton({hamiltonMethodDir}\{selectiveGradientMethod})
+WaitFor(Hamilton)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+//Timer({preHeatStartTime})
+//WaitFor(Timer)
+Hamilton({hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(Hamilton)
+
+//WaitFor({mainReader})
+//Gen5({mainReader}, CarrierOut)
+//WaitFor({mainReader}, false)
+
+//Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+//WaitFor(Overlord)
+
+//Gen5({mainReader}, CarrierIn)
+//WaitFor({mainReader}, false)
+
+Set(keepOldGrowthPlate, true)
+Hamilton({hamiltonMethodDir}\{copyPlateMethod})
+WaitFor(Hamilton)
+
+//Gen5({mainReader}, CarrierOut)
+//WaitFor({mainReader}, false)
+
+//Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
+//WaitFor(Overlord)
+
+//Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+GetTimeNow(readStartTime)
+Math(readEndTime, {readStartTime} + {repeatProtocolTime})
+//WaitFor({mainReader})
+
+
+
+Math(cytomPlateNum, {plateNum} - 1)
+Set(worklistFile, {dataDirectory}\{experimentId}_cytom-plate_{cytomPlateNum}.csv)
+Math(gradPlateNum, {gradPlateNum} - 1)
+Hamilton({hamiltonMethodDir}\{cytometryTransferMethod})
+WaitFor(Hamilton)
+Math(gradPlateNum, {gradPlateNum} + 1)
