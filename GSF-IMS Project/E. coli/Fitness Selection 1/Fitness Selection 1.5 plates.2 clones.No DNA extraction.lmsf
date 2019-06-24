@@ -198,7 +198,7 @@ Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
-Math(pipetteStartTime, {readEndTime} - 2400)
+Math(pipetteStartTime, {readEndTime} - 2220)
 Timer({pipetteStartTime})
 WaitFor(Timer)
 
