@@ -1,0 +1,75 @@
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set(isPipetting, true)
+//isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
+Set(isDebugging, false)
+
+/////////////////////////////////////////////////////////////////
+//Read in commonly used directories
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Fitness Selection 1)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Hamilton Venus Methods, in the order that they get run
+Set(preHeatPlateMethod, Pre-heat plate test.hsl)
+//Plate pre-heating method takes 12m:16s to run
+/////////////////////////////////////////////////////////////////
+
+Set(front, 1)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Math(front, {front}+1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
