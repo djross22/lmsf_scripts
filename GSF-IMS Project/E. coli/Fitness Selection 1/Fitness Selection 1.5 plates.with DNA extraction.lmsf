@@ -33,7 +33,7 @@ Set(preHeatPlateTime, 736)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(selectiveGradientMethod, Inducer gradient plus selector plate prep.hsl)
 Set(combineToSpinPlateMethod, Combine old GP wells into Spin Plate.hsl)
-Set(dnaExtractionMethod, DNA Extraction_Enzymax FP_Nunc BP_MPE2.hsl)
+Set(dnaExtractionMethod, DNA Extraction_Agilent FP_Nunc BP_MPE2.hsl)
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
 
