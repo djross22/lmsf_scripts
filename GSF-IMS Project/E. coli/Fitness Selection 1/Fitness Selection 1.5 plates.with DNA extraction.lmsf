@@ -85,7 +85,7 @@ If({isTesting}==Yes, Set(repeatProtocolTime, 2100))
 //Set any other short-hand dictionary keys that will be used repeatedly
 Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
 Set(getNewSpinPlate, {ovpCommDirectory}\Labware\Move DWP from stack 9 to STAR.ovp)
-Set(centrifugeSpinPlate, {ovpCommDirectory}\Labware\Get DWP from STAR then Centrifuge DWP.ovp)
+Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DWP.ovp)
 /////////////////////////////////////////
 
 
