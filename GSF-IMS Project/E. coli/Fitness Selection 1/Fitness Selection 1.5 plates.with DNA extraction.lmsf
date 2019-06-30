@@ -34,6 +34,7 @@ Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(selectiveGradientMethod, Inducer gradient plus selector plate prep.hsl)
 Set(combineToSpinPlateMethod, Combine old GP wells into Spin Plate.hsl)
 Set(dnaExtractionMethod, DNA Extraction_Agilent FP_Nunc BP_MPE2.hsl)
+Set(moveOldPlateMethod, Move Old GP to parking.hsl)
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
 
@@ -260,15 +261,47 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness
 //--- Growth Plate 4 prep and DNA Extraction from Plate 3 ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
-//--- Plate 5 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.No DNA extraction.lmsf)
+//--- Growth Plate 5 prep and DNA Extraction from Plate 4 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
-//--- Clean up --------------------------------------------------------------------------------------
-
+//--- DNA Extraction from Plate 5 -------------------------------------------------------------------
 Timer({readEndTime})
 WaitFor(Timer)
 
 WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, CarrierIn)
+WaitFor({mainReader}, false)
+
+Set(keepOldGrowthPlate, true)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{moveOldPlateMethod})
+WaitFor(S-Cell-STAR)
+
+//Move new spin plate for DNA extraction
+Overlord({getNewSpinPlate}, [Carousel.Stack.9.Labware.Count] {spinPlatesInStack})
+Math(spinPlatesInStack, {spinPlatesInStack} - 1)
+WaitFor(Overlord)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{combineToSpinPlateMethod})
+WaitFor(S-Cell-STAR)
+
+//Centrifuge the Spin plate and get new tips for DNA extraction
+Overlord({centrifugeSpinPlate}, [STAR.Plate.Handling.Labware.Name] "Tips1000" [STAR.Tip.1000.Index] {tips1000Index} [STAR.Tip.ClearWaste] "true")
+Math(tips1000Index, {tips1000Index} - 1)
+WaitFor(Overlord)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{dnaExtractionMethod})
+WaitFor(S-Cell-STAR)
+Math(DNAPlateNumber, {DNAPlateNumber} + 1)
+
+
+
+//--- Clean up --------------------------------------------------------------------------------------
 
 SaveXML()
 
