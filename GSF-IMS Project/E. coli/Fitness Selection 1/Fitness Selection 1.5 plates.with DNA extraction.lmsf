@@ -176,6 +176,7 @@ RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Edit Tip Counters.hsl)
 WaitFor(S-Cell-STAR)
 
 //--- Plate 1 ------------------------------------------------------------------------------
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 24)
 Set(plateNum, 1)
 Set(platesInStack, 5)
 Set(spinPlatesInStack, 4)
@@ -203,6 +204,7 @@ GetTimeNow(readStartTime)
 Math(readEndTime, {readStartTime} + {overNightProtocolTime})
 
 //--- Plate 2 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 24, tips300Need = 16)
 Math(plateNum, {plateNum} + 1)
 Set(DNAPlateNumber, 1)
 
@@ -256,15 +258,19 @@ Math(readEndTime, {readStartTime} + {repeatProtocolTime})
 
 
 //--- Growth Plate 3 prep and DNA Extraction from Plate 2 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 96, tips300Need = 72)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
 //--- Growth Plate 4 prep and DNA Extraction from Plate 3 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 96, tips300Need = 72)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
 //--- Growth Plate 5 prep and DNA Extraction from Plate 4 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 96, tips300Need = 72)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
 //--- DNA Extraction from Plate 5 -------------------------------------------------------------------
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 32, tips300Need = 56)
 Timer({readEndTime})
 WaitFor(Timer)
 
