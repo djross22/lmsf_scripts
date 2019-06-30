@@ -72,11 +72,11 @@ Set(mainReader, Neo)
 Set(isTesting, false)
 GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
 
-Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt)
-If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 35m.37C.1C.prt))
+Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt)
+If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt))
 //overNightProtocolTime = nominal run time + 300
 If({isTesting}==Yes, Set(overNightProtocolTime, 2400))
-If({isTesting}==Yes, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 30m.37C.1C.prt))
+If({isTesting}==Yes, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt))
 //repeatProtocolTime = nominal run time + 300
 If({isTesting}==Yes, Set(repeatProtocolTime, 2100))
 /////////////////////////////////////////
