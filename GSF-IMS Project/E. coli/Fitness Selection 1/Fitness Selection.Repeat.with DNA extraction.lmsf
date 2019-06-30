@@ -63,7 +63,6 @@ Overlord({centrifugeSpinPlate}, [STAR.Plate.Handling.Labware.Name] "Tips1000" [S
 Math(tips1000Index, {tips1000Index} - 1)
 WaitFor(Overlord)
 
-Math(gradPlateNum, {gradPlateNum} - 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{dnaExtractionMethod})
 WaitFor(S-Cell-STAR)
-Math(gradPlateNum, {gradPlateNum} + 1)
+Math(DNAPlateNumber, {DNAPlateNumber} + 1)
