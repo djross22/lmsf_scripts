@@ -171,7 +171,7 @@ Gen5({mainReader}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 
 Set(msg, Switch to STAR computer to edit tip counters, then Click 'OK' to continue.)
 UserPrompt(Check Readers, {msg})
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Edit Tip Counters.hsl)
 WaitFor(S-Cell-STAR)
 
 //--- Plate 1 ------------------------------------------------------------------------------
@@ -203,6 +203,7 @@ Math(readEndTime, {readStartTime} + {overNightProtocolTime})
 
 //--- Plate 2 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
+Set(DNAPlateNumber, 1)
 
 //Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
