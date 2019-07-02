@@ -33,6 +33,7 @@ If({tips1000Total}<{tips1000Need}, Set(addTips, true))
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf, clearRackFirst={clearTipRack})
 If({addTips}==true, Math(tips1000Index, {tips1000Index} - 1))
 If({addTips}==true, Set(countersChanged, true))
+If({addTips}==true, Set(clearTipRack, false))
 
 //-----------------------------------------------------------------------
 
@@ -42,9 +43,10 @@ Set(tipSize, 300)
 Set(addTips, false)
 Set(tipIndex, {tips300Index})
 If({tips300Total}<{tips300Need}, Set(addTips, true))
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf, clearRackFirst={clearTipRack})
 If({addTips}==true, Math(tips300Index, {tips300Index} - 1))
 If({addTips}==true, Set(countersChanged, true))
+If({addTips}==true, Set(clearTipRack, false))
 
 //----------------------------------------------------------------------
 
@@ -54,9 +56,10 @@ Set(tipSize, 50)
 Set(addTips, false)
 Set(tipIndex, {tips50Index})
 If({tips50Total}<{tips50Need}, Set(addTips, true))
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf, clearRackFirst={clearTipRack})
 If({addTips}==true, Math(tips50Index, {tips50Index} - 1))
 If({addTips}==true, Set(countersChanged, true))
+If({addTips}==true, Set(clearTipRack, false))
 
 //----------------------------------------------------------------------
 
@@ -66,9 +69,10 @@ Set(tipSize, 1000)
 Set(addTips, false)
 Set(tipIndex, {tips1000Index})
 If({tipsOffsetTotal}<{tipsOffsetNeed}, Set(addTips, true))
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf, isOffset=true)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf, isOffset=true, clearRackFirst={clearTipRack})
 If({addTips}==true, Math(tips1000Index, {tips1000Index} - 1))
 If({addTips}==true, Set(countersChanged, true))
+If({addTips}==true, Set(clearTipRack, false))
 
 //----------------------------------------------------------------------
 
