@@ -84,6 +84,8 @@ If({isTesting}==Yes, Set(repeatProtocolTime, 2100))
 /////////////////////////////////////////
 //Set any other short-hand dictionary keys that will be used repeatedly
 Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+Set(getNewTips, {ovpCommDirectory}\Labware\Move Tips from Carousel to STAR.ovp)
+Set(clearTipRackOvp, {ovpCommDirectory}\Labware\Move Tips from STAR to Waste.ovp)
 Set(getNewSpinPlate, {ovpCommDirectory}\Labware\Move DWP from stack 9 to STAR.ovp)
 Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DWP.ovp)
 /////////////////////////////////////////
@@ -178,7 +180,6 @@ RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Edit Tip Counters.hsl)
 WaitFor(S-Cell-STAR)
 
 //--- Plate 1 ------------------------------------------------------------------------------
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 24)
 Set(plateNum, 1)
 Set(platesInStack, 5)
 Set(spinPlatesInStack, 4)
@@ -206,7 +207,6 @@ GetTimeNow(readStartTime)
 Math(readEndTime, {readStartTime} + {overNightProtocolTime})
 
 //--- Plate 2 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 24, tips300Need = 16)
 Math(plateNum, {plateNum} + 1)
 Set(DNAPlateNumber, 1)
 
@@ -260,18 +260,18 @@ Math(readEndTime, {readStartTime} + {repeatProtocolTime})
 
 
 //--- Growth Plate 3 prep and DNA Extraction from Plate 2 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 96, tips300Need = 72)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
 //--- Growth Plate 4 prep and DNA Extraction from Plate 3 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 96, tips300Need = 72)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
 //--- Growth Plate 5 prep and DNA Extraction from Plate 4 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 96, tips300Need = 72)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 1\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
 //--- DNA Extraction from Plate 5 -------------------------------------------------------------------
+Overlord({clearTipRackOvp})
+WaitFor(Overlord)
+
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 32, tips300Need = 56)
 Timer({readEndTime})
 WaitFor(Timer)
@@ -299,7 +299,7 @@ RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{combineToSpinPlateMethod}
 WaitFor(S-Cell-STAR)
 
 //Centrifuge the Spin plate and get new tips for DNA extraction
-Overlord({centrifugeSpinPlate}, [STAR.Plate.Handling.Labware.Name] "Tips1000" [STAR.Tip.1000.Index] {tips1000Index} [STAR.Tip.ClearWaste] "true" [Centrifuge.Speed] 4500 [Centrifuge.Time] 600 [Centrifuge.Temperature] 23)
+Overlord({centrifugeSpinPlate}, [STAR.Plate.Handling.Labware.Name] "Tips1000" [STAR.Tip.1000.Index] {tips1000Index} [Centrifuge.Speed] 4500 [Centrifuge.Time] 600 [Centrifuge.Temperature] 23)
 Math(tips1000Index, {tips1000Index} - 1)
 WaitFor(Overlord)
 
