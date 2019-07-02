@@ -59,7 +59,7 @@ RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{combineToSpinPlateMethod}
 WaitFor(S-Cell-STAR)
 
 //Centrifuge the Spin plate and get new tips for DNA extraction
-Overlord({centrifugeSpinPlate}, [STAR.Plate.Handling.Labware.Name] "Tips1000" [STAR.Tip.1000.Index] {tips1000Index} [STAR.Tip.ClearWaste] "true")
+Overlord({centrifugeSpinPlate}, [STAR.Plate.Handling.Labware.Name] "Tips1000" [STAR.Tip.1000.Index] {tips1000Index} [STAR.Tip.ClearWaste] "true" [Centrifuge.Speed] 4500 [Centrifuge.Time] 600 [Centrifuge.Temperature] 23)
 Math(tips1000Index, {tips1000Index} - 1)
 WaitFor(Overlord)
 
