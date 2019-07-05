@@ -30,6 +30,7 @@ WaitFor(S-Cell-STAR)
 Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
 Timer({preHeatStartTime})
 WaitFor(Timer)
+
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
 WaitFor(S-Cell-STAR)
 
