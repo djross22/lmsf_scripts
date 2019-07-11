@@ -29,7 +29,7 @@ Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
 Set(nonSelectiveGradientMethod, Inducer gradient plate prep.hsl)
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
-Set(preHeatPlateTime, 736)
+Set(preHeatPlateTime, 740)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(selectiveGradientMethod, Inducer gradient plus selector plate prep.hsl)
 Set(cytometryPrepMethod, Prep cytometry plate.hsl)
@@ -215,12 +215,12 @@ Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(dilutionFactor, 50)
 Set(gradPlateNum, 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectiveGradientMethod})
+WaitFor(S-Cell-STAR)
 
 Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
 Timer({preHeatStartTime})
 WaitFor(Timer)
 
-WaitFor(S-Cell-STAR)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
 WaitFor(S-Cell-STAR)
 
