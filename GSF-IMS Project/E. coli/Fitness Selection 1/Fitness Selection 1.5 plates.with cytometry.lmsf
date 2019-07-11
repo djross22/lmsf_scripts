@@ -50,10 +50,10 @@ If({numClones}==2, Set(startMethod, Uniform non-selective plate prep plus starti
 
 /////////////////////////////////////////////////////////////////
 //Gen5 protcols to be run and associated timers:
-//Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
-Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.Ex500Em530.prt)
+//Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.prt)
+Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.Ex500Em530.prt)
 //overNightProtocolTime = nominal run time + 300
-Set(overNightProtocolTime, 57900)
+Set(overNightProtocolTime, 43500)
 //Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h20m.37C.1C.prt)
 Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.37C.1C.Ex500Em530.prt)
 //repeatProtocolTime = nominal run time + 300
