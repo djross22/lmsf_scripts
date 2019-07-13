@@ -24,7 +24,6 @@ Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fit
 
 /////////////////////////////////////////////////////////////////
 //Hamilton Venus Methods, in the order that they get run
-//Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
 Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
 Set(nonSelectiveGradientMethod, Inducer gradient plate prep.hsl)
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
@@ -38,24 +37,13 @@ Set(moveOldPlateMethod, Move Old GP to parking.hsl)
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
 
-//Get number of clones to be used (one ortwo)
-Set(numClones, 1)
-Get(integer, numClones, Number of Clones?, How many clones are in the experiment (1 or 2)?)
-If({numClones}<1, Set(numClones, 1))
-If({numClones}<1, UserPrompt(Number of Clones, Number of clones must be one or two; setting numClones to {numClones}.))
-If({numClones}>2, Set(numClones, 2))
-If({numClones}>2, UserPrompt(Number of Clones, Number of clones must be one or two; setting numClones to {numClones}.))
-If({numClones}==2, Set(startMethod, Uniform non-selective plate prep plus starting bacteria.2 clones.hsl))
-//////////////////////////////////////////////////////////////////
-
 
 /////////////////////////////////////////////////////////////////
 //Gen5 protcols to be run and associated timers:
-//Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
 Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.Ex500Em530.prt)
 //overNightProtocolTime = nominal run time + 300
 Set(overNightProtocolTime, 57900)
-//Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h20m.37C.1C.prt)
+
 Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.37C.1C.Ex500Em530.prt)
 //repeatProtocolTime = nominal run time + 300
 Set(repeatProtocolTime, 9600)
