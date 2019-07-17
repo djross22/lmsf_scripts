@@ -5,6 +5,9 @@ One Agilent 6-reservoir plate, with black lid, on deck of STAR
 
 144 high-volume (1000 uL) tips, in the tip supports on the STAR
 160 standard-volume (300 uL) tips, in the tip supports on the STAR
+
+96 high-volume (1000 uL) tips, in the Offset tip pickup  support on the STAR
+
 96 wide-bore (3.2 mm) high-volume (1000 uL) tips, in the tip support on the STAR
 
 Six full racks of high-volume (10000 uL) tips on the Carousel
