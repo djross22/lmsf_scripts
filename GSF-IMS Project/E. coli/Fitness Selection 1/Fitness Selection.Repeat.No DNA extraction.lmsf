@@ -17,12 +17,12 @@ Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(dilutionFactor, 10)
 Math(gradPlateNum, {gradPlateNum} + 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{selectiveGradientMethod})
+WaitFor(S-Cell-STAR)
 
 Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
 Timer({preHeatStartTime})
 WaitFor(Timer)
 
-WaitFor(S-Cell-STAR)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
 WaitFor(S-Cell-STAR)
 
