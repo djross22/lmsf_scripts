@@ -251,6 +251,9 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness
 
 //--- Clean up --------------------------------------------------------------------------------------
 
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
+WaitFor(Overlord)
+
 Timer({readEndTime})
 WaitFor(Timer)
 
@@ -259,6 +262,3 @@ WaitFor({mainReader})
 SaveXML()
 
 CopyRemoteFiles()
-
-Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
-WaitFor(Overlord)
