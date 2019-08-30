@@ -3,17 +3,16 @@ One Eppendorf spin plate, with lid, in stack 9 of the Carousel
 
 One Agilent media reservoir with lid, on deck of STAR
 One Abgene plate, 1.2 mL per well, with lid, on deck of STAR
-One Agilent 6-reservoir plate, with black lid, on deck of STAR
+One Agilent 6-reservoir plate, with lid, on deck of STAR
 One Falcon round-bottom 96-well plates (i.e. cytometry plates), with lid, on deck of STAR
 
-96 high-volume (1000 uL) tips, in the tip supports on the STAR
-192 standard-volume (300 uL) tips, in the tip supports on the STAR
-Four full racks of standard-volume (300 uL) tips on the Carousel
+88 high-volume (1000 uL) tips, in the tip supports on the STAR
+72 standard-volume (300 uL) tips, in the tip supports on the STAR
+One full rack of standard-volume (300 uL) tips on the Carousel
 
-300 mL of media
-15 mL of inducer at 10x concentration (in column 1 of reagent plate)
-13 mL of selector (e.g. Tet) at 10x concentration (in column 3 of reagent plate)
-20 mL of bacteria stock (in 60 mL Hamilton reagent carrier on deck of STAR)
+150 mL of media
+10 mL of inducer at 10x concentration (in column 1 of reagent plate)
+10 mL of each bacteria stock (in 60 mL Hamilton reagent troughs on deck of STAR)
 
-15 mL of focusing fluid (in column 5 of reagent plate)
-30 mL of PBS with antibiotic (in column 6 of reagent plate)
+10 mL of focusing fluid (in column 5 of reagent plate)
+25 mL of PBS with antibiotic (in column 6 of reagent plate)
