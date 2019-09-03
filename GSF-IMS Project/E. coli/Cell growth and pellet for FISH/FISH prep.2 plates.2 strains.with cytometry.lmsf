@@ -29,6 +29,7 @@ Set(startMethod, {hamiltonMethodDir}\Uniform non-selective plate prep plus start
 Set(nonSelectiveGradientMethod, {hamiltonMethodDir}\Inducer gradient plate prep.hsl)
 Set(cytometryPrepMethod, {hamiltonMethodDir}\Prep cytometry plate.hsl)
 Set(cytometryTransferMethod, {hamiltonMethodDir}\Transfer cells from old GP to Cytometry Plate.hsl)
+Set(supernatantMethod, {hamiltonMethodDir}\Remove supernatant.hsl)
 
 Set(preHeatPlateMethod, {sharedHamiltonMethodDir}\Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
@@ -293,6 +294,10 @@ WaitFor(S-Cell-STAR)
 //Centrifuge the Spin plate and get new tips for DNA extraction
 Overlord({centrifugeSpinPlate}, [Centrifuge.Speed] 4500 [Centrifuge.Time] 600 [Centrifuge.Temperature] 23)
 WaitFor(Overlord)
+
+//--- remove supernatant -------------------------------------------------------
+RemoteHam(S-Cell-STAR, RunMethod, {supernatantMethod})
+WaitFor(S-Cell-STAR)
 
 
 //--- Clean up --------------------------------------------------------------------------------------
