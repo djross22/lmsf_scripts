@@ -1,7 +1,7 @@
 Set(outFolder, C:\Users\Public\Documents\Experiments\)
 
 Set(neoProt1, C:\Users\Public\Documents\Protocols\Growth Plate w Membrane short test.prt)
-Set(neoProt2, C:\Users\Public\Documents\Protocols\GSF-IMS-E-Coli\Growth Plate w Membrane 15m.37C.1C.prt)
+Set(neoProt2, C:\Users\Public\Documents\Protocols\GSF-IMS-E-Coli\Growth Plate w Membrane 15m.37C.1C.Ex500Em530.prt)
 
 Set(epochProt1, \\129.6.167.34\Protocols\Growth Plate w Membrane short test.prt)
 Set(epochProt2, \\129.6.167.34\Protocols\GSF-IMS-E-Coli\Growth Plate w Membrane 15m.37C.1C.prt)

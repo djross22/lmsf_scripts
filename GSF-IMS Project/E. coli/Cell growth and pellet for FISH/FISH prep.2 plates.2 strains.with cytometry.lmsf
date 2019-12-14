@@ -89,8 +89,8 @@ Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DW
 StartPrompt(E. Coli Fitness Selection, {scriptDir}\FISH prep.2 plates.2 strains.with cytometry-list.txt)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
-UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 88 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
-UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 70 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 112 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 72 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
 
 Set(msg2, Make sure there is at least one rack of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
 UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 2.png)
