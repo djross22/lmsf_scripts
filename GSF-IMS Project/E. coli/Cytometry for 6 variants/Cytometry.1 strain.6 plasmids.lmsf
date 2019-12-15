@@ -84,8 +84,8 @@ UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Cont
 UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 30 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 96 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
 
-Set(msg2, Make sure there is at least one rack of 50 uL tips in the PAA Carousel (hotel no. 3).\n)
-UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 3.png)
+Set(msg2, Make sure there is at least one rack of 50 uL tips in the PAA Carousel (hotel no. 4).\n)
+UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 4.png)
 Set(tips50Index, 1)
 
 NewXML(growth plate prep)
@@ -126,7 +126,7 @@ GetExpID({startDate}_{inducer}-Cytom-6-plasmids)
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
 Set(msg2, \tMedia: \t\t\t{media}\n\n)
-Set(msg3, \tBacteria strain: \t\t{strain1}, with {plasmid1}\n)
+Set(msg3, \tBacteria strain: \t\t{strain1}\n)
 Set(msg4, \t\tPlasmidB: \t\t\t{plasmidB}\n)
 Set(msg5, \t\tPlasmidC: \t\t\t{plasmidC}\n)
 Set(msg6, \t\tPlasmidD: \t\t\t{plasmidD}\n)
