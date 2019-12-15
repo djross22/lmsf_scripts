@@ -61,12 +61,12 @@ Set(isTesting, false)
 GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
 
 Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt)
-If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 35m.37C.1C.prt))
+If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 30m.37C.1C.prt))
 //overNightProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(overNightProtocolTime, 2400))
-If({isTesting}==Yes, Set(growOutProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 30m.37C.1C.prt))
+If({isTesting}==Yes, Set(overNightProtocolTime, 2100))
+If({isTesting}==Yes, Set(growOutProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 5m.37C.1C.Ex500Em530.prt))
 //growOutProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(growOutProtocolTime, 2100))
+If({isTesting}==Yes, Set(growOutProtocolTime, 600))
 /////////////////////////////////////////
 
 /////////////////////////////////////////
@@ -96,7 +96,7 @@ Get(user, user)
 
 Get(media, media)
 
-UserPrompt(Strain and Plasmids, Open the file strain_plasmids.txt and edit it to contain the appropriate information for this experiment)
+UserPrompt(Strain and Plasmids, Open the file strain_plasmids.txt and edit it to contain the appropriate information for this experiment.\nOne strain and 6 plasmids for rows B-G of the growth plate.)
 ImportDictionary({scriptDir}\strain_plasmids.txt)
 
 AddXML(strains, strain)
@@ -127,12 +127,12 @@ GetExpID({startDate}_{inducer}-Cytom-6-plasmids)
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
 Set(msg2, \tMedia: \t\t\t{media}\n\n)
 Set(msg3, \tBacteria strain: \t\t{strain1}\n)
-Set(msg4, \t\tPlasmidB: \t\t\t{plasmidB}\n)
-Set(msg5, \t\tPlasmidC: \t\t\t{plasmidC}\n)
-Set(msg6, \t\tPlasmidD: \t\t\t{plasmidD}\n)
-Set(msg7, \t\tPlasmidE: \t\t\t{plasmidE}\n)
-Set(msg8, \t\tPlasmidF: \t\t\t{plasmidF}\n)
-Set(msg9, \t\tPlasmidG: \t\t\t{plasmidG}\n\n)
+Set(msg4, \t\tPlasmidB: \t{plasmidB}\n)
+Set(msg5, \t\tPlasmidC: \t{plasmidC}\n)
+Set(msg6, \t\tPlasmidD: \t{plasmidD}\n)
+Set(msg7, \t\tPlasmidE: \t{plasmidE}\n)
+Set(msg8, \t\tPlasmidF: \t{plasmidF}\n)
+Set(msg9, \t\tPlasmidG: \t{plasmidG}\n\n)
 
 Set(msg10, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n\n)
 Set(msg11, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
@@ -260,8 +260,7 @@ Math(readEndTime, {readStartTime} + {growOutProtocolTime})
 //--- Cytometry Plate (already on the STAR deck) ---------------------------------------------------------------------------------
 
 //Set up timer to wait for reader to get close to finished before starting pipetting method
-Math(pipetteStartTime, {readEndTime} - 2220)
-Math(cytometryStartTime, {pipetteStartTime} - 300)
+Math(cytometryStartTime, {readEndTime} - 2500)
 
 Timer({cytometryStartTime})
 WaitFor(Timer)
@@ -287,11 +286,6 @@ WaitFor(S-Cell-STAR)
 
 Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
 WaitFor(Overlord)
-
-Timer({readEndTime})
-WaitFor(Timer)
-
-WaitFor({mainReader})
 
 SaveXML()
 
