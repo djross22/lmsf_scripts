@@ -73,5 +73,7 @@ Math(tips1000Index, {tips1000Index} - 1)
 WaitFor(Overlord)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{dnaExtractionMethod})
+Timer(3300)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 Math(DNAPlateNumber, {DNAPlateNumber} + 1)

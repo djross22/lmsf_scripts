@@ -81,13 +81,12 @@ Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate
 StartPrompt(E. Coli Fitness Selection, {scriptDir}\Cytometry.1 strain.6 plasmids-list.txt)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
-UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 96 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
-UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks (192 tips) of 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 30 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 96 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
 
-Set(msg2, Make sure there are at least four racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
-UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 2.png)
-Set(tips300Index, 4)
-Note: probably need 50 uL tips here instead of 300uL
+Set(msg2, Make sure there is at least one rack of 50 uL tips in the PAA Carousel (hotel no. 3).\n)
+UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 3.png)
+Set(tips50Index, 1)
 
 NewXML(growth plate prep)
 
@@ -97,13 +96,25 @@ Get(user, user)
 
 Get(media, media)
 
-Get(strain, strain1, Select the bacteria strain used for the experiment:)
-Get(plasmid, plasmidB, Select the plasmid used for the bacteria in row B of the plate:)
-Get(plasmid, plasmidC, Select the plasmid used for the bacteria in row C of the plate:)
-Get(plasmid, plasmidD, Select the plasmid used for the bacteria in row D of the plate:)
-Get(plasmid, plasmidE, Select the plasmid used for the bacteria in row E of the plate:)
-Get(plasmid, plasmidF, Select the plasmid used for the bacteria in row F of the plate:)
-Get(plasmid, plasmidG, Select the plasmid used for the bacteria in row G of the plate:)
+UserPrompt(Strain and Plasmids, Open the file strain_plasmids.txt and edit it to contain the appropriate information for this experiment)
+ImportDictionary({scriptDir}\strain_plasmids.txt)
+
+AddXML(strains, strain)
+AddXML(strain, strainId, strain1)
+AddXML(strain, plasmidId, plasmidB)
+AddXML(strain, plasmidId, plasmidC)
+AddXML(strain, plasmidId, plasmidD)
+AddXML(strain, plasmidId, plasmidE)
+AddXML(strain, plasmidId, plasmidF)
+AddXML(strain, plasmidId, plasmidG)
+
+//Get(strain, strain1, Select the bacteria strain used for the experiment:)
+//Get(plasmid, plasmidB, Select the plasmid used for the bacteria in row B of the plate:)
+//Get(plasmid, plasmidC, Select the plasmid used for the bacteria in row C of the plate:)
+//Get(plasmid, plasmidD, Select the plasmid used for the bacteria in row D of the plate:)
+//Get(plasmid, plasmidE, Select the plasmid used for the bacteria in row E of the plate:)
+//Get(plasmid, plasmidF, Select the plasmid used for the bacteria in row F of the plate:)
+//Get(plasmid, plasmidG, Select the plasmid used for the bacteria in row G of the plate:)
 
 Get(additive, inducer, Select the inducer used for the experiment:)
 Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:)
@@ -142,7 +153,7 @@ RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Pre-run lid test.hsl)
 Timer(100)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
-UserPrompt(Lid Movement Test, If the STAR sucessfully moved the lids click 'OK' to start the experiment.)
+UserPrompt(Lid Movement Test, If the STAR successfully moved the lids click 'OK' to start the experiment.)
 // end lid movement test
 
 
@@ -198,9 +209,8 @@ Math(readEndTime, {readStartTime} + {overNightProtocolTime})
 Math(plateNum, {plateNum} + 1)
 
 //Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
-Note: probably need 50 uL tips here instead of 300uL
-Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
-Math(tips300Index, {tips300Index} - 1)
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips50" [STAR.Tip.50.Index] {tips50Index})
+Math(tips50Index, {tips50Index} - 1)
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
@@ -247,29 +257,16 @@ GetTimeNow(readStartTime)
 Math(readEndTime, {readStartTime} + {growOutProtocolTime})
 
 
-//--- Plate 3 ---------------------------------------------------------------------------------------
-//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
-Note: probably need 50 uL tips here instead of 300uL
-Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
-Math(tips300Index, {tips300Index} - 1)
-Math(platesInStack, {platesInStack} - 1)
-WaitFor(Overlord)
+//--- Cytometry Plate (already on the STAR deck) ---------------------------------------------------------------------------------
 
 //Set up timer to wait for reader to get close to finished before starting pipetting method
 Math(pipetteStartTime, {readEndTime} - 2220)
-//Start the cytometry plate prep 30 minutes before next growth plate prep
-Math(cytometryStartTime, {pipetteStartTime} - 600)
+Math(cytometryStartTime, {pipetteStartTime} - 300)
 
 Timer({cytometryStartTime})
 WaitFor(Timer)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{cytometryPrepMethod})
 WaitFor(S-Cell-STAR)
-
-
-Timer({pipetteStartTime})
-WaitFor(Timer)
-Note: adjust timing since only cytometry plate is prepped (not growth plate)
-
 
 WaitFor({mainReader})
 Gen5({mainReader}, CarrierOut)
@@ -281,8 +278,7 @@ WaitFor(Overlord)
 Gen5({mainReader}, CarrierIn)
 WaitFor({mainReader}, false)
 
-Math(cytomPlateNum, {plateNum})
-Set(worklistFile, {dataDirectory}\{experimentId}_cytom-plate_{cytomPlateNum}.csv)
+Set(worklistFile, {dataDirectory}\{experimentId}_cytom-plate_{plateNum}.csv)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{cytometryTransferMethod})
 WaitFor(S-Cell-STAR)
 
