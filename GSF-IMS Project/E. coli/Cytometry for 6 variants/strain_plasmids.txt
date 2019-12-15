@@ -1,0 +1,7 @@
+strain1, MG1655-dLac
+plasmidB, pTY1-lacI-B
+plasmidC, pTY1-lacI-C
+plasmidD, pTY1-lacI-D
+plasmidE, pTY1-lacI-E
+plasmidF, pTY1-lacI-F
+plasmidG, pTY1-lacI-G
