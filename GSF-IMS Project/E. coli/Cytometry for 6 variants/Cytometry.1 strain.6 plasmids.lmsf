@@ -237,12 +237,12 @@ Set(gradPlateNum, 1)
 //    used by the Hamilton Venus program to detirmine which column in the Abgene plate to use for starting the inducer gradient
 Set(sequenceNum, 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectiveGradientMethod})
+WaitFor(S-Cell-STAR)
 
 Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
 Timer({preHeatStartTime})
 WaitFor(Timer)
 
-WaitFor(S-Cell-STAR)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
 WaitFor(S-Cell-STAR)
 
@@ -292,12 +292,12 @@ Set(gradPlateNum, 2)
 //    used by the Hamilton Venus program to detirmine which column in the Abgene plate to use for starting the inducer gradient
 Math(sequenceNum, {sequenceNum} + 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectiveGradientMethod})
+WaitFor(S-Cell-STAR)
 
 Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
 Timer({preHeatStartTime})
 WaitFor(Timer)
 
-WaitFor(S-Cell-STAR)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
 WaitFor(S-Cell-STAR)
 
