@@ -244,6 +244,8 @@ Timer({preHeatStartTime})
 WaitFor(Timer)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 WaitFor({mainReader})
@@ -299,6 +301,8 @@ Timer({preHeatStartTime})
 WaitFor(Timer)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 WaitFor({mainReader})
