@@ -14,7 +14,7 @@ Math(tips300Index, {tips300Index} - 1)
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
-Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{lineage}.{plateNum}.csv)
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{lineage}-{plateNum}.csv)
 Set(dilutionFactor, 10)
 //gradPlateNum is the number of the gradient plate within a plate lineage, used to set pipetting volumes so that final inducer concentration is correct
 Set(gradPlateNum, 2)
@@ -53,7 +53,7 @@ WaitFor({reader}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
-Gen5({reader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{lineage}.{plateNum}, {dataDirectory})
+Gen5({reader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{lineage}-{plateNum}, {dataDirectory})
 GetTimeNow(readStartTime)
 
 If({lineage} == 1, Math(readEndTime1, {readStartTime} + {repeatProtocolTime}))

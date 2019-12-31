@@ -25,6 +25,6 @@ WaitFor(Overlord)
 Gen5({reader}, CarrierIn)
 WaitFor({reader}, false)
 
-Set(worklistFile, {dataDirectory}\{experimentId}_cytom-plate_{lineage}.{plateNum}.csv)
+Set(worklistFile, {dataDirectory}\{experimentId}_cytom-plate_{lineage}-{plateNum}.csv)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{cytometryTransferMethod})
 WaitFor(S-Cell-STAR)
