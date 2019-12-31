@@ -3,16 +3,16 @@
 //        and the readEndTime variable set to either {readEndTime1} or {readEndTime2}
 #InsertVariables
 
-//Wait for reader to get close to finished before moving plates/tips and starting pipetting method
-Math(pipetteStartTime, {readEndTime} - 2400)
-Timer({pipetteStartTime})
-WaitFor(Timer)
-
 //Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
 Math(tips300Index, {tips300Index} - 1)
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
+
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2400)
+Timer({pipetteStartTime})
+WaitFor(Timer)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{lineage}-{plateNum}.csv)
 Set(dilutionFactor, 10)
