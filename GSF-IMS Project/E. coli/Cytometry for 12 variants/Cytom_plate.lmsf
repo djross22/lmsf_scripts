@@ -3,6 +3,8 @@
 //        and the readEndTime variable set to either {readEndTime1} or {readEndTime2}
 #InsertVariables
 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips300Need = 96)
+
 //Set up timer to wait for reader to get close to finished before starting pipetting method
 Math(cytometryStartTime, {readEndTime} - 1300)
 
