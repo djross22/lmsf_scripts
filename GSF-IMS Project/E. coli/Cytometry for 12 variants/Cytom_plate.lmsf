@@ -13,6 +13,8 @@ WaitFor(Timer)
 //cytometryPlateNum tells Hamilton Venus which cytometry plate to use
 Set(cytometryPlateNum, {lineage})
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{cytometryPrepMethod})
+Timer(300)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 WaitFor({reader})
@@ -27,4 +29,6 @@ WaitFor({reader}, false)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_cytom-plate_{lineage}-{plateNum}.csv)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{cytometryTransferMethod})
+Timer(420)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)

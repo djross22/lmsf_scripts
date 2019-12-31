@@ -25,6 +25,8 @@ Set(gradPlateNum, 1)
 //    used by the Hamilton Venus program to determine which column in the Abgene plate to use for starting the inducer gradient
 Math(sequenceNum, {sequenceNum} + 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectiveGradientMethod})
+Timer(840)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
@@ -48,6 +50,8 @@ WaitFor({reader}, false)
 
 Set(keepOldGrowthPlate, false)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(120)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 Gen5({reader}, CarrierOut)
