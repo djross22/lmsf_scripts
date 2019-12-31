@@ -1,0 +1,22 @@
+Math(round, {round} + 1)
+
+Gen5(Neo2, CarrierOut)
+WaitFor(Neo2)
+
+Gen5(Neo2, RunExp, {neoProt1}, {expId1}-{round}, {outFolder})
+
+Timer(300)
+WaitFor(Timer)
+
+WaitFor(Neo2)
+
+Gen5(Neo2, CarrierOut)
+WaitFor(Neo2)
+
+Gen5(Neo2, RunExp, {neoProt2}, {expId2}-{round}, {outFolder})
+
+Timer(900)
+WaitFor(Timer)
+
+WaitFor(Neo2)
+
