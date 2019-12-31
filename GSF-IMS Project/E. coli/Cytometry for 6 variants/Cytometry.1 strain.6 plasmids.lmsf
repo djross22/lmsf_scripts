@@ -333,7 +333,7 @@ Math(readEndTime, {readStartTime} + {repeatProtocolTime})
 //--- Cytometry Plate (already on the STAR deck) ---------------------------------------------------------------------------------
 
 //Set up timer to wait for reader to get close to finished before starting pipetting method
-Math(cytometryStartTime, {readEndTime} - 2500)
+Math(cytometryStartTime, {readEndTime} - 1300)
 
 Timer({cytometryStartTime})
 WaitFor(Timer)
