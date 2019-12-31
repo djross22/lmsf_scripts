@@ -67,11 +67,11 @@ Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 30m.37C.1
 
 If({isTesting}==Yes, Set(overNightProtocol1, {testProtocol}))
 //overNightProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(overNightProtocolTime1, 600))
+If({isTesting}==Yes, Set(overNightProtocolTime1, 2100))
 
 If({isTesting}==Yes, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.10m.37C.1C.Ex500Em530.prt))
 //overNightProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(overNightProtocolTime2, 6600))
+If({isTesting}==Yes, Set(overNightProtocolTime2, 8100))
 
 //If({isTesting}==Yes, Set(repeatProtocol, {testProtocol}))
 //repeatProtocolTime = nominal run time + 300
