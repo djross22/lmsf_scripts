@@ -1,0 +1,13 @@
+strain1, MG1655-dLac
+plasmidB1, pTY1-lacI-RS-01
+plasmidC1, pTY1-lacI-RS-04
+plasmidD1, pTY1-lacI-RS-05
+plasmidE1, pTY1-lacI-RS-06
+plasmidF1, pTY1-lacI-RS-10
+plasmidG1, pTY1-lacI-RS-11
+plasmidB2, pTY1-lacI-RS-01
+plasmidC2, pTY1-lacI-RS-04
+plasmidD2, pTY1-lacI-RS-05
+plasmidE2, pTY1-lacI-RS-06
+plasmidF2, pTY1-lacI-RS-10
+plasmidG2, pTY1-lacI-RS-11

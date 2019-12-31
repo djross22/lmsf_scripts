@@ -1,0 +1,20 @@
+//Setting parameters for Venus methods for different sets of growth plates
+//This method needs to have the lineage variable set to either 1 or 2
+#InsertVariables
+
+
+If({lineage} == 1, Set(plasmidB, {plasmidB1}))
+If({lineage} == 1, Set(plasmidC, {plasmidC1}))
+If({lineage} == 1, Set(plasmidD, {plasmidD1}))
+If({lineage} == 1, Set(plasmidE, {plasmidE1}))
+If({lineage} == 1, Set(plasmidF, {plasmidF1}))
+If({lineage} == 1, Set(plasmidG, {plasmidG1}))
+
+
+
+If({lineage} == 2, Set(plasmidB, {plasmidB2}))
+If({lineage} == 2, Set(plasmidC, {plasmidC2}))
+If({lineage} == 2, Set(plasmidD, {plasmidD2}))
+If({lineage} == 2, Set(plasmidE, {plasmidE2}))
+If({lineage} == 2, Set(plasmidF, {plasmidF2}))
+If({lineage} == 2, Set(plasmidG, {plasmidG2}))

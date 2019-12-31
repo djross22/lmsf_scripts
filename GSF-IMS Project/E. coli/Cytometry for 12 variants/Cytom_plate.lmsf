@@ -1,0 +1,30 @@
+//preps and runs the Cytometry Plate for each set of plates (aka lineage)
+//This method needs to have the reader variable set to a plate reader name
+//        and the readEndTime variable set to either {readEndTime1} or {readEndTime2}
+#InsertVariables
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips300Need = 96)
+
+//Set up timer to wait for reader to get close to finished before starting pipetting method
+Math(cytometryStartTime, {readEndTime} - 1300)
+
+Timer({cytometryStartTime})
+WaitFor(Timer)
+//cytometryPlateNum tells Hamilton Venus which cytometry plate to use
+Set(cytometryPlateNum, {lineage})
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{cytometryPrepMethod})
+WaitFor(S-Cell-STAR)
+
+WaitFor({reader})
+Gen5({reader}, CarrierOut)
+WaitFor({reader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{reader}")
+WaitFor(Overlord)
+
+Gen5({reader}, CarrierIn)
+WaitFor({reader}, false)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_cytom-plate_{lineage}.{plateNum}.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{cytometryTransferMethod})
+WaitFor(S-Cell-STAR)
