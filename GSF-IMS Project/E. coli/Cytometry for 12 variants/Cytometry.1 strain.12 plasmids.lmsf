@@ -181,7 +181,7 @@ Set(msg10, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n\n)
 Set(msg11, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg9}{msg10}{msg11})
 
-Set(msg1, Set up the STAR deck layout as shown.)
+Set(msg1, Set up the STAR deck layout as shown and load the first set of 6 bacteria stocks.)
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.2 cytometry plates.PNG, 1000)
 
 Set(msg1, Close the front cover on the STAR.\n)
@@ -231,6 +231,13 @@ Set(platesInStack, 6)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader1})
+
+Math(lineage2startTime, {readStartTime} + 300)
+Set(msg1, Load the second set of 6 bacteria stocks.)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.bacteria2.PNG, 1000)
+Timer({lineage2startTime})
+WaitFor(Timer)
+
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 2)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader2})
