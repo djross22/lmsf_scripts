@@ -17,6 +17,8 @@ Timer(300)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
+Timer({readEndTime})
+WaitFor(Timer)
 WaitFor({reader})
 Gen5({reader}, CarrierOut)
 WaitFor({reader}, false)
