@@ -44,7 +44,7 @@ Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 12h.3
 //overNightProtocolTime = nominal run time + 300
 Set(overNightProtocolTime, 43500)
 
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 2h.35m.30C.1C.prt)
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 6h.30C.1C.prt)
 //repeatProtocolTime = nominal run time + 300
 Set(repeatProtocolTime, 9600)
 
@@ -53,17 +53,17 @@ Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.30C.prt)
 /////////////////////////////////////////////////////////////////
 
 //Set readers to be used
-Set(mainReader, Neo)
+Set(mainReader, Epoch1)
 
 /////////////////////////////////////
 //This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
 Set(isTesting, false)
 GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
 
-If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 10m.30C.1C.prt))
+If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 15m.30C.1C.prt))
 //overNightProtocolTime = nominal run time + 300
 If({isTesting}==Yes, Set(overNightProtocolTime, 900))
-If({isTesting}==Yes, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 5m.30C.1C.prt))
+If({isTesting}==Yes, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 10m.30C.1C.prt))
 //repeatProtocolTime = nominal run time + 300
 If({isTesting}==Yes, Set(repeatProtocolTime, 600))
 /////////////////////////////////////////
@@ -221,7 +221,7 @@ Timer({pipetteStartTime})
 WaitFor(Timer)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
-Set(dilutionFactor, 50)
+Set(dilutionFactor, 40)
 //gradPlateNum is the number of the gradient plate within a plate lineage, used to set pipetting volumes so that final inducer concentration is correct
 Set(gradPlateNum, 1)
 //sequenceNum is the total number of gradient plates mixed
