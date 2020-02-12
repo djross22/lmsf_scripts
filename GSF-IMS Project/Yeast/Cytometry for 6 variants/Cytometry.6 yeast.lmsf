@@ -46,7 +46,7 @@ Set(overNightProtocolTime, 43500)
 
 Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 6h.30C.1C.prt)
 //repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 9600)
+Set(repeatProtocolTime, 21900)
 
 //Gen5 protocol for testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.30C.prt)
