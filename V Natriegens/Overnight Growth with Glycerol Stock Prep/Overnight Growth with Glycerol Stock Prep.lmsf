@@ -170,7 +170,7 @@ Gen5({reader1}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 Set(growthPlateNumber, 1)
 
 //Tip counters check and gets tips if needed 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 80, userEditCounters=true)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 128, userEditCounters=true)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {growthPlatesInStack})
 Math(growthPlatesInStack, {growthPlatesInStack} - 1)
@@ -202,7 +202,7 @@ Timer({endTimer})
 //-- GP 2 -------------------------------------------------------------------------------
 Set(dilutionFactor, 50)
 //Do not prep glycerol stock
-Set(prepGlycStock, 0)
+Set(prepGlycStock, false)
 Set(tipsClear, false)
 //discard old GP
 Set(keepOldPlate, false)
@@ -212,7 +212,7 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth w
 //-- GP 3 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
 //Do not prep glycerol stock
-Set(prepGlycStock, 0)
+Set(prepGlycStock, false)
 Set(tipsClear, true)
 //discard old GP
 Set(keepOldPlate, false)
@@ -223,7 +223,7 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth w
 //-- GP 4 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
 //Do not prep glycerol stock
-Set(prepGlycStock, 0)
+Set(prepGlycStock, false)
 Set(tipsClear, true)
 //discard old GP
 Set(keepOldPlate, false)
@@ -233,7 +233,7 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth w
 //-- GP 5 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
 //Do not prep glycerol stock
-Set(prepGlycStock, 0)
+Set(prepGlycStock, true)
 Set(tipsClear, true)
 //discard old GP
 Set(keepOldPlate, false)
@@ -243,7 +243,7 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth w
 //-- GP 6 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
 //Do not prep glycerol stock
-Set(prepGlycStock, 0)
+Set(prepGlycStock, false)
 Set(tipsClear, true)
 //discard old GP
 Set(keepOldPlate, false)
@@ -253,7 +253,7 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth w
 //-- GP 7 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
 //prep glycerol stock
-Set(prepGlycStock, 1)
+Set(prepGlycStock, true)
 Set(tipsClear, true)
 //discard old GP
 Set(keepOldPlate, false)
@@ -263,7 +263,7 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth w
 //-- GP 8 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
 //Do not prep glycerol stock
-Set(prepGlycStock, 0)
+Set(prepGlycStock, false)
 Set(tipsClear, true)
 //discard old GP
 Set(keepOldPlate, false)
@@ -273,7 +273,7 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth w
 //-- GP 9 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
 //Do not prep glycerol stock
-Set(prepGlycStock, 0)
+Set(prepGlycStock, false)
 Set(tipsClear, true)
 //discard old GP
 Set(keepOldPlate, false)
@@ -283,7 +283,7 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth w
 //-- GP 10 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
 //prep glycerol stock
-Set(prepGlycStock, 1)
+Set(prepGlycStock, true)
 Set(tipsClear, true)
 //discard old GP
 Set(keepOldPlate, false)
