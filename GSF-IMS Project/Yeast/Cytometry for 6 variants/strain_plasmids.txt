@@ -1,6 +1,6 @@
-strainB, s-01
-strainC, s-02
-strainD, s-03
-strainE, s-04
-strainF, s-05
-strainG, s-06
+strainB, 1042-121
+strainC, 1042-121
+strainD, 1042-121
+strainE, 1042-F58GBFP
+strainF, 1042-F58GBFP
+strainG, 1042-F58GBFP
