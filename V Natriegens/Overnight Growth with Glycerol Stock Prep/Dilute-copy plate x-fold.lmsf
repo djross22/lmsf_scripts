@@ -22,7 +22,7 @@ WaitFor(Timer)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
 WaitFor(S-Cell-STAR)
 
-if({prepGlycStock} == true, UserPrompt(Load Glycerol Plates, Add glycerol plates to deck and click 'OK', {protocolDir}\Deck layout_glycerol stock plates.png, 1000))
+If({prepGlycStock} == true, UserPrompt(Load Glycerol Plates, Add glycerol plates to deck and click 'OK', {protocolDir}\Deck layout_glycerol stock plates.png, 1000))
 
 //waits for reader to finish
 WaitFor({reader1}, false)
@@ -64,7 +64,7 @@ GetTimeNow(readerStartTime)
 Math(endTimer, {readerStartTime} + {repeatWait})
 Timer({endTimer})
 
-if({prepGlycStock} == true, UserPrompt(Remove Glycerol Plates, Remove glycerol stock plates from deck, seal, and store at -80. Click 'OK' to continue, {protocolDir}\Clear deck_glycerol stock plates, 1000))
+If({prepGlycStock} == true, UserPrompt(Remove Glycerol Plates, Remove glycerol stock plates from deck then seal and store the plate at -80. Click 'OK' to continue, {protocolDir}\Clear deck_glycerol stock plates.png, 1000))
 
 // Sets variable for prepping glycerol stock to false
 Set(prepGlycStock, false)

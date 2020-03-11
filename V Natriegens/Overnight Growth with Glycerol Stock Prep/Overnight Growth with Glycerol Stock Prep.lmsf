@@ -119,7 +119,7 @@ Set(msg1, Make sure there are at least three new racks of 1000 uL tips in the PA
 Set(tips1000Index, 3)
 UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip Hotel 1.png)
 
-Set(msg1, Make sure there are at least nine new racks of 300 uL tips in the PAA Carousel (hotel no. 2).)
+Set(msg1, Make sure there are at least eight new racks of 300 uL tips in the PAA Carousel (hotel no. 2).)
 Set(tips300Index, 8)
 UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip Hotel 2.png)
 
@@ -154,7 +154,7 @@ WaitFor(Overlord)
 //////////////////////////////////////////////////////////////////////////////////////
 
 //-- 0 -------------------------------------------------------------------------------
-Set(growthPlatesInStack, 10)
+Set(growthPlatesInStack, 9)
 
 //Test reader
 Gen5({reader1}, CarrierOut)
@@ -206,48 +206,42 @@ Set(dilutionFactor, 50)
 Set(prepGlycStock, false)
 Set(tipsClear, false)
 //discard old GP
-Set(keepOldPlate, false)
+Set(keepOldGrowthPlate, false)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth with Glycerol Stock Prep\Dilute-copy plate x-fold.lmsf)
 
 //-- GP 3 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
-//Do not prep glycerol stock
-Set(prepGlycStock, false)
 Set(tipsClear, true)
 //discard old GP
-Set(keepOldPlate, false)
+Set(keepOldGrowthPlate, false)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth with Glycerol Stock Prep\Dilute-copy plate x-fold.lmsf)
 
 
 //-- GP 4 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
-//Do not prep glycerol stock
-Set(prepGlycStock, false)
 Set(tipsClear, true)
 //discard old GP
-Set(keepOldPlate, false)
+Set(keepOldGrowthPlate, false)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth with Glycerol Stock Prep\Dilute-copy plate x-fold.lmsf)
 
 //-- GP 5 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
-//Do not prep glycerol stock
+//Prep glycerol stock
 Set(prepGlycStock, true)
 Set(tipsClear, true)
 //discard old GP
-Set(keepOldPlate, false)
+Set(keepOldGrowthPlate, false)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth with Glycerol Stock Prep\Dilute-copy plate x-fold.lmsf)
 
 //-- GP 6 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
-//Do not prep glycerol stock
-Set(prepGlycStock, false)
 Set(tipsClear, true)
 //discard old GP
-Set(keepOldPlate, false)
+Set(keepOldGrowthPlate, false)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth with Glycerol Stock Prep\Dilute-copy plate x-fold.lmsf)
 
@@ -257,37 +251,25 @@ Set(dilutionFactor, 10)
 Set(prepGlycStock, true)
 Set(tipsClear, true)
 //discard old GP
-Set(keepOldPlate, false)
+Set(keepOldGrowthPlate, false)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth with Glycerol Stock Prep\Dilute-copy plate x-fold.lmsf)
 
 //-- GP 8 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
-//Do not prep glycerol stock
-Set(prepGlycStock, false)
 Set(tipsClear, true)
 //discard old GP
-Set(keepOldPlate, false)
+Set(keepOldGrowthPlate, false)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth with Glycerol Stock Prep\Dilute-copy plate x-fold.lmsf)
 
 //-- GP 9 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
-//Do not prep glycerol stock
-Set(prepGlycStock, false)
-Set(tipsClear, true)
-//discard old GP
-Set(keepOldPlate, false)
-
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth with Glycerol Stock Prep\Dilute-copy plate x-fold.lmsf)
-
-//-- GP 10 -------------------------------------------------------------------------------
-Set(dilutionFactor, 10)
 //prep glycerol stock
 Set(prepGlycStock, true)
 Set(tipsClear, true)
 //discard old GP
-Set(keepOldPlate, false)
+Set(keepOldGrowthPlate, false)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth with Glycerol Stock Prep\Dilute-copy plate x-fold.lmsf)
 
