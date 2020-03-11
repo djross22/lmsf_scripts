@@ -62,7 +62,7 @@ Set(overnightProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 24h.37
 
 //Repeat protocol, same as above b/c doing OD triggering manually
 Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 24h.37C.1C.V Natriegens.prt)
-Set(preheatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 5m.37C.1C.V Natriegens.prt)
+Set(preheatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 5min.37C.1C.for preheat V Natriegens.prt)
 
 //For testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
