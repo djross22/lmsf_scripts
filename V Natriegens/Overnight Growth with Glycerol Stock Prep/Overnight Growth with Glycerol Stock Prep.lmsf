@@ -62,6 +62,7 @@ Set(overnightProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 24h.37
 
 //Repeat protocol, same as above b/c doing OD triggering manually
 Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 24h.37C.1C.V Natriegens.prt)
+Set(preheatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 5m.37C.1C.V Natriegens.prt)
 
 //For testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
@@ -88,7 +89,7 @@ Set(readyNextGPWait, 1155)
 Math(overnightWait, {overnightGrowth}-{readyNextGPWait})
 
 //calculate length of time to wait before starting to prep next plate after short growth: repeatGrowth - readyNextGPWait
-//Math(repeatWait, {repeatGrowth}-{readyNextGPWait})
+Math(repeatWait, {repeatGrowth}-{readyNextGPWait})
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //This section sets shorter Gen5 protocols for testing, set isTesting to false or No for actual experiment
@@ -145,7 +146,7 @@ RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Pre-run lid test_Vnatriege
 Timer(70)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
-UserPrompt(Lid Movement Test, If the STAR sucessfully moved the lids click 'OK' to start the protocol.)
+UserPrompt(Lid Movement Test, If the STAR successfully moved the lids click 'OK' to start the protocol.)
 // end lid movement test
 
 WaitFor(Overlord)
