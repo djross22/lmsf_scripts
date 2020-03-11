@@ -18,11 +18,20 @@ WaitFor(Overlord)
 //plates 2-9 use repeatWait
 WaitFor(Timer)
 
-if({prepGlycStock}==1, UserPrompt(Load Glycerol Plates, Add glycerol plates to deck and click 'OK', {protocolDir}\Deck layout_glycerol stock plates.png, 1000))
-
 //runs nonSelectivePlateMethod (Uniform non-selective plate prep_Vnatriegens.hsl), then waits for STAR to finish
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
 WaitFor(S-Cell-STAR)
+
+if({prepGlycStock} == true, UserPrompt(Load Glycerol Plates, Add glycerol plates to deck and click 'OK', {protocolDir}\Deck layout_glycerol stock plates.png, 1000))
+
+//waits for reader to finish
+WaitFor({reader1}, false)
+
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+//Starts 5 min shaking in reader while plate preheats
+Gen5({reader1}, RunExp, {preheatProtocol}, {experimentId}_growth-plate_{growthPlateNumber}, {dataDirectory})
 
 //runs preheatGPMethod (Pre-heat growth plate_Vnatriegens.hsl), then waits for STAR to finish
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preheatGPMethod})
@@ -55,5 +64,7 @@ GetTimeNow(readerStartTime)
 Math(endTimer, {readerStartTime} + {repeatWait})
 Timer({endTimer})
 
-// Sets variable for prepping glycerol stock to 0
-Set(prepGlycStock, 0)
+if({prepGlycStock} == true, UserPrompt(Remove Glycerol Plates, Remove glycerol stock plates from deck, seal, and store at -80. Click 'OK' to continue, {protocolDir}\Clear deck_glycerol stock plates, 1000))
+
+// Sets variable for prepping glycerol stock to false
+Set(prepGlycStock, false)
