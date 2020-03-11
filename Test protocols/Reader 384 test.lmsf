@@ -1,0 +1,18 @@
+Set(outFolder, C:\Users\Public\Documents\Experiments\)
+
+Set(epochProt1, C:\Users\Public\Documents\Protocols\CellFree\384-well Plate w Seal 10m.30C CFPS.cell-free.prt)
+
+Set(expId1, test-1)
+
+Gen5(Neo, CarrierOut)
+
+WaitFor(Neo)
+
+Set(round, 1)
+
+Gen5(Neo, RunExp, {epochProt1}, {expId1}-{round}, {outFolder})
+
+Timer(300)
+WaitFor(Timer)
+
+WaitFor(Neo)

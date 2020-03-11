@@ -1,10 +1,12 @@
 Math(round, {round} + 1)
 
+WaitFor(Neo)
 Gen5(Neo, CarrierOut)
 WaitFor(Neo)
 
 Gen5(Neo, RunExp, {neoProt1}, {expId1}-{round}a, {outFolder})
 
+WaitFor(Neo2)
 Gen5(Neo2, CarrierOut)
 WaitFor(Neo2)
 
