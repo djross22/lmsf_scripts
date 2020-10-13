@@ -1,0 +1,270 @@
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set(isPipetting, true)
+//isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
+Set(isDebugging, false)
+
+//No DNA extraction for this version of the script
+Set(keepOldGrowthPlate, false)
+
+//manualSeal controls whether sealing is manual or automatic
+//Set(manualSeal, Yes)
+Set(manualSeal, No)
+
+/////////////////////////////////////////////////////////////////
+//Read in commonly used directories
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\Yeast Methods\Cytometry for 6 variants)
+Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
+Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Hamilton Venus Methods, in the order that they get run
+Set(startMethod, Uniform non-selective plate prep plus yeast.6 variants.hsl)
+Set(nonSelectiveGradientMethod, Inducer gradient plate prep.hsl)
+Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
+//Plate pre-heating method takes 12m:16s to run
+Set(preHeatPlateTime, 736)
+Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
+Set(cytometryPrepMethod, Prep cytometry plate.hsl)
+Set(cytometryTransferMethod, Transfer cells from old GP to Cytometry Plate.hsl)
+//Venus method constrains 200<=cultureVolume<=450
+Set(cultureVolume, 450)
+Set(beadZShift, 0.2)
+Set(beadXYShift, 1.7)
+
+
+/////////////////////////////////////////////////////////////////
+//Gen5 protocols to be run and associated timers:
+Set(overNightProtocol1, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 12h.30C.1C.prt)
+//overNightProtocolTime = nominal run time + 300
+Set(overNightProtocolTime, 43500)
+
+Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 13h.40m.30C.1C.prt)
+//overNightProtocolTime2 = nominal run time + 300
+Set(overNightProtocolTime2, 49500)
+
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 6h.30C.1C.prt)
+//repeatProtocolTime = nominal run time + 300
+Set(repeatProtocolTime, 21900)
+
+Set(finishProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 16h.30C.1C.prt)
+//finishProtocolTime = nominal run time + 300
+Set(finishProtocolTime, 57900)
+
+//Gen5 protocol for testing readers at beginning of run to give consistent starting state
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.30C.prt)
+/////////////////////////////////////////////////////////////////
+
+//Set readers to be used
+Set(reader1, Epoch1)
+Set(reader2, Epoch2)
+
+/////////////////////////////////////
+//This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
+Set(isTesting, false)
+GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
+
+If({isTesting}==Yes, Set(overNightProtocol1, gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 10m.30C.1C.prt))
+//overNightProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(overNightProtocolTime1, 900))
+
+If({isTesting}==Yes, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 15m.30C.1C.prt))
+//overNightProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(overNightProtocolTime2, 1200))
+
+//If({isTesting}==Yes, Set(repeatProtocol, gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 10m.30C.1C.prt))
+//repeatProtocolTime = nominal run time + 300
+//If({isTesting}==Yes, Set(repeatProtocolTime, 900))
+/////////////////////////////////////////
+
+/////////////////////////////////////////
+//Set any other short-hand dictionary keys that will be used repeatedly
+Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+/////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+//User input and Overlord initialization section
+
+StartPrompt(Yeast 12 strain cytometry, {scriptDir}\Cytometry.12 yeast-list.txt)
+
+UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 68 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
+
+Set(msg2, Make sure there are at least two racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
+UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 2.png)
+Set(tips300Index, 2)
+Set(tips1000Index, 0)
+Set(tips50Index, 0)
+
+NewXML(growth plate prep)
+
+Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
+
+Get(user, user)
+
+Get(media, media)
+
+UserPrompt(Strain List, Open the file strain_plasmids.txt and edit it to contain the appropriate information for this experiment.\nStrains for rows B-G of the first set of growth plates and rows B-G of the second set of growth plates.)
+ImportDictionary({scriptDir}\strain_plasmids_12.txt)
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strainB1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strainC1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strainD1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strainE1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strainF1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strainG1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strainB2})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strainC2})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strainD2})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strainE2})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strainF2})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strainG2})
+
+Get(additive, inducer, Select the inducer used for the experiment:)
+Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:)
+
+Get(note, note)
+
+GetExpID({startDate}_{inducer}-Cytom-12-yeast)
+
+//review experiment ok/abort dialog
+Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
+Set(msg2, \tMedia: \t\t\t{media}\n\n)
+Set(msg3, \tYeast strain: \t\t{strain1}\n)
+Set(msg4, \t\tRow B: \t{strainB1}\n)
+Set(msg5, \t\tRow C: \t{strainC1}\n)
+Set(msg6, \t\tRow D: \t{strainD1}\n)
+Set(msg7, \t\tRow E: \t{strainE1}\n)
+Set(msg8, \t\tRow F: \t{strainF1}\n)
+Set(msg9, \t\tRow G: \t{strainG1}\n\n)
+Set(msg10, \t\tRow B: \t{strainB2}\n)
+Set(msg11, \t\tRow C: \t{strainC2}\n)
+Set(msg12, \t\tRow D: \t{strainD2}\n)
+Set(msg13, \t\tRow E: \t{strainE2}\n)
+Set(msg14, \t\tRow F: \t{strainF2}\n)
+Set(msg15, \t\tRow G: \t{strainG2}\n\n)
+
+Set(msg16, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n\n)
+Set(msg17, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
+UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg9}{msg10}{msg11}{msg12}{msg13}{msg14}{msg15}{msg16}{msg17})
+
+Set(msg1, Set up the STAR deck layout as shown and load the first set of 6 yeast stocks.)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.2 cytometry plates.PNG, 1000)
+
+Set(msg1, Close the front cover on the STAR.\n)
+Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
+Set(msg3, Check that all the doors of the S-Cell system are closed.\n)
+Set(msg4, Then click 'OK' to start the experiment.\n)
+UserPrompt(Ready to Start, {msg1}{msg2}{msg3}{msg4}, {lmsfImageDirectory}\dialog-warning.png)
+
+//Lid movement test
+UserPrompt(Lid Movement Test, Switch to the STAR computer and observe the lid movement test.)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Pre-run lid test.hsl)
+Timer(100)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+UserPrompt(Lid Movement Test, If the STAR successfully moved the lids click 'OK' to start the experiment.)
+// end lid movement test
+
+
+WaitFor(Overlord)
+//End User input and Overlord initialization section
+//////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////
+//Run the protocol
+////////////////////////////////////////////////////////////////////////////////////
+
+//--- 0 ------------------------------------------------------------------------------
+
+//Test readers while 1st plate is pipetting
+Gen5({reader1}, CarrierOut)
+Gen5({reader2}, CarrierOut)
+WaitFor({reader1}, false)
+WaitFor({reader2}, false)
+Set(msg, Plate readers {reader1} and {reader2} should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+Gen5({reader1}, RunExp, {initProtocol}, pre-run-test-1, {dataDirectory})
+Gen5({reader2}, RunExp, {initProtocol}, pre-run-test-2, {dataDirectory})
+
+Set(msg, Switch to STAR computer to edit tip counters, then Click 'OK' to continue.)
+UserPrompt(Check Tip Counters, {msg})
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
+WaitFor(S-Cell-STAR)
+
+//--- Plate 1 ------------------------------------------------------------------------------
+Set(plateNum, 1)
+Set(platesInStack, 4)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader1})
+
+Math(lineage2startTime, {readStartTime} + 300)
+Set(msg1, Load the second set of 6 yeast stocks.)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.yeast2.PNG, 1000)
+Timer({lineage2startTime})
+WaitFor(Timer)
+
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 2)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader2})
+
+//--- Plate 2 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+Set(sequenceNum, 0)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants\Plate_2.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 2)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants\Plate_2.lmsf, reader = {reader2}, readEndTime = {readEndTime2})
+
+
+
+//--- Cytometry Plate (already on the STAR deck) ---------------------------------------------------------------------------------
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants\Cytom_plate.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 2)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\Yeast\Cytometry for 12 variants\Cytom_plate.lmsf, reader = {reader2}, readEndTime = {readEndTime2})
+
+
+
+//--- Clean up --------------------------------------------------------------------------------------
+
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
+WaitFor(Overlord)
+
+Timer({readEndTime1})
+WaitFor({reader1}, false)
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+Timer({readEndTime2})
+WaitFor({reader2}, false)
+Gen5({reader2}, CarrierOut)
+WaitFor({reader2}, false)
+
+SaveXML()
+
+CopyRemoteFiles()

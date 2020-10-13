@@ -1,0 +1,33 @@
+
+
+Plate 1 prep start: 17:48:00
+Plate 1 in reader: 18:01:59
+
+Start Timer for now + 5 minutes
+Prompt for 2nd set of bacteria stocks: 18:04
+WaitFor Timer
+
+1b prep start: 18:09:12 (21m:12s later) - so need overnight growth protocol of 13h:40m to get ~2 hour offset in subsequent plates
+1b in reader: 18:21:59
+
+
+
+Plate 2 prep start: 05:26:34
+Plate 2 in reader: 06:14:24
+
+2b prep start: 07:26:34 (2h delay)
+2b in reader: 08:14:24
+
+
+Plate 3 prep start: 08:16:20
+Plate 3 in reader: 09:01:48
+
+3b prep start: 10:16:20
+3b in reader: 11:01:48
+
+
+Prep cytometry plate: 11:19:33 - 11:27:45  (added 20 minutes to delay)
+Transfer to cytom plate: 11:43:44 - 11:52:52
+
+prep cytom b: 13:19:33 - 13:27:45
+transfer cytom b: 13:43:44 - 13:52:52
