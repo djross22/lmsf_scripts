@@ -77,9 +77,13 @@ If({isTesting}==Yes, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-Yeast\Growth 
 //overNightProtocolTime = nominal run time + 300
 If({isTesting}==Yes, Set(overNightProtocolTime2, 1200))
 
-//If({isTesting}==Yes, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 10m.30C.1C.prt))
+If({isTesting}==Yes, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 10m.30C.1C.prt))
 //repeatProtocolTime = nominal run time + 300
-//If({isTesting}==Yes, Set(repeatProtocolTime, 900))
+If({isTesting}==Yes, Set(repeatProtocolTime, 900))
+
+If({isTesting}==Yes, Set(finishProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 10m.30C.1C.prt))
+//repeatProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(finishProtocolTime, 900))
 /////////////////////////////////////////
 
 /////////////////////////////////////////
