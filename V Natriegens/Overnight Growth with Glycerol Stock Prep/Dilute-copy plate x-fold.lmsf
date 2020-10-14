@@ -22,7 +22,7 @@ WaitFor(Timer)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
 WaitFor(S-Cell-STAR)
 
-If({prepGlycStock} == true, UserPrompt(Load Glycerol Plates, Add glycerol plates to deck and click 'OK', {protocolDir}\Deck layout_glycerol stock plates.png, 1000))
+If({glycStockBoolean} == true, UserPrompt(Load Glycerol Plates, Add glycerol plates to deck and click 'OK', {protocolDir}\Deck layout_glycerol stock plates.png, 1000))
 
 //waits for reader to finish
 WaitFor({reader1}, false)
@@ -31,7 +31,7 @@ Gen5({reader1}, CarrierOut)
 WaitFor({reader1}, false)
 
 //Starts 5 min shaking in reader while plate preheats
-Gen5({reader1}, RunExp, {preheatProtocol}, {experimentId}_growth-plate_{growthPlateNumber}, {dataDirectory})
+Gen5({reader1}, RunExp, {preheatProtocol}, {experimentId}_growth-plate_{growthPlateNumber}_shakedelay, {dataDirectory})
 
 //runs preheatGPMethod (Pre-heat growth plate_Vnatriegens.hsl), then waits for STAR to finish
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preheatGPMethod})
@@ -59,12 +59,15 @@ Gen5({reader1}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{growthPla
 //WaitFor({reader1})
 GetTimeNow(readerStartTime)
 
-//determine when to end timer and wait for that timer
-//Timer({repeatWait})
+//determine when to end timer
 Math(endTimer, {readerStartTime} + {repeatWait})
-Timer({endTimer})
 
-If({prepGlycStock} == true, UserPrompt(Remove Glycerol Plates, Remove glycerol stock plates from deck then seal and store the plate at -80. Click 'OK' to continue, {protocolDir}\Clear deck_glycerol stock plates.png, 1000))
+If({glycStockBoolean} == true, UserPrompt(Remove Glycerol Plates, Remove glycerol stock plates from deck then seal and store the plate at -80. Click 'OK' to continue, {protocolDir}\Clear deck_glycerol stock plates.png, 1000))
 
 // Sets variable for prepping glycerol stock to false
-Set(prepGlycStock, false)
+Set(glycStockBoolean, false)
+
+//Wait for that timer
+Timer({endTimer})
+
+

@@ -1,0 +1,12 @@
+strainB1, pVER-IPTG-094
+strainC1, pVER-IPTG-095
+strainD1, pVER-IPTG-096
+strainE1, pVER-IPTG-097
+strainF1, pVER-IPTG-098
+strainG1, pVER-IPTG-099
+strainB2, pVER-IPTG-100
+strainC2, pVER-IPTG-101
+strainD2, pVER-IPTG-102
+strainE2, pVER-IPTG-103
+strainF2, pVER-IPTG-104
+strainG2, pVER-IPTG-105

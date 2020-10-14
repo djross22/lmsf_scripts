@@ -1,0 +1,20 @@
+//Setting parameters for Venus methods for different sets of growth plates
+//This method needs to have the lineage variable set to either 1 or 2
+#InsertVariables
+
+
+If({lineage} == 1, Set(strainB, {strainB1}))
+If({lineage} == 1, Set(strainC, {strainC1}))
+If({lineage} == 1, Set(strainD, {strainD1}))
+If({lineage} == 1, Set(strainE, {strainE1}))
+If({lineage} == 1, Set(strainF, {strainF1}))
+If({lineage} == 1, Set(strainG, {strainG1}))
+
+
+
+If({lineage} == 2, Set(strainB, {strainB2}))
+If({lineage} == 2, Set(strainC, {strainC2}))
+If({lineage} == 2, Set(strainD, {strainD2}))
+If({lineage} == 2, Set(strainE, {strainE2}))
+If({lineage} == 2, Set(strainF, {strainF2}))
+If({lineage} == 2, Set(strainG, {strainG2}))

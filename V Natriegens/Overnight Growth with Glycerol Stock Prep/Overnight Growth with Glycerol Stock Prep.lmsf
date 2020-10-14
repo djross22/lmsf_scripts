@@ -62,6 +62,8 @@ Set(overnightProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 24h.37
 
 //Repeat protocol, same as above b/c doing OD triggering manually
 Set(repeatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 24h.37C.1C.V Natriegens.prt)
+
+//Preheat protocol, used to shake plate at set temperature while next plate with media is preheated
 Set(preheatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 5min.37C.1C.for preheat V Natriegens.prt)
 
 //For testing readers at beginning of run to give consistent starting state
@@ -88,8 +90,9 @@ Set(readyNextGPWait, 1155)
 //calculate length of time to wait before starting to prep next plate after overnight growth: overnightGrowth - readyNextGPWait
 Math(overnightWait, {overnightGrowth}-{readyNextGPWait})
 
-//calculate length of time to wait before starting to prep next plate after short growth: repeatGrowth - readyNextGPWait
-Math(repeatWait, {repeatGrowth}-{readyNextGPWait})
+//calculate length of time to wait before starting to prep next plate after short growth: repeatGrowth
+//This will still be shorter than the actual growth time which will vary when triggering on OD
+Math(repeatWait, repeatGrowth)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //This section sets shorter Gen5 protocols for testing, set isTesting to false or No for actual experiment
@@ -110,7 +113,7 @@ If({isTesting}==Yes, Set(repeatWait,200))
 Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
 
 //////////////////////////////////////////////////////////////////////////////////////
-//Initial user input, tip check, and Overlord initialization section
+//Initial user inputs, tip check, and Overlord initialization section
 //////////////////////////////////////////////////////////////////////////////////////
 
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
@@ -126,7 +129,15 @@ UserPrompt(Tips, {msg1}, {lmsfImageDirectory}\Tip Hotel 2.png)
 //this experiment does not use 50 uL tips
 Set(tips50Index, 0)
 
+//Set culture volume
 Set(cultureVolume, 500)
+
+//Set boolean for glycerol stock prep, initialize at false
+Set(glycStockBoolean, false)
+
+//Set prepGlycStock param to glycStockBoolean (always false)
+//Can insert command to change glycStockBoolean to true anytime you make want to make glycerol plate
+Set(prepGlycStock, glycStockBoolean)
 
 Set(msg6, Insert bacteria stock into positions 24 of the right tube rack (in 14 mL cuture tubes).)
 Set(msg7, Set up the STAR deck as shown, then click 'OK' to continue.)
@@ -202,8 +213,6 @@ Timer({endTimer})
 
 //-- GP 2 -------------------------------------------------------------------------------
 Set(dilutionFactor, 50)
-//Do not prep glycerol stock
-Set(prepGlycStock, false)
 Set(tipsClear, false)
 //discard old GP
 Set(keepOldGrowthPlate, false)
@@ -229,8 +238,6 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth w
 
 //-- GP 5 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
-//Prep glycerol stock
-Set(prepGlycStock, true)
 Set(tipsClear, true)
 //discard old GP
 Set(keepOldGrowthPlate, false)
@@ -247,8 +254,6 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth w
 
 //-- GP 7 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
-//prep glycerol stock
-Set(prepGlycStock, true)
 Set(tipsClear, true)
 //discard old GP
 Set(keepOldGrowthPlate, false)
@@ -265,8 +270,6 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\V Natriegens\Overnight Growth w
 
 //-- GP 9 -------------------------------------------------------------------------------
 Set(dilutionFactor, 10)
-//prep glycerol stock
-Set(prepGlycStock, true)
 Set(tipsClear, true)
 //discard old GP
 Set(keepOldGrowthPlate, false)
