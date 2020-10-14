@@ -45,7 +45,8 @@ WaitFor({reader}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
-Gen5({reader}, RunExp, {finishProtocol}, {experimentId}_growth-plate_{lineage}-{plateNum}, {dataDirectory})
+Math(growOutPlateNum, {plateNum} + 1)
+Gen5({reader}, RunExp, {finishProtocol}, {experimentId}_growth-plate_{lineage}-{growOutPlateNum}, {dataDirectory})
 GetTimeNow(readStartTime)
 
 If({lineage} == 1, Math(readEndTime1, {readStartTime} + {finishProtocolTime}))
