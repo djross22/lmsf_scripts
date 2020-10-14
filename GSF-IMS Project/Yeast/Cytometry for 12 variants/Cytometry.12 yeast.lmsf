@@ -61,8 +61,8 @@ Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.30C.prt)
 /////////////////////////////////////////////////////////////////
 
 //Set readers to be used
-Set(reader1, Epoch1)
-Set(reader2, Epoch2)
+Set(reader1, Epoch3)
+Set(reader2, Epoch4)
 
 /////////////////////////////////////
 //This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
