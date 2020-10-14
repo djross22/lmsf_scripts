@@ -9,7 +9,7 @@ Two Falcon round-bottom 96-well plates (i.e. cytometry plates), with lids, on de
 Two full racks of standard-volume (300 uL) tips on the Carousel
 
 250 mL of media
-16.2 mL of inducer at 2x concentration (in columns 9-12 of Abgene plate)
+8.1 mL of inducer at 2x concentration (in columns 11-12 of Abgene plate)
 
 5 mL of each bacteria stock (in 14 mL culture tubes on deck of STAR)
 
