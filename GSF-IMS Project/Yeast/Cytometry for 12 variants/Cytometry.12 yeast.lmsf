@@ -149,7 +149,7 @@ GetExpID({startDate}_{inducer}-Cytom-12-yeast)
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
 Set(msg2, \tMedia: \t\t\t{media}\n\n)
-Set(msg3, \tYeast strain: \t\t{strain1}\n)
+Set(msg3, \tYeast strains:\n)
 Set(msg4, \t\tRow B: \t{strainB1}\n)
 Set(msg5, \t\tRow C: \t{strainC1}\n)
 Set(msg6, \t\tRow D: \t{strainD1}\n)
