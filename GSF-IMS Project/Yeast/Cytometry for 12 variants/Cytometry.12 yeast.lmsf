@@ -41,27 +41,27 @@ Set(beadXYShift, 1.7)
 /////////////////////////////////////////////////////////////////
 //Gen5 protocols to be run and associated timers:
 Set(overNightProtocol1, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 12h.30C.1C.prt)
-//overNightProtocolTime = nominal run time + 300
-Set(overNightProtocolTime, 43500)
+//overNightProtocolTime = nominal run time + 600
+Set(overNightProtocolTime1, 43800)
 
 Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 13h.40m.30C.1C.prt)
-//overNightProtocolTime2 = nominal run time + 300
-Set(overNightProtocolTime2, 49500)
+//overNightProtocolTime2 = nominal run time + 600
+Set(overNightProtocolTime2, 49800)
 
 Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 6h.30C.1C.prt)
-//repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 21900)
+//repeatProtocolTime = nominal run time + 600
+Set(repeatProtocolTime, 22200)
 
 Set(finishProtocol, {gen5ProtDir}\GSF-IMS-Yeast\Growth Plate w Membrane 16h.30C.1C.prt)
-//finishProtocolTime = nominal run time + 300
-Set(finishProtocolTime, 57900)
+//finishProtocolTime = nominal run time + 600
+Set(finishProtocolTime, 58200)
 
 //Gen5 protocol for testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.30C.prt)
 /////////////////////////////////////////////////////////////////
 
 //Set readers to be used
-Set(reader1, Epoch3)
+Set(reader1, Epoch2)
 Set(reader2, Epoch4)
 
 /////////////////////////////////////
@@ -260,13 +260,11 @@ Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
 WaitFor(Overlord)
 
 Timer({readEndTime1})
-WaitFor({reader1}, false)
-Gen5({reader1}, CarrierOut)
+WaitFor(Timer)
 WaitFor({reader1}, false)
 
 Timer({readEndTime2})
-WaitFor({reader2}, false)
-Gen5({reader2}, CarrierOut)
+WaitFor(Timer)
 WaitFor({reader2}, false)
 
 SaveXML()
