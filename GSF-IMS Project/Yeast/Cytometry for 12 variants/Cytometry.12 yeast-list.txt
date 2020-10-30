@@ -14,4 +14,4 @@ Two full racks of standard-volume (300 uL) tips on the Carousel
 5 mL of each bacteria stock (in 14 mL culture tubes on deck of STAR)
 
 20 mL of focusing fluid (in column 5 of reagent plate)
-40 mL of PBS with antibiotic (in column 6 of reagent plate)
+20 mL of media with cyclohexamide (in column 6 of reagent plate)
