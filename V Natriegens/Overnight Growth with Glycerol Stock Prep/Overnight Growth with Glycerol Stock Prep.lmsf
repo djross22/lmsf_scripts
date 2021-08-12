@@ -70,7 +70,7 @@ Set(preheatProtocol, {gen5ProtDir}\V Natriegens\Growth Plate w Membrane 5min.37C
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 
 //Set readers to be used
-Set(reader1, Epoch3)
+Set(reader1, Epoch4)
 
 /////////////////////////////////////
 //Set timers
@@ -92,7 +92,7 @@ Math(overnightWait, {overnightGrowth}-{readyNextGPWait})
 
 //calculate length of time to wait before starting to prep next plate after short growth: repeatGrowth
 //This will still be shorter than the actual growth time which will vary when triggering on OD
-Math(repeatWait, repeatGrowth)
+Set(repeatWait, repeatGrowth)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //This section sets shorter Gen5 protocols for testing, set isTesting to false or No for actual experiment
