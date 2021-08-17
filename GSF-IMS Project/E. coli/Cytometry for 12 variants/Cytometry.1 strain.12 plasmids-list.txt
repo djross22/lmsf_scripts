@@ -4,8 +4,8 @@ One Abgene plate, 1.2 mL per well, with lid, on deck of STAR
 One Agilent 6-reservoir plate, with lid, on deck of STAR
 Two Falcon round-bottom 96-well plates (i.e. cytometry plates), with lids, on deck of STAR
 
-108 high-volume (1000 uL) tips, in the tip supports on the STAR
-128 standard-volume (300 uL) tips, in the tip supports on the STAR
+100 high-volume (1000 uL) tips, in the tip supports on the STAR
+120 standard-volume (300 uL) tips, in the tip supports on the STAR
 Five full racks of standard-volume (300 uL) tips on the Carousel
 
 250 mL of media
