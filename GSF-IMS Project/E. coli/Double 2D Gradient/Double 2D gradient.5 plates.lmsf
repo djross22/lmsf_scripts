@@ -166,7 +166,7 @@ Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataD
 UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2} {msg3} {msg4} {msg5})
 
 Set(msg1, Set up the STAR deck layout as shown.)
-UserPrompt(STAR Deck Layout, {msg1}, {protocolDir}\Overnight Double Gradient Layout.PNG, 1000)
+UserPrompt(STAR Deck Layout, {msg1}, {protocolDir}\Double 2D Gradient Layout.PNG, 1000)
 
 Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
