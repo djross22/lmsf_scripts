@@ -14,20 +14,25 @@ Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E
 //Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
 Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Double 2D Gradient)
 
-//Gen5 protcols to be run:
+/////////////////////////////////////////////////////////////////
+//Gen5 protocols to be run and associated timers:
 Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
-//overnightWait = nominal run time - 600
-Set(overnightWait, 57000)
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h20m.37C.1C.prt)
-//repeatWait = nominal run time - 2700
-Set(repeatWait, 9300)
+//overNightProtocolTime = nominal run time + 300
+Set(overNightProtocolTime, 57900)
+
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.37C.1C.prt)
+//repeatProtocolTime = nominal run time + 300
+Set(repeatProtocolTime, 9600)
+
 Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
-//lastWait = nominal run time
-Set(lastWait, 57600)
-Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 20h.37C.1C.prt)
+//lastProtocolTime = nominal run time + 300
+Set(lastProtocolTime, 57900)
+
+Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
 
 //For testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
+/////////////////////////////////////////////////////////////////
 
 //Set readers to be used
 Set(mainReader, Neo)
@@ -124,14 +129,16 @@ Get(media, media)
 Set(cultureVolume, 500)
 //If({usingBeads} == Yes, Set(cultureVolume, 450))
 
+/////////////////////////////////////////////////////////////////
+//Hamilton Venus Methods, in the order that they get run
 Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
-
-//Set(nonSelectivePlateMethod, Uniform non-selective plate prep.hsl)
 Set(nonSelectivePlateMethod, Plate 2.1D gradient plate prep.hsl)
-
-Set(doubleGradMethod, Double 2D gradient plate prep.hsl)
-
+Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
+//Plate pre-heating method takes 12m:16s to run
+Set(preHeatPlateTime, 736)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
+Set(doubleGradMethod, Double 2D gradient plate prep.hsl)
+/////////////////////////////////////////////////////////////////
 
 
 Get(strain, strain1, Select the bacteria strain used for the protocol:)
@@ -227,7 +234,9 @@ Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Rea
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
-//WaitFor({mainReader})
+GetTimeNow(readStartTime)
+
+Math(readEndTime, {readStartTime} + {overNightProtocolTime})
 
 Timer({overnightWait})
 WaitFor(Timer)
@@ -241,15 +250,25 @@ Math(tips300Index, {tips300Index} - 1)
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
-//Seal and peel throw-away plate to make sure peeler works
-//Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Seal and Peel plate from Rack 6 shelf 1.ovp, [Sealer.ManualSeal] "No")
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2220)
+Timer({pipetteStartTime})
+WaitFor(Timer)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
+Timer(840)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
-//WaitFor(Overlord) step here so that Seal and Peel runs concurrently with Hamilton pipetting
-WaitFor(Overlord)
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
 
 WaitFor({mainReader})
 Gen5({mainReader}, CarrierOut)
@@ -261,8 +280,10 @@ WaitFor(Overlord)
 Gen5({mainReader}, CarrierIn)
 WaitFor({mainReader}, false)
 
-Set(keepOldPlate, false)
+Set(keepOldGrowthPlate, false)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(120)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 Gen5({mainReader}, CarrierOut)
@@ -272,10 +293,9 @@ Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Rea
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
-//WaitFor({mainReader})
+GetTimeNow(readStartTime)
 
-Timer({repeatWait})
-WaitFor(Timer)
+Math(readEndTime, {readStartTime} + {repeatProtocolTime})
 
 //--- 3 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
@@ -286,12 +306,29 @@ Math(tips300Index, {tips300Index} - 1)
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2400)
+Timer({pipetteStartTime})
+WaitFor(Timer)
+
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(gradPlateNum, 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{doubleGradMethod})
 Timer(2100)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Timer({readEndTime})
+WaitFor(Timer)
 
 WaitFor({mainReader})
 Gen5({mainReader}, CarrierOut)
@@ -303,8 +340,10 @@ WaitFor(Overlord)
 Gen5({mainReader}, CarrierIn)
 WaitFor({mainReader}, false)
 
-Set(keepOldPlate, true)
+Set(keepOldGrowthPlate, true)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(120)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 Gen5({mainReader}, CarrierOut)
@@ -314,7 +353,9 @@ Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Rea
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
-//WaitFor({mainReader})
+GetTimeNow(readStartTime)
+
+Math(readEndTime, {readStartTime} + {repeatProtocolTime})
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
 WaitFor(S-Cell-STAR)
@@ -327,10 +368,6 @@ WaitFor(Overlord)
 
 Math(oldPlateNum, {plateNum} - 1)
 Gen5({reader2b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
-//WaitFor({reader2b})
-
-Timer({repeatWait})
-WaitFor(Timer)
 
 //--- 4 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
@@ -340,12 +377,29 @@ Math(tips300Index, {tips300Index} - 1)
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2400)
+Timer({pipetteStartTime})
+WaitFor(Timer)
+
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(gradPlateNum, 2)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{doubleGradMethod})
 Timer(2100)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Timer({readEndTime})
+WaitFor(Timer)
 
 WaitFor({mainReader})
 Gen5({mainReader}, CarrierOut)
@@ -357,8 +411,10 @@ WaitFor(Overlord)
 Gen5({mainReader}, CarrierIn)
 WaitFor({mainReader}, false)
 
-Set(keepOldPlate, true)
+Set(keepOldGrowthPlate, true)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(120)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 Gen5({mainReader}, CarrierOut)
@@ -368,7 +424,9 @@ Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Rea
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
-//WaitFor({mainReader})
+GetTimeNow(readStartTime)
+
+Math(readEndTime, {readStartTime} + {repeatProtocolTime})
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
 WaitFor(S-Cell-STAR)
@@ -381,10 +439,6 @@ WaitFor(Overlord)
 
 Math(oldPlateNum, {plateNum} - 1)
 Gen5({reader3b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
-//WaitFor({reader3b})
-
-Timer({repeatWait})
-WaitFor(Timer)
 
 //--- 5 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
@@ -394,12 +448,29 @@ Math(tips300Index, {tips300Index} - 1)
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2400)
+Timer({pipetteStartTime})
+WaitFor(Timer)
+
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(gradPlateNum, 3)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{doubleGradMethod})
 Timer(2100)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Timer({readEndTime})
+WaitFor(Timer)
 
 WaitFor({mainReader})
 Gen5({mainReader}, CarrierOut)
@@ -411,8 +482,10 @@ WaitFor(Overlord)
 Gen5({mainReader}, CarrierIn)
 WaitFor({mainReader}, false)
 
-Set(keepOldPlate, true)
+Set(keepOldGrowthPlate, true)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(120)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 Gen5({mainReader}, CarrierOut)
@@ -422,10 +495,13 @@ Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Rea
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {lastProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
-//WaitFor({mainReader})
+GetTimeNow(readStartTime)
 
-Timer({lastWait})
+Math(readEndTime, {readStartTime} + {lastProtocolTime})
+
+Timer({readEndTime})
 WaitFor(Timer)
+
 //---6--------------------------------------------------------------------------------------
 
 WaitFor({mainReader})
