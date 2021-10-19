@@ -118,27 +118,22 @@ Get(user, user)
 
 Get(media, media)
 
-GetUserYesNo(usingBeads, Beads in Wells?, Are you using beads in the wells of the growth plates?)
+//GetUserYesNo(usingBeads, Beads in Wells?, Are you using beads in the wells of the growth plates?)
 
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
-If({usingBeads} == Yes, Set(cultureVolume, 450))
+//If({usingBeads} == Yes, Set(cultureVolume, 450))
 
 Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
-If({usingBeads} == Yes, Set(startMethod, Uniform non-selective plate prep plus starting bacteria.beads.hsl))
 
 //Set(nonSelectivePlateMethod, Uniform non-selective plate prep.hsl)
 Set(nonSelectivePlateMethod, Plate 2.1D gradient plate prep.hsl)
-If({usingBeads} == Yes, Set(nonSelectivePlateMethod, Uniform non-selective plate prep.beads.hsl))
 
 Set(doubleGradMethod, Double 2D gradient plate prep.hsl)
-If({usingBeads} == Yes, Set(doubleGradMethod, Double 2D gradient plate prep.beads.hsl))
 
 Set(copyPlateMethod, Dilute-copy plate with 96-head.hsl)
-If({usingBeads} == Yes, Set(copyPlateMethod, Dilute-copy plate with 96-head.beads.hsl))
 
 Set(firstCopyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
-If({usingBeads} == Yes, Set(firstCopyPlateMethod, Dilute-copy plate with 96-head.beads.hsl))
 
 
 Get(strain, strain1, Select the bacteria strain used for the protocol:)
