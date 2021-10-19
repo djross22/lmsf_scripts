@@ -32,24 +32,24 @@ Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 //Set readers to be used
 Set(mainReader, Neo)
 Set(reader2b, Epoch4)
-Set(reader3b, Epoch3)
+Set(reader3b, Epoch2)
 
 /////////////////////////////////////
 //This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
 Set(isTesting, false)
 GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
 
-Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1h.37C.1C.prt)
-If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.37C.1C.prt))
+Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.prt)
+If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 15m.37C.1C.prt))
 //overnightWait = nominal run time - 600
-If({isTesting}==Yes, Set(overnightWait, 3000))
+If({isTesting}==Yes, Set(overnightWait, 30))
 If({isTesting}==Yes, Set(repeatProtocol, {testProtocol}))
 //repeatWait = nominal run time - 2700
-If({isTesting}==Yes, Set(repeatWait, 900))
-If({isTesting}==Yes, Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1.5h.37C.1C.prt))
+If({isTesting}==Yes, Set(repeatWait, 30))
+If({isTesting}==Yes, Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.prt))
 //lastWait = nominal run time
-If({isTesting}==Yes, Set(lastWait, 3600))
-If({isTesting}==Yes, Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 1.5h.37C.1C.prt))
+If({isTesting}==Yes, Set(lastWait, 30))
+If({isTesting}==Yes, Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.prt))
 /////////////////////////////////////////
 
 //Set any other short-hand dictionary keys that will be used repeatedly
@@ -59,7 +59,7 @@ Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate
 //////////////////////////////////////////////////////////////////////////////////////
 //User input and Overlord initialization section
 
-StartPrompt(Overnight Double 2D Gradient Plate Prep, {protocolDir}\Overnight growth.Double 2D gradient.Repeated 3h20m growth.5 plates-list.txt)
+StartPrompt(Overnight Double 2D Gradient Plate Prep, {protocolDir}\Double 2D gradient.5 plates-list.txt)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 
