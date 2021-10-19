@@ -131,9 +131,7 @@ Set(nonSelectivePlateMethod, Plate 2.1D gradient plate prep.hsl)
 
 Set(doubleGradMethod, Double 2D gradient plate prep.hsl)
 
-Set(copyPlateMethod, Dilute-copy plate with 96-head.hsl)
-
-Set(firstCopyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
+Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 
 
 Get(strain, strain1, Select the bacteria strain used for the protocol:)
@@ -236,6 +234,7 @@ WaitFor(Timer)
 
 //--- 2 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
+Set(dilutionFactor, 50)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
 Math(tips300Index, {tips300Index} - 1)
@@ -246,7 +245,6 @@ WaitFor(Overlord)
 //Overlord(C:\Program Files (x86)\PAA\Overlord3\Procedures\Common\Seal and Peel plate from Rack 6 shelf 1.ovp, [Sealer.ManualSeal] "No")
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
-Set(dilutionFactor, 50)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
 WaitFor(S-Cell-STAR)
 
@@ -264,7 +262,7 @@ Gen5({mainReader}, CarrierIn)
 WaitFor({mainReader}, false)
 
 Set(keepOldPlate, false)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{firstCopyPlateMethod})
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
 WaitFor(S-Cell-STAR)
 
 Gen5({mainReader}, CarrierOut)
@@ -281,6 +279,7 @@ WaitFor(Timer)
 
 //--- 3 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
+Set(dilutionFactor, 10)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
 Math(tips300Index, {tips300Index} - 1)
