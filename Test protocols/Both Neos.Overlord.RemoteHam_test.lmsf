@@ -1,0 +1,31 @@
+
+/////////////////////////////////////////////////////////////////
+//Read in commonly used directories
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Fitness Selection 1)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+// Protocols to be used by Neos
+Set(neoProt1, \\129.6.167.34\Protocols\Growth Plate w Membrane short test.prt)
+Set(neoProt2, {neoProt1})
+
+// Output folder for Neos
+Set(outFolder, C:\Users\Public\Documents\Experiments\)
+/////////////////////////////////////////////////////////////////
+
+Set(ovpTest, C:\Program Files (x86)\PAA\Overlord3\Procedures\Test\User Dialog.ovp)
+
+Set(expId1, test-1)
+Set(expId2, test-2)
+
+Set(round, 0)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Test protocols\Remote repeat.lmsf)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Test protocols\Remote repeat.lmsf)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Test protocols\Remote repeat.lmsf)
+
+
+

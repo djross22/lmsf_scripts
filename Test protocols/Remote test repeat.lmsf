@@ -1,0 +1,28 @@
+Math(round, {round} + 1)
+
+WaitFor(Neo)
+Gen5(Neo, CarrierOut)
+WaitFor(Neo)
+
+WaitFor(Neo2)
+Gen5(Neo2, CarrierOut)
+WaitFor(Neo2)
+
+UserPrompt(Neo Carriers Out, Both Neo Carriers should be out.)
+
+Gen5(Neo, RunExp, {neoProt1}, {expId1}-{round}a, {outFolder})
+Gen5(Neo2, RunExp, {neoProt1}, {expId1}-{round}b, {outFolder})
+
+UserPrompt(Edit Tip Counters, Switch to the the S-Cell-STAR PC and verify or edit the tip counters.)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
+WaitFor(S-Cell-STAR)
+
+UserPrompt(Overlord Test, Switch to Overlord window and click to continue.)
+Overlord({ovpTest})
+WaitFor(Overlord)
+
+Timer(300)
+WaitFor(Timer)
+WaitFor(Neo)
+WaitFor(Neo2)
+
