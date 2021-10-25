@@ -14,18 +14,18 @@ Set(neoProt2, {neoProt1})
 Set(outFolder, C:\Users\Public\Documents\Experiments\)
 /////////////////////////////////////////////////////////////////
 
-Set(ovpTest, C:\Program Files (x86)\PAA\Overlord3\Procedures\Test\User Dialog.ovp)
+Set(ovpTest, C:\Program Files (x86)\PAA\Overlord3\Procedures\Testing\User Dialog.ovp)
 
 Set(expId1, test-1)
 Set(expId2, test-2)
 
 Set(round, 0)
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Test protocols\Remote repeat.lmsf)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Test protocols\Remote test repeat.lmsf)
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Test protocols\Remote repeat.lmsf)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Test protocols\Remote test repeat.lmsf)
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Test protocols\Remote repeat.lmsf)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Test protocols\Remote test repeat.lmsf)
 
 
 
