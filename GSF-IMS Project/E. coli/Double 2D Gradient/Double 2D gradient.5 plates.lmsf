@@ -1,0 +1,516 @@
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set(isPipetting, true)
+//isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
+Set(isDebugging, false)
+
+//manualSeal controls whether sealing is manual or automatic
+//Set(manualSeal, Yes)
+Set(manualSeal, No)
+
+//Read in commonly used directories
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Double 2D Gradient)
+
+//Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
+Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Double 2D Gradient)
+
+/////////////////////////////////////////////////////////////////
+//Gen5 protocols to be run and associated timers:
+Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
+//overNightProtocolTime = nominal run time + 300
+Set(overNightProtocolTime, 57900)
+
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.37C.1C.prt)
+//repeatProtocolTime = nominal run time + 300
+Set(repeatProtocolTime, 9600)
+
+Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
+//lastProtocolTime = nominal run time + 300
+Set(lastProtocolTime, 57900)
+
+Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
+
+//For testing readers at beginning of run to give consistent starting state
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
+/////////////////////////////////////////////////////////////////
+
+//Set readers to be used
+Set(mainReader, Neo)
+Set(reader2b, Epoch4)
+Set(reader3b, Epoch2)
+
+/////////////////////////////////////
+//This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
+Set(isTesting, false)
+GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
+
+Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.prt)
+If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 15m.37C.1C.prt))
+//overnightWait = nominal run time - 600
+If({isTesting}==Yes, Set(overnightWait, 30))
+If({isTesting}==Yes, Set(repeatProtocol, {testProtocol}))
+//repeatWait = nominal run time - 2700
+If({isTesting}==Yes, Set(repeatWait, 30))
+If({isTesting}==Yes, Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.prt))
+//lastWait = nominal run time
+If({isTesting}==Yes, Set(lastWait, 30))
+If({isTesting}==Yes, Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.prt))
+/////////////////////////////////////////
+
+//Set any other short-hand dictionary keys that will be used repeatedly
+Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+//User input and Overlord initialization section
+
+StartPrompt(Overnight Double 2D Gradient Plate Prep, {protocolDir}\Double 2D gradient.5 plates-list.txt)
+
+UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
+
+//the Edit Tip Counters.lmsf script sets the tip status variables in the dictionary. In particular, it sets {tips1000Total}, {tips300Total}, and {tipsOffsetTotal}, which are used for this protocol
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Edit Tip Counters.lmsf)
+Set(racksNeeded1000Tips, 0)
+Set(clear1000Tips, false)
+If({tips1000Total}<120, Set(racksNeeded1000Tips, 1))
+If({tips1000Total}<24, Set(racksNeeded1000Tips, 2))
+If({tips1000Total}<24, Set(clear1000Tips, true))
+If({tips1000Total}==0, Set(clear1000Tips, false))
+
+//Set msg1 and msg2 to place-holders to avoid error at teh UserPrompt line
+Set(msg1, place-holder)
+Set(msg2, place-holder)
+
+If({clear1000Tips}==true, Set(msg1, This protocol will require two racks of 1000 uL tips on the STAR to be used by the 8-channnel head.\n))
+If({clear1000Tips}==true, Set(msg2, Manually clear the remaining tips from the 1000 uL tip racks then switch to the STAR computer and re-edit the 1000 uL tip counter.\n))
+If({clear1000Tips}==true, UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip supports 1000.PNG))
+If({clear1000Tips}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counter-1000.hsl))
+
+
+Set(racksNeeded300Tips, 0)
+Set(clear300Tips, false)
+If({tips300Total}<128, Set(racksNeeded300Tips, 1))
+If({tips300Total}<32, Set(racksNeeded300Tips, 2))
+If({tips300Total}<32, Set(clear300Tips, true))
+If({tips300Total}==0, Set(clear300Tips, false))
+
+If({clear300Tips}==true, Set(msg1, This protocol will require two racks of 300 uL tips on the STAR to be used by the 8-channnel head.\n))
+If({clear300Tips}==true, Set(msg2, Manually clear the remaining tips from the 300 uL tip racks then switch to the STAR computer and re-edit the 300 uL tip counter.\n))
+If({clear300Tips}==true, UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip supports 300.PNG))
+If({clear300Tips}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counter-300.hsl))
+
+Set(tips1000Index, 0)
+If({racksNeeded1000Tips}==0, Set(msg1,  \n))
+If({racksNeeded1000Tips}==1, Set(msg1, Make sure there is at least one rack of 1000 uL tips in the PAA Carousel (hotel no. 1).\n))
+If({racksNeeded1000Tips}==1, Set(tips1000Index, 1))
+If({racksNeeded1000Tips}==2, Set(msg1, Make sure there are at least two racks of 1000 uL tips in the PAA Carousel (hotel no. 1).\n))
+If({racksNeeded1000Tips}==2, Set(tips1000Index, 2))
+
+If({racksNeeded300Tips}==0, Set(msg2, Make sure there are at least four racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n))
+If({racksNeeded300Tips}==0, Set(tips300Index, 4))
+If({racksNeeded300Tips}==1, Set(msg2, Make sure there are at least five racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n))
+If({racksNeeded300Tips}==1, Set(tips300Index, 5))
+If({racksNeeded300Tips}==2, Set(msg2, Make sure there are at least six racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n))
+If({racksNeeded300Tips}==2, Set(tips300Index, 6))
+
+UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip Hotels 1-2.png)
+
+NewXML(growth plate prep)
+
+Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
+
+Get(user, user)
+
+Get(media, media)
+
+//GetUserYesNo(usingBeads, Beads in Wells?, Are you using beads in the wells of the growth plates?)
+
+//Venus method constrains 200<=cultureVolume<=500
+Set(cultureVolume, 500)
+//If({usingBeads} == Yes, Set(cultureVolume, 450))
+
+/////////////////////////////////////////////////////////////////
+//Hamilton Venus Methods, in the order that they get run
+Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
+Set(nonSelectivePlateMethod, Plate 2.1D gradient plate prep.hsl)
+Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
+//Plate pre-heating method takes 12m:16s to run
+Set(preHeatPlateTime, 736)
+Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
+Set(doubleGradMethod, Double 2D gradient plate prep.hsl)
+/////////////////////////////////////////////////////////////////
+
+
+Get(strain, strain1, Select the bacteria strain used for the protocol:)
+Get(plasmid, plasmid1, Select the plasmid used for the protocol:)
+
+Get(additive, inducer)
+Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:)
+
+Get(additive, leftAdditive, Select the additive for the left-side gradient)
+Get(concentration, leftAdditiveStock, Enter the concentration of the {leftAdditive} starting stock:)
+
+Get(additive, rightAdditive, Select the additive for the right-side gradient)
+Get(concentration, rightAdditiveStock, Enter the concentration of the {rightAdditive} starting stock:)
+
+Get(note, note)
+
+GetExpID({startDateTime}_{inducer}_{leftAdditive}_{rightAdditive}_2DGrad-5-plates)
+
+//review experiment ok/abort dialog
+Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
+Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1}\n\n)
+Set(msg3, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n \tLeft-side additive:  \t{leftAdditive}, stock concentration: {leftAdditiveStock}\n)
+Set(msg4, \tRight-side additive:  \t{rightAdditive}, stock concentration: {rightAdditiveStock}\n  \n)
+Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
+UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2} {msg3} {msg4} {msg5})
+
+Set(msg1, Set up the STAR deck layout as shown.)
+UserPrompt(STAR Deck Layout, {msg1}, {protocolDir}\Double 2D Gradient Layout.PNG, 1000)
+
+Set(msg1, Close the front cover on the STAR.\n)
+Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
+Set(msg3, Check that all the doors of the S-Cell system are closed.\n)
+Set(msg4, Then clisk 'OK' to start the protocol.\n)
+UserPrompt(Ready to Start, {msg1}{msg2}{msg3}{msg4}, {lmsfImageDirectory}\dialog-warning.png)
+
+//Lid movement test
+UserPrompt(Lid Movement Test, Switch to the STAR computer and observe the lid movement test.)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Pre-run lid test.hsl)
+Timer(100)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+UserPrompt(Lid Movement Test, If the STAR sucessfully moved the lids click 'OK' to start the protocol.)
+// end lid movement test
+
+
+WaitFor(Overlord)
+//End User input and Overlord initialization section
+//////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////
+//Run the protocol
+////////////////////////////////////////////////////////////////////////////////////
+
+//--- 0 ------------------------------------------------------------------------------
+//Set up the initial allocation of tips
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Double 2D Gradient\Starting Tips.lmsf)
+
+//Test readers
+Gen5({mainReader}, CarrierOut)
+Gen5({reader2b}, CarrierOut)
+Gen5({reader3b}, CarrierOut)
+WaitFor({mainReader}, false)
+WaitFor({reader2b}, false)
+WaitFor({reader3b}, false)
+Set(msg, Readers {mainReader}, {reader2b}, and {reader3b} should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+Gen5({mainReader}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader2b}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader3b}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+
+//--- 1 ------------------------------------------------------------------------------
+Set(plateNum, 1)
+Set(platesInStack, 5)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+WaitFor({mainReader}, false)
+WaitFor({reader2b}, false)
+WaitFor({reader3b}, false)
+
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+GetTimeNow(readStartTime)
+
+Math(readEndTime, {readStartTime} + {overNightProtocolTime})
+
+Timer({overnightWait})
+WaitFor(Timer)
+
+//--- 2 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+Set(dilutionFactor, 50)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
+Math(tips300Index, {tips300Index} - 1)
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2220)
+Timer({pipetteStartTime})
+WaitFor(Timer)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
+Timer(840)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, CarrierIn)
+WaitFor({mainReader}, false)
+
+Set(keepOldGrowthPlate, false)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(120)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+GetTimeNow(readStartTime)
+
+Math(readEndTime, {readStartTime} + {repeatProtocolTime})
+
+//--- 3 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+Set(dilutionFactor, 10)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
+Math(tips300Index, {tips300Index} - 1)
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2400)
+Timer({pipetteStartTime})
+WaitFor(Timer)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+Set(gradPlateNum, 1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{doubleGradMethod})
+Timer(2100)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Timer({readEndTime})
+WaitFor(Timer)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, CarrierIn)
+WaitFor({mainReader}, false)
+
+Set(keepOldGrowthPlate, true)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(120)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+GetTimeNow(readStartTime)
+
+Math(readEndTime, {readStartTime} + {repeatProtocolTime})
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
+WaitFor(S-Cell-STAR)
+
+Gen5({reader2b}, CarrierOut)
+WaitFor({reader2b}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader2b}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Math(oldPlateNum, {plateNum} - 1)
+Gen5({reader2b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
+
+//--- 4 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
+Math(tips300Index, {tips300Index} - 1)
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2400)
+Timer({pipetteStartTime})
+WaitFor(Timer)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+Set(gradPlateNum, 2)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{doubleGradMethod})
+Timer(2100)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Timer({readEndTime})
+WaitFor(Timer)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, CarrierIn)
+WaitFor({mainReader}, false)
+
+Set(keepOldGrowthPlate, true)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(120)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+GetTimeNow(readStartTime)
+
+Math(readEndTime, {readStartTime} + {repeatProtocolTime})
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
+WaitFor(S-Cell-STAR)
+
+Gen5({reader3b}, CarrierOut)
+WaitFor({reader3b}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader3b}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Math(oldPlateNum, {plateNum} - 1)
+Gen5({reader3b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
+
+//--- 5 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
+Math(tips300Index, {tips300Index} - 1)
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2400)
+Timer({pipetteStartTime})
+WaitFor(Timer)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+Set(gradPlateNum, 3)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{doubleGradMethod})
+Timer(2100)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Timer({readEndTime})
+WaitFor(Timer)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, CarrierIn)
+WaitFor({mainReader}, false)
+
+Set(keepOldGrowthPlate, true)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(120)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {lastProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+GetTimeNow(readStartTime)
+
+Math(readEndTime, {readStartTime} + {lastProtocolTime})
+
+Timer({readEndTime})
+WaitFor(Timer)
+
+//---6--------------------------------------------------------------------------------------
+
+WaitFor({mainReader})
+WaitFor({reader2b})
+WaitFor({reader3b})
+
+SaveXML()
+
+CopyRemoteFiles()
+
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
+WaitFor(Overlord)
