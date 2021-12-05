@@ -305,9 +305,18 @@ Math(DNAPlateNumber, {DNAPlateNumber} + 1)
 
 //--- Clean up --------------------------------------------------------------------------------------
 
+
 SaveXML()
 
 CopyRemoteFiles()
 
 Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
 WaitFor(Overlord)
+
+//Prompt user to turn off the compressor for the MPE
+UserPrompt(Turn Off Compressor, Turn off the compressor and vent line to MPE2.)
+//Prompt user to clean up DNA extraction reagents and labware onto the deck
+UserPrompt(DNA Extraction Reagents, Switch to the STAR computer and clean up the DNA extraction reagents as instructed.)
+//This method also turns off the HHCs for reagent temperature control.
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Clean up DNA extraction reagents.hsl)
+WaitFor(S-Cell-STAR)
