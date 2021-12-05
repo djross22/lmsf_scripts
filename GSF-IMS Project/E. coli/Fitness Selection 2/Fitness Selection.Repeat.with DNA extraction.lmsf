@@ -80,12 +80,12 @@ Overlord({centrifugeSpinPlate}, [STAR.Plate.Handling.Labware.Name] "Tips1000" [S
 Math(tips1000Index, {tips1000Index} - 1)
 
 //Prompt user to turn on the compressor for the MPE
-If(DNAPlateNumber==1, UserPrompt(Turn On Compressor, Turn on the compressor and open valves to MPE2.))
+If({DNAPlateNumber}==1, UserPrompt(Turn On Compressor, Turn on the compressor and open valves to MPE2.))
 //Prompt user to put DNA extraction reagents and labware onto the deck
-If(DNAPlateNumber==1, UserPrompt(DNA Extraction Reagents, Switch to the STAR computer and add the DNA extraction reagents as instructed.))
+If({DNAPlateNumber}==1, UserPrompt(DNA Extraction Reagents, Switch to the STAR computer and add the DNA extraction reagents as instructed.))
 //This method also turns on the HHCs for reagent temperature control.
-If(DNAPlateNumber==1, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Set up DNA extraction reagents.hsl))
-If(DNAPlateNumber==1, WaitFor(S-Cell-STAR))
+If({DNAPlateNumber}==1, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Set up DNA extraction reagents.hsl))
+If({DNAPlateNumber}==1, WaitFor(S-Cell-STAR))
 
 WaitFor(Overlord)
 
