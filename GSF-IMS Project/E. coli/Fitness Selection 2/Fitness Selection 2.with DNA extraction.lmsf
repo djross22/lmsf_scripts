@@ -1,0 +1,313 @@
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set(isPipetting, true)
+//isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
+Set(isDebugging, false)
+
+//manualSeal controls whether sealing is manual or automatic
+//Set(manualSeal, Yes)
+Set(manualSeal, No)
+
+/////////////////////////////////////////////////////////////////
+//Read in commonly used directories
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Fitness Selection 2.With DNA Extraction)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Set directories for  .hsl, .opv, and .prt files that are specific to this experiment
+// Overlord protocols are the same as for the last version
+Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
+Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Hamilton Venus Methods, in the order that they get run
+Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
+Set(nonSelectiveGradientMethod, Inducer gradient plate prep.hsl)
+Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
+//Plate pre-heating method takes 12m:16s to run
+Set(preHeatPlateTime, 736)
+Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
+Set(selectiveGradientMethod, Inducer gradient plus selector plate prep.hsl)
+Set(combineToSpinPlateMethod, Combine old GP wells into Spin Plate.hsl)
+Set(dnaExtractionMethod, DNA Extraction.hsl)
+Set(moveOldPlateMethod, Move Old GP to parking.hsl)
+Set(setUpExtractionMethod, Set up DNA extraction reagents.hsl)
+Set(cleanUpExtractionMethod, Clean up DNA extraction reagents.hsl)
+
+//Venus method constrains 200<=cultureVolume<=500
+Set(cultureVolume, 500)
+
+/////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////
+//Gen5 protocols to be run and associated timers:
+//Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.Ex500Em530.prt)
+Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.Ex500Em530.prt)
+//overNightProtocolTime = nominal run time + 300
+//Set(overNightProtocolTime, 57900)
+Set(overNightProtocolTime, 43500)
+
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.37C.1C.Ex500Em530.prt)
+//repeatProtocolTime = nominal run time + 300
+Set(repeatProtocolTime, 9600)
+
+//Gen5 protocol for testing readers at beginning of run to give consistent starting state
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
+/////////////////////////////////////////////////////////////////
+
+//Set readers to be used
+Set(mainReader, Neo)
+
+/////////////////////////////////////
+//This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
+Set(isTesting, false)
+GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
+
+Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt)
+If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt))
+//overNightProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(overNightProtocolTime, 2400))
+If({isTesting}==Yes, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt))
+//repeatProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(repeatProtocolTime, 2100))
+/////////////////////////////////////////
+
+/////////////////////////////////////////
+//Set any other short-hand dictionary keys that will be used repeatedly
+Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+Set(getNewTips, {ovpCommDirectory}\Labware\Move Tips from Carousel to STAR.ovp)
+Set(clearTipRackOvp, {ovpCommDirectory}\Labware\Move Tips from STAR to Waste.ovp)
+Set(getNewSpinPlate, {ovpCommDirectory}\Labware\Move DWP from stack 9 to STAR.ovp)
+Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DWP.ovp)
+/////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+//User input and Overlord initialization section
+
+StartPrompt(E. Coli Fitness Selection, {scriptDir}\Fitness Selection 2.with DNA extraction-list.txt)
+
+UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 144 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 160 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there is a full rack of 1000 uL tips in the Offset pickup position on the deck of the STAR., {lmsfImageDirectory}\Tip supports Offset.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there is a full rack of 3.2 mm wide-bore tips in the indicated tip support on the deck of the STAR., {lmsfImageDirectory}\Tip support Wide-Bore.PNG)
+
+UserPrompt(Check STAR MPE2 Waste, Make sure that the MPE2 waste bottle is empty.)
+
+Set(msg2, Make sure there are at least six racks of 1000 uL tips in the PAA Carousel (hotel no. 1) and at least five racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
+UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotels 1-2.png)
+Set(tips50Index, 0)
+Set(tips300Index, 5)
+Set(tips1000Index, 6)
+
+NewXML(fitness selection)
+
+Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
+
+Get(user, user)
+
+Get(media, media)
+
+Get(strain, strain1, Select the bacteria strain used for the experiment:)
+Get(plasmid, plasmid1, Select the plasmid used for the experiment:)
+
+Get(additive, inducer, Select the inducer used for the experiment:)
+Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:)
+
+Get(additive, selector, Select the selector used for the experiment:)
+Get(concentration, selectorStock, Enter the concentration of the {selector} starting stock:)
+
+Get(note, note)
+
+GetExpID({startDate}_{inducer}_Select-DNA-5-plates)
+
+//review experiment ok/abort dialog
+Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
+Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1}\n\n)
+Set(msg3, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n)
+Set(msg4, \tSelector:\t\t\t{selector}, stock concentration: {selectorStock}\n  \n)
+Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
+UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3} {msg4} {msg5})
+
+Set(msg1, Set up the STAR deck layout as shown.)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.PNG, 1000)
+
+Set(msg1, Close the front cover on the STAR.\n)
+Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
+Set(msg3, Check that all the doors of the S-Cell system are closed.\n)
+Set(msg4, Then click 'OK' to start the experiment.\n)
+UserPrompt(Ready to Start, {msg1}{msg2}{msg3}{msg4}, {lmsfImageDirectory}\dialog-warning.png)
+
+//Lid movement test
+UserPrompt(Lid Movement Test, Switch to the STAR computer and observe the lid movement test.)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Pre-run lid test.No DNA extraction.hsl)
+Timer(100)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+UserPrompt(Lid Movement Test, If the STAR successfully moved the lids click 'OK' to start the experiment.)
+// end lid movement test
+
+
+WaitFor(Overlord)
+//End User input and Overlord initialization section
+//////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////
+//Run the protocol
+////////////////////////////////////////////////////////////////////////////////////
+
+//--- 0 ------------------------------------------------------------------------------
+
+//Test readers while 1st plate is pipetting
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+Set(msg, Plate reader {mainReader} should have its carrier out. \nVerify that the carrier is out and empty, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+Gen5({mainReader}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+
+Set(msg, Switch to STAR computer to edit tip counters, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Edit Tip Counters.hsl)
+WaitFor(S-Cell-STAR)
+
+//--- Plate 1 ------------------------------------------------------------------------------
+Set(plateNum, 1)
+Set(platesInStack, 5)
+Set(spinPlatesInStack, 4)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+WaitFor({mainReader}, false)
+
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+GetTimeNow(readStartTime)
+Math(readEndTime, {readStartTime} + {overNightProtocolTime})
+
+//--- Plate 2 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+Set(DNAPlateNumber, 1)
+
+//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
+Math(tips300Index, {tips300Index} - 1)
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2220)
+Timer({pipetteStartTime})
+WaitFor(Timer)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+Set(dilutionFactor, 50)
+Set(gradPlateNum, 1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectiveGradientMethod})
+WaitFor(S-Cell-STAR)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+WaitFor(S-Cell-STAR)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, CarrierIn)
+WaitFor({mainReader}, false)
+
+Set(keepOldGrowthPlate, false)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+WaitFor(S-Cell-STAR)
+
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+GetTimeNow(readStartTime)
+Math(readEndTime, {readStartTime} + {repeatProtocolTime})
+
+
+//--- Growth Plate 3 prep and DNA Extraction from Plate 2 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
+
+//--- Growth Plate 4 prep and DNA Extraction from Plate 3 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
+
+//--- Growth Plate 5 prep and DNA Extraction from Plate 4 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
+
+//--- DNA Extraction from Plate 5 -------------------------------------------------------------------
+Overlord({clearTipRackOvp})
+WaitFor(Overlord)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 32, tips300Need = 56)
+Timer({readEndTime})
+WaitFor(Timer)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, CarrierIn)
+WaitFor({mainReader}, false)
+
+Set(keepOldGrowthPlate, true)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{moveOldPlateMethod})
+WaitFor(S-Cell-STAR)
+
+//Move new spin plate for DNA extraction
+Overlord({getNewSpinPlate}, [Carousel.Stack.9.Labware.Count] {spinPlatesInStack})
+Math(spinPlatesInStack, {spinPlatesInStack} - 1)
+WaitFor(Overlord)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{combineToSpinPlateMethod})
+WaitFor(S-Cell-STAR)
+
+//Centrifuge the Spin plate and get new tips for DNA extraction
+Overlord({centrifugeSpinPlate}, [STAR.Plate.Handling.Labware.Name] "Tips1000" [STAR.Tip.1000.Index] {tips1000Index} [Centrifuge.Speed] 4500 [Centrifuge.Time] 600 [Centrifuge.Temperature] 23)
+Math(tips1000Index, {tips1000Index} - 1)
+WaitFor(Overlord)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{dnaExtractionMethod})
+WaitFor(S-Cell-STAR)
+Math(DNAPlateNumber, {DNAPlateNumber} + 1)
+
+
+
+//--- Clean up --------------------------------------------------------------------------------------
+
+SaveXML()
+
+CopyRemoteFiles()
+
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
+WaitFor(Overlord)
