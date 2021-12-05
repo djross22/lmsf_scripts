@@ -25,6 +25,8 @@ Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 Set(dilutionFactor, 10)
 Math(gradPlateNum, {gradPlateNum} + 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{selectiveGradientMethod})
+Timer(1000)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
@@ -32,6 +34,8 @@ Timer({preHeatStartTime})
 WaitFor(Timer)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 WaitFor({mainReader})
@@ -46,6 +50,8 @@ WaitFor({mainReader}, false)
 
 Set(keepOldGrowthPlate, true)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(180)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 Gen5({mainReader}, CarrierOut)
@@ -65,6 +71,8 @@ Math(spinPlatesInStack, {spinPlatesInStack} - 1)
 WaitFor(Overlord)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{combineToSpinPlateMethod})
+Timer(420)
+WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
 //Centrifuge the Spin plate and get new tips for DNA extraction
