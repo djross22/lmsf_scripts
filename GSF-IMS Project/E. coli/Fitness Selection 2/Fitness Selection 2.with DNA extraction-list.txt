@@ -20,4 +20,18 @@ Five full racks of standard-volume (300 uL) tips on the Carousel
 13 mL of selector (e.g. Tet) at 10x concentration (in column 3 of reagent plate)
 20 mL of bacteria stock (in 60 mL Hamilton reagent carrier on deck of STAR)
 
-Plates and reagents for four repetitions of the DNA extraction method
+Plates and reagents for four repetitions of the DNA extraction method:
+	Receiving Plate: Eppendorf 2 mL per well plate, with lid
+	Abgene 1.2 mL per well plate, with lid
+	Two 2-column Agilent reservoirs, with lids
+	Two 4-column Agilent reservoirs, with lids
+	Filter Plate: Agilent 5.0 um
+	Binding Plate: Nunc glass fiber
+	Ellution Plate: Eppendorf 350 uL per well plate, with lid
+	
+	100 mL Buffer PB
+	100 mL Buffer PE
+	40 mL Buffer P1
+	45 mL Buffer P2
+	25 mL Buffer N3
+	25 mL Hot DI water or Elution Buffer
