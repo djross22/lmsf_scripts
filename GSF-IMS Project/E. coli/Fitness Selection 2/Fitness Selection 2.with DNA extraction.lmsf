@@ -203,6 +203,9 @@ Gen5({mainReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{pla
 GetTimeNow(readStartTime)
 Math(readEndTime, {readStartTime} + {overNightProtocolTime})
 
+Set(msg1, Remove bacteria stock from deck and put in bio-waste.)
+UserPrompt(Dispose of Bacteria Stock, {msg1}, {scriptDir}\Bacteria stock.PNG, 1000)
+
 //--- Plate 2 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
 Set(DNAPlateNumber, 1)
