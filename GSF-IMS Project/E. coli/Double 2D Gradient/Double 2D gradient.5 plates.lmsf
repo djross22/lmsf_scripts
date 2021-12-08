@@ -45,15 +45,19 @@ Set(isTesting, false)
 GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
 
 Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.prt)
+
 If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 15m.37C.1C.prt))
-//overnightWait = nominal run time - 600
-If({isTesting}==Yes, Set(overnightWait, 30))
+//overNightProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(overNightProtocolTime, 1200))
+
 If({isTesting}==Yes, Set(repeatProtocol, {testProtocol}))
-//repeatWait = nominal run time - 2700
-If({isTesting}==Yes, Set(repeatWait, 30))
+//repeatProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(repeatProtocolTime, 900))
+
 If({isTesting}==Yes, Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.prt))
-//lastWait = nominal run time
-If({isTesting}==Yes, Set(lastWait, 30))
+//lastProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(lastProtocolTime, 900))
+
 If({isTesting}==Yes, Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.prt))
 /////////////////////////////////////////
 
@@ -133,11 +137,16 @@ Set(cultureVolume, 500)
 //Hamilton Venus Methods, in the order that they get run
 Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
 Set(nonSelectivePlateMethod, Plate 2.1D gradient plate prep.hsl)
+Set(nonSelectivePlateTime, 1170)
+
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 Set(preHeatPlateTime, 736)
+
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
+
 Set(doubleGradMethod, Double 2D gradient plate prep.hsl)
+Set(doubleGradTime, 2250)
 /////////////////////////////////////////////////////////////////
 
 
@@ -238,8 +247,6 @@ GetTimeNow(readStartTime)
 
 Math(readEndTime, {readStartTime} + {overNightProtocolTime})
 
-Timer({overnightWait})
-WaitFor(Timer)
 
 //--- 2 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
@@ -251,13 +258,15 @@ Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
-Math(pipetteStartTime, {readEndTime} - 2220)
+Math(pipetteWaitTime, {preHeatPlateTime} + {nonSelectivePlateTime})
+Math(pipetteWaitTime, {pipetteWaitTime} + 600)
+Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
 Timer({pipetteStartTime})
 WaitFor(Timer)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
-Timer(840)
+Timer(700)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
@@ -307,7 +316,9 @@ Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
-Math(pipetteStartTime, {readEndTime} - 2400)
+Math(pipetteWaitTime, {preHeatPlateTime} + {doubleGradTime})
+Math(pipetteWaitTime, {pipetteWaitTime} + 600)
+Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
 Timer({pipetteStartTime})
 WaitFor(Timer)
 
@@ -378,7 +389,9 @@ Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
-Math(pipetteStartTime, {readEndTime} - 2400)
+Math(pipetteWaitTime, {preHeatPlateTime} + {doubleGradTime})
+Math(pipetteWaitTime, {pipetteWaitTime} + 600)
+Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
 Timer({pipetteStartTime})
 WaitFor(Timer)
 
@@ -449,7 +462,9 @@ Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
-Math(pipetteStartTime, {readEndTime} - 2400)
+Math(pipetteWaitTime, {preHeatPlateTime} + {doubleGradTime})
+Math(pipetteWaitTime, {pipetteWaitTime} + 600)
+Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
 Timer({pipetteStartTime})
 WaitFor(Timer)
 
