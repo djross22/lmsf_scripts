@@ -11,7 +11,7 @@ Three rows of high-volume tips (36 tips) on the offset tip pickup position of th
 Four additional full racks of standard-volume (300 uL) tips on the Carousel
 
 300 mL of media
-16 mL of inducer at 10x concentration (in column 1 of reagent plate)
-13 mL of additive for left-side gradient (e.g. tet; in column 2 of reagent plate)
-13 mL of additive for right-side gradient (e.g. DOG; in column 3 of reagent plate)
+16 mL of inducer at 5x concentration (in column 1 of reagent plate)
+13 mL of additive at 5x concentration for left-side gradient (e.g. tet; in column 2 of reagent plate)
+13 mL of additive at 5x concentration for right-side gradient (e.g. DOG; in column 3 of reagent plate)
 10 mL of bacteria stock (in 60 mL Hamilton trough)
