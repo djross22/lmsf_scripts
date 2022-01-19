@@ -6,7 +6,7 @@ One Hamilton 60 mL trough, on deck of STAR
 A second Agilent 290 mL single reservoir, for liquid waste, without a lid, on deck of STAR
 
 120 high-volume (1000 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
-128 standard-volume (300 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
+142 standard-volume (300 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
 Three rows of high-volume tips (36 tips) on the offset tip pickup position of the STAR
 Five additional full racks of standard-volume (300 uL) tips on the Carousel
 
