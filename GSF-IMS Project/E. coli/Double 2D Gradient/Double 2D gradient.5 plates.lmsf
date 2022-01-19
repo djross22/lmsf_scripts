@@ -315,7 +315,79 @@ GetTimeNow(readStartTime)
 
 Math(readEndTime, {readStartTime} + {repeatProtocolTime})
 
+
 //--- 3 ----------------------------------------------------------------------------- 
+Set(startWithInducer, Yes)
+Math(plateNum, {plateNum} + 1)
+Set(dilutionFactor, 10)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
+Math(tips300Index, {tips300Index} - 1)
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteWaitTime, {preHeatPlateTime} + {nonSelectivePlateTime})
+Math(pipetteWaitTime, {pipetteWaitTime} + 600)
+Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
+Timer({pipetteStartTime})
+WaitFor(Timer)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectivePlateMethod})
+Timer(700)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, CarrierIn)
+WaitFor({mainReader}, false)
+
+Set(keepOldGrowthPlate, true)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(120)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+GetTimeNow(readStartTime)
+
+Math(readEndTime, {readStartTime} + {repeatProtocolTime})
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move old growth plate to handoff.hsl)
+WaitFor(S-Cell-STAR)
+
+Gen5({reader4b}, CarrierOut)
+WaitFor({reader4b}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader4b}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Math(oldPlateNum, {plateNum} - 1)
+Gen5({reader4b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
+
+//--- 4 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
 Set(dilutionFactor, 10)
 
@@ -389,7 +461,7 @@ WaitFor(Overlord)
 Math(oldPlateNum, {plateNum} - 1)
 Gen5({reader2b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
 
-//--- 4 ----------------------------------------------------------------------------- 
+//--- 5 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
@@ -462,7 +534,7 @@ WaitFor(Overlord)
 Math(oldPlateNum, {plateNum} - 1)
 Gen5({reader3b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
 
-//--- 5 ----------------------------------------------------------------------------- 
+//--- 6 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
