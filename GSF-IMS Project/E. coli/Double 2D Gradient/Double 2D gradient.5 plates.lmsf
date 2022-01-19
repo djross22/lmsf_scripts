@@ -38,6 +38,7 @@ Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 Set(mainReader, Neo)
 Set(reader2b, Epoch4)
 Set(reader3b, Epoch2)
+Set(reader4b, Epoch1)
 
 /////////////////////////////////////
 //This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
@@ -214,14 +215,17 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Double 
 Gen5({mainReader}, CarrierOut)
 Gen5({reader2b}, CarrierOut)
 Gen5({reader3b}, CarrierOut)
+Gen5({reader4b}, CarrierOut)
 WaitFor({mainReader}, false)
 WaitFor({reader2b}, false)
 WaitFor({reader3b}, false)
-Set(msg, Readers {mainReader}, {reader2b}, and {reader3b} should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
+WaitFor({reader4b}, false)
+Set(msg, Readers {mainReader}, {reader2b}, {reader3b}, and {reader4b} should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
 UserPrompt(Check Readers, {msg})
 Gen5({mainReader}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 Gen5({reader2b}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 Gen5({reader3b}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+Gen5({reader4b}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 
 //--- 1 ------------------------------------------------------------------------------
 Set(plateNum, 1)
