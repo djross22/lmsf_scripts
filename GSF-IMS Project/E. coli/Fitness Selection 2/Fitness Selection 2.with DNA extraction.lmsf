@@ -64,6 +64,7 @@ Set(mainReader, Neo)
 //This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
 Set(isTesting, false)
 GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
+If({isTesting}!=Yes, UserPrompt(Re-Boot STAR, Turn off the power to the Hamilton STAR; wait 10 seconds and turn it back on; then click 'OK' to continue., {lmsfImageDirectory}\dialog-warning.png))
 
 Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt)
 If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt))
