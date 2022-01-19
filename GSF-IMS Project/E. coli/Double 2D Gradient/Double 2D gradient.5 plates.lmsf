@@ -16,7 +16,7 @@ Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\D
 
 /////////////////////////////////////////////////////////////////
 //Gen5 protocols to be run and associated timers:
-Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
+Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.Ex500Em530.prt)
 //overNightProtocolTime = nominal run time + 300
 Set(overNightProtocolTime, 57900)
 
