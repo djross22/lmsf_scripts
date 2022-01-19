@@ -22,7 +22,7 @@ Set(overNightProtocolTime, 57900)
 
 Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.25m.37C.1C.Ex500Em530.prt)
 //repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 9600)
+Set(repeatProtocolTime, 12600)
 
 Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
 //lastProtocolTime = nominal run time + 300
@@ -225,7 +225,7 @@ Gen5({reader3b}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
 
 //--- 1 ------------------------------------------------------------------------------
 Set(plateNum, 1)
-Set(platesInStack, 5)
+Set(platesInStack, 6)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
 Math(platesInStack, {platesInStack} - 1)
