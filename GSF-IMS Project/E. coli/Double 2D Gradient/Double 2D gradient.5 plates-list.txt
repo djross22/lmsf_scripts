@@ -8,7 +8,7 @@ A second Agilent 290 mL single reservoir, for liquid waste, without a lid, on de
 120 high-volume (1000 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
 128 standard-volume (300 uL) tips, either in the tip supports on the STAR in a rack on the Carousel
 Three rows of high-volume tips (36 tips) on the offset tip pickup position of the STAR
-Four additional full racks of standard-volume (300 uL) tips on the Carousel
+Five additional full racks of standard-volume (300 uL) tips on the Carousel
 
 300 mL of media
 16 mL of inducer at 5x concentration (in column 1 of reagent plate)
