@@ -134,9 +134,13 @@ Get(media, media)
 Set(cultureVolume, 500)
 //If({usingBeads} == Yes, Set(cultureVolume, 450))
 
+GetUserYesNo(startWithInducer, Start with Inducer?, Do you want to include inducer in the first (overnight growth) plate?)
+
 /////////////////////////////////////////////////////////////////
 //Hamilton Venus Methods, in the order that they get run
 Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
+If({startWithInducer} == Yes, Set(startMethod, Plate 1.1D gradient plate prep.hsl))
+
 Set(nonSelectivePlateMethod, Plate 2.1D gradient plate prep.hsl)
 Set(nonSelectivePlateTime, 1170)
 
