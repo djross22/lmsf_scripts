@@ -321,7 +321,7 @@ Set(startWithInducer, Yes)
 Math(plateNum, {plateNum} + 1)
 Set(dilutionFactor, 10)
 
-Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
 Math(tips300Index, {tips300Index} - 1)
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
