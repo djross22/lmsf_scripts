@@ -24,6 +24,9 @@ Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.25m.
 //repeatProtocolTime = nominal run time + 300
 Set(repeatProtocolTime, 12600)
 
+Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane single read.37C.1C.prt)
+Set(singleReadProtocolTime, 68)
+
 Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
 //lastProtocolTime = nominal run time + 300
 Set(lastProtocolTime, 57900)
