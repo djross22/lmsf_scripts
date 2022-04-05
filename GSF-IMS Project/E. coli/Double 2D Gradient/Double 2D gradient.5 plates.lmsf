@@ -151,6 +151,8 @@ Set(nonSelectivePlateTime, 1170)
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 Set(preHeatPlateTime, 736)
+// Subtract 2 minutes (i.e., start preheat 2 minutes later) for single read 
+Math(preHeatPlateTime, {preHeatPlateTime} - 120)
 
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 
@@ -261,6 +263,7 @@ Math(readEndTime, {readStartTime} + {overNightProtocolTime})
 
 
 //--- 2 ----------------------------------------------------------------------------- 
+Set(oldPlateNum, {plateNum})
 Math(plateNum, {plateNum} + 1)
 Set(dilutionFactor, 50)
 
@@ -287,15 +290,31 @@ Timer({preHeatStartTime})
 WaitFor(Timer)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
-Timer(600)
+
+// Run the single-read during the pre-heat
+Timer({readEndTime})
 WaitFor(Timer)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Gen5.Reader2.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_{oldPlateNum}a, {dataDirectory})
+Timer({singleReadProtocolTime})
+WaitFor(Timer)
+
+// Now wait for pre-heat to finish
 WaitFor(S-Cell-STAR)
 
 WaitFor({mainReader})
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+// Plate is already peeled
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.No Peel.ovp, [Gen5.Reader.Name] "{mainReader}")
 WaitFor(Overlord)
 
 Gen5({mainReader}, CarrierIn)
@@ -321,6 +340,7 @@ Math(readEndTime, {readStartTime} + {repeatProtocolTime})
 
 //--- 3 ----------------------------------------------------------------------------- 
 Set(startWithInducer, Yes)
+Set(oldPlateNum, {plateNum})
 Math(plateNum, {plateNum} + 1)
 Set(dilutionFactor, 10)
 
@@ -347,15 +367,31 @@ Timer({preHeatStartTime})
 WaitFor(Timer)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
-Timer(600)
+
+// Run the single-read during the pre-heat
+Timer({readEndTime})
 WaitFor(Timer)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Gen5.Reader2.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_{oldPlateNum}a, {dataDirectory})
+Timer({singleReadProtocolTime})
+WaitFor(Timer)
+
+// Now wait for pre-heat to finish
 WaitFor(S-Cell-STAR)
 
 WaitFor({mainReader})
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+// Plate is already peeled
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.No Peel.ovp, [Gen5.Reader.Name] "{mainReader}")
 WaitFor(Overlord)
 
 Gen5({mainReader}, CarrierIn)
@@ -387,10 +423,10 @@ WaitFor({reader4b}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader4b}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
-Math(oldPlateNum, {plateNum} - 1)
 Gen5({reader4b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
 
 //--- 4 ----------------------------------------------------------------------------- 
+Set(oldPlateNum, {plateNum})
 Math(plateNum, {plateNum} + 1)
 Set(dilutionFactor, 10)
 
@@ -418,10 +454,8 @@ Timer({preHeatStartTime})
 WaitFor(Timer)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
-Timer(600)
-WaitFor(Timer)
-WaitFor(S-Cell-STAR)
 
+// Run the single-read during the pre-heat
 Timer({readEndTime})
 WaitFor(Timer)
 
@@ -429,7 +463,22 @@ WaitFor({mainReader})
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Gen5.Reader2.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_{oldPlateNum}a, {dataDirectory})
+Timer({singleReadProtocolTime})
+WaitFor(Timer)
+
+// Now wait for pre-heat to finish
+WaitFor(S-Cell-STAR)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+// Plate is already peeled
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.No Peel.ovp, [Gen5.Reader.Name] "{mainReader}")
 WaitFor(Overlord)
 
 Gen5({mainReader}, CarrierIn)
@@ -461,10 +510,10 @@ WaitFor({reader2b}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader2b}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
-Math(oldPlateNum, {plateNum} - 1)
 Gen5({reader2b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
 
 //--- 5 ----------------------------------------------------------------------------- 
+Set(oldPlateNum, {plateNum})
 Math(plateNum, {plateNum} + 1)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
@@ -491,10 +540,8 @@ Timer({preHeatStartTime})
 WaitFor(Timer)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
-Timer(600)
-WaitFor(Timer)
-WaitFor(S-Cell-STAR)
 
+// Run the single-read during the pre-heat
 Timer({readEndTime})
 WaitFor(Timer)
 
@@ -502,7 +549,22 @@ WaitFor({mainReader})
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Gen5.Reader2.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_{oldPlateNum}a, {dataDirectory})
+Timer({singleReadProtocolTime})
+WaitFor(Timer)
+
+// Now wait for pre-heat to finish
+WaitFor(S-Cell-STAR)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+// Plate is already peeled
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.No Peel.ovp, [Gen5.Reader.Name] "{mainReader}")
 WaitFor(Overlord)
 
 Gen5({mainReader}, CarrierIn)
@@ -534,10 +596,10 @@ WaitFor({reader3b}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader3b}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
-Math(oldPlateNum, {plateNum} - 1)
 Gen5({reader3b}, RunExp, {bPlateProtocol}, {experimentId}_growth-plate_{oldPlateNum}b, {dataDirectory})
 
 //--- 6 ----------------------------------------------------------------------------- 
+Set(oldPlateNum, {plateNum})
 Math(plateNum, {plateNum} + 1)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
@@ -564,10 +626,8 @@ Timer({preHeatStartTime})
 WaitFor(Timer)
 
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
-Timer(600)
-WaitFor(Timer)
-WaitFor(S-Cell-STAR)
 
+// Run the single-read during the pre-heat
 Timer({readEndTime})
 WaitFor(Timer)
 
@@ -575,7 +635,22 @@ WaitFor({mainReader})
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Gen5.Reader2.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_{oldPlateNum}a, {dataDirectory})
+Timer({singleReadProtocolTime})
+WaitFor(Timer)
+
+// Now wait for pre-heat to finish
+WaitFor(S-Cell-STAR)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+// Plate is already peeled
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.No Peel.ovp, [Gen5.Reader.Name] "{mainReader}")
 WaitFor(Overlord)
 
 Gen5({mainReader}, CarrierIn)
@@ -593,15 +668,27 @@ WaitFor({mainReader}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
 WaitFor(Overlord)
 
-Gen5({mainReader}, RunExp, {lastProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
 GetTimeNow(readStartTime)
 
-Math(readEndTime, {readStartTime} + {lastProtocolTime})
+Math(readEndTime, {readStartTime} + {repeatProtocolTime})
 
 Timer({readEndTime})
 WaitFor(Timer)
 
-//---6--------------------------------------------------------------------------------------
+// single read for last plate
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Gen5.Reader2.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_{oldPlateNum}a, {dataDirectory})
+Timer({singleReadProtocolTime})
+WaitFor(Timer)
+
+//---cleanup--------------------------------------------------------------------------------------
 
 WaitFor({mainReader})
 WaitFor({reader2b})
