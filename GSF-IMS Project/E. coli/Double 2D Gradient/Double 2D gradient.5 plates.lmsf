@@ -597,7 +597,7 @@ WaitFor({mainReader}, false)
 Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Gen5.Reader2.Name] "{mainReader}")
 WaitFor(Overlord)
 
-Gen5({mainReader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_{oldPlateNum}a, {dataDirectory})
+Gen5({mainReader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_{plateNum}a, {dataDirectory})
 Timer({singleReadProtocolTime})
 WaitFor(Timer)
 
