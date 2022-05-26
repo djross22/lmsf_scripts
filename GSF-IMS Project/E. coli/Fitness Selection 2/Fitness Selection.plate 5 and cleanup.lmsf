@@ -1,0 +1,61 @@
+// sub-script for DNA Extraction from Plate 5 and cleanup ----------------------------------------------------
+
+Overlord({clearTipRackOvp})
+WaitFor(Overlord)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 72, tips300Need = 56)
+Timer({readEndTime})
+WaitFor(Timer)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, CarrierIn)
+WaitFor({mainReader}, false)
+
+Set(keepOldGrowthPlate, true)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{moveOldPlateMethod})
+WaitFor(S-Cell-STAR)
+
+//Move new spin plate for DNA extraction
+Overlord({getNewSpinPlate}, [Carousel.Stack.9.Labware.Count] {spinPlatesInStack})
+Math(spinPlatesInStack, {spinPlatesInStack} - 1)
+WaitFor(Overlord)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{combineToSpinPlateMethod})
+Timer(420)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+//Centrifuge the Spin plate and get new tips for DNA extraction
+Overlord({centrifugeSpinPlate}, [STAR.Plate.Handling.Labware.Name] "Tips1000" [STAR.Tip.1000.Index] {tips1000Index} [Centrifuge.Speed] 4500 [Centrifuge.Time] 600 [Centrifuge.Temperature] 23)
+Math(tips1000Index, {tips1000Index} - 1)
+WaitFor(Overlord)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{dnaExtractionMethod})
+Timer(3300)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+Math(DNAPlateNumber, {DNAPlateNumber} + 1)
+
+//--- Clean up --------------------------------------------------------------------------------------
+
+
+SaveXML()
+
+CopyRemoteFiles()
+
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
+WaitFor(Overlord)
+
+//Prompt user to turn off the compressor for the MPE
+UserPrompt(Turn Off Compressor, Turn off the compressor and vent line to MPE2.)
+//Prompt user to clean up DNA extraction reagents and labware onto the deck
+UserPrompt(DNA Extraction Reagents, Switch to the STAR computer and clean up the DNA extraction reagents as instructed.)
+//This method also turns off the HHCs for reagent temperature control.
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Clean up DNA extraction reagents.hsl)
+WaitFor(S-Cell-STAR)
