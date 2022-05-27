@@ -77,15 +77,19 @@ Get(concentration, selectorStock, Enter the concentration of the {selector} star
 
 Get(note, note)
 
-GetExpID({startDate}_{inducer}_Select-DNA-5-plates)
+GetExpID({startDate}_three_inducers_Select-DNA-5-plates)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
 Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1}\n\n)
-Set(msg3, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n)
+
+Set(msg3a, \tInducer 1: \t\t{inducer1}, stock concentration: {inducer1Stock}\n)
+Set(msg3b, \tInducer 2: \t\t{inducer2}, stock concentration: {inducer2Stock}\n)
+Set(msg3c, \tInducer 3: \t\t{inducer3}, stock concentration: {inducer3Stock}\n)
+
 Set(msg4, \tSelector:\t\t\t{selector}, stock concentration: {selectorStock}\n  \n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
-UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3} {msg4} {msg5})
+UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3a}{msg3b}{msg3c} {msg4} {msg5})
 
 Set(msg1, Set up the STAR deck layout as shown.)
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.PNG, 1000)
