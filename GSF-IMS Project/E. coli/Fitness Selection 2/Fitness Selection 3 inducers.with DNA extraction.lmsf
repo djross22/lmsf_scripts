@@ -63,8 +63,14 @@ Set(mainReader, Neo)
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.lmsf)
 
-Get(additive, inducer, Select the inducer used for the experiment:)
-Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:)
+Get(additive, inducer1, Select the first inducer used for the experiment:)
+Get(concentration, inducer1Stock, Enter the concentration of the {inducer1} starting stock:)
+
+Get(additive, inducer2, Select the second inducer used for the experiment:)
+Get(concentration, inducer2Stock, Enter the concentration of the {inducer2} starting stock:)
+
+Get(additive, inducer3, Select the third inducer used for the experiment:)
+Get(concentration, inducer3Stock, Enter the concentration of the {inducer3} starting stock:)
 
 Get(additive, selector, Select the selector used for the experiment:)
 Get(concentration, selectorStock, Enter the concentration of the {selector} starting stock:)
