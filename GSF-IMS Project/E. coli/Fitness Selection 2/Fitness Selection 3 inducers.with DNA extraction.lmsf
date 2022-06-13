@@ -28,7 +28,7 @@ Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 Set(preHeatPlateTime, 736)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
-Set(selectiveGradientMethod, Three inducer gradient plus selector plate prep.hsl)
+Set(selectiveGradientMethod, Three inducer gradient plate prep.hsl)
 Set(combineToSpinPlateMethod, Combine old GP wells into Spin Plate.hsl)
 Set(dnaExtractionMethod, DNA Extraction.hsl)
 Set(moveOldPlateMethod, Move Old GP to parking.hsl)
