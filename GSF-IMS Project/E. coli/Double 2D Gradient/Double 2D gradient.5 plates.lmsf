@@ -174,6 +174,13 @@ Set(doubleGradTime, 2250)
 Get(strain, strain1, Select the bacteria strain used for the protocol:)
 Get(plasmid, plasmid1, Select the plasmid used for the protocol:)
 
+Set(useTwoStrains, No)
+Set(strain2, none)
+Set(plasmid2, none)
+GetUserYesNo(useTwoStrains, Two Strains?, Do you want to use a second strain for the right-side gradient?)
+If({useTwoStrains}==Yes, Get(strain, strain2, Select the bacteria strain used for the right-side gradient:))
+If({useTwoStrains}==Yes, Get(plasmid, plasmid2, Select the plasmid used for the right-side gradient:))
+
 Get(additive, inducer)
 Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:)
 
