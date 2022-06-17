@@ -16,24 +16,31 @@ Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\D
 
 /////////////////////////////////////////////////////////////////
 //Gen5 protocols to be run and associated timers:
+
+// ****** For LacI project: **********************
 Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.Ex500Em530.prt)
 //overNightProtocolTime = nominal run time + 300
 Set(overNightProtocolTime, 57900)
 
-// For LacI project:
 Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.37C.1C.Ex500Em530.prt)
 //repeatProtocolTime = nominal run time + 300
 Set(repeatProtocolTime, 9600)
+// **************************************************
 
 // For RamR project:
 //Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 4h.37C.1C.Ex500Em530.prt)
 //repeatProtocolTime = nominal run time + 300
 //Set(repeatProtocolTime, 14700)
 
-// For CymR project:
+// ***** For CymR project: *****************************
+Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.Ex569Em593.prt)
+//overNightProtocolTime = nominal run time + 300
+Set(overNightProtocolTime, 57900)
+
 Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt)
 //repeatProtocolTime = nominal run time + 300
 Set(repeatProtocolTime, 11100)
+// ****************************************************
 
 Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane single read.37C.1C.prt)
 Set(singleReadProtocolTime, 68)
