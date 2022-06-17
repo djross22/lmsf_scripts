@@ -30,6 +30,11 @@ Set(repeatProtocolTime, 9600)
 //repeatProtocolTime = nominal run time + 300
 //Set(repeatProtocolTime, 14700)
 
+// For CymR project:
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt)
+//repeatProtocolTime = nominal run time + 300
+Set(repeatProtocolTime, 11100)
+
 Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane single read.37C.1C.prt)
 Set(singleReadProtocolTime, 68)
 
