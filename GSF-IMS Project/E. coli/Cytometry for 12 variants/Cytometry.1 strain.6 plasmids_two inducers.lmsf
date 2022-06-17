@@ -62,9 +62,9 @@ Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h
 //overNightProtocolTime2 = nominal run time + 300
 Set(overNightProtocolTime2, 47700)
 
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.30m.37C.1C.Ex569Em593.prt)
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt)
 //repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 12900)
+Set(repeatProtocolTime, 11100)
 // **********************************
 
 // ***** For RamR project *****
