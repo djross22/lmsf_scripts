@@ -196,11 +196,13 @@ GetExpID({startDate}_{inducer}_{leftAdditive}_{rightAdditive}_2DGrad-5-plates)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
-Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1}\n\n)
+Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1})
+Set(msg2a, \n\n)
+If({useTwoStrains}==Yes, Set(msg2a, \n\tBacteria 2: \t\t\t{strain2}, with {plasmid2}\n\n))
 Set(msg3, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n \tLeft-side additive:  \t{leftAdditive}, stock concentration: {leftAdditiveStock}\n)
 Set(msg4, \tRight-side additive:  \t{rightAdditive}, stock concentration: {rightAdditiveStock}\n  \n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
-UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2} {msg3} {msg4} {msg5})
+UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2}{msg2a} {msg3} {msg4} {msg5})
 
 Set(msg1, Set up the STAR deck layout as shown.)
 UserPrompt(STAR Deck Layout, {msg1}, {protocolDir}\Double 2D Gradient Layout.PNG, 1000)
