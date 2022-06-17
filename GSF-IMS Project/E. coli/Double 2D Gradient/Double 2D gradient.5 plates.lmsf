@@ -188,6 +188,8 @@ GetUserYesNo(useTwoStrains, Two Strains?, Do you want to use a second strain for
 If({useTwoStrains}==Yes, Get(strain, strain2, Select the bacteria strain used for the right-side gradient:))
 If({useTwoStrains}==Yes, Get(plasmid, plasmid2, Select the plasmid used for the right-side gradient:))
 
+UserPrompt(Inducer and additive stocks, Inducer and additive stocks should be at 5x concentration\n relative to the maximum concentration that will be measured.)
+
 Get(additive, inducer)
 Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:)
 
