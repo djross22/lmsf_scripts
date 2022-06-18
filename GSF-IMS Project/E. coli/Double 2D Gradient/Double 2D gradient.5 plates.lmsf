@@ -299,7 +299,7 @@ WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
 Math(pipetteWaitTime, {preHeatPlateTime} + {nonSelectivePlateTime})
-Math(pipetteWaitTime, {pipetteWaitTime} + 600)
+Math(pipetteWaitTime, {pipetteWaitTime} + 1800)
 Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
 Timer({pipetteStartTime})
 WaitFor(Timer)
@@ -375,7 +375,7 @@ WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
 Math(pipetteWaitTime, {preHeatPlateTime} + {doubleGradTime})
-Math(pipetteWaitTime, {pipetteWaitTime} + 600)
+Math(pipetteWaitTime, {pipetteWaitTime} + 1800)
 Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
 Timer({pipetteStartTime})
 WaitFor(Timer)
@@ -461,7 +461,7 @@ WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
 Math(pipetteWaitTime, {preHeatPlateTime} + {doubleGradTime})
-Math(pipetteWaitTime, {pipetteWaitTime} + 600)
+Math(pipetteWaitTime, {pipetteWaitTime} + 1800)
 Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
 Timer({pipetteStartTime})
 WaitFor(Timer)
@@ -547,7 +547,7 @@ WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
 Math(pipetteWaitTime, {preHeatPlateTime} + {doubleGradTime})
-Math(pipetteWaitTime, {pipetteWaitTime} + 600)
+Math(pipetteWaitTime, {pipetteWaitTime} + 1800)
 Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
 Timer({pipetteStartTime})
 WaitFor(Timer)
