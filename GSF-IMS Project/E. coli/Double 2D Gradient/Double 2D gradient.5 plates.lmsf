@@ -27,19 +27,20 @@ Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.
 Set(repeatProtocolTime, 9600)
 // **************************************************
 
-// For RamR project:
+// ***** For RamR project: *******************************
 //Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 4h.37C.1C.Ex500Em530.prt)
 //repeatProtocolTime = nominal run time + 300
 //Set(repeatProtocolTime, 14700)
+// ****************************************************
 
 // ***** For CymR project: *****************************
-Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.Ex569Em593.prt)
+//Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.Ex569Em593.prt)
 //overNightProtocolTime = nominal run time + 300
-Set(overNightProtocolTime, 57900)
+//Set(overNightProtocolTime, 57900)
 
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt)
+//Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt)
 //repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 11100)
+//Set(repeatProtocolTime, 11100)
 // ****************************************************
 
 Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane single read.37C.1C.prt)
@@ -56,7 +57,7 @@ Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 /////////////////////////////////////////////////////////////////
 
 //Set readers to be used
-Set(mainReader, Neo2)
+Set(mainReader, Neo)
 Set(reader2b, Epoch1)
 Set(reader3b, Epoch2)
 
