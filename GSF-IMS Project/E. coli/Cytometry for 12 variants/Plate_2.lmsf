@@ -13,7 +13,7 @@ Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
-Math(pipetteStartTime, {readEndTime} - 2220)
+Math(pipetteStartTime, {readEndTime} - 2700)
 Timer({pipetteStartTime})
 WaitFor(Timer)
 
@@ -25,7 +25,7 @@ Set(gradPlateNum, 1)
 //    used by the Hamilton Venus program to determine which column in the Abgene plate to use for starting the inducer gradient
 Math(sequenceNum, {sequenceNum} + 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectiveGradientMethod})
-Timer(840)
+Timer(900)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
