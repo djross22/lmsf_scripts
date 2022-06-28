@@ -122,16 +122,31 @@ UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.3 inducers.4 s
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
 
 //--- Add 1000 uL tips to STAR ---------------------
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 96, tips300Need = 0)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 96, tips300Need = 0, clearTipRack = true)
 
-//--- Growth Plate 3 prep and DNA Extraction from Plate 2 ----------------------------------------------------------------------------- 
+//--- Growth Plate 3 prep and OD Read from Plate 2 ----------------------------------------------------------------------------- 
+//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "false")
+Math(tips300Index, {tips300Index} - 1)
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
-//--- Growth Plate 4 prep and DNA Extraction from Plate 3 ----------------------------------------------------------------------------- 
+//--- Growth Plate 4 prep and OD Read from Plate 3 ----------------------------------------------------------------------------- 
+//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
+Math(tips300Index, {tips300Index} - 1)
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
-//--- Growth Plate 5 prep and DNA Extraction from Plate 4 ----------------------------------------------------------------------------- 
+//--- Growth Plate 5 prep and OD Read from Plate 4 ----------------------------------------------------------------------------- 
+//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
+Math(tips300Index, {tips300Index} - 1)
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
-//--- DNA Extraction from Plate 5 and cleanup -------------------------------------------------------------------
+//--- OD Read from Plate 5 and cleanup -------------------------------------------------------------------
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 single OD read.lmsf)
