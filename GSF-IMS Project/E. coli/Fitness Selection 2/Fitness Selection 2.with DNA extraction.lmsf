@@ -67,7 +67,9 @@ Get(strain, strain1, Select the bacteria strain used for the experiment:)
 Get(plasmid, plasmid1, Select the plasmid used for the experiment:)
 //Needed for Hamilton:
 Set(strain2, {strain1})
-Set(plasmid2, {plasmid1})
+Set(plasmid2, ignore)
+Set(plasmid3, ignore)
+Set(plasmid4, ignore)
 
 Get(additive, inducer, Select the inducer used for the experiment:)
 Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:)
