@@ -29,11 +29,6 @@ Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 Set(preHeatPlateTime, 736)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(selectiveGradientMethod, Three inducer gradient plate prep.hsl)
-Set(combineToSpinPlateMethod, Combine old GP wells into Spin Plate.hsl)
-Set(dnaExtractionMethod, DNA Extraction.hsl)
-Set(moveOldPlateMethod, Move Old GP to parking.hsl)
-Set(setUpExtractionMethod, Set up DNA extraction reagents.hsl)
-Set(cleanUpExtractionMethod, Clean up DNA extraction reagents.hsl)
 
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)

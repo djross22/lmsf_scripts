@@ -64,33 +64,3 @@ Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateN
 GetTimeNow(readStartTime)
 Math(readEndTime, {readStartTime} + {repeatProtocolTime})
 
-
-//Move new spin plate for DNA extraction
-Overlord({getNewSpinPlate}, [Carousel.Stack.9.Labware.Count] {spinPlatesInStack})
-Math(spinPlatesInStack, {spinPlatesInStack} - 1)
-WaitFor(Overlord)
-
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{combineToSpinPlateMethod})
-Timer(420)
-WaitFor(Timer)
-WaitFor(S-Cell-STAR)
-
-//Centrifuge the Spin plate and get new tips for DNA extraction
-Overlord({centrifugeSpinPlate}, [STAR.Plate.Handling.Labware.Name] "Tips1000" [STAR.Tip.1000.Index] {tips1000Index} [STAR.Tip.ClearWaste] "true" [Centrifuge.Speed] 4500 [Centrifuge.Time] 600 [Centrifuge.Temperature] 23)
-Math(tips1000Index, {tips1000Index} - 1)
-
-//Prompt user to turn on the compressor for the MPE
-If({DNAPlateNumber}==1, UserPrompt(Turn On Compressor, Turn on the compressor and open valves to MPE2.))
-//Prompt user to put DNA extraction reagents and labware onto the deck
-If({DNAPlateNumber}==1, UserPrompt(DNA Extraction Reagents, Switch to the STAR computer and add the DNA extraction reagents as instructed.))
-//This method also turns on the HHCs for reagent temperature control.
-If({DNAPlateNumber}==1, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Set up DNA extraction reagents.hsl))
-If({DNAPlateNumber}==1, WaitFor(S-Cell-STAR))
-
-WaitFor(Overlord)
-
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{dnaExtractionMethod})
-Timer(3300)
-WaitFor(Timer)
-WaitFor(S-Cell-STAR)
-Math(DNAPlateNumber, {DNAPlateNumber} + 1)
