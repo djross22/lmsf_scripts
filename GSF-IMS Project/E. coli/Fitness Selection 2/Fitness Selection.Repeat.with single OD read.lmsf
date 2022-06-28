@@ -1,0 +1,96 @@
+//Sub-script for plates 3, 4, 5...
+
+//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+Overlord({clearTipRackOvp})
+WaitFor(Overlord)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 96, tips300Need = 72)
+
+Overlord({getNewTips}, [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
+Math(tips300Index, {tips300Index} - 1)
+WaitFor(Overlord)
+
+//Set up timer to wait for reader to get close to finished before starting pipetting method
+Math(pipetteStartTime, {readEndTime} - 2220)
+
+Timer({pipetteStartTime})
+WaitFor(Timer)
+
+Math(plateNum, {plateNum} + 1)
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
+Set(dilutionFactor, 10)
+Math(gradPlateNum, {gradPlateNum} + 1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{selectiveGradientMethod})
+Timer(1000)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+WaitFor({mainReader})
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, CarrierIn)
+WaitFor({mainReader}, false)
+
+Set(keepOldGrowthPlate, true)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(180)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {repeatProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
+GetTimeNow(readStartTime)
+Math(readEndTime, {readStartTime} + {repeatProtocolTime})
+
+
+//Move new spin plate for DNA extraction
+Overlord({getNewSpinPlate}, [Carousel.Stack.9.Labware.Count] {spinPlatesInStack})
+Math(spinPlatesInStack, {spinPlatesInStack} - 1)
+WaitFor(Overlord)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{combineToSpinPlateMethod})
+Timer(420)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+//Centrifuge the Spin plate and get new tips for DNA extraction
+Overlord({centrifugeSpinPlate}, [STAR.Plate.Handling.Labware.Name] "Tips1000" [STAR.Tip.1000.Index] {tips1000Index} [STAR.Tip.ClearWaste] "true" [Centrifuge.Speed] 4500 [Centrifuge.Time] 600 [Centrifuge.Temperature] 23)
+Math(tips1000Index, {tips1000Index} - 1)
+
+//Prompt user to turn on the compressor for the MPE
+If({DNAPlateNumber}==1, UserPrompt(Turn On Compressor, Turn on the compressor and open valves to MPE2.))
+//Prompt user to put DNA extraction reagents and labware onto the deck
+If({DNAPlateNumber}==1, UserPrompt(DNA Extraction Reagents, Switch to the STAR computer and add the DNA extraction reagents as instructed.))
+//This method also turns on the HHCs for reagent temperature control.
+If({DNAPlateNumber}==1, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Set up DNA extraction reagents.hsl))
+If({DNAPlateNumber}==1, WaitFor(S-Cell-STAR))
+
+WaitFor(Overlord)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{dnaExtractionMethod})
+Timer(3300)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+Math(DNAPlateNumber, {DNAPlateNumber} + 1)
