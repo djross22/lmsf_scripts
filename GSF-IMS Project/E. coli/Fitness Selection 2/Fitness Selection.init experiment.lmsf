@@ -51,9 +51,3 @@ Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 Get(user, user)
 
 Get(media, media)
-
-Get(strain, strain1, Select the bacteria strain used for the experiment:)
-Get(plasmid, plasmid1, Select the plasmid used for the experiment:)
-//Needed for Hamilton:
-Set(strain2, {strain1})
-Set(plasmid2, {plasmid1})

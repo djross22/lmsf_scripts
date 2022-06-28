@@ -63,6 +63,14 @@ Set(mainReader, Neo)
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.lmsf)
 
+Get(strain, strain1, Select the bacteria strain used for the experiment:)
+Get(plasmid, plasmid1, Select the plasmid used for rows A and B: tube position 10)
+Get(plasmid, plasmid2, Select the plasmid used for rows C and D: tube position 11)
+Get(plasmid, plasmid3, Select the plasmid used for rows E and F: tube position 12)
+Get(plasmid, plasmid4, Select the plasmid used for rows G and H: tube position 13)
+//Needed for Hamilton:
+Set(strain2, {strain1})
+
 Get(additive, inducer1, Select the first inducer used for the experiment:)
 Get(concentration, inducer1Stock, Enter the concentration of the {inducer1} starting stock:)
 
