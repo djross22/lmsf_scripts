@@ -69,6 +69,9 @@ Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 //Set readers to be used
 Set(mainReader, Neo)
 
+//placeholder for plasmid4 - to avoid errors in init script
+Set(plasmid4, using)
+
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.lmsf)
 
@@ -101,7 +104,9 @@ GetExpID({startDate}_three_inducers_Select-DNA-5-plates)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
-Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1}\n\n)
+
+If({plasmid4}==ignore, Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1}\n\n))
+If({plasmid4}!=ignore, Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}\n\n \tPlasmids:\n\t\t{plasmid1}\n\t\t{plasmid2}\n\t\t{plasmid3}\n\t\t{plasmid4}\n\n))
 
 Set(msg3a, \tInducer 1: \t\t{inducer1}, stock concentration: {inducer1Stock}\n)
 Set(msg3b, \tInducer 2: \t\t{inducer2}, stock concentration: {inducer2Stock}\n)
