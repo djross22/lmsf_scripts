@@ -1,19 +1,14 @@
 Five 4titude growth plates, with lids, in stack 7 of the Carousel
-Four Eppendorf spin plates, with lids, in stack 9 of the Carousel
 
 One Agilent media reservoir with lid, on deck of STAR
 One Abgene plate, 1.2 mL per well, with lid, on deck of STAR
 One black Agilent 6-reservoir plate, with black lid, on deck of STAR
 
-192 high-volume (1000 uL) tips (2 full racks), in the tip supports on the STAR
+120 high-volume (1000 uL) tips, in the tip supports on the STAR
 160 standard-volume (300 uL) tips, in the tip supports on the STAR
 
-96 high-volume (1000 uL) tips, in the Offset tip pickup  support on the STAR
-
-96 wide-bore (3.2 mm) high-volume (1000 uL) tips, in the tip support on the STAR
-
-Six full racks of high-volume (10000 uL) tips on the Carousel
-Five full racks of standard-volume (300 uL) tips on the Carousel
+One full rack of high-volume (10000 uL) tips on the Carousel
+Four full racks of standard-volume (300 uL) tips on the Carousel
 
 300 mL of media
 15 mL of inducer at 10x concentration (in column 1 of reagent plate)
