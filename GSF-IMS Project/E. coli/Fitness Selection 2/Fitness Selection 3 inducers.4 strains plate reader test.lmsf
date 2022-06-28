@@ -24,6 +24,7 @@ Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fit
 //Hamilton Venus Methods, in the order that they get run
 Set(startMethod, Uniform non-selective plate prep plus 4 strains.hsl)
 Set(nonSelectiveGradientMethod, Three inducer gradient plate prep.hsl)
+Set(nonSelectivePlateTime, 2200)
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 Set(preHeatPlateTime, 736)
@@ -32,6 +33,7 @@ Math(preHeatPlateTime, {preHeatPlateTime} - 120)
 
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(selectiveGradientMethod, Three inducer gradient plate prep.hsl)
+Set(selectivePlateTime, 2200)
 
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
