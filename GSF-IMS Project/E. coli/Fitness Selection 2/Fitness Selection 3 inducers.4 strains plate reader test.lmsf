@@ -23,8 +23,9 @@ Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fit
 /////////////////////////////////////////////////////////////////
 //Hamilton Venus Methods, in the order that they get run
 Set(startMethod, Uniform non-selective plate prep plus 4 strains.hsl)
+Set(startMethodTime, 1600)
 Set(nonSelectiveGradientMethod, Three inducer gradient plate prep.hsl)
-Set(nonSelectivePlateTime, 2200)
+Set(nonSelectivePlateTime, 1140)
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 Set(preHeatPlateTime, 736)
@@ -33,7 +34,7 @@ Math(preHeatPlateTime, {preHeatPlateTime} - 120)
 
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(selectiveGradientMethod, Three inducer gradient plate prep.hsl)
-Set(selectivePlateTime, 2200)
+Set(selectivePlateTime, 1140)
 
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
@@ -77,6 +78,7 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness
 
 GetUserYesNo(startWithInducer, Start with Inducer?, Do you want to include inducer in the first (overnight growth) plate?)
 If({startWithInducer} == Yes, Set(startMethod, Three inducer gradient plate prep.hsl))
+If({startWithInducer} == Yes, Set(startMethodTime, 1800))
 
 Get(strain, strain1, Select the bacteria strain used for the experiment:)
 Get(plasmid, plasmid1, Select the plasmid used for rows A and B: tube position 10)

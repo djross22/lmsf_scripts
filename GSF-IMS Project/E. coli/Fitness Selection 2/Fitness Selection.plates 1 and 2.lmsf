@@ -52,7 +52,7 @@ Set(dilutionFactor, 10)
 Set(gradPlateNum, 0)
 If({startWithInducer} == Yes, Set(gradPlateNum, 1))
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startMethod})
-Timer(600)
+Timer({startMethodTime})
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 
