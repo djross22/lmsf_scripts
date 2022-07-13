@@ -26,6 +26,9 @@ Set(startMethod, Uniform non-selective plate prep plus 4 strains.hsl)
 Set(startMethodTime, 1600)
 Set(nonSelectiveGradientMethod, Three inducer gradient plate prep.hsl)
 Set(nonSelectivePlateTime, 1140)
+// fold-dilution across dilution series in nonSelectiveGradientMethod and selectiveGradientMethod:
+Set(dilutionSeriesFactor, 2.5)
+
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 Set(preHeatPlateTime, 736)
