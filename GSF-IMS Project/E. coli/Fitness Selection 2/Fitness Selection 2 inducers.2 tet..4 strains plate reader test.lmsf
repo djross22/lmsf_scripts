@@ -57,12 +57,6 @@ Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.
 //repeatProtocolTime = nominal run time + 300
 Set(repeatProtocolTime, 9600)
 
-// ***** For RamR project: *******************************
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3.5h.37C.1C.Ex500Em530.prt)
-//repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 12900)
-// ****************************************************
-
 Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane single read.37C.1C.prt)
 Set(singleReadProtocolTime, 68)
 
