@@ -104,7 +104,6 @@ Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}\n\n \tPlasmids:
 
 Set(msg3a, \tInducer 1: \t\t{inducer1}, stock concentration: {inducer1Stock}\n)
 Set(msg3b, \tInducer 2: \t\t{inducer2}, stock concentration: {inducer2Stock}\n)
-Set(msg3c, \tInducer 3: \t\t{inducer3}, stock concentration: {inducer3Stock}\n)
 
 Set(msg4, \tSelector 1:\t\t{selector1}, stock concentration: {selector1Stock}\n  \n)
 Set(msg4a, \tSelector 2:\t\t{selector2}, stock concentration: {selector2Stock}\n  \n)
@@ -115,6 +114,7 @@ Set(msg1, Set up the STAR deck layout as shown.)
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.2 inducers.2 tet.4 strains.PNG, 1000)
 
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
+Set(startWithInducer, No)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
 
 //--- Add 1000 uL tips to STAR ---------------------
