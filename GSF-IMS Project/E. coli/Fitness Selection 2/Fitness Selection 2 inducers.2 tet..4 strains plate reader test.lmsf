@@ -95,7 +95,7 @@ Get(concentration, selector2Stock, Enter the concentration of the {selector2} st
 
 Get(note, note)
 
-GetExpID({startDate}_three_inducers_OD-test-5-plates)
+GetExpID({startDate}_two-lig_two-sel_OD-test-5-plates)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
@@ -112,7 +112,7 @@ Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataD
 UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3a}{msg3b} {msg4}{msg4a} {msg5})
 
 Set(msg1, Set up the STAR deck layout as shown.)
-UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.3 inducers.4 strains.PNG, 1000)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.2 inducers.2 tet.4 strains.PNG, 1000)
 
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
