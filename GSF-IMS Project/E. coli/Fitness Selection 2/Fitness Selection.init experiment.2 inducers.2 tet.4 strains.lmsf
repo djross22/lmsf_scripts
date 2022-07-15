@@ -31,14 +31,14 @@ Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DW
 StartPrompt(E. Coli Fitness Selection, {scriptDir}\Fitness Selection 2 inducers.2 tet.4 strains.plate reader test-list.txt)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
-UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
-UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 160 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 120 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 168 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
 
-Set(msg2, Make sure there is one rack of 1000 uL tips in the PAA Carousel (hotel no. 1) and at least four racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
-UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotels 1-2.png)
+Set(msg2, Make sure there are at least four racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
+UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 2.png)
 Set(tips50Index, 0)
 Set(tips300Index, 4)
-Set(tips1000Index, 1)
+Set(tips1000Index, 0)
 
 NewXML(fitness selection)
 
