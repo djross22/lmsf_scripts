@@ -81,6 +81,10 @@ Set(plasmid4, ignore)
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.lmsf)
 
+GetUserYesNo(startWithInducer, Start with Inducer?, Do you want to include inducer in the first (overnight growth) plate? (Hint: RamR: Yes))
+If({startWithInducer} == Yes, Set(startMethod, Three inducer gradient plate prep.hsl))
+If({startWithInducer} == Yes, Set(startMethodTime, 1800))
+
 Get(strain, strain1, Select the bacteria strain used for the experiment:)
 Get(plasmid, plasmid1, Select the plasmid used for the experiment:)
 //Needed for Hamilton:
