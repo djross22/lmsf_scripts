@@ -75,6 +75,9 @@ Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 //Set readers to be used
 Set(mainReader, Neo2)
 
+//placeholder for plasmid4 - to avoid errors in init script
+Set(plasmid4, ignore)
+
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.lmsf)
 
