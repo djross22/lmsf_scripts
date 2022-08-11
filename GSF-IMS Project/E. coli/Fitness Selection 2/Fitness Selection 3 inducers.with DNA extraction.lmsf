@@ -94,16 +94,16 @@ Set(plasmid3, ignore)
 Set(plasmid4, ignore)
 
 Get(additive, inducer1, Select the first inducer used for the experiment:)
-Get(concentration, inducer1Stock, Enter the concentration of the {inducer1} starting stock:)
+Get(concentration, inducer1Stock, Enter the concentration of the {inducer1} starting stock (2x max concentration in plate):)
 
 Get(additive, inducer2, Select the second inducer used for the experiment:)
-Get(concentration, inducer2Stock, Enter the concentration of the {inducer2} starting stock:)
+Get(concentration, inducer2Stock, Enter the concentration of the {inducer2} starting stock (2x max concentration in plate):)
 
 Get(additive, inducer3, Select the third inducer used for the experiment:)
-Get(concentration, inducer3Stock, Enter the concentration of the {inducer3} starting stock:)
+Get(concentration, inducer3Stock, Enter the concentration of the {inducer3} starting stock (2x max concentration in plate):)
 
 Get(additive, selector, Select the selector used for the experiment:)
-Get(concentration, selectorStock, Enter the concentration of the {selector} starting stock:)
+Get(concentration, selectorStock, Enter the concentration of the {selector} starting stock (10x concentration in plate):)
 
 Get(note, note)
 
