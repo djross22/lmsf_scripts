@@ -71,6 +71,11 @@ Math(readEndTime, {readStartTime} + {overNightProtocolTime})
 Set(msg1, Remove bacteria stock from deck and put in bio-waste.)
 UserPrompt(Dispose of Bacteria Stock, {msg1}, {scriptDir}\Bacteria stock.PNG, 1000)
 
+// Need to manually add tips here if startWithInducer because the carousel needs all 6 tip shelves already. 
+Set(msg1, If running method with DNA extraction, switch to STAR computer and manually add a new rack of 1000 uL tips.)
+If({startWithInducer} == Yes, UserPrompt(Add 1000 tips, {msg1}))
+If({startWithInducer} == Yes, UserPrompt(Clear tip rack!, Clear tip rack from handoff position on STAR))
+
 //--- Plate 2 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
 Set(DNAPlateNumber, 1)
