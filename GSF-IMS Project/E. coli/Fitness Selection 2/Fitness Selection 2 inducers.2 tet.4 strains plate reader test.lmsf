@@ -118,27 +118,15 @@ Set(startWithInducer, No)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
 
 //--- Growth Plate 3 prep and OD Read from Plate 2 ----------------------------------------------------------------------------- 
-//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
-Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
-Math(tips300Index, {tips300Index} - 1)
-Math(platesInStack, {platesInStack} - 1)
-WaitFor(Overlord)
+// For for this experiment, need to clear waste tip rack (no new 1000s added after plate 2)
+Set(clear300TipWaste, true)
+
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
 //--- Growth Plate 4 prep and OD Read from Plate 3 ----------------------------------------------------------------------------- 
-//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
-Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
-Math(tips300Index, {tips300Index} - 1)
-Math(platesInStack, {platesInStack} - 1)
-WaitFor(Overlord)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
 //--- Growth Plate 5 prep and OD Read from Plate 4 ----------------------------------------------------------------------------- 
-//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
-Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
-Math(tips300Index, {tips300Index} - 1)
-Math(platesInStack, {platesInStack} - 1)
-WaitFor(Overlord)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
 //--- OD Read from Plate 5 and cleanup -------------------------------------------------------------------
