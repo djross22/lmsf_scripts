@@ -122,7 +122,7 @@ Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataD
 UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3a}{msg3b}{msg3c} {msg4} {msg5})
 
 Set(msg1, Set up the STAR deck layout as shown.)
-UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.PNG, 1000)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.3 inducers.PNG, 1000)
 
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
