@@ -71,7 +71,7 @@ Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 /////////////////////////////////////////////////////////////////
 
 //Set readers to be used
-Set(mainReader, Neo)
+Set(mainReader, Neo2)
 
 //placeholder for plasmid4 - to avoid errors in init script
 Set(plasmid4, using)
