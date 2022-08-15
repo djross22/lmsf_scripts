@@ -6,7 +6,7 @@ One Abgene plate, 1.2 mL per well, with lid, on deck of STAR
 One black Agilent 6-reservoir plate, with black lid, on deck of STAR
 
 192 high-volume (1000 uL) tips (2 full racks), in the tip supports on the STAR
-160 standard-volume (300 uL) tips, in the tip supports on the STAR
+192 standard-volume (300 uL) tips (2 full racks), in the tip supports on the STAR
 
 96 high-volume (1000 uL) tips, in the Offset tip pickup  support on the STAR
 
