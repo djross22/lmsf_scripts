@@ -41,10 +41,15 @@ UserPrompt(Check STAR Hamilton Tips, Make sure there is a full rack of 3.2 mm wi
 
 UserPrompt(Check STAR MPE2 Waste, Make sure that the MPE2 waste bottle is empty.)
 
-Set(msg2, Make sure there are at least six racks of 1000 uL tips in the PAA Carousel (hotel no. 1) and at least five racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
+Set(start300TipsText, five)
+Set(start300TipsStart, 5)
+If({usingThreeInducers}==true, Set(start300TipsText, seven))
+If({usingThreeInducers}==true, Set(start300TipsStart, 7))
+
+Set(msg2, Make sure there are at least six racks of 1000 uL tips in the PAA Carousel (hotel no. 1) and at least {start300TipsText} racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
 UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotels 1-2.png)
 Set(tips50Index, 0)
-Set(tips300Index, 5)
+Set(tips300Index, {start300TipsStart})
 Set(tips1000Index, 6)
 
 NewXML(fitness selection)
