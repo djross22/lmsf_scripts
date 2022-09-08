@@ -15,7 +15,9 @@ Math(tips300Index, {tips300Index} - 1)
 WaitFor(Overlord)
 
 //Set up timer to wait for reader to get close to finished before starting pipetting method
-Math(pipetteStartTime, {readEndTime} - 2220)
+Math(pipetteWaitTime, {preHeatPlateTime} + {selectivePlateTime})
+Math(pipetteWaitTime, {pipetteWaitTime} + 1800)
+Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
 
 Timer({pipetteStartTime})
 WaitFor(Timer)
