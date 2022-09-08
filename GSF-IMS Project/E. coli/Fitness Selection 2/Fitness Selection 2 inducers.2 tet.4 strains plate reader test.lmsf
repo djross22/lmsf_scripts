@@ -71,6 +71,7 @@ Set(mainReader, Neo)
 Set(plasmid4, using)
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
+Set(isExtractingDNA, false)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.2 inducers.2 tet.4 strains.lmsf)
 
 Get(strain, strain1, Select the bacteria strain used for the experiment:)

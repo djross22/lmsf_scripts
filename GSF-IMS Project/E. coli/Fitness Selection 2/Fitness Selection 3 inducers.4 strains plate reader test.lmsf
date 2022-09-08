@@ -77,6 +77,7 @@ Set(mainReader, Neo2)
 Set(plasmid4, using)
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
+Set(isExtractingDNA, false)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.3 inducers and 4 strains.lmsf)
 
 GetUserYesNo(startWithInducer, Start with Inducer?, Do you want to include inducer in the first (overnight growth) plate? (Hint: RamR: Yes))

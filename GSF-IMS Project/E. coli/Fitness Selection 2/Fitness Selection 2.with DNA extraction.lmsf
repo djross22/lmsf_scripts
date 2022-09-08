@@ -62,6 +62,7 @@ Set(mainReader, Neo)
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 Set(usingThreeInducers, false)
+Set(isExtractingDNA, true)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.lmsf)
 
 Get(strain, strain1, Select the bacteria strain used for the experiment:)

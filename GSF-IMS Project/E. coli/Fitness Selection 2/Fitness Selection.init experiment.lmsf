@@ -54,6 +54,8 @@ Set(tips1000Index, 6)
 
 NewXML(fitness selection)
 
+If({isExtractingDNA}==true, UserPrompt(Balance Plate, Put the balance plate in position 3 of the centrifuge.))
+
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
 Get(user, user)
