@@ -24,11 +24,13 @@ Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cyt
 
 /////////////////////////////////////////////////////////////////
 //Hamilton Venus Methods, in the order that they get run
+Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep plus bacteria.1 strain.6 plasmids.hsl)
 Set(nonSelectiveGradientMethod, Inducer gradient plate prep_high gradient.hsl)
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
-Set(preHeatPlateTime, 736)
+//New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
+Set(preHeatPlateTime, 660)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(cytometryPrepMethod, Prep cytometry plate.hsl)
 Set(cytometryTransferMethod, Transfer cells from old GP to Cytometry Plate_high gradient.hsl)
@@ -230,6 +232,11 @@ Set(msg, Switch to STAR computer to edit tip counters, then Click 'OK' to contin
 UserPrompt(Check Readers, {msg})
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
 WaitFor(S-Cell-STAR)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{initHHCMethod})
+WaitFor(S-Cell-STAR)
+Set(msg, Verify that HHC no. 1 is now set to pre-heat temperature, then Click 'OK' to continue.)
+UserPrompt(Check Pre-Heat HHC, {msg})
 
 //--- Plate 1 ------------------------------------------------------------------------------
 Set(plateNum, 1)
