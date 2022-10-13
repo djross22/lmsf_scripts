@@ -47,12 +47,19 @@ Set(start300TipsText, five)
 Set(start300TipsStart, 5)
 If({usingThreeInducers}==true, Set(start300TipsText, seven))
 If({usingThreeInducers}==true, Set(start300TipsStart, 7))
+If({usingTwoTet}==true, Set(start300TipsText, six))
+If({usingTwoTet}==true, Set(start300TipsStart, 6))
 
-Set(msg2, Make sure there are at least six racks of 1000 uL tips in the PAA Carousel (hotel no. 1) and at least {start300TipsText} racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
+Set(start1000TipsText, five)
+Set(start1000TipsStart, 5)
+If({usingTwoTet}==true, Set(start1000TipsText, seven))
+If({usingTwoTet}==true, Set(start1000TipsStart, 7))
+
+Set(msg2, Make sure there are at least {start1000TipsText} racks of 1000 uL tips in the PAA Carousel (hotel no. 1) and at least {start300TipsText} racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
 UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotels 1-2.png)
 Set(tips50Index, 0)
 Set(tips300Index, {start300TipsStart})
-Set(tips1000Index, 6)
+Set(tips1000Index, {start1000TipsStart})
 
 NewXML(fitness selection)
 

@@ -8,7 +8,7 @@ WaitFor(Overlord)
 Overlord({clearTipRackOvp})
 WaitFor(Overlord)
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 96, tips300Need = 72)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 96, tips300Need = 96)
 
 Overlord({getNewTips}, [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
 Math(tips300Index, {tips300Index} - 1)
