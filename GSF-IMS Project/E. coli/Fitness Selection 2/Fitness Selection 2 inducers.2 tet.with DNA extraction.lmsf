@@ -22,20 +22,19 @@ Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fit
 
 /////////////////////////////////////////////////////////////////
 //Hamilton Venus Methods, in the order that they get run
-Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
+Set(startMethod, Uniform non-selective plate prep plus 4 strains.hsl)
 Set(startMethodTime, 1600)
-Set(nonSelectiveGradientMethod, Three inducer gradient plate prep.hsl)
+Set(nonSelectiveGradientMethod, Two inducer.two tet.gradient plate prep.hsl)
 Set(nonSelectivePlateTime, 1140)
 // fold-dilution across dilution series in nonSelectiveGradientMethod and selectiveGradientMethod:
-Set(dilutionSeriesFactor, 2.5)
+Set(dilutionSeriesFactor, 5)
 
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 Set(preHeatPlateTime, 736)
 
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
-
-Set(selectiveGradientMethod, Three inducer gradient plate prep.hsl)
+Set(selectiveGradientMethod, Two inducer.two tet.gradient plate prep.hsl)
 Set(selectivePlateTime, 1140)
 
 Set(combineToSpinPlateMethod, Combine old GP wells into Spin Plate.hsl)
@@ -62,11 +61,6 @@ Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.
 //repeatProtocolTime = nominal run time + 300
 Set(repeatProtocolTime, 9600)
 
-// ***** For RamR project: *******************************
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3.5h.37C.1C.Ex500Em530.prt)
-//repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 12900)
-// ****************************************************
 
 //Gen5 protocol for testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
@@ -79,13 +73,11 @@ Set(mainReader, Neo)
 Set(plasmid4, ignore)
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
-Set(usingThreeInducers, true)
+Set(usingThreeInducers, false)
+Set(usingTwoTet, true)
 Set(isExtractingDNA, true)
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.lmsf)
 
-GetUserYesNo(startWithInducer, Start with Inducer?, Do you want to include inducer in the first (overnight growth) plate? (Hint: RamR: Yes))
-If({startWithInducer} == Yes, Set(startMethod, Three inducer gradient plate prep.hsl))
-If({startWithInducer} == Yes, Set(startMethodTime, 1800))
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.DNA.lmsf)
 
 Get(strain, strain1, Select the bacteria strain used for the experiment:)
 Get(plasmid, plasmid1, Select the plasmid used for the experiment:)
@@ -101,30 +93,31 @@ Get(concentration, inducer1Stock, Enter the concentration of the {inducer1} star
 Get(additive, inducer2, Select the second inducer used for the experiment:)
 Get(concentration, inducer2Stock, Enter the concentration of the {inducer2} starting stock (2x max concentration in plate):)
 
-Get(additive, inducer3, Select the third inducer used for the experiment:)
-Get(concentration, inducer3Stock, Enter the concentration of the {inducer3} starting stock (2x max concentration in plate):)
+Get(additive, selector1, Select the selector used for the left side of the plates:)
+Get(concentration, selector1Stock, Enter the concentration of the left-side {selector1} starting stock:)
 
-Get(additive, selector, Select the selector used for the experiment:)
-Get(concentration, selectorStock, Enter the concentration of the {selector} starting stock (10x concentration in plate):)
+Get(additive, selector2, Select the second selector used for the right side of the plates:)
+Get(concentration, selector2Stock, Enter the concentration of the right-side {selector2} starting stock:)
 
 Get(note, note)
 
-GetExpID({startDate}_three_inducers_Select-DNA-5-plates)
+GetExpID({startDate}_two-lig_two-sel_DNA-5-plates)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
-Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1}\n\n)
 
-Set(msg3a, \tInducer 1: \t\t{inducer1}, stock concentration: {inducer1Stock}\n)
-Set(msg3b, \tInducer 2: \t\t{inducer2}, stock concentration: {inducer2Stock}\n)
-Set(msg3c, \tInducer 3: \t\t{inducer3}, stock concentration: {inducer3Stock}\n)
+Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}\n\n \tPlasmids:\n\t\t\t{plasmid1}\n\t\t\t{plasmid2}\n\t\t\t{plasmid3}\n\t\t\t{plasmid4}\n\n)
 
-Set(msg4, \tSelector:\t\t\t{selector}, stock concentration: {selectorStock}\n  \n)
+Set(msg3a, \tInducer 1: \t{inducer1}, stock concentration: {inducer1Stock}\n)
+Set(msg3b, \tInducer 2: \t{inducer2}, stock concentration: {inducer2Stock}\n  \n)
+
+Set(msg4, \tSelector 1:\t{selector1}, stock concentration: {selector1Stock}\n)
+Set(msg4a, \tSelector 2:\t{selector2}, stock concentration: {selector2Stock}\n  \n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
-UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3a}{msg3b}{msg3c} {msg4} {msg5})
+UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3a}{msg3b} {msg4}{msg4a} {msg5})
 
 Set(msg1, Set up the STAR deck layout as shown.)
-UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.3 inducers.PNG, 1000)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.2 inducers.2 tet.PNG, 1000)
 
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
