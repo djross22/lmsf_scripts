@@ -31,6 +31,8 @@ Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DW
 Set(startPromptList, Fitness Selection 2.with DNA extraction-list.txt)
 If({plasmid4}!=ignore, Set(startPromptList, Fitness Selection 4 strains plate reader test-list.txt))
 If({usingThreeInducers}==true, Set(startPromptList, Fitness Selection 2.3 inducers.with DNA extraction-list.txt))
+If({usingTwoTet}==true, Set(startPromptList, Fitness Selection 2 inducers.2 tet.with DNA extraction-list.txt))
+
 StartPrompt(E. Coli Fitness Selection, {scriptDir}\{startPromptList})
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)

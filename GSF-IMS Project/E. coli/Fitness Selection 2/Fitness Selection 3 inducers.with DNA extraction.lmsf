@@ -80,6 +80,7 @@ Set(plasmid4, ignore)
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 Set(usingThreeInducers, true)
+Set(usingTwoTet, false)
 Set(isExtractingDNA, true)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.lmsf)
 
