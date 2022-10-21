@@ -160,6 +160,7 @@ GetUserYesNo(startWithInducer, Start with Inducer?, Do you want to include induc
 
 /////////////////////////////////////////////////////////////////
 //Hamilton Venus Methods, in the order that they get run
+Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
 If({startWithInducer} == Yes, Set(startMethod, Plate 1.1D gradient plate prep.hsl))
 
@@ -168,7 +169,8 @@ Set(nonSelectivePlateTime, 1170)
 
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
-Set(preHeatPlateTime, 736)
+//New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
+Set(preHeatPlateTime, 660)
 // Subtract 2 minutes (i.e., start preheat 2 minutes later) for single read 
 Math(preHeatPlateTime, {preHeatPlateTime} - 120)
 
@@ -231,6 +233,14 @@ WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 UserPrompt(Lid Movement Test, If the STAR sucessfully moved the lids click 'OK' to start the protocol.)
 // end lid movement test
+
+//Turn on HHC for plate pre-warming
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{initHHCMethod})
+Timer(75)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+Set(msg, Verify that HHC no. 1 is now set to pre-heat temperature, then Click 'OK' to continue.)
+UserPrompt(Check Pre-Heat HHC, {msg})
 
 
 WaitFor(Overlord)
