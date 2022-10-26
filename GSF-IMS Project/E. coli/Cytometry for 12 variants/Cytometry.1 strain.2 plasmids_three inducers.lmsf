@@ -1,0 +1,269 @@
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set(isPipetting, true)
+//isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
+Set(isDebugging, false)
+
+//No DNA extraction for this version of the script
+Set(keepOldGrowthPlate, false)
+
+//manualSeal controls whether sealing is manual or automatic
+//Set(manualSeal, Yes)
+Set(manualSeal, No)
+
+/////////////////////////////////////////////////////////////////
+//Read in commonly used directories
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Cytometry for 6 variants)
+Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
+Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Hamilton Venus Methods, in the order that they get run
+Set(initHHCMethod, Turn on pre-heat HHC.hsl)
+Set(startMethod, Uniform non-selective plate prep plus bacteria.1 strain.6 plasmids.hsl)
+Set(nonSelectiveGradientMethod, Inducer gradient plate prep_high gradient.hsl)
+Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
+//Plate pre-heating method takes 12m:16s to run
+//New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
+Set(preHeatPlateTime, 660)
+Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
+Set(cytometryPrepMethod, Prep cytometry plate.hsl)
+Set(cytometryTransferMethod, Transfer cells from old GP to Cytometry Plate_high gradient.hsl)
+//Venus method constrains 200<=cultureVolume<=500
+Set(cultureVolume, 500)
+
+
+/////////////////////////////////////////////////////////////////
+//Gen5 protocols to be run and associated timers:
+
+// ***** For LacI project *****
+Set(overNightProtocol1, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.Ex500Em530.prt)
+//overNightProtocolTime1 = nominal run time + 300
+Set(overNightProtocolTime1, 43500)
+
+Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.10m.37C.1C.Ex500Em530.prt)
+//overNightProtocolTime2 = nominal run time + 300
+Set(overNightProtocolTime2, 47700)
+
+//Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.37C.1C.Ex500Em530.prt)
+//repeatProtocolTime = nominal run time + 300
+//Set(repeatProtocolTime, 9600)
+// ****************************
+
+// ***** For Thyer lab projects *****
+Set(overNightProtocol1, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.Ex569Em593.prt)
+//overNightProtocolTime1 = nominal run time + 300
+Set(overNightProtocolTime1, 43500)
+
+Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.30m.37C.1C.Ex569Em593.prt)
+//overNightProtocolTime2 = nominal run time + 300
+Set(overNightProtocolTime2, 47700)
+
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt)
+//repeatProtocolTime = nominal run time + 300
+Set(repeatProtocolTime, 11100)
+// **********************************
+
+// ***** For RamR project *****
+//Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 4h.37C.1C.Ex500Em530.prt)
+//repeatProtocolTime = nominal run time + 300
+//Set(repeatProtocolTime, 14700)
+// ****************************
+
+//Gen5 protocol for testing readers at beginning of run to give consistent starting state
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
+/////////////////////////////////////////////////////////////////
+
+//Set readers to be used
+Set(reader1, Neo)
+
+/////////////////////////////////////
+//This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
+Set(isTesting, false)
+GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
+If({isTesting}!=Yes, UserPrompt(Re-Boot STAR, Turn off the power to the Hamilton STAR; wait 10 seconds and turn it back on; then click 'OK' to continue., {lmsfImageDirectory}\dialog-warning.png))
+
+Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 30m.37C.1C.Ex500Em530.prt)
+
+If({isTesting}==Yes, Set(overNightProtocol1, {testProtocol}))
+//overNightProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(overNightProtocolTime1, 2100))
+
+If({isTesting}==Yes, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.10m.37C.1C.Ex500Em530.prt))
+//overNightProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(overNightProtocolTime2, 8100))
+
+//If({isTesting}==Yes, Set(repeatProtocol, {testProtocol}))
+//repeatProtocolTime = nominal run time + 300
+//If({isTesting}==Yes, Set(repeatProtocolTime, 600))
+/////////////////////////////////////////
+
+/////////////////////////////////////////
+//Set any other short-hand dictionary keys that will be used repeatedly
+Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+/////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+//User input and Overlord initialization section
+
+StartPrompt(E. Coli Fitness Selection, {scriptDir}\Cytometry.1 strain.6 plasmids_one inducer-list.txt)
+
+UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 54 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 120 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
+
+Set(msg2, Make sure there are at least two racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
+UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 2.png)
+Set(tips300Index, 2)
+Set(tips1000Index, 0)
+Set(tips50Index, 0)
+
+NewXML(growth plate prep)
+
+Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
+
+Get(user, user)
+
+Get(media, media)
+
+UserPrompt(Strain and Plasmids, Open the file strain_plasmids_6.txt and edit it to contain the appropriate information for this experiment.\nOne strain and 6 plasmids for rows B-G of the growth plates.)
+ImportDictionary({scriptDir}\strain_plasmids_6.txt)
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidB1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidC1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidD1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidE1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidF1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidG1})
+
+// Set the plate 2 plasmid variables to avoid error in sub-script
+Set(plasmidB2, {plasmidB1})
+Set(plasmidC2, {plasmidC1})
+Set(plasmidD2, {plasmidD1})
+Set(plasmidE2, {plasmidE1})
+Set(plasmidF2, {plasmidF1})
+Set(plasmidG2, {plasmidG1})
+
+UserPrompt(Inducer stocks, The inducer stock should be at 2x the maximum concentration that will be measured.)
+Get(additive, inducer, Select the inducer used for the experiment:)
+Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:)
+
+Get(note, note)
+
+GetExpID({startDate}_{inducer}-Cytom-6-plasmids)
+
+//review experiment ok/abort dialog
+Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
+Set(msg2, \tMedia: \t\t\t{media}\n\n)
+Set(msg3, \tBacteria strain: \t\t{strain1}\n)
+Set(msg4, \t\tPlasmidB: \t{plasmidB1}\n)
+Set(msg5, \t\tPlasmidC: \t{plasmidC1}\n)
+Set(msg6, \t\tPlasmidD: \t{plasmidD1}\n)
+Set(msg7, \t\tPlasmidE: \t{plasmidE1}\n)
+Set(msg8, \t\tPlasmidF: \t{plasmidF1}\n)
+Set(msg9, \t\tPlasmidG: \t{plasmidG1}\n\n)
+
+Set(msg16, \tInducer 1: \t{inducer}, stock concentration: {inducerStock}\n\n)
+Set(msg17, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
+UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg9}{msg16}{msg17})
+
+Set(msg1, Set up the STAR deck layout as shown and load the two bacteria stocks.)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.3 inducers.PNG, 1000)
+
+Set(msg1, Close the front cover on the STAR.\n)
+Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
+Set(msg3, Check that all the doors of the S-Cell system are closed.\n)
+Set(msg4, Then click 'OK' to start the experiment.\n)
+UserPrompt(Ready to Start, {msg1}{msg2}{msg3}{msg4}, {lmsfImageDirectory}\dialog-warning.png)
+
+//Lid movement test
+UserPrompt(Lid Movement Test, Switch to the STAR computer and observe the lid movement test.)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Pre-run lid test.hsl)
+Timer(100)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+UserPrompt(Lid Movement Test, If the STAR successfully moved the lids click 'OK' to start the experiment.)
+// end lid movement test
+
+
+WaitFor(Overlord)
+//End User input and Overlord initialization section
+//////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////
+//Run the protocol
+////////////////////////////////////////////////////////////////////////////////////
+
+//--- 0 ------------------------------------------------------------------------------
+
+//Test readers while 1st plate is pipetting
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+Set(msg, Plate reader {reader1} should have its carriers out. \nVerify that the carrier is out and empty, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+Gen5({reader1}, RunExp, {initProtocol}, pre-run-test-1, {dataDirectory})
+
+Set(msg, Switch to STAR computer to edit tip counters, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
+WaitFor(S-Cell-STAR)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{initHHCMethod})
+WaitFor(S-Cell-STAR)
+Set(msg, Verify that HHC no. 1 is now set to pre-heat temperature, then Click 'OK' to continue.)
+UserPrompt(Check Pre-Heat HHC, {msg})
+
+//--- Plate 1 ------------------------------------------------------------------------------
+Set(plateNum, 1)
+Set(platesInStack, 3)
+Set(twoStrainsThreeLigands, True)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader1})
+
+//--- Plate 2 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+Set(sequenceNum, 0)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_2.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
+
+//--- Plate 3 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_3.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
+
+
+//--- Cytometry Plate (already on the STAR deck) ---------------------------------------------------------------------------------
+
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Cytom_plate.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
+
+
+//--- Clean up --------------------------------------------------------------------------------------
+
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
+WaitFor(Overlord)
+
+SaveXML()
+
+CopyRemoteFiles()
