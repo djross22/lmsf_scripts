@@ -32,7 +32,8 @@ Set(dilutionSeriesFactor, 5)
 
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
-Set(preHeatPlateTime, 736)
+//New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
+Set(preHeatPlateTime, 660)
 
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(selectiveGradientMethod, Two inducer.two tet.gradient plate prep.hsl)
