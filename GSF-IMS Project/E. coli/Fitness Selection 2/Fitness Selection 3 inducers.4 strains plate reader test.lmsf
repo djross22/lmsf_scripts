@@ -22,6 +22,7 @@ Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fit
 
 /////////////////////////////////////////////////////////////////
 //Hamilton Venus Methods, in the order that they get run
+Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep plus 4 strains.hsl)
 Set(startMethodTime, 1600)
 Set(nonSelectiveGradientMethod, Three inducer gradient plate prep.hsl)
