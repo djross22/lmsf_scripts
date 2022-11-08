@@ -7,8 +7,8 @@ One black Agilent 6-reservoir plate, with black lid, on deck of STAR
 120 high-volume (1000 uL) tips, in the tip supports on the STAR
 160 standard-volume (300 uL) tips, in the tip supports on the STAR
 
-One full rack of high-volume (10000 uL) tips on the Carousel
-Four full racks of standard-volume (300 uL) tips on the Carousel
+Six full racks of high-volume (10000 uL) tips on the Carousel
+Six full racks of standard-volume (300 uL) tips on the Carousel
 
 300 mL of media
 15 mL of each inducer at 2x the max concentration (in columns 1 and 2 of reagent plate)
