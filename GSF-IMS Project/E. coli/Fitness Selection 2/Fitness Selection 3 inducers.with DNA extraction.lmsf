@@ -124,7 +124,8 @@ Set(msg3c, \tInducer 3: \t\t{inducer3}, stock concentration: {inducer3Stock}\n)
 
 Set(msg4, \tSelector:\t\t\t{selector}, stock concentration: {selectorStock}\n  \n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
-UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3a}{msg3b}{msg3c} {msg4} {msg5})
+Set(msg6, \n\n\{overNightProtocol}\n{repeatProtocol})
+UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3a}{msg3b}{msg3c} {msg4} {msg5}{msg6})
 
 Set(msg1, Set up the STAR deck layout as shown.)
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.3 inducers.PNG, 1000)

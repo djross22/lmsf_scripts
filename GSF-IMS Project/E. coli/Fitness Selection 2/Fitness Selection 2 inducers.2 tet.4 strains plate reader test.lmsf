@@ -111,7 +111,8 @@ Set(msg3b, \tInducer 2: \t{inducer2}, stock concentration: {inducer2Stock}\n  \n
 Set(msg4, \tSelector 1:\t{selector1}, stock concentration: {selector1Stock}\n)
 Set(msg4a, \tSelector 2:\t{selector2}, stock concentration: {selector2Stock}\n  \n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
-UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3a}{msg3b} {msg4}{msg4a} {msg5})
+Set(msg6, \n\n\{overNightProtocol}\n{repeatProtocol})
+UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3a}{msg3b} {msg4}{msg4a} {msg5}{msg6})
 
 Set(msg1, Set up the STAR deck layout as shown.)
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.2 inducers.2 tet.4 strains.PNG, 1000)
