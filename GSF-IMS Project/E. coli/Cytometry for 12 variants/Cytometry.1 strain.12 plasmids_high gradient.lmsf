@@ -54,9 +54,9 @@ Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.
 Set(repeatProtocolTime, 9600)
 
 // *** For ramR project ****************************
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.35m.37C.1C.Ex500Em530.prt)
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex500Em530.prt)
 //repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 13200)
+Set(repeatProtocolTime, 11100)
 
 //Gen5 protocol for testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
