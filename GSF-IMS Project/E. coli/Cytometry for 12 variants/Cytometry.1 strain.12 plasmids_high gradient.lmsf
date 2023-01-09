@@ -190,7 +190,7 @@ Set(msg15, \t\tPlasmidG2: \t{plasmidG2}\n\n)
 
 Set(msg16, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n\n)
 Set(msg17, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
-Set(msg18, \n\n\{overNightProtocol}\n{repeatProtocol})
+Set(msg18, \n\n\{overNightProtocol1}\n{overNightProtocol2}\n{repeatProtocol})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg9}{msg10}{msg11}{msg12}{msg13}{msg14}{msg15}{msg16}{msg17}{msg18})
 
 Set(msg1, Set up the STAR deck layout as shown and load the first set of 6 bacteria stocks.)
