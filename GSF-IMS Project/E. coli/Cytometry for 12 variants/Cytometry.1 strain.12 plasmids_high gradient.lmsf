@@ -108,6 +108,10 @@ Set(tips300Index, 5)
 Set(tips1000Index, 0)
 Set(tips50Index, 0)
 
+Set(msg2, Load 6 growth plates with lids into stack no. 7 of the PAA Carousel.\n)
+UserPrompt(Load Growth Plates, {msg2})
+//UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 2.png)
+
 NewXML(growth plate prep)
 
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
