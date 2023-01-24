@@ -28,7 +28,7 @@ Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DW
 //////////////////////////////////////////////////////////////////////////////////////
 //User input and Overlord initialization section
 
-StartPrompt(E. Coli Fitness Selection, {scriptDir}\Fitness Selection 4 strains plate reader test-list.txt)
+StartPrompt(E. Coli Fitness Selection, {scriptDir}\Fitness Selection 2.3 inducers.plate reader test-list.txt)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
