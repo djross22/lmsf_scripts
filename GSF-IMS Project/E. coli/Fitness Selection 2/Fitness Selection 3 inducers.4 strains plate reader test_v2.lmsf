@@ -139,12 +139,16 @@ Set(clear300TipWaste, false)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
+//--- Add 300 uL tips to STAR ---------------------
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 0, tips300Need = 56, clearTipRack = true)
+
 //--- Growth Plate 4 prep and OD Read from Plate 3 ----------------------------------------------------------------------------- 
-Set(clear300TipWaste, true)
+Set(clear300TipWaste, false)
 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
 //--- Growth Plate 5 prep and OD Read from Plate 4 ----------------------------------------------------------------------------- 
+Set(clear300TipWaste, true)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
 //--- OD Read from Plate 5 and cleanup -------------------------------------------------------------------

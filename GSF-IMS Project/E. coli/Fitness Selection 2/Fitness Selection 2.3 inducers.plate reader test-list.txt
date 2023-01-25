@@ -4,11 +4,11 @@ One Agilent media reservoir with lid, on deck of STAR
 One Abgene plate, 1.2 mL per well, with lid, on deck of STAR
 One black Agilent 6-reservoir plate, with black lid, on deck of STAR
 
-120 high-volume (1000 uL) tips (2 full racks), in the tip supports on the STAR
-160 standard-volume (300 uL) tips (2 full racks), in the tip supports on the STAR
+Two full racks of high-volume (1000 uL) tips, in the tip supports on the STAR
+Two full racks of standard-volume (300 uL) tips, in the tip supports on the STAR
 
 One full rack of high-volume (10000 uL) tips on the Carousel
-Four full racks of standard-volume (300 uL) tips on the Carousel
+Five full racks of standard-volume (300 uL) tips on the Carousel
 
 300 mL of media
 30 mL of each inducer at 2x max concentration (in columns 1-3 of reagent plate)
