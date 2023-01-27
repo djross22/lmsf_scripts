@@ -7,7 +7,7 @@ One black Agilent 6-reservoir plate, with black lid, on deck of STAR
 Two full racks of high-volume (1000 uL) tips, in the tip supports on the STAR
 Two full racks of standard-volume (300 uL) tips, in the tip supports on the STAR
 
-One full rack of high-volume (10000 uL) tips on the Carousel
+One full rack of high-volume (1000 uL) tips on the Carousel
 Five full racks of standard-volume (300 uL) tips on the Carousel
 
 300 mL of media
