@@ -55,7 +55,7 @@ Set(start1000TipsStart, 5)
 If({usingTwoTet}==true, Set(start1000TipsText, six))
 If({usingTwoTet}==true, Set(start1000TipsStart, 6))
 If({usingThreeInducers}==true, Set(start1000TipsText, six))
-If({usingThreeInducers}==true, Set(start1000TipsText, 6))
+If({usingThreeInducers}==true, Set(start1000TipsStart, 6))
 
 Set(msg2, Make sure there are at least {start1000TipsText} racks of 1000 uL tips in the PAA Carousel (hotel no. 1) and at least {start300TipsText} racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
 UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotels 1-2.png)

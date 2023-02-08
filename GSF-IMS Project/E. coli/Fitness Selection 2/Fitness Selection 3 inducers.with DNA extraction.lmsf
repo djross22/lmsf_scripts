@@ -136,6 +136,10 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness
 //--- Growth Plate 3 prep and DNA Extraction from Plate 2 ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
+Set(msg, Add another full rack of 1000 uL tips to the PAA Carousel (hotel no. 1).)
+UserPrompt(Add 1000 uL Tips, {msg}, {lmsfImageDirectory}\Tip Hotel 1.png)
+Math(tips1000Index, {tips1000Index} + 1)
+
 //--- Growth Plate 4 prep and DNA Extraction from Plate 3 ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
