@@ -1,0 +1,171 @@
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set(isPipetting, true)
+Set(cultureVolume, 400)
+
+/////////////////////////////////////////////////////////////////
+//Read in commonly used directories
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\Demos and photos)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\LMSF Tour)
+Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Hamilton Venus Methods, in the order that they get run
+Set(tourMethod, LMSF tour method.hsl)
+Set(tourMethodTime, 150)
+
+/////////////////////////////////////////////////////////////////
+
+//Set readers to be used
+Set(reader1, Neo)
+Set(reader2, Neo2)
+
+NewXML(demo tour)
+
+Set(msg2, Load one growth plates with lid into stack no. 7 of the PAA Carousel.\n)
+UserPrompt(Load Growth Plates, {msg2})
+
+Set(plateNum, 1)
+Set(platesInStack, 1)
+
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 32 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
+
+Set(msg, Switch to STAR computer to edit tip counters, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
+WaitFor(S-Cell-STAR)
+
+Gen5({reader1}, CarrierOut)
+Gen5({reader2}, CarrierOut)
+WaitFor({reader1}, false)
+WaitFor({reader2}, false)
+Set(msg, Plate readers {reader1} and {reader2} should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+Gen5({reader1}, CarrierIn)
+Gen5({reader2}, CarrierIn)
+
+
+
+GetExpID({startDate}_tour_demo)
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+Math(platesInStack, {platesInStack} - 1)
+WaitFor(Overlord)
+
+// 1
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{tourMethod})
+Timer({tourMethodTime})
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+Math(plateNum, {plateNum} + 1)
+
+
+WaitFor({reader1}, false)
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader_tour.ovp, [Gen5.Reader.Name] "{reader1}")
+WaitFor(Overlord)
+
+
+Gen5({reader1}, CarrierIn)
+WaitFor({reader1})
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR_tour.ovp, [Gen5.Reader.Name] "{reader1}")
+WaitFor(Overlord)
+
+Gen5({reader1}, CarrierIn)
+WaitFor({reader1}, false)
+
+
+// 2
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{tourMethod})
+Timer({tourMethodTime})
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+Math(plateNum, {plateNum} + 1)
+
+
+WaitFor({reader2}, false)
+Gen5({reader2}, CarrierOut)
+WaitFor({reader2}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader_tour.ovp, [Gen5.Reader.Name] "{reader2}")
+WaitFor(Overlord)
+
+
+Gen5({reader2}, CarrierIn)
+WaitFor({reader2})
+Gen5({reader2}, CarrierOut)
+WaitFor({reader2}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR_tour.ovp, [Gen5.Reader.Name] "{reader2}")
+WaitFor(Overlord)
+
+Gen5({reader2}, CarrierIn)
+WaitFor({reader2}, false)
+
+// 3
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{tourMethod})
+Timer({tourMethodTime})
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+Math(plateNum, {plateNum} + 1)
+
+
+WaitFor({reader1}, false)
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader_tour.ovp, [Gen5.Reader.Name] "{reader1}")
+WaitFor(Overlord)
+
+
+Gen5({reader1}, CarrierIn)
+WaitFor({reader1})
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR_tour.ovp, [Gen5.Reader.Name] "{reader1}")
+WaitFor(Overlord)
+
+Gen5({reader1}, CarrierIn)
+WaitFor({reader1}, false)
+
+// 4
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{tourMethod})
+Timer({tourMethodTime})
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+Math(plateNum, {plateNum} + 1)
+
+
+WaitFor({reader2}, false)
+Gen5({reader2}, CarrierOut)
+WaitFor({reader2}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader_tour.ovp, [Gen5.Reader.Name] "{reader2}")
+WaitFor(Overlord)
+
+
+Gen5({reader2}, CarrierIn)
+WaitFor({reader2})
+Gen5({reader2}, CarrierOut)
+WaitFor({reader2}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR_tour.ovp, [Gen5.Reader.Name] "{reader2}")
+WaitFor(Overlord)
+
+Gen5({reader2}, CarrierIn)
+WaitFor({reader2}, false)
+
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
+WaitFor(Overlord)
+
+
