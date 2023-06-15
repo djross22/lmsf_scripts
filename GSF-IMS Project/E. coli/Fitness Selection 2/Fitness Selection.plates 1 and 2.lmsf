@@ -16,6 +16,7 @@ UserPrompt(Lid Movement Test, If the STAR successfully moved the lids click 'OK'
 // end lid movement test
 
 //Turn on HHC for plate pre-warming
+Set(preHeatTemperature, 67)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{initHHCMethod})
 Timer(75)
 WaitFor(Timer)
