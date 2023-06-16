@@ -197,7 +197,7 @@ UserPrompt(Ready to Start, {msg1}{msg2}{msg3}{msg4}, {lmsfImageDirectory}\dialog
 
 //Lid movement test
 UserPrompt(Lid Movement Test, Switch to the STAR computer and observe the lid movement test.)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Pre-run lid test.hsl)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Pre-run lid test.no Abgene.hsl)
 Timer(100)
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
