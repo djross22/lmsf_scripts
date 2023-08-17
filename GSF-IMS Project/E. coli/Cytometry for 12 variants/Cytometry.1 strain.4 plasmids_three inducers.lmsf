@@ -90,6 +90,7 @@ If({isTesting}==Yes, Set(overNightProtocolTime2, 8100))
 /////////////////////////////////////////
 //Set any other short-hand dictionary keys that will be used repeatedly
 Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+Set(clearTipRackOvp, {ovpCommDirectory}\Labware\Move Tips from STAR to Waste.ovp)
 /////////////////////////////////////////
 
 
