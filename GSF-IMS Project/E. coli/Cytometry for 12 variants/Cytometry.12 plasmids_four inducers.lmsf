@@ -210,7 +210,7 @@ UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{m
 
 Set(msg1, Set up the STAR deck layout as shown and load the first six bacteria stocks:)
 Set(msg2, {plasmidB1} in position 10, {plasmidC1} in position 11,...)
-UserPrompt(STAR Deck Layout, {msg1}\n\t{msg2}, {scriptDir}\STAR Deck Layout.2 cytometry plates.PNG, 1000)
+UserPrompt(STAR Deck Layout, {msg1}\n\t{msg2}, {scriptDir}\STAR Deck Layout.4 inducers.PNG, 1000)
 
 Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
