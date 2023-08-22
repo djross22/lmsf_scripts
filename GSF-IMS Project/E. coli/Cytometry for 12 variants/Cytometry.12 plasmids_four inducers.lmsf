@@ -25,15 +25,15 @@ Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cyt
 /////////////////////////////////////////////////////////////////
 //Hamilton Venus Methods, in the order that they get run
 Set(initHHCMethod, Turn on pre-heat HHC.hsl)
-Set(startMethod, Starting plate prep_3 ligands.5 variants.hsl)
-Set(nonSelectiveGradientMethod, Inducer gradient plate prep_3 ligands.5 variants.hsl)
+Set(startMethod, Uniform non-selective plate prep plus bacteria.1 strain.6 plasmids.hsl)
+Set(nonSelectiveGradientMethod, Inducer gradient plate prep_high gradient.hsl)
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 //New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
 Set(preHeatPlateTime, 660)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
-Set(cytometryPrepMethod, Prep cytometry plate_3 ligands.5 variants.hsl)
-Set(cytometryTransferMethod, Transfer cells from old GP to Cytometry Plate_3 ligands.5 variants.hsl)
+Set(cytometryPrepMethod, Prep cytometry plate.hsl)
+Set(cytometryTransferMethod, Transfer cells from old GP to Cytometry Plate_high gradient.hsl)
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
 
@@ -98,7 +98,7 @@ Set(clearTipRackOvp, {ovpCommDirectory}\Labware\Move Tips from STAR to Waste.ovp
 //User input and Overlord initialization section
 
 // List of labware and other requirements is the same as previous experiment
-StartPrompt(E. Coli Fitness Selection, {scriptDir}\Cytometry.1 strain.10 plasmids_three inducers-list.txt)
+StartPrompt(E. Coli Fitness Selection, {scriptDir}\Cytometry.1 strain.12 plasmids_high gradient-list.txt)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
@@ -121,83 +121,96 @@ Get(user, user)
 
 Get(media, media)
 
-Set(msg1, Open the file strain_plasmids_10.txt and edit it to contain the appropriate information for this experiment.)
-Set(msg2, One strain and 10 plasmids/variants:)
-Set(msg3, plasmid1_1 through plasmid5_1  are the 5 variants for the first growth plate)
-Set(msg4, plasmid1_2 through plasmid5_2  are the 5 variants for the second growth plate)
-UserPrompt(Strain and Plasmids, {msg1}\n{msg2}\n\t{msg3}\n\t{msg4})
-ImportDictionary({scriptDir}\strain_plasmids_10.txt)
+Set(msg1, Open the file strain_plasmids_12.txt and edit it to contain the appropriate information for this experiment.)
+Set(msg2, One strain and 12 plasmids/variants/replicates:)
+Set(msg3, plasmidB1 through plasmidG1 are the 6 variants/replicates for the first growth plate. They will be induced with ligand no. 1 in rows B, C, and D; and with ligand no. 2 in rows E, F, and G.)
+Set(msg4, plasmidB2 through plasmidG2 are the 6 variants/replicates for the second growth plate. They will be induced with ligand no. 3 in rows B, C, and D; and with ligand no. 4 in rows E, F, and G.)
+UserPrompt(Strain and Plasmids, {msg1}\n{msg2}\n\n\t{msg3}\n\n\t{msg4})
+
+ImportDictionary({scriptDir}\strain_plasmids_12.txt)
 
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmid1_1})
+AddXML(strain, plasmidId, {plasmidB1})
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmid2_1})
+AddXML(strain, plasmidId, {plasmidC1})
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmid3_1})
+AddXML(strain, plasmidId, {plasmidD1})
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmid4_1})
+AddXML(strain, plasmidId, {plasmidE1})
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmid5_1})
+AddXML(strain, plasmidId, {plasmidF1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidG1})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidB2})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidC2})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidD2})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidE2})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidF2})
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmidG2})
 
-AddXML(strains, strain)
-AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmid1_2})
-AddXML(strains, strain)
-AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmid2_2})
-AddXML(strains, strain)
-AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmid3_2})
-AddXML(strains, strain)
-AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmid4_2})
-AddXML(strains, strain)
-AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmid5_2})
 
 UserPrompt(Ligand stocks, The ligand stocks should be at 2x the maximum concentration that will be measured.)
-Get(additive, inducer1, Select the first ligand:)
+Get(additive, inducer1, Select the first ligand, which will be used with {plasmidB1}, {plasmidC1}, and {plasmidD1}:)
 Get(concentration, inducer1Stock, Enter the concentration of the {inducer1} starting stock:)
-Get(additive, inducer2, Select the second ligand:)
+Get(additive, inducer2, Select the second ligand, which will be used with {plasmidE1}, {plasmidF1}, and {plasmidG1}:)
 Get(concentration, inducer2Stock, Enter the concentration of the {inducer2} starting stock:)
-Get(additive, inducer3, Select the third ligand:)
+
+Get(additive, inducer3, Select the third ligand, which will be used with {plasmidB2}, {plasmidC2}, and {plasmidD2}:)
 Get(concentration, inducer3Stock, Enter the concentration of the {inducer3} starting stock:)
+Get(additive, inducer4, Select the forth ligand, which will be used with {plasmidE2}, {plasmidF2}, and {plasmidG2}:)
+Get(concentration, inducer4Stock, Enter the concentration of the {inducer4} starting stock:)
 
 Get(note, note)
 
-GetExpID({startDate}_{inducer1}_{inducer2}_{inducer3}-Cytom)
+GetExpID({startDate}_12-plasmids_4-ligands_Cytom)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
 Set(msg2, \tMedia: \t\t\t{media}\n\n)
-Set(msg3, \tBacteria strain: \t\t{strain1}\n)
-Set(msg4, \t\tplasmid1_1: \t{plasmid1_1}\n)
-Set(msg5, \t\tplasmid2_1: \t{plasmid2_1}\n)
-Set(msg6, \t\tplasmid3_1: \t{plasmid3_1}\n)
-Set(msg7, \t\tplasmid4_1: \t{plasmid4_1}\n)
-Set(msg8, \t\tplasmid5_1: \t{plasmid5_1}\n)
-
-Set(msg10, \t\tplasmid1_2: \t{plasmid1_2}\n)
-Set(msg11, \t\tplasmid2_2: \t{plasmid2_2}\n)
-Set(msg12, \t\tplasmid3_2: \t{plasmid3_2}\n)
-Set(msg13, \t\tplasmid4_2: \t{plasmid4_2}\n)
-Set(msg14, \t\tplasmid5_2: \t{plasmid5_2}\n)
+Set(msg3, \tBacteria strain: \t\t{strain1}\n\n)
+Set(msg4, \t\tPlasmidB1: \t{plasmidB1}: \t{inducer1}\n)
+Set(msg5, \t\tPlasmidC1: \t{plasmidC1}: \t{inducer1}\n)
+Set(msg6, \t\tPlasmidD1: \t{plasmidD1}: \t{inducer1}\n\n)
+Set(msg7, \t\tPlasmidE1: \t{plasmidE1}: \t{inducer2}\n)
+Set(msg8, \t\tPlasmidF1: \t{plasmidF1}: \t{inducer2}\n)
+Set(msg9, \t\tPlasmidG1: \t{plasmidG1}: \t{inducer2}\n\n)
+Set(msg10, \t\tPlasmidB2: \t{plasmidB2}: \t{inducer3}\n)
+Set(msg11, \t\tPlasmidC2: \t{plasmidC2}: \t{inducer3}\n)
+Set(msg12, \t\tPlasmidD2: \t{plasmidD2}: \t{inducer3}\n\n)
+Set(msg13, \t\tPlasmidE2: \t{plasmidE2}: \t{inducer4}\n)
+Set(msg14, \t\tPlasmidF2: \t{plasmidF2}: \t{inducer4}\n)
+Set(msg15, \t\tPlasmidG2: \t{plasmidG2}: \t{inducer4}\n\n)
 
 Set(msg16a, \tInducer 1: \t{inducer1}, stock concentration: {inducer1Stock}\n)
 Set(msg16b, \tInducer 2: \t{inducer2}, stock concentration: {inducer2Stock}\n)
-Set(msg16c, \tInducer 3: \t{inducer3}, stock concentration: {inducer3Stock}\n\n)
+Set(msg16c, \tInducer 3: \t{inducer3}, stock concentration: {inducer3Stock}\n)
+Set(msg16d, \tInducer 4: \t{inducer4}, stock concentration: {inducer4Stock}\n\n)
+
 Set(msg17, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
 Set(msg18, \n\n\{overNightProtocol1}\n{overNightProtocol2}\n{repeatProtocol})
-UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg10}{msg11}{msg12}{msg13}{msg14}{msg16a}{msg16b}{msg16c}{msg17}{msg18})
+UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg9}{msg10}{msg11}{msg12}{msg13}{msg14}{msg15}{msg16a}{msg16b}{msg16c}{msg16d}{msg17}{msg18})
 
-Set(msg1, Set up the STAR deck layout as shown and load the first five bacteria stocks:)
-Set(msg2, {plasmid1_1} in position 10, {plasmid2_1} in position 11,...)
-UserPrompt(STAR Deck Layout, {msg1}\n\t{msg2}, {scriptDir}\STAR Deck Layout.5 variants.PNG, 1000)
+Set(msg1, Set up the STAR deck layout as shown and load the first six bacteria stocks:)
+Set(msg2, {plasmidB1} in position 10, {plasmidC1} in position 11,...)
+UserPrompt(STAR Deck Layout, {msg1}\n\t{msg2}, {scriptDir}\STAR Deck Layout.2 cytometry plates.PNG, 1000)
 
 Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
@@ -249,34 +262,34 @@ UserPrompt(Check Pre-Heat HHC, {msg})
 //--- Plate 1 ------------------------------------------------------------------------------
 Set(plateNum, 1)
 Set(platesInStack, 6)
+Set(twelveStrainsFourLigands, True)
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_5_variants.lmsf, lineage = 1)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader1})
 
 Math(lineage2startTime, {readStartTime} + 300)
 
 
 
-Set(msg1, Load the second set of five bacteria stocks:)
-Set(msg2, {plasmid1_2} in position 10, {plasmid2_2} in position 11,...)
-UserPrompt(STAR Deck Layout, {msg1}\n\t{msg2}, {scriptDir}\STAR Deck Layout.bacteria2_5.PNG, 1000)
+Set(msg1, Load the second set of six bacteria stocks:)
+Set(msg2, {plasmidB2} in position 10, {plasmidC2} in position 11,...)
+UserPrompt(STAR Deck Layout, {msg1}\n\t{msg2}, {scriptDir}\STAR Deck Layout.bacteria2.PNG, 1000)
 
 Timer({lineage2startTime})
 WaitFor(Timer)
 
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_5_variants.lmsf, lineage = 2)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 2)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader2})
 
 //--- Plate 2 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
 Set(sequenceNum, 0)
-Set(dilutionSeriesFactor, 2.5)
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_5_variants.lmsf, lineage = 1)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_2.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_5_variants.lmsf, lineage = 2)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 2)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_2.lmsf, reader = {reader2}, readEndTime = {readEndTime2})
 
 
@@ -284,19 +297,19 @@ ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytomet
 //--- Plate 3 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_5_variants.lmsf, lineage = 1)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_3.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_5_variants.lmsf, lineage = 2)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 2)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_3.lmsf, reader = {reader2}, readEndTime = {readEndTime2})
 
 
 //--- Cytometry Plate (already on the STAR deck) ---------------------------------------------------------------------------------
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_5_variants.lmsf, lineage = 1)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Cytom_plate.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_5_variants.lmsf, lineage = 2)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 2)
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Cytom_plate.lmsf, reader = {reader2}, readEndTime = {readEndTime2})
 
 
