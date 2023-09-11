@@ -27,6 +27,8 @@ Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cyt
 Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep plus bacteria.1 strain.6 plasmids.hsl)
 Set(nonSelectiveGradientMethod, Inducer gradient plate prep_high gradient.hsl)
+// This indicates that the highest concentration in the growth plate is the stock concentration (not diluted 2x).
+Set(gradStartFullConc, True)
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 //New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
@@ -166,8 +168,10 @@ AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
 AddXML(strain, plasmidId, {plasmidG2})
 
+Set(msg, The ligand stocks should be at 2x the maximum concentration that will be measured.)
+If({gradStartFullConc}==True, Set(msg, The ligand stocks should be EQUAL TO the maximum concentration that will be measured.))
 
-UserPrompt(Ligand stocks, The ligand stocks should be at 2x the maximum concentration that will be measured.)
+UserPrompt(Ligand stocks, {msg})
 Get(additive, inducer1, Select the first ligand, which will be used with {plasmidB1}, {plasmidC1}, and {plasmidD1}:)
 Get(concentration, inducer1Stock, Enter the concentration of the {inducer1} starting stock:)
 Get(additive, inducer2, Select the second ligand, which will be used with {plasmidE1}, {plasmidF1}, and {plasmidG1}:)
