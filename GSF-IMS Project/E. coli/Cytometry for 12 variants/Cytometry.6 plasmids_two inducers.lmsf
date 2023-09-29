@@ -160,6 +160,14 @@ Get(concentration, inducer1Stock, Enter the concentration of the {inducer1} star
 Get(additive, inducer2, Select the second ligand, which will be used with {plasmidE1}, {plasmidF1}, and {plasmidG1}:)
 Get(concentration, inducer2Stock, Enter the concentration of the {inducer2} starting stock:)
 
+// These need to be set to avoid error in Hamilton methods
+Set(inducer3, none)
+Set(inducer3StockUnits, none)
+Set(inducer3StockConc, 0)
+Set(inducer4, none)
+Set(inducer4StockUnits, none)
+Set(inducer4StockConc, 0)
+
 Get(note, note)
 
 GetExpID({startDate}_6-plasmids_2-ligands_Cytom)
