@@ -70,9 +70,9 @@ Set(repeatProtocolTime, 11100)
 // **********************************
 
 // ***** For RamR project *****
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex500Em530.prt)
+//Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex500Em530.prt)
 //repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 11100)
+//Set(repeatProtocolTime, 11100)
 // ****************************
 
 //Gen5 protocol for testing readers at beginning of run to give consistent starting state
@@ -106,6 +106,7 @@ If({isTesting}==Yes, Set(overNightProtocolTime2, 8100))
 /////////////////////////////////////////
 //Set any other short-hand dictionary keys that will be used repeatedly
 Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+Set(clearTipRackOvp, {ovpCommDirectory}\Labware\Move Tips from STAR to Waste.ovp)
 /////////////////////////////////////////
 
 
@@ -183,7 +184,7 @@ Set(msg9, \t\tPlasmidG: \t{plasmidG1}\n\n)
 
 Set(msg16, \tInducer 1: \t{inducer}, stock concentration: {inducerStock}\n\n)
 Set(msg17, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
-Set(msg18, \n\n\{overNightProtocol}\n{repeatProtocol})
+Set(msg18, \n\n\{overNightProtocol1}\n{repeatProtocol})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg9}{msg16}{msg17}{msg18})
 
 Set(msg1, Set up the STAR deck layout as shown and load the first set of 6 bacteria stocks.)
