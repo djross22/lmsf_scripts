@@ -38,10 +38,12 @@ StartPrompt(E. Coli Fitness Selection, {scriptDir}\{startPromptList})
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
-UserPrompt(Check STAR Hamilton Tips, Make sure there is a full rack of 1000 uL tips in the Offset pickup position on the deck of the STAR., {lmsfImageDirectory}\Tip supports Offset.PNG)
-UserPrompt(Check STAR Hamilton Tips, Make sure there is a full rack of 3.2 mm wide-bore tips in the indicated tip support on the deck of the STAR., {lmsfImageDirectory}\Tip support Wide-Bore.PNG)
 
-UserPrompt(Check STAR MPE2 Waste, Make sure that the MPE2 waste bottle is empty.)
+
+If({isExtractingDNA}==true), UserPrompt(Check STAR Hamilton Tips, Make sure there is a full rack of 1000 uL tips in the Offset pickup position on the deck of the STAR., {lmsfImageDirectory}\Tip supports Offset.PNG))
+If({isExtractingDNA}==true), UserPrompt(Check STAR Hamilton Tips, Make sure there is a full rack of 3.2 mm wide-bore tips in the indicated tip support on the deck of the STAR., {lmsfImageDirectory}\Tip support Wide-Bore.PNG))
+
+If({isExtractingDNA}==true), UserPrompt(Check STAR MPE2 Waste, Make sure that the MPE2 waste bottle is empty.))
 
 Set(start300TipsText, five)
 Set(start300TipsStart, 5)
@@ -56,6 +58,9 @@ If({usingTwoTet}==true, Set(start1000TipsText, six))
 If({usingTwoTet}==true, Set(start1000TipsStart, 6))
 If({usingThreeInducers}==true, Set(start1000TipsText, six))
 If({usingThreeInducers}==true, Set(start1000TipsStart, 6))
+
+If({isExtractingDNA}!=true), Set(start1000TipsText, one))
+If({isExtractingDNA}!=true), Set(start1000TipsStart, 1))
 
 Set(msg2, Make sure there are at least {start1000TipsText} racks of 1000 uL tips in the PAA Carousel (hotel no. 1) and at least {start300TipsText} racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
 UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotels 1-2.png)
