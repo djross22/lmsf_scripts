@@ -129,14 +129,19 @@ UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.3 inducers.4 s
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
 
-//--- Growth Plate 3 prep and DNA Extraction from Plate 2 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
+//--- Growth Plate 3 prep and OD Read from Plate 2 ----------------------------------------------------------------------------- 
+// For plate 3, clear waste tip rack
+Set(clear300TipWaste, true)
 
-//--- Growth Plate 4 prep and DNA Extraction from Plate 3 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
-//--- Growth Plate 5 prep and DNA Extraction from Plate 4 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
+//--- Growth Plate 4 prep and OD Read from Plate 3 ----------------------------------------------------------------------------- 
+Set(clear300TipWaste, true)
 
-//--- DNA Extraction from Plate 5 and cleanup -------------------------------------------------------------------
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 and cleanup.lmsf)
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+
+//--- Growth Plate 5 prep and OD Read from Plate 4 ----------------------------------------------------------------------------- 
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+
+//--- OD Read from Plate 5 and cleanup -------------------------------------------------------------------
+ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 single OD read.lmsf)
