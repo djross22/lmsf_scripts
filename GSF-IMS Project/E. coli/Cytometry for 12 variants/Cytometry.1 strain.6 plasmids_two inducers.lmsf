@@ -56,17 +56,17 @@ Set(overNightProtocolTime2, 47700)
 // ****************************
 
 // ***** For Thyer lab projects *****
-Set(overNightProtocol1, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.Ex569Em593.prt)
+//Set(overNightProtocol1, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.Ex569Em593.prt)
 //overNightProtocolTime1 = nominal run time + 300
-Set(overNightProtocolTime1, 43500)
+//Set(overNightProtocolTime1, 43500)
 
-Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.30m.37C.1C.Ex569Em593.prt)
+//Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.30m.37C.1C.Ex569Em593.prt)
 //overNightProtocolTime2 = nominal run time + 300
-Set(overNightProtocolTime2, 47700)
+//Set(overNightProtocolTime2, 47700)
 
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt)
+//Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt)
 //repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 11100)
+//Set(repeatProtocolTime, 11100)
 // **********************************
 
 // ***** For RamR project *****
