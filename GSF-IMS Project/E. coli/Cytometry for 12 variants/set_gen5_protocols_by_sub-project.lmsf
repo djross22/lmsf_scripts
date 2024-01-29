@@ -1,0 +1,77 @@
+//This sub-script selects the Gen5 protocols for the cytometry experiment based on the sub_project input variable
+//This method needs to have the sub_project variable set to one of the sub-project identifiers referenced below
+#InsertVariables
+
+Set(foundMatchingSub, false)
+
+/////////////////////////////////////////////////////////////////
+//Gen5 protocols to be run and associated timers:
+
+// ***** For LacI project, use as defaults to avoid validation errors *****
+If({sub_project}==LacI, Set(foundMatchingSub, true))
+
+Set(overNightProtocol1, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.Ex500Em530.prt)
+//overNightProtocolTime1 = nominal run time + 300
+Set(overNightProtocolTime1, 43500)
+
+Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.10m.37C.1C.Ex500Em530.prt)
+//overNightProtocolTime2 = nominal run time + 300
+Set(overNightProtocolTime2, 47700)
+
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.37C.1C.Ex500Em530.prt)
+repeatProtocolTime = nominal run time + 300
+Set(repeatProtocolTime, 9600)
+// ****************************
+
+// ***** For CymR (Thyer lab) project *****
+If({sub_project}==CymR, Set(foundMatchingSub, true))
+
+If({sub_project}==CymR, Set(overNightProtocol1, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.Ex569Em593.prt))
+//overNightProtocolTime1 = nominal run time + 300
+If({sub_project}==CymR, Set(overNightProtocolTime1, 43500))
+
+If({sub_project}==CymR, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.30m.37C.1C.Ex569Em593.prt))
+//overNightProtocolTime2 = nominal run time + 300
+If({sub_project}==CymR, Set(overNightProtocolTime2, 47700))
+
+If({sub_project}==CymR, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt))
+//repeatProtocolTime = nominal run time + 300
+If({sub_project}==CymR, Set(repeatProtocolTime, 11100))
+// **********************************
+
+// ***** For RamR project *****
+If({sub_project}==RamR, Set(foundMatchingSub, true))
+
+If({sub_project}==RamR, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex500Em530.prt))
+//repeatProtocolTime = nominal run time + 300
+If({sub_project}==RamR, Set(repeatProtocolTime, 11100))
+// ****************************
+
+//Gen5 protocol for testing readers at beginning of run to give consistent starting state
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
+/////////////////////////////////////////////////////////////////
+
+Set(msg1, Warning: No matching sub-project was found in the sub-script, set_gen5_protocols_by_sub-project.lmsf.\nDefault (LacI) protocols will be used.)
+If({foundMatchingSub}==false, UserPrompt(!!No Matching Sub_Project!!, {msg1}, {lmsfImageDirectory}\dialog-warning.png))
+
+
+/////////////////////////////////////
+//This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
+Set(isTesting, false)
+GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
+If({isTesting}!=Yes, UserPrompt(Re-Boot STAR, Turn off the power to the Hamilton STAR; wait 10 seconds and turn it back on; then click 'OK' to continue., {lmsfImageDirectory}\dialog-warning.png))
+
+Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 30m.37C.1C.Ex500Em530.prt)
+
+If({isTesting}==Yes, Set(overNightProtocol1, {testProtocol}))
+//overNightProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(overNightProtocolTime1, 2100))
+
+If({isTesting}==Yes, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.10m.37C.1C.Ex500Em530.prt))
+//overNightProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(overNightProtocolTime2, 8100))
+
+//If({isTesting}==Yes, Set(repeatProtocol, {testProtocol}))
+//repeatProtocolTime = nominal run time + 300
+//If({isTesting}==Yes, Set(repeatProtocolTime, 600))
+/////////////////////////////////////////

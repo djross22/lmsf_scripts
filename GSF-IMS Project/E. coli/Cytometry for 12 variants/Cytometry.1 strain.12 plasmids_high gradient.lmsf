@@ -37,69 +37,9 @@ Set(cytometryTransferMethod, Transfer cells from old GP to Cytometry Plate_high 
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
 
-
-/////////////////////////////////////////////////////////////////
-//Gen5 protocols to be run and associated timers:
-Set(overNightProtocol1, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.Ex500Em530.prt)
-//overNightProtocolTime1 = nominal run time + 300
-Set(overNightProtocolTime1, 43500)
-
-Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.10m.37C.1C.Ex500Em530.prt)
-//overNightProtocolTime2 = nominal run time + 300
-Set(overNightProtocolTime2, 47700)
-
-// *** For LacI project ****************************
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.37C.1C.Ex500Em530.prt)
-//repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 9600)
-
-// *** For ramR project ****************************
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex500Em530.prt)
-//repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 11100)
-
-// ***** For CymR project *****
-//Set(overNightProtocol1, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.Ex569Em593.prt)
-//overNightProtocolTime1 = nominal run time + 300
-//Set(overNightProtocolTime1, 43500)
-
-//Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.30m.37C.1C.Ex569Em593.prt)
-//overNightProtocolTime2 = nominal run time + 300
-//Set(overNightProtocolTime2, 47700)
-
-//Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt)
-//repeatProtocolTime = nominal run time + 300
-//Set(repeatProtocolTime, 11100)
-// **********************************
-
-//Gen5 protocol for testing readers at beginning of run to give consistent starting state
-Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
-/////////////////////////////////////////////////////////////////
-
 //Set readers to be used
 Set(reader1, Neo)
 Set(reader2, Neo2)
-
-/////////////////////////////////////
-//This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
-Set(isTesting, false)
-GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
-If({isTesting}!=Yes, UserPrompt(Re-Boot STAR, Turn off the power to the Hamilton STAR; wait 10 seconds and turn it back on; then click 'OK' to continue., {lmsfImageDirectory}\dialog-warning.png))
-
-Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 30m.37C.1C.Ex500Em530.prt)
-
-If({isTesting}==Yes, Set(overNightProtocol1, {testProtocol}))
-//overNightProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(overNightProtocolTime1, 2100))
-
-If({isTesting}==Yes, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.10m.37C.1C.Ex500Em530.prt))
-//overNightProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(overNightProtocolTime2, 8100))
-
-//If({isTesting}==Yes, Set(repeatProtocol, {testProtocol}))
-//repeatProtocolTime = nominal run time + 300
-//If({isTesting}==Yes, Set(repeatProtocolTime, 600))
-/////////////////////////////////////////
 
 /////////////////////////////////////////
 //Set any other short-hand dictionary keys that will be used repeatedly
@@ -127,6 +67,7 @@ Set(msg2, Load 6 growth plates with lids into stack no. 7 of the PAA Carousel.\n
 UserPrompt(Load Growth Plates, {msg2}, {lmsfImageDirectory}\growth plate stack.PNG)
 
 NewXML(growth plate prep)
+Get(sub-project, sub_project, Select the sub-project (detirmines Gen5 protocols):)
 
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
