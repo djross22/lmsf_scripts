@@ -9,7 +9,7 @@ Set(manualSeal, No)
 
 /////////////////////////////////////////////////////////////////
 //Read in commonly used directories
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+ReadScript(Common protocol scripts\Set Common Directories.lmsf)
 Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Fitness Selection 2.With DNA Extraction)
 /////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@ Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E
 //Set directories for  .hsl, .opv, and .prt files that are specific to this experiment
 // Overlord protocols are the same as for the last version
 Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
-Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2)
+Set(scriptDir, GSF-IMS Project\E. coli\Fitness Selection 2)
 /////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
@@ -94,7 +94,7 @@ Set(plasmid4, ignore)
 Set(usingThreeInducers, true)
 Set(usingTwoTet, false)
 Set(isExtractingDNA, true)
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.lmsf)
 
 GetUserYesNo(startWithInducer, Start with Inducer?, Do you want to include inducer in the first (overnight growth) plate? (Hint: RamR: Yes))
 If({startWithInducer} == Yes, Set(startMethod, Three inducer gradient plate prep.hsl))
@@ -141,20 +141,20 @@ Set(msg1, Set up the STAR deck layout as shown.)
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.3 inducers.PNG, 1000)
 
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
 
 //--- Growth Plate 3 prep and DNA Extraction from Plate 2 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
 Set(msg, Add another full rack of 1000 uL tips to the PAA Carousel (hotel no. 1).)
 UserPrompt(Add 1000 uL Tips, {msg}, {lmsfImageDirectory}\Tip Hotel 1.png)
 Math(tips1000Index, {tips1000Index} + 1)
 
 //--- Growth Plate 4 prep and DNA Extraction from Plate 3 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
 //--- Growth Plate 5 prep and DNA Extraction from Plate 4 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
 //--- DNA Extraction from Plate 5 and cleanup -------------------------------------------------------------------
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 and cleanup.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 and cleanup.lmsf)

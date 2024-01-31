@@ -7,7 +7,7 @@
 If({lineage}==1, Overlord({clearTipRackOvp}))
 If({lineage}==1, WaitFor(Overlord))
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips300Need = 96, clearTipRack = false)
+ReadScript(Common protocol scripts\Need Tips.lmsf, tips300Need = 96, clearTipRack = false)
 
 //Set up timer to wait for reader to get close to finished before starting pipetting method
 Math(cytometryStartTime, {readEndTime} - 1800)

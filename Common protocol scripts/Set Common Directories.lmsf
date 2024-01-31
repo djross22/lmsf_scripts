@@ -5,8 +5,8 @@ Set(hamiltonTipDir, C:\Program Files (x86)\Hamilton\Methods\Common\Tip Handling\
 
 Set(ovpCommDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\Common)
 
-Set(lmsfCommDirectory, C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts)
+Set(lmsfCommDirectory, Common protocol scripts)
 
-Set(lmsfImageDirectory, C:\Users\PAA\Documents\LMSF Scheduler\Image files)
+Set(lmsfImageDirectory, Image files)
 
 Set(gen5ProtDir, \\129.6.167.34\Protocols)

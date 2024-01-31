@@ -71,6 +71,8 @@ UserPrompt(Load Growth Plates, {msg2}, {lmsfImageDirectory}\growth plate stack.P
 NewXML(growth plate prep)
 Get(sub-project, sub_project, Select the sub-project (detirmines Gen5 protocols):)
 
+ReadScript({scriptDir}\set_gen5_protocols_by_sub-project.lmsf, sub_project_in = {sub_project})
+
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
 Get(user, user)

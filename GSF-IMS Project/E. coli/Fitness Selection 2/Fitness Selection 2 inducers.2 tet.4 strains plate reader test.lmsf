@@ -9,7 +9,7 @@ Set(manualSeal, No)
 
 /////////////////////////////////////////////////////////////////
 //Read in commonly used directories
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+ReadScript(Common protocol scripts\Set Common Directories.lmsf)
 Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Fitness Selection 2.With DNA Extraction)
 /////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@ Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E
 //Set directories for  .hsl, .opv, and .prt files that are specific to this experiment
 // Overlord protocols are the same as for the last version
 Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
-Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2)
+Set(scriptDir, GSF-IMS Project\E. coli\Fitness Selection 2)
 /////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ Set(plasmid4, using)
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 Set(isExtractingDNA, false)
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.2 inducers.2 tet.4 strains.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.2 inducers.2 tet.4 strains.lmsf)
 
 Get(strain, strain1, Select the bacteria strain used for the experiment:)
 Get(plasmid, plasmid1, Select the plasmid used for rows A and B: tube position 10)
@@ -119,19 +119,19 @@ UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.2 inducers.2 t
 
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 Set(startWithInducer, No)
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
 
 //--- Growth Plate 3 prep and OD Read from Plate 2 ----------------------------------------------------------------------------- 
 // For for this experiment, need to clear waste tip rack (no new 1000s added after plate 2)
 Set(clear300TipWaste, true)
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
 //--- Growth Plate 4 prep and OD Read from Plate 3 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
 //--- Growth Plate 5 prep and OD Read from Plate 4 ----------------------------------------------------------------------------- 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
 //--- OD Read from Plate 5 and cleanup -------------------------------------------------------------------
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 single OD read.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 single OD read.lmsf)

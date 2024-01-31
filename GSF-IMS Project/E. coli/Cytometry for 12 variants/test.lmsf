@@ -12,14 +12,14 @@ Set(manualSeal, No)
 
 /////////////////////////////////////////////////////////////////
 //Read in commonly used directories
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+ReadScript(Common protocol scripts\Set Common Directories.lmsf)
 /////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
 //Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
 Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Cytometry for 6 variants)
 Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
-Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants)
+Set(scriptDir, GSF-IMS Project\E. coli\Cytometry for 12 variants)
 /////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////

@@ -12,14 +12,14 @@ Set(manualSeal, No)
 
 /////////////////////////////////////////////////////////////////
 //Read in commonly used directories
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+ReadScript(Common protocol scripts\Set Common Directories.lmsf)
 /////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
 //Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
 Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Cytometry for 6 variants)
 Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
-Set(scriptDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants)
+Set(scriptDir, GSF-IMS Project\E. coli\Cytometry for 12 variants)
 /////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
@@ -64,6 +64,8 @@ Set(tips50Index, 0)
 
 NewXML(growth plate prep)
 Get(sub-project, sub_project, Select the sub-project (detirmines Gen5 protocols):)
+
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\set_gen5_protocols_by_sub-project.lmsf, sub_project_in = {sub_project})
 
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
@@ -176,27 +178,27 @@ UserPrompt(Check Pre-Heat HHC, {msg})
 Set(plateNum, 1)
 Set(platesInStack, 3)
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader1})
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader1})
 
 //--- Plate 2 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
 Set(sequenceNum, 0)
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_2.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_2.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
 
 //--- Plate 3 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_3.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_3.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
 
 
 //--- Cytometry Plate (already on the STAR deck) ---------------------------------------------------------------------------------
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Cytometry for 12 variants\Cytom_plate.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Cytom_plate.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
 
 
 //--- Clean up --------------------------------------------------------------------------------------
