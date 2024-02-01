@@ -1,0 +1,50 @@
+NewXML(growth plate prep)
+GetExpID(script_testing)
+
+
+Set(isPipetting, true)
+Set(isDebugging, false)
+Set(cytometryPlateNum, 1) 
+
+Set(hamMethodFolder, C:\Program Files (x86)\HAMILTON\Methods\GSF-IMS Project\E. coli Methods\Cytometry for 6 variants)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamMethodFolder}\Test-Move GP from handoff.hsl)
+ 
+Timer(100)
+WaitFor(Timer)
+ 
+WaitFor(S-Cell-STAR)
+
+Set(msg1, That Hamilton method would normally have pipetting steps,)
+Set(msg2, but for this tutorial it just moved the plate from the handoff to the pipetting position.)
+Set(msg3, Click 'OK' to continue.)
+Set(msg4, For the next steps, the STAR will move the plate to the pre-heating station, and then it will move it back to the handoff.)
+Set(msg5, Then, Overlord will put the plate into the reader, and Gen5 will start reading.)
+UserPrompt(done, {msg1}\n{msg2}\n{msg3}\n{msg4}\n{msg5})
+
+
+Set(reader, Epoch1)
+
+Gen5({reader}, CarrierOut)
+WaitFor({reader}, false)
+
+Set(ovpCommDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\Common) 
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader}")
+WaitFor(Overlord)
+
+Set(gen5ProtDir, \\129.6.167.34\Protocols)
+Set(readerProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
+Set(protocolTime, 600)
+
+Gen5({reader}, RunExp, {readerProtocol}, pre-run-test-1, {dataDirectory})
+GetTimeNow(readStartTime)
+Math(readEndTime, {readStartTime} + {protocolTime})
+
+Timer({readEndTime})
+WaitFor(Timer)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{reader}")
+WaitFor(Overlord)
+
+
+
