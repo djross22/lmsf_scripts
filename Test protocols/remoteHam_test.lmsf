@@ -39,12 +39,23 @@ Set(protocolTime, 600)
 Gen5({reader}, RunExp, {readerProtocol}, pre-run-test-1, {dataDirectory})
 GetTimeNow(readStartTime)
 Math(readEndTime, {readStartTime} + {protocolTime})
+Math(nextStepTime, {readEndTime} - 60)
+
+Timer({nextStepTime})
+WaitFor(Timer)
+
+UserPrompt(Almost done, The plate reader will be done in about one minute.)
 
 Timer({readEndTime})
 WaitFor(Timer)
 
+WaitFor({reader})
+Gen5({reader}, CarrierOut)
+WaitFor({reader}, false)
+
 Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{reader}")
 WaitFor(Overlord)
 
-
+Gen5({reader}, CarrierIn)
+WaitFor({reader}, false)
 
