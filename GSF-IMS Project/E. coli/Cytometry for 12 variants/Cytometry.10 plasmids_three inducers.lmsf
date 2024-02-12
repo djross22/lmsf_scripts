@@ -225,6 +225,10 @@ WaitFor(Timer)
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_5_variants.lmsf, lineage = 2)
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader2})
 
+Set(msg1, Top off the media reservoir on the STAR and then dispose of the bacteria stocks.\n)
+Set(msg2, Then click 'OK' to continue the experiment.)
+UserPrompt(Top off Media and Dispose of Stocks, {msg1}{msg2})
+
 //--- Plate 2 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
 Set(sequenceNum, 0)
