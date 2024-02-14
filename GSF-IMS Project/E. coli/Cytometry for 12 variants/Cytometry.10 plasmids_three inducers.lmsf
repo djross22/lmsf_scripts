@@ -78,11 +78,13 @@ Get(user, user)
 
 Get(media, media)
 
-Set(msg1, Open the file strain_plasmids_10.txt and edit it to contain the appropriate information for this experiment.)
+Set(msg1, Copy the file strain_plasmids_10.txt from the appropriate folder in the LMSF Queue, and verify that it contains the appropriate information for this experiment.)
 Set(msg2, One strain and 10 plasmids/variants:)
 Set(msg3, plasmid1_1 through plasmid5_1  are the 5 variants for the first growth plate)
 Set(msg4, plasmid1_2 through plasmid5_2  are the 5 variants for the second growth plate)
-UserPrompt(Strain and Plasmids, {msg1}\n{msg2}\n\t{msg3}\n\t{msg4})
+Set(msg5, The LMSF Queue is on the JCloud at: \\resdata-smb\JCloud2\Shared_Data\LMSF Queue.)
+Set(msg6, It should be pinned to the Quick Access in the Windows file browser.)
+UserPrompt(Strain and Plasmids, {msg1}\n{msg2}\n\t{msg3}\n\t{msg4}\n{msg5}\n{msg6})
 ImportDictionary({scriptDir}\strain_plasmids_10.txt)
 
 AddXML(strains, strain)
