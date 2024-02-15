@@ -1,0 +1,33 @@
+
+Set(hamilton_dir, C:\Program Files (x86)\HAMILTON\Methods) 
+
+NewXML(growth plate prep)
+
+GetExpID({startDateTime}_test)
+
+Get(user, user)
+
+Get(media, media)
+
+Get(additive, inducer)
+Get(concentration, inducerStock)
+
+UserPrompt(Load Hamilton Tips, Load the tips onto the Hamilton STAR. Then click 'OK' and edit the tip counters in Hamilton Run Control)
+
+Hamilton({hamilton_dir}\Common\Tip Handling\With 96-Head\Edit Tip Counters.hsl)
+
+WaitFor(Hamilton)
+
+UserPrompt(Run Hamilton, Click 'OK' to run the Hamilton pipetting method)
+
+Set(isPipetting, true)
+Set(isDebugging, false)
+Set(cytometryPlateNum, 1)
+
+Hamilton({hamilton_dir}\GSF-IMS Project\E. coli Methods\Cytometry for 6 variants\Prep cytometry plate.hsl)
+WaitFor(Hamilton)
+
+
+UserPrompt(Run Plate Reader, Move the plate to the plate reader and run the plate reader method. Then click 'OK' to end the experiment.)
+
+SaveXML()
