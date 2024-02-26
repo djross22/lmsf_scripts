@@ -47,6 +47,22 @@ If({sub_project}==RamR, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth 
 If({sub_project}==RamR, Set(repeatProtocolTime, 11100))
 // ****************************
 
+// ***** For Align project *****
+If({sub_project}==Align, Set(foundMatchingSub, true))
+
+If({sub_project}==Align, Set(overNightProtocol1, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.Ex569Em593.prt))
+//overNightProtocolTime1 = nominal run time + 300
+If({sub_project}==Align, Set(overNightProtocolTime1, 43500))
+
+If({sub_project}==Align, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.30m.37C.1C.Ex569Em593.prt))
+//overNightProtocolTime2 = nominal run time + 300
+If({sub_project}==Align, Set(overNightProtocolTime2, 47700))
+
+If({sub_project}==Align, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt))
+//repeatProtocolTime = nominal run time + 300
+If({sub_project}==Align, Set(repeatProtocolTime, 11100))
+// ****************************
+
 //Gen5 protocol for testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 /////////////////////////////////////////////////////////////////
