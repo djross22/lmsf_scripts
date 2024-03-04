@@ -67,7 +67,7 @@ Set(msg2, Load three growth plates with lids into stack no. 7 of the PAA Carouse
 UserPrompt(Load Growth Plates, {msg2}, {lmsfImageDirectory}\growth plate stack.PNG)
 
 NewXML(growth plate prep)
-Get(sub-project, sub_project, Select the sub-project (detirmines Gen5 protocols):)
+Get(sub-project, sub_project, Select the sub-project (determines Gen5 protocols):)
 
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\set_gen5_protocols_by_sub-project.lmsf, sub_project_in = {sub_project})
 

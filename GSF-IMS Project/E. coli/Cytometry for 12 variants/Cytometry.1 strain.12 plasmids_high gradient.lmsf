@@ -16,7 +16,7 @@ ReadScript(Common protocol scripts\Set Common Directories.lmsf)
 /////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
-//Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
+//Set directories for  .hsl, .opv, and .prt files that are specific to this experiment
 Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Cytometry for 6 variants)
 Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
 Set(scriptDir, GSF-IMS Project\E. coli\Cytometry for 12 variants)
@@ -67,7 +67,7 @@ Set(msg2, Load 6 growth plates with lids into stack no. 7 of the PAA Carousel.\n
 UserPrompt(Load Growth Plates, {msg2}, {lmsfImageDirectory}\growth plate stack.PNG)
 
 NewXML(growth plate prep)
-Get(sub-project, sub_project, Select the sub-project (detirmines Gen5 protocols):)
+Get(sub-project, sub_project, Select the sub-project (determines Gen5 protocols):)
 
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\set_gen5_protocols_by_sub-project.lmsf, sub_project_in = {sub_project})
 
