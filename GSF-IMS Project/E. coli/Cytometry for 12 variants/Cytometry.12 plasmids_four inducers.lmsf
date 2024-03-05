@@ -1,6 +1,6 @@
 
-Set(sub_project, none)
-Set(queueDirectory, none)
+Set(sub_project, notAssigned)
+Set(queueDirectory, notAssigned)
 
 #InsertVariables
 
@@ -77,7 +77,7 @@ UserPrompt(Load Growth Plates, {msg2}, {lmsfImageDirectory}\growth plate stack.P
 
 NewXML(growth plate prep)
 
-If({sub_project}==none, Get(sub-project, sub_project, Select the sub-project (determines Gen5 protocols):))
+If({sub_project}==notAssigned, Get(sub-project, sub_project, Select the sub-project (determines Gen5 protocols):))
 
 GetExpID({startDate}_12-plasmids_4-ligands_Cytom)
 
@@ -89,7 +89,7 @@ Get(user, user)
 
 Get(media, media)
 
-If({queueDirectory}==none, Set(queueDirectory, {scriptDir}))
+If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
 
 Set(msg1, Open the file strain_plasmids_12.txt from today's folder in the LMSF Queue: {queueDirectory}.\nThen, verify that it contains the appropriate information for this experiment.)
 Set(msg2, One strain and 12 plasmids/variants/replicates:)
