@@ -1,6 +1,12 @@
 
 Set(sub_project, notAssigned)
 Set(queueDirectory, notAssigned)
+Set(inducer1, notAssigned)
+Set(inducer2, notAssigned)
+Set(inducer3, notAssigned)
+Set(inducer4, notAssigned)
+Set(media, notAssigned)
+Set(percentDMSO, 0)
 
 #InsertVariables
 
@@ -87,7 +93,11 @@ Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
 Get(user, user)
 
-Get(media, media)
+//Get media info from user if needed (i.e., if not assigned at #InsertVariables)
+If({media} != notAssigned, Set(msg1, The media for this experiment should be {media}))
+If({percentDMSO} != 0, Set(msg2, with {percentDMSO}% DMSO))
+If({media} != notAssigned, UserPrompt(Media, {msg1} {msg2}.))
+If({media} == notAssigned, Get(media, media))
 
 If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
 
@@ -148,15 +158,32 @@ Set(msg, The ligand stocks should be at 2x the maximum concentration that will b
 If({gradStartFullConc}==True, Set(msg, The ligand stocks should be EQUAL TO the maximum concentration that will be measured.))
 
 UserPrompt(Ligand stocks, {msg})
-Get(additive, inducer1, Select the first ligand, which will be used with {plasmidB1}, {plasmidC1}, and {plasmidD1}:)
-Get(concentration, inducer1Stock, Enter the concentration of the {inducer1} starting stock:)
-Get(additive, inducer2, Select the second ligand, which will be used with {plasmidE1}, {plasmidF1}, and {plasmidG1}:)
-Get(concentration, inducer2Stock, Enter the concentration of the {inducer2} starting stock:)
 
-Get(additive, inducer3, Select the third ligand, which will be used with {plasmidB2}, {plasmidC2}, and {plasmidD2}:)
-Get(concentration, inducer3Stock, Enter the concentration of the {inducer3} starting stock:)
-Get(additive, inducer4, Select the forth ligand, which will be used with {plasmidE2}, {plasmidF2}, and {plasmidG2}:)
-Get(concentration, inducer4Stock, Enter the concentration of the {inducer4} starting stock:)
+//Get inducer info from user if needed (i.e., if not assigned at #InsertVariables)
+Set(needsInducerInput, false)
+If({inducer1} ==  notAssigned, Set(needsInducerInput, true))
+
+If({needsInducerInput} ==  true, Get(additive, inducer1, Select the first ligand, which will be used with {plasmidB1}, {plasmidC1}, and {plasmidD1}:))
+If({needsInducerInput} ==  true, Get(concentration, inducer1Stock, Enter the concentration of the {inducer1} starting stock:))
+If({needsInducerInput} ==  true, Get(additive, inducer2, Select the second ligand, which will be used with {plasmidE1}, {plasmidF1}, and {plasmidG1}:))
+If({needsInducerInput} ==  true, Get(concentration, inducer2Stock, Enter the concentration of the {inducer2} starting stock:))
+If({needsInducerInput} ==  true, Get(additive, inducer3, Select the third ligand, which will be used with {plasmidB2}, {plasmidC2}, and {plasmidD2}:))
+If({needsInducerInput} ==  true, Get(concentration, inducer3Stock, Enter the concentration of the {inducer3} starting stock:))
+If({needsInducerInput} ==  true, Get(additive, inducer4, Select the forth ligand, which will be used with {plasmidE2}, {plasmidF2}, and {plasmidG2}:))
+If({needsInducerInput} ==  true, Get(concentration, inducer4Stock, Enter the concentration of the {inducer4} starting stock:))
+
+If({needsInducerInput} !=  true, Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits}))
+If({needsInducerInput} !=  true, Set(msg1a, {inducer1} stock concentration should be {inducer1Stock}.))
+If({needsInducerInput} !=  true, Set(inducer2Stock, {inducer2StockConc} {inducer2StockUnits}))
+If({needsInducerInput} !=  true, Set(msg1b, {inducer2} stock concentration should be {inducer2Stock}.))
+If({needsInducerInput} !=  true, Set(inducer3Stock, {inducer3StockConc} {inducer3StockUnits}))
+If({needsInducerInput} !=  true, Set(msg1c, {inducer3} stock concentration should be {inducer3Stock}.))
+If({needsInducerInput} !=  true, Set(inducer4Stock, {inducer4StockConc} {inducer4StockUnits}))
+If({needsInducerInput} !=  true, Set(msg1d, {inducer4} stock concentration should be {inducer4Stock}.))
+
+If({needsInducerInput} !=  true, Set(msg2, At least 15 mL of each inducer stock is needed for this experiment.))
+If({needsInducerInput} !=  true, UserPrompt(Inducer Stocks, {msg1a}\n{msg1b}\n{msg1c}\n{msg1d}\n{msg2}))
+
 
 Get(note, note)
 
