@@ -172,6 +172,12 @@ If({needsInducerInput} ==  true, Get(concentration, inducer3Stock, Enter the con
 If({needsInducerInput} ==  true, Get(additive, inducer4, Select the forth ligand, which will be used with {plasmidE2}, {plasmidF2}, and {plasmidG2}:))
 If({needsInducerInput} ==  true, Get(concentration, inducer4Stock, Enter the concentration of the {inducer4} starting stock:))
 
+
+Set(msg1a, temp)
+Set(msg1b, temp)
+Set(msg1c, temp)
+Set(msg1d, temp)
+Set(msg2, temp)
 If({needsInducerInput} !=  true, Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits}))
 If({needsInducerInput} !=  true, Set(msg1a, {inducer1} stock concentration should be {inducer1Stock}.))
 If({needsInducerInput} !=  true, Set(inducer2Stock, {inducer2StockConc} {inducer2StockUnits}))
