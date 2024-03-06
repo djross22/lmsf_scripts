@@ -132,7 +132,7 @@ Set(msg18, \n\n{overNightProtocol1}\n{overNightProtocol2}\n{repeatProtocol})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg9}{msg16}{msg16a}{msg17}{msg18})
 
 Set(msg1, Set up the STAR deck layout as shown and load the first set of 6 bacteria stocks.)
-UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.2 inducers.PNG, 1000)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.12 rows.6 plasmids.2 inducers.PNG, 1000)
 
 Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
