@@ -202,9 +202,17 @@ Set(msg17, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{data
 Set(msg18, \n\n\{overNightProtocol1}\n{overNightProtocol2}\n{repeatProtocol})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg10}{msg11}{msg12}{msg13}{msg14}{msg16a}{msg16b}{msg16c}{msg17}{msg18})
 
-Set(msg1, Set up the STAR deck layout as shown and load the first five bacteria stocks:)
-Set(msg2, {plasmid1_1} in position 10, {plasmid2_1} in position 11,...)
-UserPrompt(STAR Deck Layout, {msg1}\n\t{msg2}, {scriptDir}\STAR Deck Layout.staggered.10 plasmids.3 inducers.PNG, 1000)
+Set(msg1, Set up the STAR deck layout as shown.)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.staggered.10 plasmids.3 inducers.PNG, 1000)
+
+Set(msg1, Load the first set of 5 bacteria stocks in tube positions 10-14:)
+Set(msg2b, \n\tPosition 10: {plasmid1_1})
+Set(msg2c, \n\tPosition 11: {plasmid2_1})
+Set(msg2d, \n\tPosition 12: {plasmid3_1})
+Set(msg2e, \n\tPosition 13: {plasmid4_1})
+Set(msg2f, \n\tPosition 14: {plasmid5_1})
+Set(msg3, \n\nThen click 'OK' to continue.)
+UserPrompt(STAR Deck Layout, {msg1}{msg2b}{msg2c}{msg2d}{msg2e}{msg2f}{msg3}, {scriptDir}\STAR Deck Layout.bacteria1_5.PNG, 800)
 
 Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
@@ -262,11 +270,14 @@ ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reade
 
 Math(lineage2startTime, {readStartTime} + 300)
 
-
-
-Set(msg1, Load the second set of five bacteria stocks:)
-Set(msg2, {plasmid1_2} in position 10, {plasmid2_2} in position 11,...)
-UserPrompt(STAR Deck Layout, {msg1}\n\t{msg2}, {scriptDir}\STAR Deck Layout.bacteria2_5.PNG, 1000)
+Set(msg1, Load the second set of 5 bacteria stocks in tube positions 10-14:)
+Set(msg2b, \n\tPosition 10: {plasmid1_2})
+Set(msg2c, \n\tPosition 11: {plasmid2_2})
+Set(msg2d, \n\tPosition 12: {plasmid3_2})
+Set(msg2e, \n\tPosition 13: {plasmid4_2})
+Set(msg2f, \n\tPosition 14: {plasmid5_2})
+Set(msg3, \n\nThen click 'OK' to continue.)
+UserPrompt(STAR Deck Layout, {msg1}{msg2b}{msg2c}{msg2d}{msg2e}{msg2f}{msg3}, {scriptDir}\STAR Deck Layout.bacteria2_5.PNG, 800)
 
 Timer({lineage2startTime})
 WaitFor(Timer)

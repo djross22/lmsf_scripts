@@ -127,8 +127,18 @@ Set(msg17, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{data
 Set(msg18, \n\n\{overNightProtocol1}\n{repeatProtocol})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg9}{msg16}{msg17}{msg18})
 
-Set(msg1, Set up the STAR deck layout as shown and load the first set of 6 bacteria stocks.)
+Set(msg1, Set up the STAR deck layout as shown.)
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.6 rows.6 plasmids.1 inducer.PNG, 1000)
+
+Set(msg1, Load the 6 bacteria stocks in tube positions 10-15:)
+Set(msg2b, \n\tPosition 10: {plasmidB1})
+Set(msg2c, \n\tPosition 11: {plasmidC1})
+Set(msg2d, \n\tPosition 12: {plasmidD1})
+Set(msg2e, \n\tPosition 13: {plasmidE1})
+Set(msg2f, \n\tPosition 14: {plasmidF1})
+Set(msg2g, \n\tPosition 15: {plasmidG1})
+Set(msg3, \n\nThen click 'OK' to continue.)
+UserPrompt(STAR Deck Layout, {msg1}{msg2b}{msg2c}{msg2d}{msg2e}{msg2f}{msg2g}{msg3}, {scriptDir}\STAR Deck Layout.bacteria1.PNG, 800)
 
 Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)

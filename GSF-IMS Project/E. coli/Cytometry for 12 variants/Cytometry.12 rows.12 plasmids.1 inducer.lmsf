@@ -271,8 +271,6 @@ Set(msg2g, \n\tPosition 15: {plasmidG2})
 Set(msg3, \n\nThen click 'OK' to continue.)
 UserPrompt(STAR Deck Layout, {msg1}{msg2b}{msg2c}{msg2d}{msg2e}{msg2f}{msg2g}{msg3}, {scriptDir}\STAR Deck Layout.bacteria2.PNG, 800)
 
-Set(msg1, Load the second set of 6 bacteria stocks.)
-UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.bacteria2.PNG, 1000)
 Timer({lineage2startTime})
 WaitFor(Timer)
 
