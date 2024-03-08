@@ -60,7 +60,7 @@ Set(clearTipRackOvp, {ovpCommDirectory}\Labware\Move Tips from STAR to Waste.ovp
 //////////////////////////////////////////////////////////////////////////////////////
 //User input and Overlord initialization section
 
-StartPrompt(E. Coli Fitness Selection, {scriptDir}\Cytometry.1 strain.6 plasmids_one inducer-list.txt)
+StartPrompt(E. Coli Fitness Selection, {scriptDir}\Cytometry.24 constitutive plasmids-list.txt)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 54 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
