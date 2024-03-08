@@ -87,7 +87,7 @@ If({percentDMSO} != 0, Set(msg2, with {percentDMSO}% DMSO))
 If({media} != notAssigned, UserPrompt(Media, {msg1} {msg2}.))
 If({media} == notAssigned, Get(media, media))
 
-//Get the number of plasmids to be measeured from user if needed (i.e., if not assigned at #InsertVariables)
+//Get the number of plasmids to be measured from user if needed (i.e., if not assigned at #InsertVariables)
 If({numberOfPlasmids} != 0, Set(msg1, This experiment will require {numberOfPlasmids} bacteria stocks, each in a 14 mL snap-cap culture tube.))
 If({numberOfPlasmids} != 0, UserPrompt(Bacteria Stocks, {msg1}))
 If({numberOfPlasmids} == 0, Get(integer, numberOfPlasmids, Enter the number of bacteria stocks to be measured in this experiment (24 max):))
