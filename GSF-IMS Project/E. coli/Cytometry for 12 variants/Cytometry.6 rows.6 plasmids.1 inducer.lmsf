@@ -1,3 +1,12 @@
+
+Set(sub_project, notAssigned)
+Set(queueDirectory, notAssigned)
+Set(inducer, notAssigned)
+Set(media, notAssigned)
+Set(percentDMSO, 0)
+
+#InsertVariables
+
 //isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
 Set(isPipetting, true)
 //isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
@@ -73,7 +82,20 @@ Get(user, user)
 
 Get(media, media)
 
-UserPrompt(Strain and Plasmids, Open the file strain_plasmids_6.txt and edit it to contain the appropriate information for this experiment.\nOne strain and 6 plasmids for rows B-G of the growth plates.)
+If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
+
+Set(msg1, Open the file strain_plasmids_6.txt from today's folder in the LMSF Queue: {queueDirectory}.\nThen, verify that it contains the appropriate information for this experiment.)
+Set(msg2, One strain and 6 plasmids for rows B-G of the growth plates.)
+
+Set(msg5, \n\nThe LMSF Queue is on the JCloud at: \\resdata-smb\JCloud2\Shared_Data\LMSF Queue.)
+Set(msg6, \nIt should be pinned to the Quick Access in the Windows file browser.)
+
+If({queueDirectory}=={scriptDir}, Set(msg1, Open the file strain_plasmids_6.txt and edit it to contain the appropriate information for this experiment.))
+If({queueDirectory}=={scriptDir}, Set(msg5, \nThe file should be in the folder: {scriptDir}.))
+If({queueDirectory}=={scriptDir}, Set(msg6, ))
+
+UserPrompt(Strain and Plasmids, {msg1}\n{msg2}{msg5}{msg6})
+
 ImportDictionary({scriptDir}\strain_plasmids_6.txt)
 
 AddXML(strains, strain)
@@ -103,9 +125,20 @@ Set(plasmidE2, {plasmidE1})
 Set(plasmidF2, {plasmidF1})
 Set(plasmidG2, {plasmidG1})
 
-UserPrompt(Inducer stocks, The inducer stock should be at 2x the maximum concentration that will be measured.)
-Get(additive, inducer, Select the inducer used for the experiment:)
-Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:)
+//Get inducer info from user if needed (i.e., if not assigned at #InsertVariables)
+Set(needsInducerInput, false)
+If({inducer} ==  notAssigned, Set(needsInducerInput, true))
+
+If({needsInducerInput} ==  true, Get(additive, inducer, Select the inducer used for the experiment:))
+If({needsInducerInput} ==  true, Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:))
+
+If({needsInducerInput} !=  true, Set(inducerStock, {inducerStockConc} {inducerStockUnits}))
+Set(msg1, temp)
+Set(msg2, temp)
+If({needsInducerInput} !=  true, Set(msg1, {inducer} stock concentration should be {inducerStock}.))
+If({needsInducerInput} !=  true, Set(msg2, 20 mL of {inducer} stock is needed for this experiment.))
+If({needsInducerInput} !=  true, UserPrompt({inducer} Stock, {msg1}\n{msg2}))
+
 
 Get(note, note)
 
