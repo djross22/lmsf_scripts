@@ -1,11 +1,13 @@
 //preps and runs the Cytometry Plate for each set of plates (aka lineage)
 //This method needs to have the reader variable set to a plate reader name
 //        and the readEndTime variable set to either {readEndTime1} or {readEndTime2}
+
+Set(clearTipsLineage, {lineage})
 #InsertVariables
 
 //Clear tip rack after all growth plate preps are done
-If({lineage}==1, Overlord({clearTipRackOvp}))
-If({lineage}==1, WaitFor(Overlord))
+If({clearTipsLineage}==1, Overlord({clearTipRackOvp}))
+If({clearTipsLineage}==1, WaitFor(Overlord))
 
 ReadScript(Common protocol scripts\Need Tips.lmsf, tips300Need = 96, clearTipRack = false)
 

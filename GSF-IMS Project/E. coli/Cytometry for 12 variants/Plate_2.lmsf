@@ -1,6 +1,8 @@
 //preps and runs Plate 2 for each set of plates (aka lineage)
 //This method needs to have the reader variable set to a plate reader name
 //        and the readEndTime variable set to either {readEndTime1} or {readEndTime2}
+
+Set(plate_2PipettingTime, 900)
 #InsertVariables
 
 //Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
@@ -23,7 +25,7 @@ Set(gradPlateNum, 1)
 //    used by the Hamilton Venus program to determine which column in the Abgene plate to use for starting the inducer gradient
 Math(sequenceNum, {sequenceNum} + 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectiveGradientMethod})
-Timer(900)
+Timer({plate_2PipettingTime})
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
 

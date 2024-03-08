@@ -3,8 +3,8 @@ One Agilent media reservoir with lid, on deck of STAR
 One Agilent 6-reservoir plate, with lid, on deck of STAR
 One Falcon round-bottom 96-well plate (i.e. cytometry plate), with lids, on deck of STAR
 
-Two full racks of high-volume (1000 uL) tips, in the tip supports on the STAR
-Two full racks of standard-volume (300 uL) tips, in the tip supports on the STAR
+At least 48 high-volume (1000 uL) tips, in the tip supports on the STAR
+At least 48 standard-volume (300 uL) tips, in the tip supports on the STAR
 
 200 mL of media
 
