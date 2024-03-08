@@ -77,6 +77,10 @@ Get(sub-project, sub_project, Select the sub-project (determines Gen5 protocols)
 
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\set_gen5_protocols_by_sub-project.lmsf, sub_project_in = {sub_project})
 
+// For this method, only one grow-out plate, so use longer overnight protocol
+Set(overNightProtocol1, {overNightProtocol2})
+Set(overNightProtocolTime1, {overNightProtocolTime2})
+
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
 Get(user, user)
