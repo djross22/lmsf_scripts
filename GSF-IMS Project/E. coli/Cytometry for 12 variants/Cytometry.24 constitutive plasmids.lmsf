@@ -356,7 +356,7 @@ UserPrompt(Check Pre-Heat HHC, {msg})
 
 //--- Plate 1 ------------------------------------------------------------------------------
 Set(plateNum, 1)
-Set(platesInStack, 3)
+Set(platesInStack, 2)
 
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader1})
@@ -366,13 +366,7 @@ Math(plateNum, {plateNum} + 1)
 Set(sequenceNum, 0)
 
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
-ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_2.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
-
-//--- Plate 3 ----------------------------------------------------------------------------- 
-Math(plateNum, {plateNum} + 1)
-
-ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
-ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_3.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_2.lmsf, reader = {reader1}, readEndTime = {readEndTime1}, alsoAddTips300 = false)
 
 
 //--- Cytometry Plate (already on the STAR deck) ---------------------------------------------------------------------------------

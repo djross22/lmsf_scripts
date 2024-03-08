@@ -7,8 +7,6 @@
 If({lineage} == 1, Set(clearWaste, false))
 If({lineage} == 2, Set(clearWaste, true))
 
-Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "{clearWaste}")
-Math(tips300Index, {tips300Index} - 1)
 Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
 
@@ -66,3 +64,11 @@ GetTimeNow(readStartTime)
 If({lineage} == 1, Math(readEndTime1, {readStartTime} + {repeatProtocolTime}))
 If({lineage} == 2, Math(readEndTime2, {readStartTime} + {repeatProtocolTime}))
 
+
+//Optionally, the alsoAddTips300 variable can be set to false. It is true by default, for backward compatibility.
+Set(alsoAddTips300, true)
+
+If(alsoAddTips300 == true, Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "{clearWaste}"))
+If(alsoAddTips300 == true, Math(tips300Index, {tips300Index} - 1))
+
+If(alsoAddTips300 != true, Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack}))
