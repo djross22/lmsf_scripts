@@ -80,7 +80,11 @@ Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
 Get(user, user)
 
-Get(media, media)
+//Get media info from user if needed (i.e., if not assigned at #InsertVariables)
+If({media} != notAssigned, Set(msg1, The media for this experiment should be {media}))
+If({percentDMSO} != 0, Set(msg2, with {percentDMSO}% DMSO))
+If({media} != notAssigned, UserPrompt(Media, {msg1} {msg2}.))
+If({media} == notAssigned, Get(media, media))
 
 If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
 
