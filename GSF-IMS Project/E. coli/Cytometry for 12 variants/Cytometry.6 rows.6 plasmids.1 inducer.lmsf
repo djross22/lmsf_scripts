@@ -100,7 +100,7 @@ If({queueDirectory}=={scriptDir}, Set(msg6, ))
 
 UserPrompt(Strain and Plasmids, {msg1}\n{msg2}{msg5}{msg6})
 
-ImportDictionary({scriptDir}\strain_plasmids_6.txt)
+ImportDictionary({queueDirectory}\strain_plasmids_6.txt)
 
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
