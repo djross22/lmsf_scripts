@@ -1,7 +1,8 @@
 
 Set(sub_project, notAssigned)
 Set(queueDirectory, notAssigned)
-Set(inducer, notAssigned)
+Set(inducer1, notAssigned)
+Set(inducer2, notAssigned)
 Set(media, notAssigned)
 Set(percentDMSO, 0)
 
@@ -35,14 +36,14 @@ Set(scriptDir, GSF-IMS Project\E. coli\Cytometry for 12 variants)
 //Hamilton Venus Methods, in the order that they get run
 Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep plus bacteria.1 strain.6 plasmids.hsl)
-Set(nonSelectiveGradientMethod, Inducer gradient plate prep_high gradient.hsl)
+Set(nonSelectiveGradientMethod, Inducer gradient plate prep_2 inducers per row.hsl)
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 //New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
 Set(preHeatPlateTime, 660)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(cytometryPrepMethod, Prep cytometry plate.hsl)
-Set(cytometryTransferMethod, Transfer cells from old GP to Cytometry Plate_high gradient.hsl)
+Set(cytometryTransferMethod, Transfer cells from old GP to Cytometry Plate_2 inducers per row.hsl)
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
 
@@ -60,7 +61,7 @@ Set(clearTipRackOvp, {ovpCommDirectory}\Labware\Move Tips from STAR to Waste.ovp
 //////////////////////////////////////////////////////////////////////////////////////
 //User input and Overlord initialization section
 
-StartPrompt(E. Coli Fitness Selection, {scriptDir}\Cytometry.1 strain.12 plasmids_high gradient-list.txt)
+StartPrompt(E. Coli Fitness Selection, {scriptDir}\Cytometry.24 half-rows.12 plasmids.2 inducers-list.txt)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 108 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
@@ -156,17 +157,25 @@ AddXML(strain, plasmidId, {plasmidG2})
 
 //Get inducer info from user if needed (i.e., if not assigned at #InsertVariables)
 Set(needsInducerInput, false)
-If({inducer} ==  notAssigned, Set(needsInducerInput, true))
+If({inducer1} ==  notAssigned, Set(needsInducerInput, true))
 
-If({needsInducerInput} ==  true, Get(additive, inducer, Select the inducer used for the experiment:))
-If({needsInducerInput} ==  true, Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:))
+If({needsInducerInput} ==  true, Get(additive, inducer1, Select the first ligand:))
+If({needsInducerInput} ==  true, Get(concentration, inducer1Stock, Enter the concentration of the {inducer1} starting stock:))
+If({needsInducerInput} ==  true, Get(additive, inducer2, Select the second ligand:))
+If({needsInducerInput} ==  true, Get(concentration, inducer2Stock, Enter the concentration of the {inducer2} starting stock:))
 
-If({needsInducerInput} !=  true, Set(inducerStock, {inducerStockConc} {inducerStockUnits}))
-Set(msg1, temp)
+//These lines needed to avoid errors:
+Set(msg1a, temp)
+Set(msg1b, temp)
 Set(msg2, temp)
-If({needsInducerInput} !=  true, Set(msg1, {inducer} stock concentration should be {inducerStock}.))
-If({needsInducerInput} !=  true, Set(msg2, 20 mL of {inducer} stock is needed for this experiment.))
-If({needsInducerInput} !=  true, UserPrompt({inducer} Stock, {msg1}\n{msg2}))
+
+If({needsInducerInput} !=  true, Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits}))
+If({needsInducerInput} !=  true, Set(msg1a, {inducer1} stock concentration should be {inducer1Stock}.))
+If({needsInducerInput} !=  true, Set(inducer2Stock, {inducer2StockConc} {inducer2StockUnits}))
+If({needsInducerInput} !=  true, Set(msg1b, {inducer2} stock concentration should be {inducer2Stock}.))
+
+If({needsInducerInput} !=  true, Set(msg2, At least 20 mL of each inducer stock is needed for this experiment.))
+If({needsInducerInput} !=  true, UserPrompt(Inducer Stocks, {msg1a}\n{msg1b}\n{msg2}))
 
 Get(note, note)
 
@@ -187,13 +196,14 @@ Set(msg13, \t\tPlasmidE2: \t{plasmidE2}\n)
 Set(msg14, \t\tPlasmidF2: \t{plasmidF2}\n)
 Set(msg15, \t\tPlasmidG2: \t{plasmidG2}\n\n)
 
-Set(msg16, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n\n)
+Set(msg16a, \tInducer 1: \t{inducer1}, stock concentration: {inducer1Stock}\n)
+Set(msg16b, \tInducer 2: \t{inducer2}, stock concentration: {inducer2Stock}\n\n)
 Set(msg17, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
 Set(msg18, \n\n\{overNightProtocol1}\n{overNightProtocol2}\n{repeatProtocol})
-UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg9}{msg10}{msg11}{msg12}{msg13}{msg14}{msg15}{msg16}{msg17}{msg18})
+UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg9}{msg10}{msg11}{msg12}{msg13}{msg14}{msg15}{msg16a}{msg16b}{msg17}{msg18})
 
 Set(msg1, Set up the STAR deck layout as shown.)
-UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.12 rows.12 plasmids.1 inducer.PNG, 1000)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.12 rows.6 plasmids.2 inducers.PNG, 1000)
 
 Set(msg1, Load the first set of 6 bacteria stocks in tube positions 10-15:)
 Set(msg2b, \n\tPosition 10: {plasmidB1})
