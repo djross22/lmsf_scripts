@@ -293,7 +293,7 @@ Set(msg1, Set up the STAR deck layout as shown.)
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.1 cytometry.zero inducers.PNG, 1000)
 
 Set(msg1, Load the 6 bacteria stocks in tube positions 10-15:)
-Set(msg2, \n\tPosition 1: {plasmid1}\n)
+Set(msg2, \n\tPosition 1: \t{plasmid1}\n)
 
 If({numberOfPlasmids} >= 2, Set(msg2, {msg2}\tPosition 2: \t{plasmid2}\n))
 If({numberOfPlasmids} >= 3, Set(msg2, {msg2}\tPosition 3: \t{plasmid3}\n))
