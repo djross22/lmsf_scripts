@@ -3,8 +3,8 @@
 #InsertVariables
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
-Math(platesInStack, {platesInStack} - 1)
 WaitFor(Overlord)
+Math(platesInStack, {platesInStack} - 1)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{lineage}-{plateNum}.csv)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startMethod})

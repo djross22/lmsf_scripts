@@ -5,9 +5,9 @@
 
 //Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
+WaitFor(Overlord)
 Math(tips300Index, {tips300Index} - 1)
 Math(platesInStack, {platesInStack} - 1)
-WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
 Math(pipetteStartTime, {readEndTime} - 2700)

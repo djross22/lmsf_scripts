@@ -2,6 +2,9 @@
 //This method needs to have the reader variable set to a plate reader name
 //        and the readEndTime variable set to either {readEndTime1} or {readEndTime2}
 
+//Optionally, the alsoAddTips300 variable can be set to false. It is true by default, for backward compatibility.
+Set(alsoAddTips300, true)
+
 Set(plate_2PipettingTime, 900)
 #InsertVariables
 
@@ -9,8 +12,12 @@ Set(plate_2PipettingTime, 900)
 If({lineage} == 1, Set(clearWaste, false))
 If({lineage} == 2, Set(clearWaste, true))
 
-Math(platesInStack, {platesInStack} - 1)
+If({alsoAddTips300} == true, Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "{clearWaste}"))
+If({alsoAddTips300} != true, Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack}))
 WaitFor(Overlord)
+
+Math(platesInStack, {platesInStack} - 1)
+If({alsoAddTips300} == true, Math(tips300Index, {tips300Index} - 1))
 
 //Wait for reader to get close to finished before starting pipetting method
 Math(pipetteStartTime, {readEndTime} - 2700)
@@ -67,10 +74,3 @@ If({lineage} == 1, Math(readEndTime1, {readStartTime} + {repeatProtocolTime}))
 If({lineage} == 2, Math(readEndTime2, {readStartTime} + {repeatProtocolTime}))
 
 
-//Optionally, the alsoAddTips300 variable can be set to false. It is true by default, for backward compatibility.
-Set(alsoAddTips300, true)
-
-If(alsoAddTips300 == true, Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "{clearWaste}"))
-If(alsoAddTips300 == true, Math(tips300Index, {tips300Index} - 1))
-
-If(alsoAddTips300 != true, Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack}))
