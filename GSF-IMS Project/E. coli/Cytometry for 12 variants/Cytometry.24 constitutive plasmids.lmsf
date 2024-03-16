@@ -86,6 +86,7 @@ Get(user, user)
 //Get media info from user if needed (i.e., if not assigned at #InsertVariables)
 If({media} != notAssigned, Set(msg1, The media for this experiment should be {media}))
 If({percentDMSO} != 0, Set(msg2, with {percentDMSO}% DMSO))
+If({percentDMSO} == 0, Set(msg2, ))
 If({media} != notAssigned, UserPrompt(Media, {msg1} {msg2}.))
 If({media} == notAssigned, Get(media, media))
 
@@ -292,7 +293,7 @@ UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{m
 Set(msg1, Set up the STAR deck layout as shown.)
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.1 cytometry.zero inducers.PNG, 1000)
 
-Set(msg1, Load the 6 bacteria stocks in tube positions 10-15:)
+Set(msg1, Load the 6 bacteria stocks in tube positions 1-{numberOfPlasmids}:)
 Set(msg2, \n\tPosition 1: \t{plasmid1}\n)
 
 If({numberOfPlasmids} >= 2, Set(msg2, {msg2}\tPosition 2: \t{plasmid2}\n))
