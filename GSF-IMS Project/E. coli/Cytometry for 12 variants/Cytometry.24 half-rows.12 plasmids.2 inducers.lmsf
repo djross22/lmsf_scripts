@@ -92,6 +92,7 @@ Get(user, user)
 //Get media info from user if needed (i.e., if not assigned at #InsertVariables)
 If({media} != notAssigned, Set(msg1, The media for this experiment should be {media}))
 If({percentDMSO} != 0, Set(msg2, with {percentDMSO}% DMSO))
+If({percentDMSO} == 0, Set(msg2, ))
 If({media} != notAssigned, UserPrompt(Media, {msg1} {msg2}.))
 If({media} == notAssigned, Get(media, media))
 
@@ -175,7 +176,7 @@ If({needsInducerInput} !=  true, Set(msg1a, {inducer1} stock concentration shoul
 If({needsInducerInput} !=  true, Set(inducer2Stock, {inducer2StockConc} {inducer2StockUnits}))
 If({needsInducerInput} !=  true, Set(msg1b, {inducer2} stock concentration should be {inducer2Stock}.))
 
-If({needsInducerInput} !=  true, Set(msg2, At least 20 mL of each inducer stock is needed for this experiment.))
+If({needsInducerInput} !=  true, Set(msg2, At least 15 mL of each inducer stock is needed for this experiment.))
 If({needsInducerInput} !=  true, UserPrompt(Inducer Stocks, {msg1a}\n{msg1b}\n{msg2}))
 
 Get(note, note)
