@@ -3,13 +3,14 @@
 //        and the readEndTime variable set to either {readEndTime1} or {readEndTime2}
 
 Set(clearTipsLineage, {lineage})
+Set(cytomTipsNeeded, 96)
 #InsertVariables
 
 //Clear tip rack after all growth plate preps are done
 If({clearTipsLineage}==1, Overlord({clearTipRackOvp}))
 If({clearTipsLineage}==1, WaitFor(Overlord))
 
-ReadScript(Common protocol scripts\Need Tips.lmsf, tips300Need = 96, clearTipRack = false)
+ReadScript(Common protocol scripts\Need Tips.lmsf, tips300Need = {cytomTipsNeeded}, clearTipRack = false)
 
 //Set up timer to wait for reader to get close to finished before starting pipetting method
 Math(cytometryStartTime, {readEndTime} - 1800)

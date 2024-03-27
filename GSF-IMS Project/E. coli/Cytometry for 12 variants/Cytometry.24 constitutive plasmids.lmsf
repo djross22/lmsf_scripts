@@ -385,7 +385,7 @@ ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_2.lmsf, reade
 //--- Cytometry Plate (already on the STAR deck) ---------------------------------------------------------------------------------
 
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
-ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Cytom_plate.lmsf, reader = {reader1}, readEndTime = {readEndTime1}, clearTipsLineage = 0)
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Cytom_plate.lmsf, reader = {reader1}, readEndTime = {readEndTime1}, clearTipsLineage = 0, cytomTipsNeeded = 32)
 
 
 //--- Clean up --------------------------------------------------------------------------------------
