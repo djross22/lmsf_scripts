@@ -37,6 +37,7 @@ Set(scriptDir, GSF-IMS Project\E. coli\Cytometry for 12 variants)
 Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep.24 constitutive plasmids.hsl)
 Set(nonSelectiveGradientMethod, Uniform non-selective plate prep.hsl)
+Set(nonSelectiveGradientMethodTime, 540)
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 //New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
@@ -64,7 +65,7 @@ StartPrompt(E. Coli Fitness Selection, {scriptDir}\Cytometry.24 constitutive pla
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 48 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
-UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 48 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 72 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
 
 Set(tips300Index, 0)
 Set(tips1000Index, 0)
@@ -379,13 +380,13 @@ Math(plateNum, {plateNum} + 1)
 Set(sequenceNum, 0)
 
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
-ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_2.lmsf, reader = {reader1}, readEndTime = {readEndTime1}, alsoAddTips300 = false, plate_2PipettingTime = 120)
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_2.lmsf, reader = {reader1}, readEndTime = {readEndTime1}, alsoAddTips300 = false, plate_2PipettingTime = {nonSelectiveGradientMethodTime})
 
 
 //--- Cytometry Plate (already on the STAR deck) ---------------------------------------------------------------------------------
 
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
-ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Cytom_plate.lmsf, reader = {reader1}, readEndTime = {readEndTime1}, clearTipsLineage = 0, cytomTipsNeeded = 32)
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Cytom_plate.lmsf, reader = {reader1}, readEndTime = {readEndTime1}, clearTipsLineage = 0, cytomTipsNeeded = 32, cytomPipettingTime = 240)
 
 
 //--- Clean up --------------------------------------------------------------------------------------

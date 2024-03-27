@@ -4,6 +4,7 @@
 
 Set(clearTipsLineage, {lineage})
 Set(cytomTipsNeeded, 96)
+Set(cytomPipettingTime, 420)
 #InsertVariables
 
 //Clear tip rack after all growth plate preps are done
@@ -38,6 +39,6 @@ WaitFor({reader}, false)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_cytom-plate_{lineage}-{plateNum}.csv)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{cytometryTransferMethod})
-Timer(420)
+Timer({cytomPipettingTime})
 WaitFor(Timer)
 WaitFor(S-Cell-STAR)
