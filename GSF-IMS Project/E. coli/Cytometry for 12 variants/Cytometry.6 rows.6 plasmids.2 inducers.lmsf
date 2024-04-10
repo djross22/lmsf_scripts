@@ -66,7 +66,7 @@ Set(clearTipRackOvp, {ovpCommDirectory}\Labware\Move Tips from STAR to Waste.ovp
 //User input and Overlord initialization section
 
 // List of labware and other requirements is the same as previous experiment
-StartPrompt(E. Coli Fitness Selection, {scriptDir}\Cytometry.1 strain.12 plasmids_high gradient-list.txt)
+StartPrompt(E. Coli Fitness Selection, {scriptDir}\Cytometry.1 strain.6 plasmids_two inducers-list.txt)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
@@ -163,13 +163,16 @@ If({needsInducerInput} ==  true, Get(concentration, inducer1Stock, Enter the con
 If({needsInducerInput} ==  true, Get(additive, inducer2, Select the second ligand, which will be used with {plasmidE1}, {plasmidF1}, and {plasmidG1}:))
 If({needsInducerInput} ==  true, Get(concentration, inducer2Stock, Enter the concentration of the {inducer2} starting stock:))
 
+If({needsInducerInput} !=  true, Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits}))
+If({needsInducerInput} !=  true, Set(inducer2Stock, {inducer2StockConc} {inducer2StockUnits}))
+
 Set(msg1a, temp)
 Set(msg1b, temp)
 Set(msg2, temp)
 If({needsInducerInput} !=  true, Set(msg1a, {inducer1} stock concentration should be {inducer1Stock}.))
 If({needsInducerInput} !=  true, Set(msg1b, {inducer2} stock concentration should be {inducer2Stock}.))
 If({needsInducerInput} !=  true, Set(msg2, 20 mL of each inducer stock is needed for this experiment.))
-If({needsInducerInput} !=  true, UserPrompt({inducer} Stock, {msg1a}\n{msg1b}\n{msg2}))
+If({needsInducerInput} !=  true, UserPrompt(Inducer Stocks, {msg1a}\n{msg1b}\n{msg2}))
 
 // These need to be set to avoid error in Hamilton methods
 Set(inducer3, none)
