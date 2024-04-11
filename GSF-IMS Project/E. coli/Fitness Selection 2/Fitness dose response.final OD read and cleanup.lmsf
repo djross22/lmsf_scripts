@@ -1,0 +1,38 @@
+// sub-script for single read, Plate 5 and cleanup ----------------------------------------------------
+
+Timer({readEndTime})
+WaitFor(Timer)
+
+WaitFor({reader})
+Gen5({reader}, CarrierOut)
+WaitFor({reader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader.ovp, [Gen5.Reader.Name] "{reader}" [Gen5.Reader2.Name] "{reader}")
+WaitFor(Overlord)
+
+Gen5({reader}, RunExp, {singleReadProtocol}, {experimentId}_single-OD_{lineage}-{plateNum}_f, {dataDirectory})
+Timer({singleReadProtocolTime})
+WaitFor(Timer)
+
+WaitFor({reader})
+Gen5({reader}, CarrierOut)
+WaitFor({reader}, false)
+
+// Plate is already peeled
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.No Peel.ovp, [Gen5.Reader.Name] "{reader}")
+WaitFor(Overlord)
+
+Gen5({reader}, CarrierIn)
+WaitFor({reader}, false)
+
+
+//--- Clean up --------------------------------------------------------------------------------------
+
+
+SaveXML()
+
+CopyRemoteFiles()
+
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
+WaitFor(Overlord)
+

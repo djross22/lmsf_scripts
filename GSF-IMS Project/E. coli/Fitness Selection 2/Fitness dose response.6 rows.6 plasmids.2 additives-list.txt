@@ -1,0 +1,15 @@
+Three Agilent growth plates, with lids, in stack 7 of the Carousel
+One Agilent media reservoir with lid, on deck of STAR
+One Agilent 6-reservoir plate, with lid, on deck of STAR
+One Agilent media reservoir WITHOUT lid, on deck of STAR (for liquid waste)
+
+64 high-volume (1000 uL) tips, in the tip supports on the STAR
+40 standard-volume (300 uL) tips, in the tip supports on the STAR
+Two full racks of standard-volume (300 uL) tips on the Carousel
+
+350 mL of media
+20 mL of additive/antibiotic 1 at 2x concentration (in column 1 of reagent plate)
+20 mL of additive/antibiotic 2 at 2x concentration (in column 2 of reagent plate)
+
+5 mL of each bacteria stock (in 14 mL culture tubes on deck of STAR)
+
