@@ -7,7 +7,7 @@ One Agilent media reservoir WITHOUT lid, on deck of STAR (for liquid waste)
 40 standard-volume (300 uL) tips, in the tip supports on the STAR
 Two full racks of standard-volume (300 uL) tips on the Carousel
 
-350 mL of media
+200 mL of media
 20 mL of additive/antibiotic 1 at 2x concentration (in column 1 of reagent plate)
 20 mL of additive/antibiotic 2 at 2x concentration (in column 2 of reagent plate)
 
