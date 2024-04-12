@@ -1,4 +1,7 @@
-// sub-script for single read, Plate 5 and cleanup ----------------------------------------------------
+//runs the single read after Plate 3 for each set of plates (aka lineage)
+//This method needs to have the reader variable set to a plate reader name
+//        and the readEndTime variable set to either {readEndTime1} or {readEndTime2}
+#InsertVariables
 
 Timer({readEndTime})
 WaitFor(Timer)
