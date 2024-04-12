@@ -9,7 +9,7 @@ Two full racks of standard-volume (300 uL) tips, in the tip supports on the STAR
 Five full racks of standard-volume (300 uL) tips on the Carousel
 
 350 mL of media
-15 mL of each inducer at 2x concentration (in columns 1 and 2 of reagent plate)
+20 mL of inducer stock at 2x concentration (in column 1 of reagent plate)
 
 5 mL of each bacteria stock (in 14 mL culture tubes on deck of STAR)
 
