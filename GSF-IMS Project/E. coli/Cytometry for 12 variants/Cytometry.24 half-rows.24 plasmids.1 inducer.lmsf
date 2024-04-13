@@ -97,7 +97,7 @@ If({media} == notAssigned, Get(media, media))
 
 If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
 
-Set(msg1, Open the file strain_plasmids_24.txt from today's folder in the LMSF Queue: {queueDirectory}.\nThen, verify that it contains the appropriate information for this experiment.)
+Set(msg1, Open the file strain_plasmids_24.txt from today's folder in the LMSF Queue:\n\t{queueDirectory}.\nThen, verify that it contains the appropriate information for this experiment.)
 Set(msg2, One strain and 24 plasmids for the experiment.)
 
 Set(msg5, \n\nThe LMSF Queue is on the JCloud at: \\resdata-smb\JCloud2\Shared_Data\LMSF Queue.)
