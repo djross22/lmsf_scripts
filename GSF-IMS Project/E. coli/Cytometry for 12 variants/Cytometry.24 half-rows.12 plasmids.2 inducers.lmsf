@@ -5,6 +5,7 @@ Set(inducer1, notAssigned)
 Set(inducer2, notAssigned)
 Set(media, notAssigned)
 Set(percentDMSO, 0)
+Set(dilutionSeriesFactor, 3)
 
 #InsertVariables
 
@@ -46,7 +47,6 @@ Set(cytometryPrepMethod, Prep cytometry plate.hsl)
 Set(cytometryTransferMethod, Transfer cells from old GP to Cytometry Plate_2 inducers per row.hsl)
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
-Set(dilutionSeriesFactor, 3)
 
 //Set readers to be used
 Set(reader1, Neo)
