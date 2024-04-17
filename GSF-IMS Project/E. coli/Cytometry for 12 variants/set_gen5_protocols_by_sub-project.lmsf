@@ -32,7 +32,7 @@ If({sub_project}==CymR, Set(overNightProtocolTime1, 43500))
 
 If({sub_project}==CymR, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.30m.37C.1C.Ex569Em593.prt))
 //overNightProtocolTime2 = nominal run time + 300
-If({sub_project}==CymR, Set(overNightProtocolTime2, 47700))
+If({sub_project}==CymR, Set(overNightProtocolTime2, 48900))
 
 If({sub_project}==CymR, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt))
 //repeatProtocolTime = nominal run time + 300
@@ -56,7 +56,7 @@ If({sub_project}==Align-TF, Set(overNightProtocolTime1, 43500))
 
 If({sub_project}==Align-TF, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.30m.37C.1C.Ex569Em593.prt))
 //overNightProtocolTime2 = nominal run time + 300
-If({sub_project}==Align-TF, Set(overNightProtocolTime2, 47700))
+If({sub_project}==Align-TF, Set(overNightProtocolTime2, 48900))
 
 If({sub_project}==Align-TF, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt))
 //repeatProtocolTime = nominal run time + 300
@@ -73,7 +73,7 @@ If({sub_project}==Marionette, Set(overNightProtocolTime1, 43500))
 
 If({sub_project}==Marionette, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.30m.37C.1C.GFP-RFP.prt))
 //overNightProtocolTime2 = nominal run time + 300
-If({sub_project}==Marionette, Set(overNightProtocolTime2, 47700))
+If({sub_project}==Marionette, Set(overNightProtocolTime2, 48900))
 
 If({sub_project}==Marionette, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.GFP-RFP.prt))
 //repeatProtocolTime = nominal run time + 300
