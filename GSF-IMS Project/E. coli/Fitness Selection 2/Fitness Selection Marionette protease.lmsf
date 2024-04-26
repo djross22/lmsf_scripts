@@ -1,0 +1,182 @@
+
+Set(sub_project, notAssigned)
+Set(queueDirectory, notAssigned)
+Set(inducer1, Van)
+Set(inducer2, Sal)
+Set(selector1, TMP)
+
+Set(inducer1StockConc, 200)
+Set(inducer2_1StockConc, 15.625)
+Set(inducer2_2StockConc, 62.5)
+Set(inducer2_3StockConc, 250)
+Set(inducer2_4StockConc, 1000)
+Set(selector1StockConc, 200)
+
+Set(inducer1StockUnits, umol/L)
+Set(inducer2StockUnits, umol/L)
+Set(selector1StockUnits, ug/mL)
+
+Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits})
+Set(inducer2_1Stock, {inducer2_1StockConc} {inducer2StockUnits})
+Set(inducer2_2Stock, {inducer2_2StockConc} {inducer2StockUnits})
+Set(inducer2_3Stock, {inducer2_3StockConc} {inducer2StockUnits})
+Set(inducer2_4Stock, {inducer2_4StockConc} {inducer2StockUnits})
+Set(selector1Stock, {selector1StockConc} {selector1StockUnits})
+
+Set(media, notAssigned)
+Set(percentDMSO, 0)
+Set(dilutionSeriesFactor, 4)
+
+#InsertVariables
+
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set(isPipetting, true)
+//isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
+Set(isDebugging, false)
+
+//manualSeal controls whether sealing is manual or automatic
+//Set(manualSeal, Yes)
+Set(manualSeal, No)
+
+/////////////////////////////////////////////////////////////////
+//Read in commonly used directories
+ReadScript(Common protocol scripts\Set Common Directories.lmsf)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Fitness Selection 2.With DNA Extraction)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Set directories for  .hsl, .opv, and .prt files that are specific to this experiment
+// Overlord protocols are the same as for the last version
+Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
+Set(scriptDir, GSF-IMS Project\E. coli\Fitness Selection 2)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Hamilton Venus Methods, in the order that they get run
+Set(initHHCMethod, Turn on pre-heat HHC.hsl)
+Set(startMethod, Uniform non-selective plate prep plus 4 strains.hsl)
+Set(startMethodTime, 950)
+Set(nonSelectiveGradientMethod, Marionette protease.gradient plate prep.hsl)
+Set(nonSelectivePlateTime, 1140)
+// fold-dilution across dilution series in nonSelectiveGradientMethod and selectiveGradientMethod:
+
+Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
+//Plate pre-heating method takes 12m:16s to run
+//New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
+Set(preHeatPlateTime, 660)
+// Subtract 2 minutes (i.e., start preheat 2 minutes later) for single read 
+Math(preHeatPlateTime, {preHeatPlateTime} - 120)
+
+Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
+Set(selectiveGradientMethod, Marionette protease.gradient plate prep.hsl)
+Set(selectivePlateTime, 1140)
+
+//Venus method constrains 200<=cultureVolume<=500
+Set(cultureVolume, 500)
+
+/////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////
+//Gen5 protocols to be run and associated timers:
+//Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
+Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.prt)
+//overNightProtocolTime = nominal run time + 300
+//Set(overNightProtocolTime, 57900)
+Set(overNightProtocolTime, 43500)
+
+Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.prt)
+//repeatProtocolTime = nominal run time + 300
+Set(repeatProtocolTime, 11100)
+
+Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane single read.37C.1C.prt)
+Set(singleReadProtocolTime, 68)
+
+//Gen5 protocol for testing readers at beginning of run to give consistent starting state
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
+/////////////////////////////////////////////////////////////////
+
+//Set readers to be used
+Set(mainReader, Neo)
+
+//placeholder for plasmid4 - to avoid errors in init script
+Set(plasmid4, using)
+
+//--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
+Set(isExtractingDNA, false)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.Marionette-protease.lmsf)
+
+Get(strain, strain1, Select the bacteria strain used for the experiment:)
+Get(plasmid, plasmid1, Select the plasmid used for rows A and B: tube position 10)
+Get(plasmid, plasmid2, Select the plasmid used for rows C and D: tube position 11)
+Get(plasmid, plasmid3, Select the plasmid used for rows E and F: tube position 12)
+Get(plasmid, plasmid4, Select the plasmid used for rows G and H: tube position 13)
+//Needed for Hamilton:
+Set(strain2, {strain1})
+
+
+Set(msg1, {inducer1} stock concentration should be {inducer1Stock}.)
+UserPrompt(Inducer Stocks, {msg1})
+
+Set(msg1, The first {inducer2} stock concentration should be {inducer2_1Stock}.)
+UserPrompt(Inducer Stocks, {msg1})
+
+Set(msg1, The second {inducer2} stock concentration should be {inducer2_2Stock}.)
+UserPrompt(Inducer Stocks, {msg1})
+
+Set(msg1, The third {inducer2} stock concentration should be {inducer2_3Stock}.)
+UserPrompt(Inducer Stocks, {msg1})
+
+Set(msg1, The forth {inducer2} stock concentration should be {inducer2_4Stock}.)
+UserPrompt(Inducer Stocks, {msg1})
+
+Set(msg1, The {selector1} stock concentration should be {selector1Stock}.)
+UserPrompt(Antibiotic Stock, {msg1})
+
+
+Get(note, note)
+
+GetExpID({startDate}_Mar-Pro_OD-test-5-plates)
+
+//review experiment ok/abort dialog
+Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
+
+Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}\n\n \tPlasmids:\n\t\t\t{plasmid1}\n\t\t\t{plasmid2}\n\t\t\t{plasmid3}\n\t\t\t{plasmid4}\n\n)
+
+Set(msg3, \tInducer 1: \t{inducer1}, stock concentration: {inducer1Stock}\n)
+Set(msg3, {msg3}\tInducer 2: \tFirst {inducer2}, stock concentration: {inducer2_1Stock}\n)
+Set(msg3, {msg3}\tInducer 2: \tSecond {inducer2}, stock concentration: {inducer2_2Stock}\n)
+Set(msg3, {msg3}\tInducer 2: \tThird {inducer2}, stock concentration: {inducer2_3Stock}\n)
+Set(msg3, {msg3}\tInducer 2: \tForth {inducer2}, stock concentration: {inducer2_4Stock}\n)
+
+Set(msg4, \tSelector 1:\t{selector1}, stock concentration: {selector1Stock}\n)
+Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
+Set(msg6, \n\n\{overNightProtocol}\n{repeatProtocol})
+UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3}\n{msg4} {msg5}{msg6})
+
+Set(msg1, Set up the STAR deck layout as shown.)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.2 inducers.2 tet.4 strains.PNG, 1000)
+
+//--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
+Set(startWithInducer, No)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf, lidTestMethod={hamiltonMethodDir}\Pre-run lid test.No Abgene.hsl)
+
+//--- Growth Plate 3 prep and OD Read from Plate 2 ----------------------------------------------------------------------------- 
+// For for this experiment, need to clear waste tip rack (no new 1000s added after plate 2)
+Set(clear300TipWaste, true)
+
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+
+// --- Add more tips before plate 4 ---
+ReadScript(Common protocol scripts\Need Tips.lmsf, clearTipRack=true, tips1000Need=96, tips300Need=96)
+Set(clear300TipWaste, false)
+
+//--- Growth Plate 4 prep and OD Read from Plate 3 ----------------------------------------------------------------------------- 
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+Set(clear300TipWaste, true)
+
+//--- Growth Plate 5 prep and OD Read from Plate 4 ----------------------------------------------------------------------------- 
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+
+//--- OD Read from Plate 5 and cleanup -------------------------------------------------------------------
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 single OD read.lmsf)
