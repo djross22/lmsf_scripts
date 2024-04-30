@@ -1,3 +1,16 @@
+
+Set(sub_project, notAssigned)
+Set(queueDirectory, notAssigned)
+Set(inducer, notAssigned)
+Set(leftAdditive, notAssigned)
+Set(rightAdditive, notAssigned)
+Set(useTwoStrains, notAssigned)
+Set(media, notAssigned)
+Set(percentDMSO, 0)
+
+#InsertVariables
+
+
 //isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
 Set(isPipetting, true)
 //isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
@@ -8,41 +21,14 @@ Set(isDebugging, false)
 Set(manualSeal, No)
 
 //Read in commonly used directories
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Set Common Directories.lmsf)
+ReadScript(Common protocol scripts\Set Common Directories.lmsf)
 Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Double 2D Gradient)
 
 //Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
-Set(protocolDir, C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Double 2D Gradient)
+Set(protocolDir, GSF-IMS Project\E. coli\Double 2D Gradient)
 
 /////////////////////////////////////////////////////////////////
-//Gen5 protocols to be run and associated timers:
-
-// ****** For LacI project: **********************
-Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.Ex500Em530.prt)
-//overNightProtocolTime = nominal run time + 300
-Set(overNightProtocolTime, 57900)
-
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.37C.1C.Ex500Em530.prt)
-//repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 9600)
-// **************************************************
-
-// ***** For RamR project: *******************************
-//Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 4h.37C.1C.Ex500Em530.prt)
-//repeatProtocolTime = nominal run time + 300
-//Set(repeatProtocolTime, 14700)
-// ****************************************************
-
-// ***** For CymR project: *****************************
-Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.Ex569Em593.prt)
-//overNightProtocolTime = nominal run time + 300
-Set(overNightProtocolTime, 57900)
-
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.Ex569Em593.prt)
-//repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 11100)
-// ****************************************************
-
+//Gen5 protocols that are the same for all sub-projects, and associated timers:
 Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane single read.37C.1C.prt)
 Set(singleReadProtocolTime, 68)
 
@@ -51,38 +37,13 @@ Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1
 Set(lastProtocolTime, 57900)
 
 Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
-
-//For testing readers at beginning of run to give consistent starting state
-Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 /////////////////////////////////////////////////////////////////
+
 
 //Set readers to be used
 Set(mainReader, Neo)
 Set(reader2b, Epoch2)
 Set(reader3b, Epoch4)
-
-/////////////////////////////////////
-//This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
-Set(isTesting, false)
-GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
-If({isTesting}!=Yes, UserPrompt(Re-Boot STAR, Turn off the power to the Hamilton STAR; wait 10 seconds and turn it back on; then click 'OK' to continue., {lmsfImageDirectory}\dialog-warning.png))
-
-Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.prt)
-
-If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 15m.37C.1C.prt))
-//overNightProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(overNightProtocolTime, 1200))
-
-If({isTesting}==Yes, Set(repeatProtocol, {testProtocol}))
-//repeatProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(repeatProtocolTime, 900))
-
-If({isTesting}==Yes, Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.prt))
-//lastProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(lastProtocolTime, 900))
-
-If({isTesting}==Yes, Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.prt))
-/////////////////////////////////////////
 
 //Set any other short-hand dictionary keys that will be used repeatedly
 Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
@@ -96,7 +57,7 @@ StartPrompt(Overnight Double 2D Gradient Plate Prep, {protocolDir}\Double 2D gra
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 
 //the Edit Tip Counters.lmsf script sets the tip status variables in the dictionary. In particular, it sets {tips1000Total}, {tips300Total}, and {tipsOffsetTotal}, which are used for this protocol
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Edit Tip Counters.lmsf)
+ReadScript(Common protocol scripts\Edit Tip Counters.lmsf)
 Set(racksNeeded1000Tips, 0)
 Set(clear1000Tips, false)
 If({tips1000Total}<120, Set(racksNeeded1000Tips, 1))
@@ -144,11 +105,20 @@ UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip Hotels 1-2.png)
 
 NewXML(growth plate prep)
 
+If({sub_project}==notAssigned, Get(sub-project, sub_project, Select the sub-project (determines Gen5 protocols):))
+
+ReadScript(GSF-IMS Project\E. coli\Double 2D Gradient\set_gen5_protocols_by_sub-project.lmsf, sub_project_in = {sub_project})
+
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
 Get(user, user)
 
-Get(media, media)
+//Get media info from user if needed (i.e., if not assigned at #InsertVariables)
+If({media} != notAssigned, Set(msg1, The media for this experiment should be {media}))
+If({percentDMSO} != 0, Set(msg2, with {percentDMSO}% DMSO))
+If({percentDMSO} == 0, Set(msg2, ))
+If({media} != notAssigned, UserPrompt(Media, {msg1} {msg2}.))
+If({media} == notAssigned, Get(media, media))
 
 //GetUserYesNo(usingBeads, Beads in Wells?, Are you using beads in the wells of the growth plates?)
 
@@ -156,7 +126,8 @@ Get(media, media)
 Set(cultureVolume, 500)
 //If({usingBeads} == Yes, Set(cultureVolume, 450))
 
-GetUserYesNo(startWithInducer, Start with Inducer?, Do you want to include inducer in the first (overnight growth) plate?)
+//GetUserYesNo(startWithInducer, Start with Inducer?, Do you want to include inducer in the first (overnight growth) plate?)
+Set(startWithInducer, No)
 
 /////////////////////////////////////////////////////////////////
 //Hamilton Venus Methods, in the order that they get run
@@ -181,26 +152,54 @@ Set(doubleGradTime, 2250)
 /////////////////////////////////////////////////////////////////
 
 
-Get(strain, strain1, Select the bacteria strain used for the protocol:)
-Get(plasmid, plasmid1, Select the plasmid used for the protocol:)
+If({useTwoStrains} ==  notAssigned, GetUserYesNo(useTwoStrains, Two Strains?, Do you want to use a two strains,/n/tone for the left-side gradient and one for the right-side gradient?))
 
-Set(useTwoStrains, No)
+Set(msg, Select the bacteria strain used for the experiment:)
+Get(strain, strain1, {msg})
+
+Set(msg, Select the plasmid used for the experiment:)
+If({useTwoStrains}==Yes, Set(msg, Select the plasmid used for the left-side gradient:))
+Get(plasmid, plasmid1, {msg})
+
 Set(strain2, none)
 Set(plasmid2, none)
-GetUserYesNo(useTwoStrains, Two Strains?, Do you want to use a second strain for the right-side gradient?)
-If({useTwoStrains}==Yes, Get(strain, strain2, Select the bacteria strain used for the right-side gradient:))
+
+If({useTwoStrains}==Yes, Set(strain2, {strain1}))
 If({useTwoStrains}==Yes, Get(plasmid, plasmid2, Select the plasmid used for the right-side gradient:))
 
 UserPrompt(Inducer and additive stocks, Inducer and additive stocks should be at 5x concentration\n relative to the maximum concentration that will be measured.)
 
-Get(additive, inducer)
-Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:)
+//Get inducer info from user if needed (i.e., if not assigned at #InsertVariables)
+Set(needsInducerInput, false)
+If({inducer} ==  notAssigned, Set(needsInducerInput, true))
 
-Get(additive, leftAdditive, Select the additive for the left-side gradient)
-Get(concentration, leftAdditiveStock, Enter the concentration of the {leftAdditive} starting stock:)
 
-Get(additive, rightAdditive, Select the additive for the right-side gradient)
-Get(concentration, rightAdditiveStock, Enter the concentration of the {rightAdditive} starting stock:)
+If({needsInducerInput} ==  true, Get(additive, inducer))
+If({needsInducerInput} ==  true, Get(concentration, inducerStock, Enter the concentration of the {inducer} starting stock:))
+
+If({needsInducerInput} ==  true, Get(additive, leftAdditive, Select the additive for the left-side gradient))
+If({needsInducerInput} ==  true, Get(concentration, leftAdditiveStock, Enter the concentration of the {leftAdditive} starting stock:))
+
+If({needsInducerInput} ==  true, Get(additive, rightAdditive, Select the additive for the right-side gradient))
+If({needsInducerInput} ==  true, Get(concentration, rightAdditiveStock, Enter the concentration of the {rightAdditive} starting stock:))
+
+If({needsInducerInput} !=  true, Set(inducerStock, {inducerStockConc} {inducerStockUnits}))
+
+If({needsInducerInput} !=  true, Set(leftAdditiveStock, {leftAdditiveStockConc} {leftAdditiveStockUnits}))
+If({needsInducerInput} !=  true, Set(rightAdditiveStock, {rightAdditiveStockConc} {rightAdditiveStockUnits}))
+
+Set(msg1, temp)
+Set(msg2, temp)
+If({needsInducerInput} !=  true, Set(msg1, {inducer} stock concentration should be {inducerStock}.))
+If({needsInducerInput} !=  true, Set(msg2, 20 mL of {inducer} stock is needed for this experiment.))
+If({needsInducerInput} !=  true, UserPrompt(Inducer Stocks, {msg1}\n{msg2}))
+
+Set(msg1a, temp)
+Set(msg1b, temp)
+If({needsInducerInput} !=  true, Set(msg1a, {leftAdditive} stock concentration should be {leftAdditiveStock}.))
+If({needsInducerInput} !=  true, Set(msg1b, {rightAdditive} stock concentration should be {rightAdditiveStock}.))
+If({needsInducerInput} !=  true, Set(msg2, 20 mL of each additive stock is needed for this experiment.))
+If({needsInducerInput} !=  true, UserPrompt(Inducer Stocks, {msg1a}\n{msg1b}\n{msg2}))
 
 Get(note, note)
 
@@ -254,7 +253,7 @@ WaitFor(Overlord)
 
 //--- 0 ------------------------------------------------------------------------------
 //Set up the initial allocation of tips
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\GSF-IMS Project\E. coli\Double 2D Gradient\Starting Tips.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Double 2D Gradient\Starting Tips.lmsf)
 
 //Test readers
 Gen5({mainReader}, CarrierOut)
