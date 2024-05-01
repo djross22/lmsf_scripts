@@ -5,6 +5,9 @@ Set(inducer, notAssigned)
 Set(leftAdditive, notAssigned)
 Set(rightAdditive, notAssigned)
 Set(useTwoStrains, notAssigned)
+Set(strain1, notAssigned)
+Set(plasmid1, notAssigned)
+Set(plasmid2, notAssigned)
 Set(media, notAssigned)
 Set(percentDMSO, 0)
 
@@ -154,18 +157,27 @@ Set(doubleGradTime, 2250)
 
 If({useTwoStrains} ==  notAssigned, GetUserYesNo(useTwoStrains, Two Strains?, Do you want to use a two strains,/n/tone for the left-side gradient and one for the right-side gradient?))
 
+//Get strain info from user if needed (i.e., if not assigned at #InsertVariables)
+Set(needsStrainInput, false)
+If({strain1} ==  notAssigned, Set(needsStrainInput, true))
+
 Set(msg, Select the bacteria strain used for the experiment:)
-Get(strain, strain1, {msg})
+If({needsStrainInput} ==  true, Get(strain, strain1, {msg}))
 
 Set(msg, Select the plasmid used for the experiment:)
 If({useTwoStrains}==Yes, Set(msg, Select the plasmid used for the left-side gradient:))
-Get(plasmid, plasmid1, {msg})
+If({needsStrainInput} ==  true, Get(plasmid, plasmid1, {msg}))
+
+If({needsStrainInput}_{useTwoStrains} ==  false_Yes, UserPrompt(Strain and Plasmids, The plasmid for the left-side gradient should be {plasmid1} in {strain1}))
+If({needsStrainInput}_{useTwoStrains} ==  false_No, UserPrompt(Strain and Plasmids, The plasmid for the experiment should be {plasmid1} in {strain1}))
 
 Set(strain2, none)
-Set(plasmid2, none)
+If({plasmid2} ==  notAssigned, Set(plasmid2, none))
 
 If({useTwoStrains}==Yes, Set(strain2, {strain1}))
-If({useTwoStrains}==Yes, Get(plasmid, plasmid2, Select the plasmid used for the right-side gradient:))
+If({useTwoStrains}_{needsStrainInput}==Yes_true, Get(plasmid, plasmid2, Select the plasmid used for the right-side gradient:))
+
+If({useTwoStrains}_{needsStrainInput}==Yes_false, UserPrompt(Strain and Plasmids, The plasmid for the right-side gradient should be {plasmid2} in {strain1}))
 
 UserPrompt(Inducer and additive stocks, Inducer and additive stocks should be at 5x concentration\n relative to the maximum concentration that will be measured.)
 
@@ -196,8 +208,8 @@ If({needsInducerInput} !=  true, UserPrompt(Inducer Stocks, {msg1}\n{msg2}))
 
 Set(msg1a, temp)
 Set(msg1b, temp)
-If({needsInducerInput} !=  true, Set(msg1a, {leftAdditive} stock concentration should be {leftAdditiveStock}.))
-If({needsInducerInput} !=  true, Set(msg1b, {rightAdditive} stock concentration should be {rightAdditiveStock}.))
+If({needsInducerInput} !=  true, Set(msg1a, {leftAdditive} stock concentration should be {leftAdditiveStock} (left-side gradient).))
+If({needsInducerInput} !=  true, Set(msg1b, {rightAdditive} stock concentration should be {rightAdditiveStock} (right-side gradient).))
 If({needsInducerInput} !=  true, Set(msg2, 20 mL of each additive stock is needed for this experiment.))
 If({needsInducerInput} !=  true, UserPrompt(Inducer Stocks, {msg1a}\n{msg1b}\n{msg2}))
 
