@@ -3,7 +3,7 @@
 
 
 Gen5({reader}, CarrierOut)
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader No Seal, [Gen5.Reader.Name] "{reader}")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader No Seal.ovp, [Gen5.Reader.Name] "{reader}")
 WaitFor(Overlord)
 
 Gen5({reader}, CarrierIn)
