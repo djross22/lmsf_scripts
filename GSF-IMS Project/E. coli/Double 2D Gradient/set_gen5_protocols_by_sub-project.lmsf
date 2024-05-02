@@ -42,9 +42,9 @@ If({sub_project}==RamR, Set(repeatProtocolTime, 11100))
 // ***** For Align-TF project *****
 If({sub_project}==Align-TF, Set(foundMatchingSub, true))
 
-If({sub_project}==Align-TF, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt))
+If({sub_project}==Align-TF, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.prt))
 //overNightProtocolTime1 = nominal run time + 300
-If({sub_project}==Align-TF, Set(overNightProtocolTime, 57900))
+If({sub_project}==Align-TF, Set(overNightProtocolTime, 43500))
 
 If({sub_project}==Align-TF, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.prt))
 //repeatProtocolTime = nominal run time + 300
