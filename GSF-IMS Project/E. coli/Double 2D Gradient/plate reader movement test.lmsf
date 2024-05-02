@@ -1,0 +1,51 @@
+
+//Read in commonly used directories
+ReadScript(Common protocol scripts\Set Common Directories.lmsf)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Double 2D Gradient)
+
+//Set directories for  .hsl, .opv, and .prt files that are specifc to this experiment
+Set(protocolDir, GSF-IMS Project\E. coli\Double 2D Gradient)
+
+
+//Set readers to be used
+Set(mainReader, Neo)
+Set(reader2b, Epoch2)
+Set(reader3b, Epoch4)
+
+
+
+//Test readers
+Gen5({mainReader}, CarrierOut)
+Gen5({reader2b}, CarrierOut)
+Gen5({reader3b}, CarrierOut)
+WaitFor({mainReader}, false)
+WaitFor({reader2b}, false)
+WaitFor({reader3b}, false)
+Set(msg, Readers {mainReader}, {reader2b}, and {reader3b}, should have their carriers out. \nVerify that the carriers are out and empty, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+Gen5({mainReader}, CarrierIn)
+Gen5({reader2b}, CarrierIn)
+Gen5({reader3b}, CarrierIn)
+
+
+// ****************************************************
+
+ReadScript(GSF-IMS Project\E. coli\Double 2D Gradient\reader move test.repeat.lmsf, reader = {mainReader})
+
+ReadScript(GSF-IMS Project\E. coli\Double 2D Gradient\reader move test.repeat.lmsf, reader = {reader2b})
+
+ReadScript(GSF-IMS Project\E. coli\Double 2D Gradient\reader move test.repeat.lmsf, reader = {reader3b})
+
+ReadScript(GSF-IMS Project\E. coli\Double 2D Gradient\reader move test.repeat.lmsf, reader = {mainReader})
+
+ReadScript(GSF-IMS Project\E. coli\Double 2D Gradient\reader move test.repeat.lmsf, reader = {reader2b})
+
+ReadScript(GSF-IMS Project\E. coli\Double 2D Gradient\reader move test.repeat.lmsf, reader = {reader3b})
+
+ReadScript(GSF-IMS Project\E. coli\Double 2D Gradient\reader move test.repeat.lmsf, reader = {mainReader})
+
+ReadScript(GSF-IMS Project\E. coli\Double 2D Gradient\reader move test.repeat.lmsf, reader = {reader2b})
+
+ReadScript(GSF-IMS Project\E. coli\Double 2D Gradient\reader move test.repeat.lmsf, reader = {reader3b})
+
+

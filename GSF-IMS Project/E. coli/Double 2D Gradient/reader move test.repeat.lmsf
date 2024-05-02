@@ -1,0 +1,16 @@
+
+#InsertVariables
+
+
+Gen5({reader}, CarrierOut)
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader No Seal, [Gen5.Reader.Name] "{reader}")
+WaitFor(Overlord)
+
+Gen5({reader}, CarrierIn)
+
+Gen5({reader}, CarrierOut)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.No Peel.ovp, [Gen5.Reader.Name] "{reader}")
+WaitFor(Overlord)
+
+Gen5({reader}, CarrierIn)
