@@ -174,7 +174,8 @@ If({useTwoStrains}_{needsStrainInput}==Yes_true, Get(plasmid, plasmid2, Select t
 
 If({useTwoStrains}_{needsStrainInput}==Yes_false, UserPrompt(Strain and Plasmids, The plasmid for the right-side gradient should be {plasmid2} in {strain1}))
 
-UserPrompt(Inducer and additive stocks, Inducer and additive stocks should be at 5x concentration\n relative to the maximum concentration that will be measured.)
+UserPrompt(Inducer stock, Inducer stock should be at 10x concentration\n relative to the maximum concentration that will be measured.)
+UserPrompt(Antibiotic/Additive stocks, Additive stocks should be at 5x concentration\n relative to the maximum concentration that will be measured.)
 
 //Get inducer info from user if needed (i.e., if not assigned at #InsertVariables)
 Set(needsInducerInput, false)
@@ -220,11 +221,21 @@ If({useTwoStrains}==Yes, Set(msg2a, \n\tBacteria 2: \t\t{strain2}, with {plasmid
 Set(msg3, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n \tLeft-side additive:  \t{leftAdditive}, stock concentration: {leftAdditiveStock}\n)
 Set(msg4, \tRight-side additive:  \t{rightAdditive}, stock concentration: {rightAdditiveStock}\n  \n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
-UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2}{msg2a} {msg3} {msg4} {msg5})
+Set(msg6, \n\n{overNightProtocol}\n{repeatProtocol})
+UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2}{msg2a} {msg3} {msg4} {msg5}{msg6})
 
 Set(msg1, Set up the STAR deck layout as shown.)
-If({useTwoStrains}==Yes, UserPrompt(STAR Deck Layout, {msg1}, {protocolDir}\Double 2D Gradient Layout.2 strains.PNG, 1000))
-If({useTwoStrains}!=Yes, UserPrompt(STAR Deck Layout, {msg1}, {protocolDir}\Double 2D Gradient Layout.PNG, 1000))
+Set(msg2, Bacteria: {plasmid1} in {strain1)
+If({useTwoStrains}==Yes, Set(msg2, Left-side bacteria: {plasmid1} in {strain1))
+If({useTwoStrains}==Yes, Set(msg2, {msg2}\nRight-side bacteria: {plasmid2} in {strain2))
+
+Set(msg3, Left-side antibiotic/additive stock: {leftAdditiveStock} {leftAdditive})
+Set(msg3, \n{msg3}Right-side antibiotic/additive stock: {rightAdditiveStock} {rightAdditive})
+
+Set(msg, {msg1}\n{msg2}\n\n{msg3})
+
+If({useTwoStrains}==Yes, UserPrompt(STAR Deck Layout, {msg}, {protocolDir}\Double 2D Gradient Layout.2 strains.PNG, 1000))
+If({useTwoStrains}!=Yes, UserPrompt(STAR Deck Layout, {msg}, {protocolDir}\Double 2D Gradient Layout.PNG, 1000))
 
 Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
