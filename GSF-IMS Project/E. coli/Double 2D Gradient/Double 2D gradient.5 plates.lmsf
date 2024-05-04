@@ -11,6 +11,8 @@ Set(plasmid2, notAssigned)
 Set(media, notAssigned)
 Set(percentDMSO, 0)
 
+Set(dilutionSeriesFactor, 2)
+
 #InsertVariables
 
 
@@ -63,12 +65,12 @@ UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Cont
 ReadScript(Common protocol scripts\Edit Tip Counters.lmsf)
 Set(racksNeeded1000Tips, 0)
 Set(clear1000Tips, false)
-If({tips1000Total}<120, Set(racksNeeded1000Tips, 1))
-If({tips1000Total}<24, Set(racksNeeded1000Tips, 2))
-If({tips1000Total}<24, Set(clear1000Tips, true))
+If({tips1000Total}<116, Set(racksNeeded1000Tips, 1))
+If({tips1000Total}<20, Set(racksNeeded1000Tips, 2))
+If({tips1000Total}<20, Set(clear1000Tips, true))
 If({tips1000Total}==0, Set(clear1000Tips, false))
 
-//Set msg1 and msg2 to place-holders to avoid error at teh UserPrompt line
+//Set msg1 and msg2 to place-holders to avoid error at the UserPrompt line
 Set(msg1, place-holder)
 Set(msg2, place-holder)
 
@@ -80,12 +82,10 @@ If({clear1000Tips}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edi
 
 Set(racksNeeded300Tips, 0)
 Set(clear300Tips, false)
-If({tips300Total}<142, Set(racksNeeded300Tips, 1))
-If({tips300Total}<46, Set(racksNeeded300Tips, 2))
-If({tips300Total}<46, Set(clear300Tips, true))
+If({tips300Total}<40, Set(racksNeeded300Tips, 1))
 If({tips300Total}==0, Set(clear300Tips, false))
 
-If({clear300Tips}==true, Set(msg1, This protocol will require two racks of 300 uL tips on the STAR to be used by the 8-channel head.\n))
+If({clear300Tips}==true, Set(msg1, This protocol will require at least one rack of 300 uL tips on the STAR to be used by the 8-channel head.\n))
 If({clear300Tips}==true, Set(msg2, Manually clear the remaining tips from the 300 uL tip racks then switch to the STAR computer and re-edit the 300 uL tip counter.\n))
 If({clear300Tips}==true, UserPrompt(Tips, {msg1}{msg2}, {lmsfImageDirectory}\Tip supports 300.PNG))
 If({clear300Tips}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counter-300.hsl))
@@ -129,21 +129,16 @@ If({media} == notAssigned, Get(media, media))
 Set(cultureVolume, 500)
 //If({usingBeads} == Yes, Set(cultureVolume, 450))
 
-//GetUserYesNo(startWithInducer, Start with Inducer?, Do you want to include inducer in the first (overnight growth) plate?)
-Set(startWithInducer, No)
-
 /////////////////////////////////////////////////////////////////
 //Hamilton Venus Methods, in the order that they get run
 Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
-If({startWithInducer} == Yes, Set(startMethod, Plate 1.1D gradient plate prep.hsl))
 
-Set(nonSelectivePlateMethod, Plate 2.1D gradient plate prep.hsl)
+Set(nonSelectivePlateMethod, Double 2D gradient plate prep.hsl)
 Set(nonSelectivePlateTime, 1170)
 
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
-//Plate pre-heating method takes 12m:16s to run
-//New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
+//Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
 Set(preHeatPlateTime, 660)
 // Subtract 2 minutes (i.e., start preheat 2 minutes later) for single read 
 Math(preHeatPlateTime, {preHeatPlateTime} - 120)
@@ -179,7 +174,8 @@ If({useTwoStrains}_{needsStrainInput}==Yes_true, Get(plasmid, plasmid2, Select t
 
 If({useTwoStrains}_{needsStrainInput}==Yes_false, UserPrompt(Strain and Plasmids, The plasmid for the right-side gradient should be {plasmid2} in {strain1}))
 
-UserPrompt(Inducer and additive stocks, Inducer and additive stocks should be at 5x concentration\n relative to the maximum concentration that will be measured.)
+UserPrompt(Inducer stock, Inducer stock should be at 10x concentration\nrelative to the maximum concentration that will be measured.)
+UserPrompt(Antibiotic/Additive stocks, Additive stocks should be at 5x concentration\nrelative to the maximum concentration that will be measured.)
 
 //Get inducer info from user if needed (i.e., if not assigned at #InsertVariables)
 Set(needsInducerInput, false)
@@ -225,11 +221,22 @@ If({useTwoStrains}==Yes, Set(msg2a, \n\tBacteria 2: \t\t{strain2}, with {plasmid
 Set(msg3, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n \tLeft-side additive:  \t{leftAdditive}, stock concentration: {leftAdditiveStock}\n)
 Set(msg4, \tRight-side additive:  \t{rightAdditive}, stock concentration: {rightAdditiveStock}\n  \n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
-UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2}{msg2a} {msg3} {msg4} {msg5})
+Set(msg6, \n\n{overNightProtocol}\n{repeatProtocol})
+UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2}{msg2a} {msg3} {msg4} {msg5}{msg6})
 
 Set(msg1, Set up the STAR deck layout as shown.)
-If({useTwoStrains}==Yes, UserPrompt(STAR Deck Layout, {msg1}, {protocolDir}\Double 2D Gradient Layout.2 strains.PNG, 1000))
-If({useTwoStrains}!=Yes, UserPrompt(STAR Deck Layout, {msg1}, {protocolDir}\Double 2D Gradient Layout.PNG, 1000))
+Set(msg2, Bacteria: {plasmid1} in {strain1})
+If({useTwoStrains}==Yes, Set(msg2, Left-side bacteria: {plasmid1} in {strain1}))
+If({useTwoStrains}==Yes, Set(msg2, {msg2}\nRight-side bacteria: {plasmid2} in {strain2}))
+
+Set(msg3, inducer stock: {inducerStock} {inducer})
+Set(msg3, {msg3}\nLeft-side antibiotic/additive stock: {leftAdditiveStock} {leftAdditive})
+Set(msg3, {msg3}\nRight-side antibiotic/additive stock: {rightAdditiveStock} {rightAdditive})
+
+Set(msg, {msg1}\n{msg2}\n\n{msg3})
+
+If({useTwoStrains}==Yes, UserPrompt(STAR Deck Layout, {msg}, {protocolDir}\Double 2D Gradient Layout.2 strains.PNG, 1000))
+If({useTwoStrains}!=Yes, UserPrompt(STAR Deck Layout, {msg}, {protocolDir}\Double 2D Gradient Layout.PNG, 1000))
 
 Set(msg1, Close the front cover on the STAR.\n)
 Set(msg2, Ensure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.\n)
@@ -302,7 +309,18 @@ WaitFor({reader3b}, false)
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{mainReader}" [Sealer.ManualSeal] "{manualSeal}")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader No Seal.ovp, [Gen5.Reader.Name] "{mainReader}")
+WaitFor(Overlord)
+
+Gen5({mainReader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_0, {dataDirectory})
+Timer({singleReadProtocolTime})
+WaitFor(Timer)
+WaitFor({mainReader})
+
+Gen5({mainReader}, CarrierOut)
+WaitFor({mainReader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader and Seal.ovp, [Gen5.Reader.Name] "{mainReader}" [Gen5.Reader2.Name] "{mainReader}")
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{plateNum}a, {dataDirectory})
