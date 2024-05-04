@@ -11,6 +11,8 @@ Set(plasmid2, notAssigned)
 Set(media, notAssigned)
 Set(percentDMSO, 0)
 
+Set(dilutionSeriesFactor, 2)
+
 #InsertVariables
 
 
@@ -174,8 +176,8 @@ If({useTwoStrains}_{needsStrainInput}==Yes_true, Get(plasmid, plasmid2, Select t
 
 If({useTwoStrains}_{needsStrainInput}==Yes_false, UserPrompt(Strain and Plasmids, The plasmid for the right-side gradient should be {plasmid2} in {strain1}))
 
-UserPrompt(Inducer stock, Inducer stock should be at 10x concentration\n relative to the maximum concentration that will be measured.)
-UserPrompt(Antibiotic/Additive stocks, Additive stocks should be at 5x concentration\n relative to the maximum concentration that will be measured.)
+UserPrompt(Inducer stock, Inducer stock should be at 10x concentration\nrelative to the maximum concentration that will be measured.)
+UserPrompt(Antibiotic/Additive stocks, Additive stocks should be at 5x concentration\nrelative to the maximum concentration that will be measured.)
 
 //Get inducer info from user if needed (i.e., if not assigned at #InsertVariables)
 Set(needsInducerInput, false)
@@ -225,12 +227,13 @@ Set(msg6, \n\n{overNightProtocol}\n{repeatProtocol})
 UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2}{msg2a} {msg3} {msg4} {msg5}{msg6})
 
 Set(msg1, Set up the STAR deck layout as shown.)
-Set(msg2, Bacteria: {plasmid1} in {strain1)
-If({useTwoStrains}==Yes, Set(msg2, Left-side bacteria: {plasmid1} in {strain1))
-If({useTwoStrains}==Yes, Set(msg2, {msg2}\nRight-side bacteria: {plasmid2} in {strain2))
+Set(msg2, Bacteria: {plasmid1} in {strain1})
+If({useTwoStrains}==Yes, Set(msg2, Left-side bacteria: {plasmid1} in {strain1}))
+If({useTwoStrains}==Yes, Set(msg2, {msg2}\nRight-side bacteria: {plasmid2} in {strain2}))
 
-Set(msg3, Left-side antibiotic/additive stock: {leftAdditiveStock} {leftAdditive})
-Set(msg3, \n{msg3}Right-side antibiotic/additive stock: {rightAdditiveStock} {rightAdditive})
+Set(msg3, inducer stock: {inducerStock} {inducer})
+Set(msg3, {msg3}\nLeft-side antibiotic/additive stock: {leftAdditiveStock} {leftAdditive})
+Set(msg3, {msg3}\nRight-side antibiotic/additive stock: {rightAdditiveStock} {rightAdditive})
 
 Set(msg, {msg1}\n{msg2}\n\n{msg3})
 
@@ -253,6 +256,7 @@ UserPrompt(Lid Movement Test, If the STAR sucessfully moved the lids click 'OK' 
 // end lid movement test
 
 //Turn on HHC for plate pre-warming
+Set(preHeatTemperature, 67)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{initHHCMethod})
 Timer(75)
 WaitFor(Timer)
