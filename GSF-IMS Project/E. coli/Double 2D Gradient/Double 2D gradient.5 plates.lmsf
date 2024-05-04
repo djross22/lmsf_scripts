@@ -134,7 +134,7 @@ Set(cultureVolume, 500)
 Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
 
-Set(nonSelectivePlateMethod, Plate 2.1D gradient plate prep.hsl)
+Set(nonSelectivePlateMethod, Double 2D gradient plate prep.hsl)
 Set(nonSelectivePlateTime, 1170)
 
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
