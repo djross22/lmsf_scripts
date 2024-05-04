@@ -135,7 +135,7 @@ Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep plus starting bacteria.hsl)
 
 Set(nonSelectivePlateMethod, Double 2D gradient plate prep.hsl)
-Set(nonSelectivePlateTime, 1170)
+Set(nonSelectivePlateTime, 1020)
 
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
@@ -146,7 +146,7 @@ Math(preHeatPlateTime, {preHeatPlateTime} - 120)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 
 Set(doubleGradMethod, Double 2D gradient plate prep.hsl)
-Set(doubleGradTime, 2250)
+Set(doubleGradTime, 1500)
 /////////////////////////////////////////////////////////////////
 
 
