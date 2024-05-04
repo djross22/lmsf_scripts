@@ -311,7 +311,7 @@ WaitFor({reader3b}, false)
 Gen5({mainReader}, CarrierOut)
 WaitFor({mainReader}, false)
 
-Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader No Seal, [Gen5.Reader.Name] "{mainReader}")
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader No Seal.ovp, [Gen5.Reader.Name] "{mainReader}")
 WaitFor(Overlord)
 
 Gen5({mainReader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_0, {dataDirectory})
