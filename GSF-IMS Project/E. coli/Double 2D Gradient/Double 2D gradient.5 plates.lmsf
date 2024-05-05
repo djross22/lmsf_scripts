@@ -82,7 +82,7 @@ If({clear1000Tips}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edi
 
 Set(racksNeeded300Tips, 0)
 Set(clear300Tips, false)
-If({tips300Total}<40, Set(racksNeeded300Tips, 1))
+If({tips300Total}<88, Set(racksNeeded300Tips, 1))
 If({tips300Total}==0, Set(clear300Tips, false))
 
 If({clear300Tips}==true, Set(msg1, This protocol will require at least one rack of 300 uL tips on the STAR to be used by the 8-channel head.\n))
