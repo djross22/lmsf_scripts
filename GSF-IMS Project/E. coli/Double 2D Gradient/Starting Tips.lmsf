@@ -10,7 +10,7 @@ Set(tipSize, 1000)
 
 Set(addTips, false)
 Set(tipIndex, {tips1000Index})
-If({tips1000Total}<120, Set(addTips, true))
+If({tips1000Total}<116, Set(addTips, true))
 ReadScript(Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
 If({addTips}==true, Math(tips1000Index, {tips1000Index} - 1))
 
@@ -27,7 +27,7 @@ Set(tipSize, 300)
 
 Set(addTips, false)
 Set(tipIndex, {tips300Index})
-If({tips300Total}<128, Set(addTips, true))
+If({tips300Total}<88, Set(addTips, true))
 ReadScript(Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf)
 If({addTips}==true, Math(tips300Index, {tips300Index} - 1))
 
