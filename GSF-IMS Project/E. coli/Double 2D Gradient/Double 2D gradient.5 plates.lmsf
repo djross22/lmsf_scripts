@@ -121,6 +121,11 @@ If({media} != notAssigned, Set(msg1, The media for this experiment should be {me
 If({percentDMSO} != 0, Set(msg2, with {percentDMSO}% DMSO))
 If({percentDMSO} == 0, Set(msg2, ))
 If({media} != notAssigned, UserPrompt(Media, {msg1} {msg2}.))
+If({media} != notAssigned, AddXML(media, medium))
+Set(media_str, {media})
+If({percentDMSO} != 0, Set(media_str, {media_str} with {percentDMSO}% DMSO))
+If({media} != notAssigned, AddXML(medium, mediaId, {media_str}))
+
 If({media} == notAssigned, Get(media, media))
 
 //GetUserYesNo(usingBeads, Beads in Wells?, Are you using beads in the wells of the growth plates?)
@@ -155,6 +160,12 @@ If({useTwoStrains} ==  notAssigned, GetUserYesNo(useTwoStrains, Two Strains?, Do
 //Get strain info from user if needed (i.e., if not assigned at #InsertVariables)
 Set(needsStrainInput, false)
 If({strain1} ==  notAssigned, Set(needsStrainInput, true))
+If({needsStrainInput} !=  true, AddXML(strains, strain))
+If({needsStrainInput} !=  true, AddXML(strain, strainId, {strain1}))
+If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid1}))
+If({needsStrainInput} !=  true, AddXML(strains, strain))
+If({needsStrainInput} !=  true, AddXML(strain, strainId, {strain1}))
+If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid2}))
 
 Set(msg, Select the bacteria strain used for the experiment:)
 If({needsStrainInput} ==  true, Get(strain, strain1, {msg}))
@@ -192,9 +203,22 @@ If({needsInducerInput} ==  true, Get(additive, rightAdditive, Select the additiv
 If({needsInducerInput} ==  true, Get(concentration, rightAdditiveStock, Enter the concentration of the {rightAdditive} starting stock:))
 
 If({needsInducerInput} !=  true, Set(inducerStock, {inducerStockConc} {inducerStockUnits}))
+If({needsInducerInput} !=  true, AddXML(additives, additive))
+If({needsInducerInput} !=  true, AddXML(additive, useKey, inducer))
+If({needsInducerInput} !=  true, AddXML(additive, additiveId, {inducer}))
+If({needsInducerInput} !=  true, AddXML(additive, concentration, {inducerStock}))
 
 If({needsInducerInput} !=  true, Set(leftAdditiveStock, {leftAdditiveStockConc} {leftAdditiveStockUnits}))
+If({needsInducerInput} !=  true, AddXML(additives, additive))
+If({needsInducerInput} !=  true, AddXML(additive, useKey, leftAdditive))
+If({needsInducerInput} !=  true, AddXML(additive, additiveId, {leftAdditive}))
+If({needsInducerInput} !=  true, AddXML(additive, concentration, {leftAdditiveStock}))
+
 If({needsInducerInput} !=  true, Set(rightAdditiveStock, {rightAdditiveStockConc} {rightAdditiveStockUnits}))
+If({needsInducerInput} !=  true, AddXML(additives, additive))
+If({needsInducerInput} !=  true, AddXML(additive, useKey, rightAdditive))
+If({needsInducerInput} !=  true, AddXML(additive, additiveId, {rightAdditive}))
+If({needsInducerInput} !=  true, AddXML(additive, concentration, {rightAdditiveStock}))
 
 Set(msg1, temp)
 Set(msg2, temp)
