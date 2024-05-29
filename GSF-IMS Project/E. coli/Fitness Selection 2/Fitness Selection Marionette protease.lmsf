@@ -155,7 +155,7 @@ Set(msg6, \n\n\{overNightProtocol}\n{repeatProtocol})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3}\n{msg4} {msg5}{msg6})
 
 Set(msg1, Set up the STAR deck layout as shown.)
-UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.2 inducers.2 tet.4 strains.PNG, 1000)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.Marionette protease.PNG, 1000)
 
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 Set(startWithInducer, No)
