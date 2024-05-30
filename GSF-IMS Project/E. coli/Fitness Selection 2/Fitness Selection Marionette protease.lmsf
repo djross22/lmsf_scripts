@@ -16,18 +16,18 @@ Set(inducer1StockUnits, umol/L)
 Set(inducer2StockUnits, umol/L)
 Set(selector1StockUnits, ug/mL)
 
+Set(media, notAssigned)
+Set(percentDMSO, 0)
+Set(dilutionSeriesFactor, 4)
+
+#InsertVariables
+
 Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits})
 Set(inducer2_1Stock, {inducer2_1StockConc} {inducer2StockUnits})
 Set(inducer2_2Stock, {inducer2_2StockConc} {inducer2StockUnits})
 Set(inducer2_3Stock, {inducer2_3StockConc} {inducer2StockUnits})
 Set(inducer2_4Stock, {inducer2_4StockConc} {inducer2StockUnits})
 Set(selector1Stock, {selector1StockConc} {selector1StockUnits})
-
-Set(media, notAssigned)
-Set(percentDMSO, 0)
-Set(dilutionSeriesFactor, 4)
-
-#InsertVariables
 
 //isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
 Set(isPipetting, true)
