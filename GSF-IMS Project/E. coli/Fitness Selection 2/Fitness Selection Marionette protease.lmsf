@@ -20,6 +20,12 @@ Set(media, notAssigned)
 Set(percentDMSO, 0)
 Set(dilutionSeriesFactor, 4)
 
+Set(strain1, notAssigned)
+Set(plasmid1, notAssigned)
+Set(plasmid2, notAssigned)
+Set(plasmid3, notAssigned)
+Set(plasmid4, notAssigned)
+
 #InsertVariables
 
 Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits})
@@ -99,35 +105,69 @@ Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 //Set readers to be used
 Set(mainReader, Neo)
 
-//placeholder for plasmid4 - to avoid errors in init script
-Set(plasmid4, using)
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 Set(isExtractingDNA, false)
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.Marionette-protease.lmsf)
 
-Get(strain, strain1, Select the bacteria strain used for the experiment:)
-Get(plasmid, plasmid1, Select the plasmid used for rows A and B: tube position 10)
-Get(plasmid, plasmid2, Select the plasmid used for rows C and D: tube position 11)
-Get(plasmid, plasmid3, Select the plasmid used for rows E and F: tube position 12)
-Get(plasmid, plasmid4, Select the plasmid used for rows G and H: tube position 13)
+
+//Get strain info from user if needed (i.e., if not assigned at #InsertVariables)
+Set(needsStrainInput, false)
+If({strain1} ==  notAssigned, Set(needsStrainInput, true))
+If({needsStrainInput} !=  true, AddXML(strains, strain))
+If({needsStrainInput} !=  true, AddXML(strain, strainId, {strain1}))
+If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid1}))
+
+If({needsStrainInput} !=  true, AddXML(strains, strain))
+If({needsStrainInput} !=  true, AddXML(strain, strainId, {strain1}))
+If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid2}))
+
+If({needsStrainInput} !=  true, AddXML(strains, strain))
+If({needsStrainInput} !=  true, AddXML(strain, strainId, {strain1}))
+If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid3}))
+
+If({needsStrainInput} !=  true, AddXML(strains, strain))
+If({needsStrainInput} !=  true, AddXML(strain, strainId, {strain1}))
+If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid4}))
+
+Set(msg, Select the bacteria strain used for the experiment:)
+If({needsStrainInput} ==  true, Get(strain, strain1, {msg}))
+
+If({needsStrainInput} ==  true, Get(plasmid, plasmid1, Select the plasmid used for rows A and B: tube position 10))
+If({needsStrainInput} ==  true, Get(plasmid, plasmid2, Select the plasmid used for rows C and D: tube position 11))
+If({needsStrainInput} ==  true, Get(plasmid, plasmid3, Select the plasmid used for rows E and F: tube position 12))
+If({needsStrainInput} ==  true, Get(plasmid, plasmid4, Select the plasmid used for rows G and H: tube position 13))
 //Needed for Hamilton:
 Set(strain2, {strain1})
+
+// For this type of experimentm, the user is never asked for the inducer or antibiotic info
+
+AddXML(additives, additive)
+AddXML(additive, useKey, antibiotic)
+AddXML(additive, additiveId, {selector1})
+AddXML(additive, concentration, {selector1Stock})
+
+AddXML(additives, additive)
+AddXML(additive, useKey, inducer)
+AddXML(additive, additiveId, {inducer1})
+AddXML(additive, concentration, {inducer1Stock})
+
+AddXML(additives, additive)
+AddXML(additive, useKey, inducer)
+AddXML(additive, additiveId, {inducer2})
+AddXML(additive, concentration, {inducer2_1Stock})
+AddXML(additive, concentration, {inducer2_2Stock})
+AddXML(additive, concentration, {inducer2_3Stock})
+AddXML(additive, concentration, {inducer2_4Stock})
 
 
 Set(msg1, {inducer1} stock concentration should be {inducer1Stock}.)
 UserPrompt(Inducer Stocks, {msg1})
 
 Set(msg1, The first {inducer2} stock concentration should be {inducer2_1Stock}.)
-UserPrompt(Inducer Stocks, {msg1})
-
-Set(msg1, The second {inducer2} stock concentration should be {inducer2_2Stock}.)
-UserPrompt(Inducer Stocks, {msg1})
-
-Set(msg1, The third {inducer2} stock concentration should be {inducer2_3Stock}.)
-UserPrompt(Inducer Stocks, {msg1})
-
-Set(msg1, The forth {inducer2} stock concentration should be {inducer2_4Stock}.)
+Set(msg1, {msg1}\nThe second {inducer2} stock concentration should be {inducer2_2Stock}.)
+Set(msg1, {msg1}\nThe third {inducer2} stock concentration should be {inducer2_3Stock}.)
+Set(msg1, {msg1}\nThe forth {inducer2} stock concentration should be {inducer2_4Stock}.)
 UserPrompt(Inducer Stocks, {msg1})
 
 Set(msg1, The {selector1} stock concentration should be {selector1Stock}.)
@@ -141,21 +181,36 @@ GetExpID({startDate}_Mar-Pro_OD-test-5-plates)
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
 
-Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}\n\n \tPlasmids:\n\t\t\t{plasmid1}\n\t\t\t{plasmid2}\n\t\t\t{plasmid3}\n\t\t\t{plasmid4}\n\n)
+Set(media_str, {media})
+If({percentDMSO} != 0, Set(media_str, {media_str} with {percentDMSO}% DMSO))
+Set(msg2, \tMedia: \t\t\t{media_str}\n\n \tBacteria: \t\t\t{strain1}\n\n \tPlasmids:\n\t\t\t{plasmid1}\n\t\t\t{plasmid2}\n\t\t\t{plasmid3}\n\t\t\t{plasmid4}\n\n)
 
 Set(msg3, \tInducer 1: \t{inducer1}, stock concentration: {inducer1Stock}\n)
-Set(msg3, {msg3}\tInducer 2: \tFirst {inducer2}, stock concentration: {inducer2_1Stock}\n)
-Set(msg3, {msg3}\tInducer 2: \tSecond {inducer2}, stock concentration: {inducer2_2Stock}\n)
-Set(msg3, {msg3}\tInducer 2: \tThird {inducer2}, stock concentration: {inducer2_3Stock}\n)
-Set(msg3, {msg3}\tInducer 2: \tForth {inducer2}, stock concentration: {inducer2_4Stock}\n)
+Set(msg3, {msg3}\tInducer 2.1: \t{inducer2}, stock concentration: {inducer2_1Stock}\n)
+Set(msg3, {msg3}\tInducer 2.2: \t{inducer2}, stock concentration: {inducer2_2Stock}\n)
+Set(msg3, {msg3}\tInducer 2.3: \t{inducer2}, stock concentration: {inducer2_3Stock}\n)
+Set(msg3, {msg3}\tInducer 2.4: \t{inducer2}, stock concentration: {inducer2_4Stock}\n)
 
-Set(msg4, \tSelector 1:\t{selector1}, stock concentration: {selector1Stock}\n)
+Set(msg4, \tAntibiotic:\t{selector1}, stock concentration: {selector1Stock}\n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
 Set(msg6, \n\n\{overNightProtocol}\n{repeatProtocol})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3}\n{msg4} {msg5}{msg6})
 
 Set(msg1, Set up the STAR deck layout as shown.)
+Set(msg1, {msg1}\n\tInducer 1: {inducer1Stock} {inducer1})
+Set(msg1, {msg1}\n\tInducer 2.1: {inducer2_1Stock} {inducer2})
+Set(msg1, {msg1}\n\tInducer 2.2: {inducer2_2Stock} {inducer2})
+Set(msg1, {msg1}\n\tInducer 2.3: {inducer2_3Stock} {inducer2})
+Set(msg1, {msg1}\n\tInducer 2.4: {inducer2_4Stock} {inducer2})
+Set(msg1, {msg1}\n\tAntibiotic: {selector1Stock} {selector1})
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.Marionette protease.PNG, 1000)
+
+Set(msg1, Load the bacterial strains as shown.)
+Set(msg1, {msg1}\n\tPosition 10: {plasmid1} in {strain1})
+Set(msg1, {msg1}\n\tPosition 11: {plasmid2} in {strain1})
+Set(msg1, {msg1}\n\tPosition 12: {plasmid3} in {strain1})
+Set(msg1, {msg1}\n\tPosition 13: {plasmid4} in {strain1})
+UserPrompt(Load Strains, {msg1}, {scriptDir}\Load strains.Marionette protease.PNG, 1000)
 
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 Set(startWithInducer, No)
