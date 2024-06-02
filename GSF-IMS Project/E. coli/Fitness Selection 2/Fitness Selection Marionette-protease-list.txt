@@ -1,7 +1,8 @@
-Five 4titude growth plates, with lids, in stack 7 of the Carousel
+Five Agilent growth plates, with lids, in stack 7 of the Carousel
 
 One Agilent media reservoir with lid, on deck of STAR
 One black Agilent 6-reservoir plate, with black lid, on deck of STAR
+A second Agilent 290 mL single reservoir, for liquid waste, WITHOUT a lid, on deck of STAR
 
 Two full racks of high-volume (1000 uL) tips, in the tip supports on the STAR
 Two ful lracks of standard-volume (300 uL) tips, in the tip supports on the STAR
