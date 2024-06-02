@@ -186,7 +186,7 @@ If({useTwoStrains}_{needsStrainInput}==Yes_true, Get(plasmid, plasmid2, Select t
 If({useTwoStrains}_{needsStrainInput}==Yes_false, UserPrompt(Strain and Plasmids, The plasmid for the right-side gradient should be {plasmid2} in {strain1}))
 
 UserPrompt(Inducer stock, Inducer stock should be at 10x concentration\nrelative to the maximum concentration that will be measured.)
-UserPrompt(Antibiotic/Additive stocks, Additive stocks should be at 5x concentration\nrelative to the maximum concentration that will be measured.)
+UserPrompt(Antibiotic/Additive stocks, Antibiotic stocks should be at 5x concentration\nrelative to the maximum concentration that will be measured.)
 
 //Get inducer info from user if needed (i.e., if not assigned at #InsertVariables)
 Set(needsInducerInput, false)
@@ -230,7 +230,7 @@ Set(msg1a, temp)
 Set(msg1b, temp)
 If({needsInducerInput} !=  true, Set(msg1a, {leftAdditive} stock concentration should be {leftAdditiveStock} (left-side gradient).))
 If({needsInducerInput} !=  true, Set(msg1b, {rightAdditive} stock concentration should be {rightAdditiveStock} (right-side gradient).))
-If({needsInducerInput} !=  true, Set(msg2, 20 mL of each additive stock is needed for this experiment.))
+If({needsInducerInput} !=  true, Set(msg2, 20 mL of each antibiotic stock is needed for this experiment.))
 If({needsInducerInput} !=  true, UserPrompt(Inducer Stocks, {msg1a}\n{msg1b}\n{msg2}))
 
 Get(note, note)
@@ -242,8 +242,8 @@ Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort an
 Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}, with {plasmid1})
 Set(msg2a, \n\n)
 If({useTwoStrains}==Yes, Set(msg2a, \n\tBacteria 2: \t\t{strain2}, with {plasmid2}\n\n))
-Set(msg3, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n \tLeft-side additive:  \t{leftAdditive}, stock concentration: {leftAdditiveStock}\n)
-Set(msg4, \tRight-side additive:  \t{rightAdditive}, stock concentration: {rightAdditiveStock}\n  \n)
+Set(msg3, \tInducer: \t\t\t{inducer}, stock concentration: {inducerStock}\n \tLeft-side antibiotic:  \t{leftAdditive}, stock concentration: {leftAdditiveStock}\n)
+Set(msg4, \tRight-side antibiotic:  \t{rightAdditive}, stock concentration: {rightAdditiveStock}\n  \n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
 Set(msg6, \n\n{overNightProtocol}\n{repeatProtocol})
 UserPrompt(Review Protocol Details: {experimentId}, {msg1} {msg2}{msg2a} {msg3} {msg4} {msg5}{msg6})
