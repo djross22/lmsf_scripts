@@ -42,6 +42,10 @@ Set(tips1000Index, 0)
 
 NewXML(fitness selection)
 
+Get(sub-project, sub_project, Select the sub-project (determines Gen5 protocols):)
+
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\set_gen5_protocols_by_sub-project.lmsf, sub_project_in = {sub_project})
+
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
 
 Get(user, user)

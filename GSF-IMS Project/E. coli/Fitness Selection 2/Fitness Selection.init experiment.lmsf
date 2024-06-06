@@ -70,6 +70,10 @@ Set(tips1000Index, {start1000TipsStart})
 
 NewXML(fitness selection)
 
+Get(sub-project, sub_project, Select the sub-project (determines Gen5 protocols):)
+
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\set_gen5_protocols_by_sub-project.lmsf, sub_project_in = {sub_project})
+
 If({isExtractingDNA}==true, UserPrompt(Balance Plate, Put the balance plate in position 3 of the centrifuge.))
 
 Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
