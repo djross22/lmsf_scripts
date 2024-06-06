@@ -3,7 +3,7 @@
 Overlord({clearTipRackOvp})
 WaitFor(Overlord)
 
-ReadScript(C:\Users\PAA\Documents\LMSF Scheduler\Common protocol scripts\Need Tips.lmsf, tips1000Need = 72, tips300Need = 56)
+ReadScript(Common protocol scripts\Need Tips.lmsf, tips1000Need = 72, tips300Need = 56)
 Timer({readEndTime})
 WaitFor(Timer)
 
