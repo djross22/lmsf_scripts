@@ -183,7 +183,7 @@ Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort an
 
 Set(media_str, {media})
 If({percentDMSO} != 0, Set(media_str, {media_str} with {percentDMSO}% DMSO))
-Set(msg2, \tMedia: \t\t\t{media_str}\n\n \tBacteria: \t\t\t{strain1}\n\n \tPlasmids:\n\t\t\t{plasmid1}\n\t\t\t{plasmid2}\n\t\t\t{plasmid3}\n\t\t\t{plasmid4}\n\n)
+Set(msg2, \tMedia: \t\t{media_str}\n\n \tBacteria: \t\t{strain1}\n\n \tPlasmids:\n\t\t\t{plasmid1}\n\t\t\t{plasmid2}\n\t\t\t{plasmid3}\n\t\t\t{plasmid4}\n\n)
 
 Set(msg3, \tInducer 1: \t{inducer1}, stock concentration: {inducer1Stock}\n)
 Set(msg3, {msg3}\tInducer 2.1: \t{inducer2}, stock concentration: {inducer2_1Stock}\n)
