@@ -1,16 +1,15 @@
 
 Set(sub_project, notAssigned)
 Set(queueDirectory, notAssigned)
-Set(inducer1, Van)
-Set(inducer2, Sal)
+Set(inducer1, Sal)
+Set(inducer2, Van)
 Set(selector1, TMP)
 
-Set(inducer1StockConc, 200)
-Set(inducer2_1StockConc, 15.625)
-Set(inducer2_2StockConc, 62.5)
-Set(inducer2_3StockConc, 250)
-Set(inducer2_4StockConc, 1000)
-Set(selector1StockConc, 200)
+Set(inducer1StockConc, 250)
+Set(inducer2_1StockConc, 2000)
+Set(inducer2_2StockConc, 500)
+
+Set(selector1StockConc, 125)
 
 Set(inducer1StockUnits, umol/L)
 Set(inducer2StockUnits, umol/L)
@@ -18,7 +17,6 @@ Set(selector1StockUnits, ug/mL)
 
 Set(media, notAssigned)
 Set(percentDMSO, 0)
-Set(dilutionSeriesFactor, 4)
 
 Set(strain1, notAssigned)
 Set(plasmid1, notAssigned)
@@ -31,8 +29,6 @@ Set(plasmid4, notAssigned)
 Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits})
 Set(inducer2_1Stock, {inducer2_1StockConc} {inducer2StockUnits})
 Set(inducer2_2Stock, {inducer2_2StockConc} {inducer2StockUnits})
-Set(inducer2_3Stock, {inducer2_3StockConc} {inducer2StockUnits})
-Set(inducer2_4Stock, {inducer2_4StockConc} {inducer2StockUnits})
 Set(selector1Stock, {selector1StockConc} {selector1StockUnits})
 
 //isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
@@ -62,7 +58,7 @@ Set(scriptDir, GSF-IMS Project\E. coli\Fitness Selection 2)
 Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep plus 4 strains.hsl)
 Set(startMethodTime, 950)
-Set(nonSelectiveGradientMethod, Marionette protease.gradient plate prep.hsl)
+Set(nonSelectiveGradientMethod, PDZ binding.plate prep.hsl)
 Set(nonSelectivePlateTime, 1140)
 // fold-dilution across dilution series in nonSelectiveGradientMethod and selectiveGradientMethod:
 
@@ -74,7 +70,7 @@ Set(preHeatPlateTime, 660)
 Math(preHeatPlateTime, {preHeatPlateTime} - 120)
 
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
-Set(selectiveGradientMethod, Marionette protease.gradient plate prep.hsl)
+Set(selectiveGradientMethod, PDZ binding.plate prep.hsl)
 Set(selectivePlateTime, 1140)
 
 //Venus method constrains 200<=cultureVolume<=500
@@ -91,9 +87,13 @@ Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.
 //Set(overNightProtocolTime, 57900)
 Set(overNightProtocolTime, 43500)
 
-Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.prt)
-//repeatProtocolTime = nominal run time + 300
-Set(repeatProtocolTime, 11100)
+Set(plate2Protocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.prt)
+//protocol time = nominal run time + 300
+Set(plate2ProtocolTime, 11100)
+
+Set(plate3Protocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.prt)
+//protocol time = nominal run time + 300
+Set(plate3ProtocolTime, 43500)
 
 Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane single read.37C.1C.prt)
 Set(singleReadProtocolTime, 68)
@@ -108,7 +108,7 @@ Set(mainReader, Neo)
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 Set(isExtractingDNA, false)
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.Marionette-protease.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.PDZ binding 3 plates.lmsf)
 
 
 //Get strain info from user if needed (i.e., if not assigned at #InsertVariables)
@@ -157,8 +157,6 @@ AddXML(additive, useKey, inducer)
 AddXML(additive, additiveId, {inducer2})
 AddXML(additive, concentration, {inducer2_1Stock})
 AddXML(additive, concentration, {inducer2_2Stock})
-AddXML(additive, concentration, {inducer2_3Stock})
-AddXML(additive, concentration, {inducer2_4Stock})
 
 
 Set(msg1, {inducer1} stock concentration should be {inducer1Stock}.)
@@ -166,8 +164,6 @@ UserPrompt(Inducer Stocks, {msg1})
 
 Set(msg1, The first {inducer2} stock concentration should be {inducer2_1Stock}.)
 Set(msg1, {msg1}\nThe second {inducer2} stock concentration should be {inducer2_2Stock}.)
-Set(msg1, {msg1}\nThe third {inducer2} stock concentration should be {inducer2_3Stock}.)
-Set(msg1, {msg1}\nThe forth {inducer2} stock concentration should be {inducer2_4Stock}.)
 UserPrompt(Inducer Stocks, {msg1})
 
 Set(msg1, The {selector1} stock concentration should be {selector1Stock}.)
@@ -176,7 +172,7 @@ UserPrompt(Antibiotic Stock, {msg1})
 
 Get(note, note)
 
-GetExpID({startDate}_Mar-Pro_OD-test-5-plates)
+GetExpID({startDate}_PDZ-binding_3-plates)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
@@ -188,8 +184,6 @@ Set(msg2, \tMedia: \t\t{media_str}\n\n \tBacteria: \t\t{strain1}\n\n \tPlasmids:
 Set(msg3, \tInducer 1: \t{inducer1}, stock concentration: {inducer1Stock}\n)
 Set(msg3, {msg3}\tInducer 2.1: \t{inducer2}, stock concentration: {inducer2_1Stock}\n)
 Set(msg3, {msg3}\tInducer 2.2: \t{inducer2}, stock concentration: {inducer2_2Stock}\n)
-Set(msg3, {msg3}\tInducer 2.3: \t{inducer2}, stock concentration: {inducer2_3Stock}\n)
-Set(msg3, {msg3}\tInducer 2.4: \t{inducer2}, stock concentration: {inducer2_4Stock}\n)
 
 Set(msg4, \tAntibiotic:\t{selector1}, stock concentration: {selector1Stock}\n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
@@ -200,10 +194,8 @@ Set(msg1, Set up the STAR deck layout as shown.)
 Set(msg1, {msg1}\n\tInducer 1: {inducer1Stock} {inducer1})
 Set(msg1, {msg1}\n\tInducer 2.1: {inducer2_1Stock} {inducer2})
 Set(msg1, {msg1}\n\tInducer 2.2: {inducer2_2Stock} {inducer2})
-Set(msg1, {msg1}\n\tInducer 2.3: {inducer2_3Stock} {inducer2})
-Set(msg1, {msg1}\n\tInducer 2.4: {inducer2_4Stock} {inducer2})
 Set(msg1, {msg1}\n\tAntibiotic: {selector1Stock} {selector1})
-UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.Marionette protease.PNG, 1000)
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.PDZ binding.PNG, 1000)
 
 Set(msg1, Load the bacterial strains as shown.)
 Set(msg1, {msg1}\n\tPosition 10: {plasmid1} in {strain1})
@@ -214,24 +206,15 @@ UserPrompt(Load Strains, {msg1}, {scriptDir}\Load strains.Marionette protease.PN
 
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 Set(startWithInducer, No)
+Set(repeatProtocolTime, {plate2ProtocolTime})
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf, lidTestMethod={hamiltonMethodDir}\Pre-run lid test.No Abgene.hsl)
 
 //--- Growth Plate 3 prep and OD Read from Plate 2 ----------------------------------------------------------------------------- 
 // For for this experiment, need to clear waste tip rack (no new 1000s added after plate 2)
 Set(clear300TipWaste, true)
 
+Set(repeatProtocolTime, {plate3ProtocolTime})
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
-// --- Add more tips before plate 4 ---
-ReadScript(Common protocol scripts\Need Tips.lmsf, clearTipRack=true, tips1000Need=96, tips300Need=96)
-Set(clear300TipWaste, false)
-
-//--- Growth Plate 4 prep and OD Read from Plate 3 ----------------------------------------------------------------------------- 
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
-Set(clear300TipWaste, true)
-
-//--- Growth Plate 5 prep and OD Read from Plate 4 ----------------------------------------------------------------------------- 
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
-
-//--- OD Read from Plate 5 and cleanup -------------------------------------------------------------------
+//--- OD Read from Plate 3 and cleanup -------------------------------------------------------------------
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 single OD read.lmsf)
