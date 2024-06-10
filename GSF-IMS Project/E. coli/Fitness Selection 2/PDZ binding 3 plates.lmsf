@@ -187,7 +187,7 @@ Set(msg3, {msg3}\tInducer 2.2: \t{inducer2}, stock concentration: {inducer2_2Sto
 
 Set(msg4, \tAntibiotic:\t{selector1}, stock concentration: {selector1Stock}\n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
-Set(msg6, \n\n\{overNightProtocol}\n{repeatProtocol})
+Set(msg6, \n\n\{overNightProtocol}\n{plate2Protocol}\n{plate3Protocol})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3}\n{msg4} {msg5}{msg6})
 
 Set(msg1, Set up the STAR deck layout as shown.)
@@ -206,14 +206,17 @@ UserPrompt(Load Strains, {msg1}, {scriptDir}\Load strains.Marionette protease.PN
 
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 Set(startWithInducer, No)
+Set(repeatProtocol, {plate2Protocol})
 Set(repeatProtocolTime, {plate2ProtocolTime})
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf, lidTestMethod={hamiltonMethodDir}\Pre-run lid test.No Abgene.hsl)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf, lidTestMethod={hamiltonMethodDir}\Pre-run lid test.No Abgene.hsl, growthPlatesNeeded=3)
+
 
 //--- Growth Plate 3 prep and OD Read from Plate 2 ----------------------------------------------------------------------------- 
-// For for this experiment, need to clear waste tip rack (no new 1000s added after plate 2)
+
+Set(repeatProtocol, {plate3Protocol})
+Set(repeatProtocolTime, {plate3ProtocolTime})
 Set(clear300TipWaste, true)
 
-Set(repeatProtocolTime, {plate3ProtocolTime})
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
 //--- OD Read from Plate 3 and cleanup -------------------------------------------------------------------

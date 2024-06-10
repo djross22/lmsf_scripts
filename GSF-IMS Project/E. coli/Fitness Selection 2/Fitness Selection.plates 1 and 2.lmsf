@@ -1,6 +1,7 @@
 //Sub-script for plates 1 and 2, steps that never change...
 
 Set(lidTestMethod, {hamiltonMethodDir}\Pre-run lid test.No DNA extraction.hsl)
+Set(growthPlatesNeeded, 5)
 
 #InsertVariables
 
@@ -53,7 +54,7 @@ WaitFor(S-Cell-STAR)
 
 //--- Plate 1 ------------------------------------------------------------------------------
 Set(plateNum, 1)
-Set(platesInStack, 5)
+Set(platesInStack, {growthPlatesNeeded})
 Set(spinPlatesInStack, 4)
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
