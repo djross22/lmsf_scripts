@@ -33,7 +33,7 @@ StartPrompt(E. Coli Fitness Selection, {scriptDir}\PDZ binding 3 plates-list.txt
 
 //UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 40 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
-UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 168 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
 
 Set(msg2, Make sure there are at least two racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
 UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 2.png)
