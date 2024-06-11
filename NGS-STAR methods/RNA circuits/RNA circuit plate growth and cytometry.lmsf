@@ -147,6 +147,7 @@ Set(cultureVolume, 300)
 Set(cultureDilutionFactor, 50)
 Set(cytomVolume, 200)
 Set(cytomDilutionFactor, 40)
+Set(cytomWaitTime, 18000)
 /////////////////////////////////////////
 
 
@@ -322,6 +323,8 @@ Set(msg1, {msg1}\n\t\tcolumn 1: {media_source_1})
 Set(msg1, {msg1}\n\t\tcolumn 2: {media_source_2})
 Set(msg1, {msg1}\n\t\tcolumn 3: {media_source_3})
 Set(msg1, {msg1}\n\t\tcolumn 4: {media_source_4})
+Set(msg1, {msg1}\n\t\tcolumn 5: {pbs_source_1})
+Set(msg1, {msg1}\n\t\tcolumn 6: {pbs_source_2})
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.RNA_circuits_1.PNG, 1000)
 
 Set(msg1, Click 'OK' then edit tip counters to start the experiment.)
@@ -350,14 +353,34 @@ Set(msg1, Cell transfer to growth plate completed. Manually seal the plate and p
 UserPrompt(Growth Plate Completed, {msg1})
 
 Gen5({reader1}, RunExp, {gen5_protocol}, {experimentId}_growth_plate, {dataDirectory})
-Timer({gen5_protocol_time})
+
+Timer({cytomWaitTime})
 WaitFor(Timer)
+
+Hamilton({hamiltonMethodDir}\Prep Cytom Plate with PBS.hsl)
+WaitFor(Hamilton)
+
+Set(msg1, The cytometry plate is ready for the cells. When the Gen5 experiment is finished, click 'OK' to continue.)
+UserPrompt(Cytometry Plate Ready, {msg1})
+
+//Get plate back and transfer cells
+
+
 WaitFor({reader1})
 
 Gen5({reader1}, CarrierOut)
-Set(msg1, The Gen5 experiment in {reader1} is finished. Manually de-seal the plate and Place it back on the NGS-STAR (WITH its lid).\nThen, click 'OK' to continue.)
+Set(msg1, The Gen5 experiment in {reader1} is finished. Manually de-seal the plate and Place it back on the NGS-STAR (WITH its lid).)
 Set(msg1, {msg1}\nThen, click 'OK' to continue.)
-UserPrompt(Gen5 Finished, {msg1}, )
+UserPrompt(Gen5 Finished, {msg1}, {scriptDir}\Return Growth Plate.PNG, 1000)
 
-UserPrompt(Done, Done)
+Hamilton({hamiltonMethodDir}\Transfer cells from growth plate to cytom plate.hsl)
+WaitFor(Hamilton)
+
+SaveXML()
+
+CopyRemoteFiles()
+
+UserPrompt(Done, The cytometry plate is ready.\nRemember to put focusing fluid and beads into wells G12 and H12.)
+
+
 
