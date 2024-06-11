@@ -1,0 +1,343 @@
+
+Set(queueDirectory, notAssigned)
+
+Set(plasmid_A1, none)
+Set(plasmid_A2, none)
+Set(plasmid_A3, none)
+Set(plasmid_A4, none)
+Set(plasmid_A5, none)
+Set(plasmid_A6, none)
+Set(plasmid_A7, none)
+Set(plasmid_A8, none)
+Set(plasmid_A9, none)
+Set(plasmid_A10, none)
+Set(plasmid_A11, none)
+Set(plasmid_A12, none)
+
+Set(plasmid_B1, none)
+Set(plasmid_B2, none)
+Set(plasmid_B3, none)
+Set(plasmid_B4, none)
+Set(plasmid_B5, none)
+Set(plasmid_B6, none)
+Set(plasmid_B7, none)
+Set(plasmid_B8, none)
+Set(plasmid_B9, none)
+Set(plasmid_B10, none)
+Set(plasmid_B11, none)
+Set(plasmid_B12, none)
+
+Set(plasmid_C1, none)
+Set(plasmid_C2, none)
+Set(plasmid_C3, none)
+Set(plasmid_C4, none)
+Set(plasmid_C5, none)
+Set(plasmid_C6, none)
+Set(plasmid_C7, none)
+Set(plasmid_C8, none)
+Set(plasmid_C9, none)
+Set(plasmid_C10, none)
+Set(plasmid_C11, none)
+Set(plasmid_C12, none)
+
+Set(plasmid_D1, none)
+Set(plasmid_D2, none)
+Set(plasmid_D3, none)
+Set(plasmid_D4, none)
+Set(plasmid_D5, none)
+Set(plasmid_D6, none)
+Set(plasmid_D7, none)
+Set(plasmid_D8, none)
+Set(plasmid_D9, none)
+Set(plasmid_D10, none)
+Set(plasmid_D11, none)
+Set(plasmid_D12, none)
+
+Set(plasmid_E1, none)
+Set(plasmid_E2, none)
+Set(plasmid_E3, none)
+Set(plasmid_E4, none)
+Set(plasmid_E5, none)
+Set(plasmid_E6, none)
+Set(plasmid_E7, none)
+Set(plasmid_E8, none)
+Set(plasmid_E9, none)
+Set(plasmid_E10, none)
+Set(plasmid_E11, none)
+Set(plasmid_E12, none)
+
+Set(plasmid_F1, none)
+Set(plasmid_F2, none)
+Set(plasmid_F3, none)
+Set(plasmid_F4, none)
+Set(plasmid_F5, none)
+Set(plasmid_F6, none)
+Set(plasmid_F7, none)
+Set(plasmid_F8, none)
+Set(plasmid_F9, none)
+Set(plasmid_F10, none)
+Set(plasmid_F11, none)
+Set(plasmid_F12, none)
+
+Set(plasmid_G1, none)
+Set(plasmid_G2, none)
+Set(plasmid_G3, none)
+Set(plasmid_G4, none)
+Set(plasmid_G5, none)
+Set(plasmid_G6, none)
+Set(plasmid_G7, none)
+Set(plasmid_G8, none)
+Set(plasmid_G9, none)
+Set(plasmid_G10, none)
+Set(plasmid_G11, none)
+Set(plasmid_G12, none)
+
+Set(plasmid_H1, none)
+Set(plasmid_H2, none)
+Set(plasmid_H3, none)
+Set(plasmid_H4, none)
+Set(plasmid_H5, none)
+Set(plasmid_H6, none)
+Set(plasmid_H7, none)
+Set(plasmid_H8, none)
+Set(plasmid_H9, none)
+Set(plasmid_H10, none)
+Set(plasmid_H11, none)
+Set(plasmid_H12, none)
+
+#InsertVariables
+
+
+/////////////////////////////////////////////////////////////////
+//Read in commonly used directories
+ReadScript(Common protocol scripts\Set Common Directories.lmsf)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Set directories for  .hsl, .opv, and .prt files that are specific to this experiment
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\RNA circuits)
+Set(scriptDir, NGS-STAR methods\RNA circuits)
+
+If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
+/////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////
+//Hamilton Venus Methods, in the order that they get run
+Set(addMediaToGPMethod, Prep Growth Plate with Media.hsl)
+Set(addMediaToGPMethodTime, 600)
+
+Set(transferCellsMethod, Transfer Cells to Growth Plate.hsl)
+Set(transferCellsMethodTime, 600)
+
+Set(prepCytomPlateMethod, Prep Cytometry Plate.hsl)
+Set(prepCytomPlateMethodTime, 600)
+
+Set(transferCellsToCytomPlateMethod, Transfer Cells to Cytometry Plate.hsl)
+Set(transferCellsToCytomPlateMethodTime, 600)
+/////////////////////////////////////////
+
+
+/////////////////////////////////////////
+// Set variables for pipetting volumes
+//Venus method constrains 200<=cultureVolume<=500
+Set(cultureVolume, 300)
+Set(cultureDilutionFactor, 50)
+Set(cytomVolume, 200)
+Set(cytomDilutionFactor, 40)
+/////////////////////////////////////////
+
+//Set readers to be used, if any
+//Set(reader1, Neo)
+//Set(reader2, Neo2)
+
+//////////////////////////////////////////////////////////////////////////////////////
+//User input and Overlord initialization section
+
+StartPrompt(Sam Experiment 1, {scriptDir}\RNA circuit plate growth and cytometry-list.txt)
+
+UserPrompt(Check NGS-STAR Hamilton Tips, Make sure there are at least 40 1000 uL tips in the tip supports on the deck of the NGS-STAR., {lmsfImageDirectory}\Tip supports NGS 1000.PNG, 1000)
+UserPrompt(Check NGS-STAR Hamilton Tips, Make sure there are two full racks of 300 uL tips in the tip supports on the deck of the NGS-STAR., {lmsfImageDirectory}\Tip supports NGS 300.PNG, 1000)
+
+NewXML(Sam Experiment 1)
+
+GetExpID({startDate}_RNA_circuit_cytom)
+
+Get(user, user)
+
+///////////////////////////////////////////////////////////////
+// Media and Plasmids
+Set(msg1, Open the file plasmids_and_media_info.txt from today's folder in the LMSF Queue: {queueDirectory}.\nThen, verify that it contains the appropriate information for this experiment:)
+Set(msg1, {msg1}\nFour media types and the media type to use for each column of the growth plate.)
+
+If({queueDirectory}=={scriptDir}, Set(msg1, Open the file plasmids_and_media_info.txt and edit it to contain the appropriate media information for this experiment.))
+If({queueDirectory}=={scriptDir}, Set(msg1, {msg1}\nThe file should be in the folder: {scriptDir}.))
+UserPrompt(Media, {msg1})
+
+//Get media and plasmid info from csv file, 
+//    sets different media types to be used: media_source_1, ... media_source_4
+//    and which media for use for each column in the Growth Plate: media_1, ... media_12
+//    and plasmids by well, e.g., plasmid_B1
+ImportDictionary({queueDirectory}\plasmids_and_media_info.txt)
+
+AddXML(media, medium)
+AddXML(medium, mediaId, {media_source_1})
+AddXML(medium, mediaId, {media_source_2})
+AddXML(medium, mediaId, {media_source_3})
+AddXML(medium, mediaId, {media_source_4})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+If({plasmid_A1} != none, AddXML(strain, plasmidId, {plasmid_A1}))
+If({plasmid_A2} != none, AddXML(strain, plasmidId, {plasmid_A2}))
+If({plasmid_A3} != none, AddXML(strain, plasmidId, {plasmid_A3}))
+If({plasmid_A4} != none, AddXML(strain, plasmidId, {plasmid_A4}))
+If({plasmid_A5} != none, AddXML(strain, plasmidId, {plasmid_A5}))
+If({plasmid_A6} != none, AddXML(strain, plasmidId, {plasmid_A6}))
+If({plasmid_A7} != none, AddXML(strain, plasmidId, {plasmid_A7}))
+If({plasmid_A8} != none, AddXML(strain, plasmidId, {plasmid_A8}))
+If({plasmid_A9} != none, AddXML(strain, plasmidId, {plasmid_A9}))
+If({plasmid_A10} != none, AddXML(strain, plasmidId, {plasmid_A10}))
+If({plasmid_A11} != none, AddXML(strain, plasmidId, {plasmid_A11}))
+If({plasmid_A11} != none, AddXML(strain, plasmidId, {plasmid_A12}))
+
+If({plasmid_B1} != none, AddXML(strain, plasmidId, {plasmid_B1}))
+If({plasmid_B2} != none, AddXML(strain, plasmidId, {plasmid_B2}))
+If({plasmid_B3} != none, AddXML(strain, plasmidId, {plasmid_B3}))
+If({plasmid_B4} != none, AddXML(strain, plasmidId, {plasmid_B4}))
+If({plasmid_B5} != none, AddXML(strain, plasmidId, {plasmid_B5}))
+If({plasmid_B6} != none, AddXML(strain, plasmidId, {plasmid_B6}))
+If({plasmid_B7} != none, AddXML(strain, plasmidId, {plasmid_B7}))
+If({plasmid_B8} != none, AddXML(strain, plasmidId, {plasmid_B8}))
+If({plasmid_B9} != none, AddXML(strain, plasmidId, {plasmid_B9}))
+If({plasmid_B10} != none, AddXML(strain, plasmidId, {plasmid_B10}))
+If({plasmid_B11} != none, AddXML(strain, plasmidId, {plasmid_B11}))
+If({plasmid_B11} != none, AddXML(strain, plasmidId, {plasmid_B12}))
+
+If({plasmid_C1} != none, AddXML(strain, plasmidId, {plasmid_C1}))
+If({plasmid_C2} != none, AddXML(strain, plasmidId, {plasmid_C2}))
+If({plasmid_C3} != none, AddXML(strain, plasmidId, {plasmid_C3}))
+If({plasmid_C4} != none, AddXML(strain, plasmidId, {plasmid_C4}))
+If({plasmid_C5} != none, AddXML(strain, plasmidId, {plasmid_C5}))
+If({plasmid_C6} != none, AddXML(strain, plasmidId, {plasmid_C6}))
+If({plasmid_C7} != none, AddXML(strain, plasmidId, {plasmid_C7}))
+If({plasmid_C8} != none, AddXML(strain, plasmidId, {plasmid_C8}))
+If({plasmid_C9} != none, AddXML(strain, plasmidId, {plasmid_C9}))
+If({plasmid_C10} != none, AddXML(strain, plasmidId, {plasmid_C10}))
+If({plasmid_C11} != none, AddXML(strain, plasmidId, {plasmid_C11}))
+If({plasmid_C11} != none, AddXML(strain, plasmidId, {plasmid_C12}))
+
+If({plasmid_D1} != none, AddXML(strain, plasmidId, {plasmid_D1}))
+If({plasmid_D2} != none, AddXML(strain, plasmidId, {plasmid_D2}))
+If({plasmid_D3} != none, AddXML(strain, plasmidId, {plasmid_D3}))
+If({plasmid_D4} != none, AddXML(strain, plasmidId, {plasmid_D4}))
+If({plasmid_D5} != none, AddXML(strain, plasmidId, {plasmid_D5}))
+If({plasmid_D6} != none, AddXML(strain, plasmidId, {plasmid_D6}))
+If({plasmid_D7} != none, AddXML(strain, plasmidId, {plasmid_D7}))
+If({plasmid_D8} != none, AddXML(strain, plasmidId, {plasmid_D8}))
+If({plasmid_D9} != none, AddXML(strain, plasmidId, {plasmid_D9}))
+If({plasmid_D10} != none, AddXML(strain, plasmidId, {plasmid_D10}))
+If({plasmid_D11} != none, AddXML(strain, plasmidId, {plasmid_D11}))
+If({plasmid_D11} != none, AddXML(strain, plasmidId, {plasmid_D12}))
+
+If({plasmid_E1} != none, AddXML(strain, plasmidId, {plasmid_E1}))
+If({plasmid_E2} != none, AddXML(strain, plasmidId, {plasmid_E2}))
+If({plasmid_E3} != none, AddXML(strain, plasmidId, {plasmid_E3}))
+If({plasmid_E4} != none, AddXML(strain, plasmidId, {plasmid_E4}))
+If({plasmid_E5} != none, AddXML(strain, plasmidId, {plasmid_E5}))
+If({plasmid_E6} != none, AddXML(strain, plasmidId, {plasmid_E6}))
+If({plasmid_E7} != none, AddXML(strain, plasmidId, {plasmid_E7}))
+If({plasmid_E8} != none, AddXML(strain, plasmidId, {plasmid_E8}))
+If({plasmid_E9} != none, AddXML(strain, plasmidId, {plasmid_E9}))
+If({plasmid_E10} != none, AddXML(strain, plasmidId, {plasmid_E10}))
+If({plasmid_E11} != none, AddXML(strain, plasmidId, {plasmid_E11}))
+If({plasmid_E11} != none, AddXML(strain, plasmidId, {plasmid_E12}))
+
+If({plasmid_F1} != none, AddXML(strain, plasmidId, {plasmid_F1}))
+If({plasmid_F2} != none, AddXML(strain, plasmidId, {plasmid_F2}))
+If({plasmid_F3} != none, AddXML(strain, plasmidId, {plasmid_F3}))
+If({plasmid_F4} != none, AddXML(strain, plasmidId, {plasmid_F4}))
+If({plasmid_F5} != none, AddXML(strain, plasmidId, {plasmid_F5}))
+If({plasmid_F6} != none, AddXML(strain, plasmidId, {plasmid_F6}))
+If({plasmid_F7} != none, AddXML(strain, plasmidId, {plasmid_F7}))
+If({plasmid_F8} != none, AddXML(strain, plasmidId, {plasmid_F8}))
+If({plasmid_F9} != none, AddXML(strain, plasmidId, {plasmid_F9}))
+If({plasmid_F10} != none, AddXML(strain, plasmidId, {plasmid_F10}))
+If({plasmid_F11} != none, AddXML(strain, plasmidId, {plasmid_F11}))
+If({plasmid_F11} != none, AddXML(strain, plasmidId, {plasmid_F12}))
+
+If({plasmid_G1} != none, AddXML(strain, plasmidId, {plasmid_G1}))
+If({plasmid_G2} != none, AddXML(strain, plasmidId, {plasmid_G2}))
+If({plasmid_G3} != none, AddXML(strain, plasmidId, {plasmid_G3}))
+If({plasmid_G4} != none, AddXML(strain, plasmidId, {plasmid_G4}))
+If({plasmid_G5} != none, AddXML(strain, plasmidId, {plasmid_G5}))
+If({plasmid_G6} != none, AddXML(strain, plasmidId, {plasmid_G6}))
+If({plasmid_G7} != none, AddXML(strain, plasmidId, {plasmid_G7}))
+If({plasmid_G8} != none, AddXML(strain, plasmidId, {plasmid_G8}))
+If({plasmid_G9} != none, AddXML(strain, plasmidId, {plasmid_G9}))
+If({plasmid_G10} != none, AddXML(strain, plasmidId, {plasmid_G10}))
+If({plasmid_G11} != none, AddXML(strain, plasmidId, {plasmid_G11}))
+If({plasmid_G11} != none, AddXML(strain, plasmidId, {plasmid_G12}))
+
+If({plasmid_H1} != none, AddXML(strain, plasmidId, {plasmid_H1}))
+If({plasmid_H2} != none, AddXML(strain, plasmidId, {plasmid_H2}))
+If({plasmid_H3} != none, AddXML(strain, plasmidId, {plasmid_H3}))
+If({plasmid_H4} != none, AddXML(strain, plasmidId, {plasmid_H4}))
+If({plasmid_H5} != none, AddXML(strain, plasmidId, {plasmid_H5}))
+If({plasmid_H6} != none, AddXML(strain, plasmidId, {plasmid_H6}))
+If({plasmid_H7} != none, AddXML(strain, plasmidId, {plasmid_H7}))
+If({plasmid_H8} != none, AddXML(strain, plasmidId, {plasmid_H8}))
+If({plasmid_H9} != none, AddXML(strain, plasmidId, {plasmid_H9}))
+If({plasmid_H10} != none, AddXML(strain, plasmidId, {plasmid_H10}))
+If({plasmid_H11} != none, AddXML(strain, plasmidId, {plasmid_H11}))
+If({plasmid_H11} != none, AddXML(strain, plasmidId, {plasmid_H12}))
+
+///////////////////////////////////////////////////////////////
+
+
+Get(note, note)
+
+//review experiment ok/abort dialog
+Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
+Set(msg1, {msg1}\tMedia 1: \t{media_source_1}\n)
+Set(msg1, {msg1}\tMedia 2: \t{media_source_2}\n)
+Set(msg1, {msg1}\tMedia 3: \t{media_source_3}\n)
+Set(msg1, {msg1}\tMedia 4: \t{media_source_4}\n)
+Set(msg1, {msg1}\n)
+Set(msg1, {msg1}\tBacteria strain: \t{strain1}\n)
+
+Set(msg1, {msg1}\n)
+Set(msg1, {msg1}\tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
+UserPrompt(Review Experiment Details: {experimentId}, {msg1})
+
+Set(msg1, Set up the NGS-STAR deck layout as shown, and click 'OK' to continue.)
+Set(msg1, {msg1}\n\n\tMedia Reservoir:)
+Set(msg1, {msg1}\n\t\tcolumn 1: {media_source_1})
+Set(msg1, {msg1}\n\t\tcolumn 2: {media_source_2})
+Set(msg1, {msg1}\n\t\tcolumn 3: {media_source_3})
+Set(msg1, {msg1}\n\t\tcolumn 4: {media_source_4})
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.RNA_circuits_1.PNG, 1000)
+
+Set(msg1, Click 'OK' then edit tip counters to start the experiment.)
+UserPrompt(Tip Counters, {msg1})
+Hamilton({hamiltonMethodDir}\Edit Tip Counters.hsl)
+WaitFor(Hamilton)
+
+/////////////////////////////////////////////////////////////////////////////////////
+//Run the protocol
+////////////////////////////////////////////////////////////////////////////////////
+
+//--- add media to GP ------------------------------------------------------------------------------
+Set(worklistFile, temp)
+Hamilton({hamiltonMethodDir}\Prep Growth Plate with Media.hsl)
+WaitFor(Hamilton)
+
+Set(msg1, The media plate is ready. Add the overnight growth plate as shown, and click 'OK' to continue.)
+UserPrompt(Add Overnight Plate, {msg1}, {scriptDir}\Add overnight plate.PNG, 1000)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate.csv)
+Hamilton({hamiltonMethodDir}\Transfer cells from overnight plate.hsl)
+WaitFor(Hamilton)
+
+UserPrompt(Done, Done)
+
