@@ -122,6 +122,8 @@ If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
 /////////////////////////////////////////////////////////////////
 
 
+
+
 /////////////////////////////////////////////////////////////////
 //Hamilton Venus Methods, in the order that they get run
 Set(addMediaToGPMethod, Prep Growth Plate with Media.hsl)
@@ -147,9 +149,13 @@ Set(cytomVolume, 200)
 Set(cytomDilutionFactor, 40)
 /////////////////////////////////////////
 
-//Set readers to be used, if any
-//Set(reader1, Neo)
-//Set(reader2, Neo2)
+
+/////////////////////////////////////////////////////////////////
+// Gen5 info
+Set(reader1, Neo2)
+Set(gen5_protocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
+Set(gen5_protocol_time, 57900)
+/////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////
 //User input and Overlord initialization section
@@ -338,6 +344,20 @@ UserPrompt(Add Overnight Plate, {msg1}, {scriptDir}\Add overnight plate.PNG, 100
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate.csv)
 Hamilton({hamiltonMethodDir}\Transfer cells from overnight plate.hsl)
 WaitFor(Hamilton)
+
+Gen5({reader1}, CarrierOut)
+Set(msg1, Cell transfer to growth plate completed. Manually seal the plate and place it in {reader1}. Then, click 'OK' to continue.)
+UserPrompt(Growth Plate Completed, {msg1})
+
+Gen5({reader1}, RunExp, {gen5_protocol}, {experimentId}_growth_plate, {dataDirectory})
+Timer({gen5_protocol_time})
+WaitFor(Timer)
+WaitFor({reader1})
+
+Gen5({reader1}, CarrierOut)
+Set(msg1, The Gen5 experiment in {reader1} is finished. Manually de-seal the plate and Place it back on the NGS-STAR (WITH its lid).\nThen, click 'OK' to continue.)
+Set(msg1, {msg1}\nThen, click 'OK' to continue.)
+UserPrompt(Gen5 Finished, {msg1}, )
 
 UserPrompt(Done, Done)
 
