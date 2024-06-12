@@ -154,7 +154,7 @@ Set(cytomWaitTime, 18000)
 /////////////////////////////////////////////////////////////////
 // Gen5 info
 Set(reader1, Neo2)
-Set(gen5_protocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
+Set(gen5_protocol, {gen5ProtDir}\RNA circuits\Growth Plate w Membrane long test with CGR_FP discontinuous growth opt.prt)
 Set(gen5_protocol_time, 57900)
 /////////////////////////////////////////////////////////////////
 
