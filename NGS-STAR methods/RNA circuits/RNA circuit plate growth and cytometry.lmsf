@@ -353,6 +353,7 @@ Hamilton({hamiltonMethodDir}\Transfer cells from overnight plate.hsl)
 WaitFor(Hamilton)
 
 Gen5({reader1}, CarrierOut)
+WaitFor({reader1})
 Set(msg1, Cell transfer to growth plate completed.\nRemove the overnight growth plate from the NGS-STAR and store appropriately (or throw to waste). Then, click 'OK' to continue.)
 UserPrompt(Growth Plate Completed, {msg1}, {scriptDir}\Add overnight plate.PNG, 1000)
 
@@ -376,9 +377,13 @@ UserPrompt(Cytometry Plate Ready, {msg1})
 WaitFor({reader1})
 
 Gen5({reader1}, CarrierOut)
+WaitFor({reader1})
 Set(msg1, The Gen5 experiment in {reader1} is finished. Manually de-seal the plate and Place it back on the NGS-STAR (WITH its lid).)
 Set(msg1, {msg1}\nThen, click 'OK' to continue.)
 UserPrompt(Gen5 Finished, {msg1}, {scriptDir}\Return Growth Plate.PNG, 1000)
+
+Gen5({reader1}, CarrierIn)
+WaitFor({reader1})
 
 Hamilton({hamiltonMethodDir}\Transfer cells from growth plate to cytom plate.hsl)
 WaitFor(Hamilton)
