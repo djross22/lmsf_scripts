@@ -159,9 +159,11 @@ Set(gen5_protocol_time, 57900)
 /////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////
-//User input and Overlord initialization section
+//User input and Hamilton initialization section
 
 StartPrompt(Sam Experiment 1, {scriptDir}\RNA circuit plate growth and cytometry-list.txt)
+
+Hamilton({hamiltonMethodDir}\Turn up Fan at start.hsl)
 
 UserPrompt(Check NGS-STAR Hamilton Tips, Make sure there are at least 40 1000 uL tips in the tip supports on the deck of the NGS-STAR., {lmsfImageDirectory}\Tip supports NGS 1000.PNG, 1000)
 UserPrompt(Check NGS-STAR Hamilton Tips, Make sure there are two full racks of 300 uL tips in the tip supports on the deck of the NGS-STAR., {lmsfImageDirectory}\Tip supports NGS 300.PNG, 1000)
@@ -317,6 +319,8 @@ Set(msg1, {msg1}\n)
 Set(msg1, {msg1}\tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1})
 
+WaitFor(Hamilton)
+
 Set(msg1, Set up the NGS-STAR deck layout as shown, and click 'OK' to continue.)
 Set(msg1, {msg1}\n\n\tMedia Reservoir:)
 Set(msg1, {msg1}\n\t\tcolumn 1: {media_source_1})
@@ -349,7 +353,10 @@ Hamilton({hamiltonMethodDir}\Transfer cells from overnight plate.hsl)
 WaitFor(Hamilton)
 
 Gen5({reader1}, CarrierOut)
-Set(msg1, Cell transfer to growth plate completed. Manually seal the plate and place it in {reader1}. Then, click 'OK' to continue.)
+Set(msg1, Cell transfer to growth plate completed. Remove the overnight growth plate from the NGS-STAR and store appropriately (or throw to waste). Then, click 'OK' to continue.)
+UserPrompt(Growth Plate Completed, {msg1}, {scriptDir}\Add overnight plate.PNG, 1000)
+
+Set(msg1, Cell transfer to growth plate completed. Manually seal the growth plate and place it in {reader1}. Then, click 'OK' to continue.)
 UserPrompt(Growth Plate Completed, {msg1})
 
 Gen5({reader1}, RunExp, {gen5_protocol}, {experimentId}_growth_plate, {dataDirectory})
@@ -379,6 +386,9 @@ WaitFor(Hamilton)
 SaveXML()
 
 CopyRemoteFiles()
+
+Hamilton({hamiltonMethodDir}\Turn down Fan at end.hsl)
+WaitFor(Hamilton)
 
 UserPrompt(Done, The cytometry plate is ready.\nRemember to put focusing fluid and beads into wells G12 and H12.)
 
