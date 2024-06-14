@@ -151,7 +151,7 @@ Math(preHeatPlateTime, {preHeatPlateTime} - 120)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 
 Set(doubleGradMethod, Double 2D gradient plate prep.hsl)
-Set(doubleGradTime, 1500)
+Set(doubleGradTime, 1470)
 /////////////////////////////////////////////////////////////////
 
 
