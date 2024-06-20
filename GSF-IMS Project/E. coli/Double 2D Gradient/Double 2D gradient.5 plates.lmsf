@@ -41,7 +41,7 @@ Set(lastProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1
 //lastProtocolTime = nominal run time + 300
 Set(lastProtocolTime, 57900)
 
-Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
+Set(bPlateProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 5.5h.37C.1C.prt)
 /////////////////////////////////////////////////////////////////
 
 
