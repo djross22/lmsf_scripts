@@ -165,9 +165,6 @@ StartPrompt(Sam Experiment 1, {scriptDir}\RNA circuit plate growth and cytometry
 
 Hamilton({hamiltonMethodDir}\Turn up Fan at start.hsl)
 
-UserPrompt(Check NGS-STAR Hamilton Tips, Make sure there are at least 40 1000 uL tips in the tip supports on the deck of the NGS-STAR., {lmsfImageDirectory}\Tip supports NGS 1000.PNG, 1000)
-UserPrompt(Check NGS-STAR Hamilton Tips, Make sure there are two full racks of 300 uL tips in the tip supports on the deck of the NGS-STAR., {lmsfImageDirectory}\Tip supports NGS 300.PNG, 1000)
-
 NewXML(Sam Experiment 1)
 
 GetExpID({startDate}_RNA_circuit_cytom)
@@ -320,6 +317,9 @@ Set(msg1, {msg1}\tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t
 UserPrompt(Review Experiment Details: {experimentId}, {msg1})
 
 WaitFor(Hamilton)
+
+UserPrompt(Check NGS-STAR Hamilton Tips, Make sure there are at least 40 1000 uL tips in the tip supports on the deck of the NGS-STAR., {lmsfImageDirectory}\Tip supports NGS 1000.PNG, 1000)
+UserPrompt(Check NGS-STAR Hamilton Tips, Make sure there are two full racks of 300 uL tips in the tip supports on the deck of the NGS-STAR., {lmsfImageDirectory}\Tip supports NGS 300.PNG, 1000)
 
 Set(msg1, Set up the NGS-STAR deck layout as shown, and click 'OK' to continue.)
 Set(msg1, {msg1}\n\n\tMedia Reservoir:)
