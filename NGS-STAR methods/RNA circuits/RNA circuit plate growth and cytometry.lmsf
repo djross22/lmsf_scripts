@@ -173,8 +173,11 @@ Get(user, user)
 
 ///////////////////////////////////////////////////////////////
 // Media and Plasmids
-Set(msg1, Open the file plasmids_and_media_info.txt from today's folder in the LMSF Queue: {queueDirectory}.\nThen, verify that it contains the appropriate information for this experiment:)
-Set(msg1, {msg1}\nFour media types and the media type to use for each column of the growth plate.)
+Set(msg1, Open the file plasmids_and_media_info.txt from today's folder in the LMSF Queue: \n\t{queueDirectory}.\n\nThen, verify that it contains the appropriate information for this experiment:)
+Set(msg1, {msg1}\n\tStrain idendifier,)
+Set(msg1, {msg1}\n\tPlasmid idendifiers for each well with cells,)
+Set(msg1, {msg1}\n\tFour media types and the media type to use for each column of the growth plate,)
+Set(msg1, {msg1}\n\tTwo PBS types and the PBS type to use for each column of the cytometry plate.)
 
 If({queueDirectory}=={scriptDir}, Set(msg1, Open the file plasmids_and_media_info.txt and edit it to contain the appropriate media information for this experiment.))
 If({queueDirectory}=={scriptDir}, Set(msg1, {msg1}\nThe file should be in the folder: {scriptDir}.))
