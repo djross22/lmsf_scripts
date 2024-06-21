@@ -29,16 +29,23 @@ Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DW
 //////////////////////////////////////////////////////////////////////////////////////
 //User input and Overlord initialization section
 
-StartPrompt(E. Coli Fitness Selection, {scriptDir}\PDZ binding 3 plates-list.txt)
+Set(listFile, {scriptDir}\PDZ binding 3 plates-list.txt)
+If({isFourInducer_24plasmid_exp}==true, Set(listFile, {scriptDir}\PDZ binding 3 plates.4 van-list.txt))
+StartPrompt(E. Coli Fitness Selection, {listFile})
 
 //UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
-UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 40 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
-UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 168 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
+
+Set(tipsRequired1000, 40)
+If({isFourInducer_24plasmid_exp}==true, Set(tipsRequired1000, 64))
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least {tipsRequired1000} 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
 
 Set(msg2, Make sure there are at least two racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
+If({isFourInducer_24plasmid_exp}==true, Set(msg2, Make sure there are at least three racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n))
 UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 2.png)
 Set(tips50Index, 0)
 Set(tips300Index, 2)
+If({isFourInducer_24plasmid_exp}==true, Set(tips300Index, 3))
 Set(tips1000Index, 0)
 
 NewXML(fitness selection)
