@@ -126,6 +126,22 @@ Set(mainReader, Neo)
 Set(isExtractingDNA, false)
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.PDZ binding 3 plates.lmsf)
 
+// For 16-strain experiment, get strain info from file
+If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
+
+Set(msg1, Open the file strain_plasmids_16.txt from today's folder in the LMSF Queue: {queueDirectory}.\nThen, verify that it contains the appropriate information for this experiment.)
+Set(msg2, One strain and 16 plasmids.)
+
+Set(msg5, \n\nThe LMSF Queue is on the JCloud at: \\resdata-smb\JCloud2\Shared_Data\LMSF Queue.)
+Set(msg6, \nIt should be pinned to the Quick Access in the Windows file browser.)
+
+If({queueDirectory}=={scriptDir}, Set(msg1, Open the file strain_plasmids_16.txt and edit it to contain the appropriate information for this experiment.))
+If({queueDirectory}=={scriptDir}, Set(msg5, \nThe file should be in the folder: {scriptDir}.))
+If({queueDirectory}=={scriptDir}, Set(msg6, ))
+
+UserPrompt(Strain and Plasmids, {msg1}\n{msg2}{msg5}{msg6})
+
+If(isFourInducer_24plasmid_exp==true, ImportDictionary({queueDirectory}\strain_plasmids_16.txt))
 
 //Get strain info from user if needed (i.e., if not assigned at #InsertVariables)
 Set(needsStrainInput, false)
@@ -145,6 +161,54 @@ If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid3}))
 If({needsStrainInput} !=  true, AddXML(strains, strain))
 If({needsStrainInput} !=  true, AddXML(strain, strainId, {strain1}))
 If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid4}))
+
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid5}))
+
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid6}))
+
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid7}))
+
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid8}))
+
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid9}))
+
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid10}))
+
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid11}))
+
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid12}))
+
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid13}))
+
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid14}))
+
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid15}))
+
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid16}))
 
 Set(msg, Select the bacteria strain used for the experiment:)
 If({needsStrainInput} ==  true, Get(strain, strain1, {msg}))
@@ -173,6 +237,8 @@ AddXML(additive, useKey, inducer)
 AddXML(additive, additiveId, {inducer2})
 AddXML(additive, concentration, {inducer2_1Stock})
 AddXML(additive, concentration, {inducer2_2Stock})
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(additive, concentration, {inducer2_3Stock}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(additive, concentration, {inducer2_4Stock}))
 
 
 Set(msg1, {inducer1} stock concentration should be {inducer1Stock}.)
@@ -180,6 +246,8 @@ UserPrompt(Inducer Stocks, {msg1})
 
 Set(msg1, The first {inducer2} stock concentration should be {inducer2_1Stock}.)
 Set(msg1, {msg1}\nThe second {inducer2} stock concentration should be {inducer2_2Stock}.)
+If({isFourInducer_24plasmid_exp} ==  true, Set(msg1, {msg1}\nThe third {inducer2} stock concentration should be {inducer2_3Stock}.))
+If({isFourInducer_24plasmid_exp} ==  true, Set(msg1, {msg1}\nThe forth {inducer2} stock concentration should be {inducer2_4Stock}.))
 UserPrompt(Inducer Stocks, {msg1})
 
 Set(msg1, The {selector1} stock concentration should be {selector1Stock}.)
@@ -214,14 +282,24 @@ If(isFourInducer_24plasmid_exp==true, Set(msg1, {msg1}\n\tInducer 2.3: {inducer2
 If(isFourInducer_24plasmid_exp==true, Set(msg1, {msg1}\n\tInducer 2.4: {inducer2_4Stock} {inducer2}))
 
 Set(msg1, {msg1}\n\tAntibiotic: {selector1Stock} {selector1})
-UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.PDZ binding.PNG, 1000)
+
+Set(layoutPng, {scriptDir}\STAR Deck Layout.PDZ binding.PNG)
+If(isFourInducer_24plasmid_exp==true, Set(layoutPng, {scriptDir}\STAR Deck Layout.Marionette protease.PNG))
+
+UserPrompt(STAR Deck Layout, {msg1}, {layoutPng}, 1000)
 
 Set(msg1, Load the bacterial strains as shown.)
 Set(msg1, {msg1}\n\tPosition 10: {plasmid1} in {strain1})
 Set(msg1, {msg1}\n\tPosition 11: {plasmid2} in {strain1})
 Set(msg1, {msg1}\n\tPosition 12: {plasmid3} in {strain1})
 Set(msg1, {msg1}\n\tPosition 13: {plasmid4} in {strain1})
-UserPrompt(Load Strains, {msg1}, {scriptDir}\Load strains.Marionette protease.PNG, 1000)
+
+If(isFourInducer_24plasmid_exp==true, Set(msg1, Load the bacterial strains as shown.\n16 culture tubes in positions 1-16:))
+
+Set(loadStrainsPng, {scriptDir}\Load strains.Marionette protease.PNG)
+If(isFourInducer_24plasmid_exp==true, Set(loadStrainsPng, {scriptDir}\Load strains.16 plasmids.PNG))
+
+UserPrompt(Load Strains, {msg1}, {loadStrainsPng}, 1000)
 
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 Set(startWithInducer, No)
