@@ -9,6 +9,10 @@ Set(inducer1StockConc, 250)
 Set(inducer2_1StockConc, 2000)
 Set(inducer2_2StockConc, 500)
 
+Set(isFourInducer_24plasmid_exp, false)
+Set(inducer2_3StockConc, 0)
+Set(inducer2_4StockConc, 0)
+
 Set(selector1StockConc, 125)
 
 Set(inducer1StockUnits, umol/L)
@@ -29,6 +33,8 @@ Set(plasmid4, notAssigned)
 Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits})
 Set(inducer2_1Stock, {inducer2_1StockConc} {inducer2StockUnits})
 Set(inducer2_2Stock, {inducer2_2StockConc} {inducer2StockUnits})
+Set(inducer2_3Stock, {inducer2_3StockConc} {inducer2StockUnits})
+Set(inducer2_4Stock, {inducer2_4StockConc} {inducer2StockUnits})
 Set(selector1Stock, {selector1StockConc} {selector1StockUnits})
 
 //isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
@@ -58,9 +64,15 @@ Set(scriptDir, GSF-IMS Project\E. coli\Fitness Selection 2)
 Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep plus 4 strains.hsl)
 Set(startMethodTime, 950)
+
+If(isFourInducer_24plasmid_exp==true, Set(startMethod, Uniform non-selective plate prep plus 16 strains.hsl))
+If(isFourInducer_24plasmid_exp==true, Set(startMethodTime, 950))
+
 Set(nonSelectiveGradientMethod, PDZ binding.plate prep.hsl)
 Set(nonSelectivePlateTime, 1140)
-// fold-dilution across dilution series in nonSelectiveGradientMethod and selectiveGradientMethod:
+
+If(isFourInducer_24plasmid_exp==true, Set(nonSelectiveGradientMethod, PDZ binding.plate prep.4 van.16 plasmids.hsl))
+If(isFourInducer_24plasmid_exp==true, Set(nonSelectivePlateTime, 1140))
 
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
@@ -70,8 +82,12 @@ Set(preHeatPlateTime, 660)
 Math(preHeatPlateTime, {preHeatPlateTime} - 120)
 
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
+
 Set(selectiveGradientMethod, PDZ binding.plate prep.hsl)
 Set(selectivePlateTime, 1140)
+
+If(isFourInducer_24plasmid_exp==true, Set(selectiveGradientMethod, PDZ binding.plate prep.4 van.16 plasmids.hsl))
+If(isFourInducer_24plasmid_exp==true, Set(selectivePlateTime, 1140))
 
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
@@ -194,6 +210,9 @@ Set(msg1, Set up the STAR deck layout as shown.)
 Set(msg1, {msg1}\n\tInducer 1: {inducer1Stock} {inducer1})
 Set(msg1, {msg1}\n\tInducer 2.1: {inducer2_1Stock} {inducer2})
 Set(msg1, {msg1}\n\tInducer 2.2: {inducer2_2Stock} {inducer2})
+If(isFourInducer_24plasmid_exp==true, Set(msg1, {msg1}\n\tInducer 2.3: {inducer2_3Stock} {inducer2}))
+If(isFourInducer_24plasmid_exp==true, Set(msg1, {msg1}\n\tInducer 2.4: {inducer2_4Stock} {inducer2}))
+
 Set(msg1, {msg1}\n\tAntibiotic: {selector1Stock} {selector1})
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.PDZ binding.PNG, 1000)
 
