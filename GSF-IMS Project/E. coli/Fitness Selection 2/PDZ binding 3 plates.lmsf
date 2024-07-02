@@ -10,6 +10,7 @@ Set(inducer2_1StockConc, 2000)
 Set(inducer2_2StockConc, 500)
 
 Set(isFourInducer_24plasmid_exp, false)
+Set(isFull_16plasmid_exp, false)
 Set(inducer2_3StockConc, 0)
 Set(inducer2_4StockConc, 0)
 
@@ -67,6 +68,9 @@ Set(startMethodTime, 950)
 
 If({isFourInducer_24plasmid_exp}==true, Set(startMethod, Uniform non-selective plate prep plus 16 strains.hsl))
 If({isFourInducer_24plasmid_exp}==true, Set(startMethodTime, 950))
+
+If({isFull_16plasmid_exp}==true, Set(startMethod, Uniform non-selective plate prep plus 16 strains.hsl))
+If({isFull_16plasmid_exp}==true, Set(startMethodTime, 950))
 
 Set(nonSelectiveGradientMethod, PDZ binding.plate prep.hsl)
 Set(nonSelectivePlateTime, 1140)
@@ -141,7 +145,11 @@ If({queueDirectory}=={scriptDir}, Set(msg6, ))
 
 UserPrompt(Strain and Plasmids, {msg1}\n{msg2}{msg5}{msg6})
 
-If({isFourInducer_24plasmid_exp}==true, ImportDictionary({queueDirectory}\strain_plasmids_16.txt))
+Set(has16Plasmids, false)
+If({isFourInducer_24plasmid_exp}==true, Set(has16Plasmids, true))
+If({isFull_16plasmid_exp}==true, Set(has16Plasmids, true))
+
+If({has16Plasmids}==true, ImportDictionary({queueDirectory}\strain_plasmids_16.txt))
 
 //Get strain info from user if needed (i.e., if not assigned at #InsertVariables)
 Set(needsStrainInput, false)
@@ -162,53 +170,53 @@ If({needsStrainInput} !=  true, AddXML(strains, strain))
 If({needsStrainInput} !=  true, AddXML(strain, strainId, {strain1}))
 If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid4}))
 
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid5}))
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid5}))
 
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid6}))
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid6}))
 
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid7}))
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid7}))
 
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid8}))
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid8}))
 
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid9}))
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid9}))
 
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid10}))
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid10}))
 
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid11}))
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid11}))
 
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid12}))
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid12}))
 
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid13}))
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid13}))
 
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid14}))
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid14}))
 
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid15}))
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid15}))
 
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strains, strain))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, strainId, {strain1}))
-If({isFourInducer_24plasmid_exp} ==  true, AddXML(strain, plasmidId, {plasmid16}))
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid16}))
 
 Set(msg, Select the bacteria strain used for the experiment:)
 If({needsStrainInput} ==  true, Get(strain, strain1, {msg}))
@@ -264,11 +272,11 @@ Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort an
 Set(media_str, {media})
 If({percentDMSO} != 0, Set(media_str, {media_str} with {percentDMSO}% DMSO))
 Set(msg2, \tMedia: \t\t{media_str}\n\n \tBacteria: \t\t{strain1}\n\n \tPlasmids:\n\t\t\t{plasmid1}\n\t\t\t{plasmid2}\n\t\t\t{plasmid3}\n\t\t\t{plasmid4}\n\n)
-If({isFourInducer_24plasmid_exp} ==  true, Set(msg2, \tMedia: \t\t{media_str}\n\n \tBacteria: \t\t{strain1}\n\n \tPlasmids:))
-If({isFourInducer_24plasmid_exp} ==  true, Set(msg2, {msg2}\n\t\t\t{plasmid1}\t{plasmid5}\t{plasmid9}\t{plasmid13}))
-If({isFourInducer_24plasmid_exp} ==  true, Set(msg2, {msg2}\n\t\t\t{plasmid2}\t{plasmid6}\t{plasmid10}\t{plasmid14}))
-If({isFourInducer_24plasmid_exp} ==  true, Set(msg2, {msg2}\n\t\t\t{plasmid3}\t{plasmid7}\t{plasmid11}\t{plasmid15}))
-If({isFourInducer_24plasmid_exp} ==  true, Set(msg2, {msg2}\n\t\t\t{plasmid4}\t{plasmid8}\t{plasmid12}\t{plasmid16}\n\n))
+If({has16Plasmids} ==  true, Set(msg2, \tMedia: \t\t{media_str}\n\n \tBacteria: \t\t{strain1}\n\n \tPlasmids:))
+If({has16Plasmids} ==  true, Set(msg2, {msg2}\n\t\t\t{plasmid1}\t{plasmid5}\t{plasmid9}\t{plasmid13}))
+If({has16Plasmids} ==  true, Set(msg2, {msg2}\n\t\t\t{plasmid2}\t{plasmid6}\t{plasmid10}\t{plasmid14}))
+If({has16Plasmids} ==  true, Set(msg2, {msg2}\n\t\t\t{plasmid3}\t{plasmid7}\t{plasmid11}\t{plasmid15}))
+If({has16Plasmids} ==  true, Set(msg2, {msg2}\n\t\t\t{plasmid4}\t{plasmid8}\t{plasmid12}\t{plasmid16}\n\n))
 
 
 Set(msg3, \tInducer 1: \t{inducer1}, stock concentration: {inducer1Stock}\n)
@@ -300,10 +308,10 @@ Set(msg1, {msg1}\n\tPosition 11: {plasmid2} in {strain1})
 Set(msg1, {msg1}\n\tPosition 12: {plasmid3} in {strain1})
 Set(msg1, {msg1}\n\tPosition 13: {plasmid4} in {strain1})
 
-If({isFourInducer_24plasmid_exp}==true, Set(msg1, Load the bacterial strains as shown.\n16 culture tubes in positions 1-16:))
+If({has16Plasmids}==true, Set(msg1, Load the bacterial strains as shown.\n16 culture tubes in positions 1-16:))
 
 Set(loadStrainsPng, {scriptDir}\Load strains.Marionette protease.PNG)
-If({isFourInducer_24plasmid_exp}==true, Set(loadStrainsPng, {scriptDir}\Load strains.16 plasmids.PNG))
+If({has16Plasmids}==true, Set(loadStrainsPng, {scriptDir}\Load strains.16 plasmids.PNG))
 
 UserPrompt(Load Strains, {msg1}, {loadStrainsPng}, 1000)
 
@@ -320,14 +328,14 @@ Set(repeatProtocol, {plate3Protocol})
 Set(repeatProtocolTime, {plate3ProtocolTime})
 Set(clear300TipWaste, true)
 
-// Before plate 3 prep, move 24 300 uL tips to another position on the STAR, and the add a new rack of 300 ul tips
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move 24 300 tips out of the way.hsl)
-WaitFor(S-Cell-STAR)
-Overlord({ovpCommDirectory}\LabWare\Move Tips from Carousel to STAR.ovp, [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
-WaitFor(Overlord)
-Math(tips300Index, {tips300Index} - 1)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Add Tips 300 to Support w Counters.hsl)
-WaitFor(S-Cell-STAR)
+// For the isFourInducer_24plasmid_exp experiment, before plate 3 prep, move 24 300 uL tips to another position on the STAR, and the add a new rack of 300 ul tips
+If({isFourInducer_24plasmid_exp}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move 24 300 tips out of the way.hsl))
+If({isFourInducer_24plasmid_exp}==true, WaitFor(S-Cell-STAR))
+If({isFourInducer_24plasmid_exp}==true, Overlord({ovpCommDirectory}\LabWare\Move Tips from Carousel to STAR.ovp, [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true"))
+If({isFourInducer_24plasmid_exp}==true, WaitFor(Overlord))
+If({isFourInducer_24plasmid_exp}==true, Math(tips300Index, {tips300Index} - 1))
+If({isFourInducer_24plasmid_exp}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Add Tips 300 to Support w Counters.hsl))
+If({isFourInducer_24plasmid_exp}==true, WaitFor(S-Cell-STAR))
 
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
