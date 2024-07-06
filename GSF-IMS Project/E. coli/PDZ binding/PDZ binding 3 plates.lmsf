@@ -58,6 +58,7 @@ Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E
 // Overlord protocols are the same as for the last version
 Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
 Set(scriptDir, GSF-IMS Project\E. coli\Fitness Selection 2)
+Set(pdzScriptDir, GSF-IMS Project\E. coli\PDZ binding)
 /////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
@@ -128,10 +129,10 @@ Set(mainReader, Neo)
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 Set(isExtractingDNA, false)
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.PDZ binding 3 plates.lmsf)
+ReadScript(GSF-IMS Project\E. coli\PDZ binding\Fitness Selection.init experiment.PDZ binding 3 plates.lmsf)
 
 // For 16-strain experiment, get strain info from file
-If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
+If({queueDirectory}==notAssigned, Set(queueDirectory, {pdzScriptDir}))
 
 Set(msg1, Open the file strain_plasmids_16.txt from today's folder in the LMSF Queue: {queueDirectory}.\nThen, verify that it contains the appropriate information for this experiment.)
 Set(msg2, One strain and 16 plasmids.)
@@ -139,9 +140,9 @@ Set(msg2, One strain and 16 plasmids.)
 Set(msg5, \n\nThe LMSF Queue is on the JCloud at: \\resdata-smb\JCloud2\Shared_Data\LMSF Queue.)
 Set(msg6, \nIt should be pinned to the Quick Access in the Windows file browser.)
 
-If({queueDirectory}=={scriptDir}, Set(msg1, Open the file strain_plasmids_16.txt and edit it to contain the appropriate information for this experiment.))
-If({queueDirectory}=={scriptDir}, Set(msg5, \nThe file should be in the folder: {scriptDir}.))
-If({queueDirectory}=={scriptDir}, Set(msg6, ))
+If({queueDirectory}=={pdzScriptDir}, Set(msg1, Open the file strain_plasmids_16.txt and edit it to contain the appropriate information for this experiment.))
+If({queueDirectory}=={pdzScriptDir}, Set(msg5, \nThe file should be in the folder: {pdzScriptDir}.))
+If({queueDirectory}=={pdzScriptDir}, Set(msg6, ))
 
 UserPrompt(Strain and Plasmids, {msg1}\n{msg2}{msg5}{msg6})
 
@@ -297,7 +298,7 @@ If({isFourInducer_24plasmid_exp}==true, Set(msg1, {msg1}\n\tInducer 2.4: {induce
 
 Set(msg1, {msg1}\n\tAntibiotic: {selector1Stock} {selector1})
 
-Set(layoutPng, {scriptDir}\STAR Deck Layout.PDZ binding.PNG)
+Set(layoutPng, {pdzScriptDir}\STAR Deck Layout.PDZ binding.PNG)
 If({isFourInducer_24plasmid_exp}==true, Set(layoutPng, {scriptDir}\STAR Deck Layout.Marionette protease.PNG))
 
 UserPrompt(STAR Deck Layout, {msg1}, {layoutPng}, 1000)
@@ -311,7 +312,7 @@ Set(msg1, {msg1}\n\tPosition 13: {plasmid4} in {strain1})
 If({has16Plasmids}==true, Set(msg1, Load the bacterial strains as shown.\n16 culture tubes in positions 1-16:))
 
 Set(loadStrainsPng, {scriptDir}\Load strains.Marionette protease.PNG)
-If({has16Plasmids}==true, Set(loadStrainsPng, {scriptDir}\Load strains.16 plasmids.PNG))
+If({has16Plasmids}==true, Set(loadStrainsPng, {pdzScriptDir}\Load strains.16 plasmids.PNG))
 
 UserPrompt(Load Strains, {msg1}, {loadStrainsPng}, 1000)
 

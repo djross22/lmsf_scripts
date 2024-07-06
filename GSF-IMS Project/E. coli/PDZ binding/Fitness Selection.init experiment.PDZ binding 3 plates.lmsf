@@ -29,9 +29,9 @@ Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DW
 //////////////////////////////////////////////////////////////////////////////////////
 //User input and Overlord initialization section
 
-Set(listFile, {scriptDir}\PDZ binding 3 plates-list.txt)
-If({isFourInducer_24plasmid_exp}==true, Set(listFile, {scriptDir}\PDZ binding 3 plates.4 van-list.txt))
-If({isFull_16plasmid_exp}==true, Set(listFile, {scriptDir}\PDZ binding 3 plates.16 plasmids-list.txt))
+Set(listFile, {pdzScriptDir}\PDZ binding 3 plates-list.txt)
+If({isFourInducer_24plasmid_exp}==true, Set(listFile, {pdzScriptDir}\PDZ binding 3 plates.4 van-list.txt))
+If({isFull_16plasmid_exp}==true, Set(listFile, {pdzScriptDir}\PDZ binding 3 plates.16 plasmids-list.txt))
 StartPrompt(E. Coli Fitness Selection, {listFile})
 
 //UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
