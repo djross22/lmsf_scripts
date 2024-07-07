@@ -142,7 +142,7 @@ If({useTwoStrains}_{needsStrainInput}==Yes_false, UserPrompt(Strain and Plasmids
 
 Get(note, note)
 
-GetExpID({startDate}_media_blanks-5-plates)
+GetExpID({startDate}_media_reps-5-plates)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
