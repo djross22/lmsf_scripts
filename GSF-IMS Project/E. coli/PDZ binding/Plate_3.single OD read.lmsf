@@ -1,0 +1,18 @@
+// runs the single OD read for Plate 3 for each set of plates (aka lineage)
+//This method needs to have the reader variable set to a plate reader name
+//        and the readEndTime variable set to either {readEndTime1} or {readEndTime2}
+#InsertVariables
+
+Timer({readEndTime})
+WaitFor(Timer)
+
+WaitFor({reader})
+Gen5({reader}, CarrierOut)
+WaitFor({reader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader.ovp, [Gen5.Reader.Name] "{reader}" [Gen5.Reader2.Name] "{reader}")
+WaitFor(Overlord)
+
+Gen5({reader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_{lineage}-3, {dataDirectory})
+Timer({singleReadProtocolTime})
+WaitFor(Timer)

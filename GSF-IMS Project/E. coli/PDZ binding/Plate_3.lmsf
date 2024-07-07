@@ -1,0 +1,87 @@
+//preps and runs Plate 3 for each set of plates (aka lineage)
+//This method needs to have the reader variable set to a plate reader name
+//        and the readEndTime variable set to either {readEndTime1} or {readEndTime2}
+#InsertVariables
+
+// Add a new rack of 300 tips before each plate-3 prep
+Overlord({ovpCommDirectory}\LabWare\Move Tips from Carousel to STAR.ovp, [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
+WaitFor(Overlord)
+Math(tips300Index, {tips300Index} - 1)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Add Tips 300 to Support w Counters.hsl)
+WaitFor(S-Cell-STAR)
+
+//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
+WaitFor(Overlord)
+Math(tips300Index, {tips300Index} - 1)
+Math(platesInStack, {platesInStack} - 1)
+
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteWaitTime, {preHeatPlateTime} + {selectivePlateTime})
+Math(pipetteWaitTime, {pipetteWaitTime} + 1800)
+Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
+Timer({pipetteStartTime})
+WaitFor(Timer)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{lineage}-3.csv)
+Set(dilutionFactor, 10)
+//gradPlateNum is the number of the gradient plate within a plate lineage, used to set pipetting volumes so that final inducer concentration is correct
+Set(gradPlateNum, 2)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{selectiveGradientMethod})
+Timer({selectivePlateTime})
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{preHeatPlateMethod})
+
+// Run the single-read during the pre-heat
+Timer({readEndTime})
+WaitFor(Timer)
+
+WaitFor({reader})
+Gen5({reader}, CarrierOut)
+WaitFor({reader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader.ovp, [Gen5.Reader.Name] "{reader}" [Gen5.Reader2.Name] "{reader}")
+WaitFor(Overlord)
+
+Gen5({reader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_{lineage}-2, {dataDirectory})
+Timer({singleReadProtocolTime})
+WaitFor(Timer)
+
+// Now wait for pre-heat to finish
+WaitFor(S-Cell-STAR)
+
+WaitFor({reader})
+
+Gen5({reader}, CarrierOut)
+WaitFor({reader}, false)
+
+// Plate is already peeled
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.No Peel.ovp, [Gen5.Reader.Name] "{reader}")
+WaitFor(Overlord)
+
+Gen5({reader}, CarrierIn)
+WaitFor({reader}, false)
+
+Set(keepOldGrowthPlate, false)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{copyPlateMethod})
+Timer(180)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Gen5({reader}, CarrierOut)
+WaitFor({reader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({reader}, RunExp, {plate3Protocol}, {experimentId}_growth-plate_{lineage}-3, {dataDirectory})
+GetTimeNow(readStartTime)
+
+If({lineage} == 1, Math(readEndTime1, {readStartTime} + {plate3ProtocolTime}))
+If({lineage} == 2, Math(readEndTime2, {readStartTime} + {plate3ProtocolTime}))

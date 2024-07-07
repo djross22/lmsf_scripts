@@ -1,0 +1,40 @@
+//Setting parameters for Venus methods for different sets of growth plates
+//This method needs to have the lineage variable set to either 1 or 2
+#InsertVariables
+
+
+If({lineage} == 1, Set(plasmid1, {plasmid1_1}))
+If({lineage} == 1, Set(plasmid2, {plasmid1_2}))
+If({lineage} == 1, Set(plasmid3, {plasmid1_3}))
+If({lineage} == 1, Set(plasmid4, {plasmid1_4}))
+If({lineage} == 1, Set(plasmid5, {plasmid1_5}))
+If({lineage} == 1, Set(plasmid6, {plasmid1_6}))
+If({lineage} == 1, Set(plasmid7, {plasmid1_7}))
+If({lineage} == 1, Set(plasmid8, {plasmid1_8}))
+If({lineage} == 1, Set(plasmid9, {plasmid1_9}))
+If({lineage} == 1, Set(plasmid10, {plasmid1_10}))
+If({lineage} == 1, Set(plasmid11, {plasmid1_11}))
+If({lineage} == 1, Set(plasmid12, {plasmid1_12}))
+If({lineage} == 1, Set(plasmid13, {plasmid1_13}))
+If({lineage} == 1, Set(plasmid14, {plasmid1_14}))
+If({lineage} == 1, Set(plasmid15, {plasmid1_15}))
+If({lineage} == 1, Set(plasmid16, {plasmid1_16}))
+
+
+
+If({lineage} == 2, Set(plasmid1, {plasmid2_1}))
+If({lineage} == 2, Set(plasmid2, {plasmid2_2}))
+If({lineage} == 2, Set(plasmid3, {plasmid2_3}))
+If({lineage} == 2, Set(plasmid4, {plasmid2_4}))
+If({lineage} == 2, Set(plasmid5, {plasmid2_5}))
+If({lineage} == 2, Set(plasmid6, {plasmid2_6}))
+If({lineage} == 2, Set(plasmid7, {plasmid2_7}))
+If({lineage} == 2, Set(plasmid8, {plasmid2_8}))
+If({lineage} == 2, Set(plasmid9, {plasmid2_9}))
+If({lineage} == 2, Set(plasmid10, {plasmid2_10}))
+If({lineage} == 2, Set(plasmid11, {plasmid2_11}))
+If({lineage} == 2, Set(plasmid12, {plasmid2_12}))
+If({lineage} == 2, Set(plasmid13, {plasmid2_13}))
+If({lineage} == 2, Set(plasmid14, {plasmid2_14}))
+If({lineage} == 2, Set(plasmid15, {plasmid2_15}))
+If({lineage} == 2, Set(plasmid16, {plasmid2_16}))

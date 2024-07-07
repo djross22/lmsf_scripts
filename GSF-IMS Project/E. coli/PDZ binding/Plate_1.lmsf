@@ -1,0 +1,43 @@
+//preps and runs Plate 1 for each set of plates (aka lineage)
+//This method needs to have the reader variable set to a plate reader name
+#InsertVariables
+
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+WaitFor(Overlord)
+Math(platesInStack, {platesInStack} - 1)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{lineage}-1.csv)
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startMethod})
+Timer({startMethodTime})
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+WaitFor({reader}, false)
+
+Gen5({reader}, CarrierOut)
+WaitFor({reader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader No Seal.ovp, [Gen5.Reader.Name] "{reader}")
+WaitFor(Overlord)
+
+Gen5({reader}, RunExp, {singleReadProtocol}, {experimentId}_single-read_{lineage}-0, {dataDirectory})
+Timer({singleReadProtocolTime})
+WaitFor(Timer)
+WaitFor({reader})
+
+Gen5({reader}, CarrierOut)
+WaitFor({reader}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader and Seal.ovp, [Gen5.Reader.Name] "{reader}" [Gen5.Reader2.Name] "{reader}")
+WaitFor(Overlord)
+
+
+If({lineage} == 1, Set(overNightProtocol, {overNightProtocol1}))
+If({lineage} == 2, Set(overNightProtocol, {overNightProtocol2}))
+
+Gen5({reader}, RunExp, {overNightProtocol}, {experimentId}_growth-plate_{lineage}-1, {dataDirectory})
+GetTimeNow(readStartTime)
+
+If({lineage} == 1, Math(readEndTime1, {readStartTime} + {overNightProtocolTime1}))
+If({lineage} == 2, Math(readEndTime2, {readStartTime} + {overNightProtocolTime2}))
