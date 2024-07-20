@@ -36,7 +36,7 @@ StartPrompt(E. Coli Fitness Selection, {listFile})
 
 //UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 
-Set(tipsRequired1000, 40)
+Set(tipsRequired1000, 64)
 If({isFourInducer_24plasmid_exp}==true, Set(tipsRequired1000, 64))
 UserPrompt(Check STAR Hamilton Tips, Make sure there are at least {tipsRequired1000} 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
