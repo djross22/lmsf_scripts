@@ -82,6 +82,7 @@ Get(user, user)
 
 //Get media info from user if needed (i.e., if not assigned at #InsertVariables)
 If({media} != notAssigned, Set(msg1, The media for this experiment should be {media}))
+Set(msg2, )
 If({percentDMSO} != 0, Set(msg2, with {percentDMSO}% DMSO))
 If({media} != notAssigned, UserPrompt(Media, {msg1} {msg2}.))
 If({media} == notAssigned, Get(media, media))
