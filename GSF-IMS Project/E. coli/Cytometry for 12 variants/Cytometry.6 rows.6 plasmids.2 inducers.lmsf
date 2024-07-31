@@ -85,7 +85,7 @@ NewXML(growth plate prep)
 
 If({sub_project}==notAssigned, Get(sub-project, sub_project, Select the sub-project (determines Gen5 protocols):))
 
-GetExpID({startDate}_{sub_project}-Cytom-12-plasmids)
+GetExpID({startDate}_{sub_project}-Cytom-6-plasmids)
 
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\set_gen5_protocols_by_sub-project.lmsf, sub_project_in = {sub_project})
 
@@ -98,6 +98,12 @@ If({media} != notAssigned, Set(msg1, The media for this experiment should be {me
 If({percentDMSO} != 0, Set(msg2, with {percentDMSO}% DMSO))
 If({percentDMSO} == 0, Set(msg2, ))
 If({media} != notAssigned, UserPrompt(Media, {msg1} {msg2}.))
+
+If({media} != notAssigned, AddXML(media, medium))
+Set(media_str, {media})
+If({percentDMSO} != 0, Set(media_str, {media_str} with {percentDMSO}% DMSO))
+If({media} != notAssigned, AddXML(medium, mediaId, {media_str}))
+
 If({media} == notAssigned, Get(media, media))
 
 If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
@@ -174,6 +180,16 @@ If({needsInducerInput} !=  true, Set(msg1b, {inducer2} stock concentration shoul
 If({needsInducerInput} !=  true, Set(msg2, 20 mL of each inducer stock is needed for this experiment.))
 If({needsInducerInput} !=  true, UserPrompt(Inducer Stocks, {msg1a}\n{msg1b}\n{msg2}))
 
+If({needsInducerInput} !=  true,AddXML(additives, additive))
+If({needsInducerInput} !=  true,AddXML(additive, useKey, inducer))
+If({needsInducerInput} !=  true,AddXML(additive, additiveId, {inducer1}))
+If({needsInducerInput} !=  true,AddXML(additive, concentration, {inducer1Stock}))
+
+If({needsInducerInput} !=  true,AddXML(additives, additive))
+If({needsInducerInput} !=  true,AddXML(additive, useKey, inducer))
+If({needsInducerInput} !=  true,AddXML(additive, additiveId, {inducer2}))
+If({needsInducerInput} !=  true,AddXML(additive, concentration, {inducer2Stock}))
+
 // These need to be set to avoid error in Hamilton methods
 Set(inducer3, none)
 Set(inducer3StockUnits, none)
@@ -203,7 +219,10 @@ Set(msg18, \n\n\{overNightProtocol1}\n{repeatProtocol})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1}{msg2}{msg3}{msg4}{msg5}{msg6}{msg7}{msg8}{msg9}{msg16a}{msg16b}{msg17}{msg18})
 
 Set(msg1, Set up the STAR deck layout as shown.)
-UserPrompt(STAR Deck Layout, {msg1}\n\t{msg2}, {scriptDir}\STAR Deck Layout.6 rows.6 plasmids.2 inducers.PNG, 1000)
+Set(msg1, {msg1}\n\tMedia: \t{media})
+Set(msg1, {msg1}\n\tInducer 1: \t{inducer1Stock} {inducer1})
+Set(msg1, {msg1}\n\tInducer 2: \t{inducer2Stock} {inducer2})
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.6 rows.6 plasmids.2 inducers.PNG, 1000)
 
 Set(msg1, Load the first set of 6 bacteria stocks in tube positions 10-15:)
 Set(msg2b, \n\tPosition 10: {plasmidB1})
