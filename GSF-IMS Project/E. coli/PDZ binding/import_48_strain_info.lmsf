@@ -1,0 +1,199 @@
+
+ImportDictionary({queueDirectory}\strain_plasmids_48.txt)
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid1})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid2})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid3})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid4})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid5})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid6})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid7})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid8})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid9})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid10})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid11})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid12})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid13})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid14})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid15})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid16})
+
+
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid17})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid18})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid19})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid20})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid21})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid22})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid23})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid24})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid25})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid26})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid27})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid28})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid29})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid30})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid31})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid32})
+
+
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid33})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid34})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid35})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid36})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid37})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid38})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid39})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid40})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid41})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid42})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid43})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid44})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid45})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid46})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid47})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid48})
+

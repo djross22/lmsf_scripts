@@ -1,11 +1,17 @@
 //preps and runs Plate 1 for each set of plates (aka lineage)
 //This method needs to have the reader variable set to a plate reader name
+
+Set(is_48_variant_experiment, false)
+
 #InsertVariables
 
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
 WaitFor(Overlord)
 Math(platesInStack, {platesInStack} - 1)
+
+
+If({is_48_variant_experiment} == true, UserPrompt(Switch to STAR, After clicking 'OK'-\nswitch to the STAR PC and follow the directions for loading the bacterial stocks.))
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{lineage}-1.csv)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{startMethod})

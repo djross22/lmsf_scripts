@@ -1,14 +1,17 @@
 //preps and runs Plate 3 for each set of plates (aka lineage)
 //This method needs to have the reader variable set to a plate reader name
 //        and the readEndTime variable set to either {readEndTime1} or {readEndTime2}
+
+Set(is_48_variant_experiment, false)
+
 #InsertVariables
 
-// Add a new rack of 300 tips before each plate-3 prep
-Overlord({ovpCommDirectory}\LabWare\Move Tips from Carousel to STAR.ovp, [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
-WaitFor(Overlord)
-Math(tips300Index, {tips300Index} - 1)
-RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Add Tips 300 to Support w Counters.hsl)
-WaitFor(S-Cell-STAR)
+// Add a new rack of 300 tips before each plate-3 prep; not needed for 48-variant experiment
+If({is_48_variant_experiment} == false, Overlord({ovpCommDirectory}\LabWare\Move Tips from Carousel to STAR.ovp, [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true"))
+If({is_48_variant_experiment} == false, WaitFor(Overlord))
+If({is_48_variant_experiment} == false, Math(tips300Index, {tips300Index} - 1))
+If({is_48_variant_experiment} == false, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Add Tips 300 to Support w Counters.hsl))
+If({is_48_variant_experiment} == false, WaitFor(S-Cell-STAR))
 
 //Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true")
