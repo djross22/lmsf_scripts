@@ -28,7 +28,7 @@ Set(startMethodTime, 1600)
 Set(nonSelectiveGradientMethod, Align-TF gradient plate prep.hsl)
 Set(nonSelectivePlateTime, 1140)
 // fold-dilution across dilution series in nonSelectiveGradientMethod and selectiveGradientMethod:
-Set(dilutionSeriesFactor, 2.5)
+Set(dilutionSeriesFactor, 3)
 
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
@@ -102,12 +102,9 @@ UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.3 inducers.4 s
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
 
-//--- Add 1000 uL tips to STAR ---------------------
-ReadScript(Common protocol scripts\Need Tips.lmsf, tips1000Need = 96, tips300Need = 0, clearTipRack = true)
-
 //--- Growth Plate 3 prep and OD Read from Plate 2 ----------------------------------------------------------------------------- 
-// For plate 3, don't clear waste tip rack (already cleared)
-Set(clear300TipWaste, false)
+// For plate 3, be sure to clear waste tip rack before adding more 300 tips
+Set(clear300TipWaste, true)
 
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
