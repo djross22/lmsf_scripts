@@ -80,7 +80,7 @@ Get(concentration, selectorStock, Enter the concentration of the {selector} star
 
 Get(note, note)
 
-GetExpID({startDate}_three_inducers_OD-test-5-plates)
+GetExpID({startDate}_Align-TF_OD-test-5-plates)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
