@@ -1,18 +1,5 @@
 //Sub-script for initialization steps of experiment that never change...
 
-/////////////////////////////////////
-//This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
-If({isTesting}!=Yes, UserPrompt(Re-Boot STAR, Turn off the power to the Hamilton STAR; wait 10 seconds and turn it back on; then click 'OK' to continue., {lmsfImageDirectory}\dialog-warning.png))
-
-Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt)
-If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt))
-//overNightProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(overNightProtocolTime, 2400))
-If({isTesting}==Yes, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt))
-//repeatProtocolTime = nominal run time + 300
-If({isTesting}==Yes, Set(repeatProtocolTime, 2100))
-/////////////////////////////////////////
-
 /////////////////////////////////////////
 //Set any other short-hand dictionary keys that will be used repeatedly
 Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
@@ -39,7 +26,7 @@ Set(tips1000Index, 0)
 
 NewXML(fitness selection)
 
-Get(sub-project, sub_project, Select the sub-project (determines Gen5 protocols):)
+//Get(sub-project, sub_project, Select the sub-project (determines Gen5 protocols):)
 
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\set_gen5_protocols_by_sub-project.lmsf, sub_project_in = {sub_project})
 

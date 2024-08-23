@@ -87,9 +87,6 @@ Set(cultureVolume, 500)
 //Set readers to be used
 Set(mainReader, Neo)
 
-//placeholder for plasmid4 - to avoid errors in init script
-Set(plasmid4, using)
-
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 Set(isExtractingDNA, false)
 Set(startWithInducer, No)
@@ -167,14 +164,18 @@ Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1}\n\n \tPlasmids:
 Set(msg3a, \tInducer 1: \t\t{inducer1}, stock concentration: {inducer1Stock}\n)
 Set(msg3b, \tInducer 2: \t\t{inducer2}, stock concentration: {inducer2Stock}\n)
 
-Set(msg4, \tSelector:\t\t\t{selector1}, stock concentration: {selector1Stock}\n)
-Set(msg4, {msg4}\tSelector:\t\t\t{selector2}, stock concentration: {selector2Stock}\n\n)
+Set(msg4, \tSelector 1:\t\t{selector1}, stock concentration: {selector1Stock}\n)
+Set(msg4, {msg4}\tSelector 2:\t\t{selector2}, stock concentration: {selector2Stock}\n\n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
 Set(msg6, \n\n\{overNightProtocol}\n{repeatProtocol})
 UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3a}{msg3b} {msg4} {msg5}{msg6})
 
 Set(msg1, Set up the STAR deck layout as shown.)
-UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.3 inducers.4 strains.PNG, 1000)
+Set(msg1, {msg1}\n\tInducer 1: {inducer1Stock} {inducer1})
+Set(msg1, {msg1}\n\tInducer 2: {inducer2Stock} {inducer2})
+Set(msg1, {msg1}\n\tSelector 1: {selector1Stock} {selector1})
+Set(msg1, {msg1}\n\tSelector 2: {selector2Stock} {selector2})
+UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.2 inducers.2 tet.4 strains.PNG, 1000)
 
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf)
