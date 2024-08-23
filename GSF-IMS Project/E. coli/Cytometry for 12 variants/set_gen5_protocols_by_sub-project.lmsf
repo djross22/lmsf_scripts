@@ -23,7 +23,7 @@ Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.35m.
 Set(repeatProtocolTime, 9600)
 
 Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane single read.37C.1C.prt)
-Set(singleReadProtocolTime, 68)
+Set(singleReadProtocolTime, 78)
 
 // ****************************
 
