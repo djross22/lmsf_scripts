@@ -1,0 +1,13 @@
+strain1, MG1655-dLac
+plasmid_1_1, plasmid1-1
+plasmid_1_2, plasmid1-2
+plasmid_1_3, plasmid1-3
+plasmid_1_4, plasmid1-4
+plasmid_2_1, plasmid2-1
+plasmid_2_2, plasmid2-2
+plasmid_2_3, plasmid2-3
+plasmid_2_4, plasmid2-4
+plasmid_3_1, plasmid3-1
+plasmid_3_2, plasmid3-2
+plasmid_3_3, plasmid3-3
+plasmid_3_4, plasmid3-4

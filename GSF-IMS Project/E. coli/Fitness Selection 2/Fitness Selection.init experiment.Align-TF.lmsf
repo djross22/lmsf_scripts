@@ -13,7 +13,11 @@ Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DW
 //////////////////////////////////////////////////////////////////////////////////////
 //User input and Overlord initialization section
 
-StartPrompt(E. Coli Fitness Selection, {scriptDir}\Fitness Selection 2.Align-TF.plate reader test-list.txt)
+Set(list_file, Fitness Selection 2.Align-TF.plate reader test-list.txt)
+If({isExtractingDNA}_{isGBA_1_exp} == false_true, Set(list_file, Fitness Selection.Align-TF.GBA_1.plate reader test-list.txt))
+
+
+StartPrompt(E. Coli Fitness Selection, {scriptDir}\{list_file})
 
 UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
