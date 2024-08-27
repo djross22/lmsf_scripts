@@ -100,7 +100,7 @@ ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init ex
 If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
 
 Set(msg1, Open the file strain_plasmids.Align-TF.GBA_1.txt from today's folder in the LMSF Queue: {queueDirectory}.\nThen, verify that it contains the appropriate information for this experiment.)
-Set(msg2, One strain and three grouips of plasmids, 4 each.)
+Set(msg2, One strain and three groups of plasmids, 4 each.)
 
 Set(msg5, \n\nThe LMSF Queue is on the JCloud at: \\resdata-smb\JCloud2\Shared_Data\LMSF Queue.)
 Set(msg6, \nIt should be pinned to the Quick Access in the Windows file browser.)
@@ -212,6 +212,11 @@ Set(clear300TipWaste, true)
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
 //--- Growth Plate 5 prep and OD Read from Plate 4 ----------------------------------------------------------------------------- 
+
+//--- Add 300 uL tips to STAR ---------------------
+ReadScript(Common protocol scripts\Need Tips.lmsf, tips1000Need = 0, tips300Need = 80, clearTipRack = true)
+
+Set(clear300TipWaste, false)
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
 //--- OD Read from Plate 5 and cleanup -------------------------------------------------------------------
