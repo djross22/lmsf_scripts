@@ -64,7 +64,7 @@ Set(scriptDir, GSF-IMS Project\E. coli\Fitness Selection 2)
 //Hamilton Venus Methods, in the order that they get run
 Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Align-TF.GBA_1.plate_1.hsl)
-Set(startMethodTime, 1600)
+Set(startMethodTime, 950)
 Set(nonSelectiveGradientMethod, Align-TF.GBA_1.plates_2-5.hsl)
 Set(nonSelectivePlateTime, 1140)
 
