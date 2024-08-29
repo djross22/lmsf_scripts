@@ -66,7 +66,7 @@ Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Align-TF.GBA_1.plate_1.hsl)
 Set(startMethodTime, 900)
 Set(nonSelectiveGradientMethod, Align-TF.GBA_1.plates_2-5.hsl)
-Set(nonSelectivePlateTime, 1140)
+Set(nonSelectivePlateTime, 740)
 
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
@@ -75,7 +75,7 @@ Set(preHeatPlateTime, 660)
 
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(selectiveGradientMethod, Align-TF.GBA_1.plates_2-5.hsl)
-Set(selectivePlateTime, 1140)
+Set(selectivePlateTime, 1000)
 
 Set(combineToSpinPlateMethod, Combine old GP wells into Spin Plate.hsl)
 Set(dnaExtractionMethod, DNA Extraction.hsl)
