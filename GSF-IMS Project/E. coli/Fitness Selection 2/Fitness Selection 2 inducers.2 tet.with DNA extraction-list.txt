@@ -1,4 +1,4 @@
-Five 4titude growth plates, with lids, in stack 7 of the Carousel
+Five growth plates, with lids, in stack 7 of the Carousel
 
 One Agilent media reservoir with lid, on deck of STAR
 One Abgene plate, 1.2 mL per well, with lid, on deck of STAR
@@ -29,5 +29,5 @@ Plates and reagents for four repetitions of the DNA extraction method:
 	40 mL Buffer P1
 	45 mL Buffer P2
 	25 mL Buffer N3
-	25 mL Hot DI water or Elution Buffer
+	25 mL Elution Buffer
 
