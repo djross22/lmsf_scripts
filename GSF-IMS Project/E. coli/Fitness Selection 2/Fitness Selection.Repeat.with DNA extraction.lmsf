@@ -1,5 +1,9 @@
 //Sub-script for plates 3, 4, 5...
 
+Set(pipettingCushionTime, 2400)
+
+#InsertVariables
+
 //Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
 Math(platesInStack, {platesInStack} - 1)
@@ -16,7 +20,7 @@ WaitFor(Overlord)
 
 //Set up timer to wait for reader to get close to finished before starting pipetting method
 Math(pipetteWaitTime, {preHeatPlateTime} + {selectivePlateTime})
-Math(pipetteWaitTime, {pipetteWaitTime} + 1800)
+Math(pipetteWaitTime, {pipetteWaitTime} + {pipettingCushionTime})
 Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
 
 Timer({pipetteStartTime})

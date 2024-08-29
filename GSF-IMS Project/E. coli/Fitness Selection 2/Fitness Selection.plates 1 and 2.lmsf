@@ -3,6 +3,8 @@
 Set(lidTestMethod, {hamiltonMethodDir}\Pre-run lid test.No DNA extraction.hsl)
 Set(growthPlatesNeeded, 5)
 
+Set(pipettingCushionTime, 2400)
+
 #InsertVariables
 
 Set(msg1, Close the front cover on the STAR.\n)
@@ -115,7 +117,7 @@ WaitFor(Overlord)
 
 //Wait for reader to get close to finished before starting pipetting method
 Math(pipetteWaitTime, {preHeatPlateTime} + {selectivePlateTime})
-Math(pipetteWaitTime, {pipetteWaitTime} + 1800)
+Math(pipetteWaitTime, {pipetteWaitTime} + {pipettingCushionTime})
 Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
 Timer({pipetteStartTime})
 WaitFor(Timer)
