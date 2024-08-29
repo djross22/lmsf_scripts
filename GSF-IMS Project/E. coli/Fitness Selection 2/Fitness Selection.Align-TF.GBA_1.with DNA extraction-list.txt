@@ -14,7 +14,7 @@ Seven full racks of standard-volume (300 uL) tips on the Carousel
 25 mL of each inducer at 2x max concentration (in columns 1-3 of reagent plate)
 15 mL of each selector at 10x max concentration (in columns 4-6 of reagent plate)
 
-Twelve bacteria stocks (5 mL each, in snap-cap tubes on deck of STAR)
+Three bacteria library stocks (20 mL each, in 60 mL Hamilton reagent reservoirs on deck of STAR)
 
 Plates and reagents for four repetitions of the DNA extraction method:
 	Receiving Plate: Eppendorf 2 mL per well plate, with lid
