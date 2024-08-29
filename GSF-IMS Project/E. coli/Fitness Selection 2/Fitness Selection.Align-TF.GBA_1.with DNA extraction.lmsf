@@ -64,7 +64,7 @@ Set(scriptDir, GSF-IMS Project\E. coli\Fitness Selection 2)
 //Hamilton Venus Methods, in the order that they get run
 Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Align-TF.GBA_1.plate_1.hsl)
-Set(startMethodTime, 950)
+Set(startMethodTime, 900)
 Set(nonSelectiveGradientMethod, Align-TF.GBA_1.plates_2-5.hsl)
 Set(nonSelectivePlateTime, 1140)
 
@@ -72,12 +72,16 @@ Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 //New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
 Set(preHeatPlateTime, 660)
-// Subtract 2 minutes (i.e., start preheat 2 minutes later) for single read 
-Math(preHeatPlateTime, {preHeatPlateTime} - 120)
 
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(selectiveGradientMethod, Align-TF.GBA_1.plates_2-5.hsl)
 Set(selectivePlateTime, 1140)
+
+Set(combineToSpinPlateMethod, Combine old GP wells into Spin Plate.hsl)
+Set(dnaExtractionMethod, DNA Extraction.hsl)
+Set(moveOldPlateMethod, Move Old GP to parking.hsl)
+Set(setUpExtractionMethod, Set up DNA extraction reagents.hsl)
+Set(cleanUpExtractionMethod, Clean up DNA extraction reagents.hsl)
 
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
@@ -89,9 +93,9 @@ Set(cultureVolume, 500)
 Set(mainReader, Neo)
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
-Set(isExtractingDNA, false)
+Set(isExtractingDNA, true)
 Set(isGBA_1_exp, true)
-Set(isClonalTest, true)
+Set(isClonalTest, false)
 Set(startWithInducer, No)
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.Align-TF.lmsf)
 
@@ -100,7 +104,7 @@ ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init ex
 If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
 
 Set(msg1, Open the file strain_plasmids.Align-TF.GBA_1.txt from today's folder in the LMSF Queue: {queueDirectory}.\nThen, verify that it contains the appropriate information for this experiment.)
-Set(msg2, One strain and three groups of plasmids, 4 each.)
+Set(msg2, One strain and three library identifiers, one for each TF sub-library.)
 
 Set(msg5, \n\nThe LMSF Queue is on the JCloud at: \\resdata-smb\JCloud2\Shared_Data\LMSF Queue.)
 Set(msg6, \nIt should be pinned to the Quick Access in the Windows file browser.)
@@ -162,17 +166,16 @@ UserPrompt(Antibiotic Stocks, {msg1})
 
 Get(note, note)
 
-GetExpID({startDate}_Align-TF_GBA_1_OD-test)
+GetExpID({startDate}_Align-TF_GBA_1_DNA-5-plates)
 
 //review experiment ok/abort dialog
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
 
 Set(msg2, \tMedia: \t\t\t{media}\n\n \tBacteria: \t\t\t{strain1})
-Set(msg2, {msg2}\n\n \tPlasmids:)
-Set(msg2, {msg2}\n\t\t{plasmid_1_1}\t{plasmid_2_1}\t{plasmid_3_1})
-Set(msg2, {msg2}\n\t\t{plasmid_1_2}\t{plasmid_2_2}\t{plasmid_3_2})
-Set(msg2, {msg2}\n\t\t{plasmid_1_3}\t{plasmid_2_3}\t{plasmid_3_3})
-Set(msg2, {msg2}\n\t\t{plasmid_1_4}\t{plasmid_2_4}\t{plasmid_3_4})
+Set(msg2, {msg2}\n\n \tLibraries:)
+Set(msg2, {msg2}\n\t\t{library_1})
+Set(msg2, {msg2}\n\t\t{library_2})
+Set(msg2, {msg2}\n\t\t{library_3})
 
 Set(msg3, \n\n\tInducer 1: \t{inducer1}, stock concentration: {inducer1Stock})
 Set(msg3, {msg3}\n\tInducer 2: \t{inducer2}, stock concentration: {inducer2Stock})
@@ -200,24 +203,19 @@ UserPrompt(Load Cultures, Load the starting bacterial cultures as shown:, {cultu
 //--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf, lidTestMethod = {hamiltonMethodDir}\Pre-run lid test.No Abgene.hsl)
 
-//--- Growth Plate 3 prep and OD Read from Plate 2 ----------------------------------------------------------------------------- 
+//--- Growth Plate 3 prep and DNA extraction from Plate 2 ----------------------------------------------------------------------------- 
 // For plate 3, be sure to clear waste tip rack before adding more 300 tips
 Set(clear300TipWaste, true)
 
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
-//--- Growth Plate 4 prep and OD Read from Plate 3 ----------------------------------------------------------------------------- 
+//--- Growth Plate 4 prep and DNA extraction from Plate 3 ----------------------------------------------------------------------------- 
 Set(clear300TipWaste, true)
 
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
-//--- Growth Plate 5 prep and OD Read from Plate 4 ----------------------------------------------------------------------------- 
+//--- Growth Plate 5 prep and DNA extraction from Plate 4 ----------------------------------------------------------------------------- 
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with DNA extraction.lmsf)
 
-//--- Add 300 uL tips to STAR ---------------------
-ReadScript(Common protocol scripts\Need Tips.lmsf, tips1000Need = 0, tips300Need = 80, clearTipRack = true)
-
-Set(clear300TipWaste, false)
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
-
-//--- OD Read from Plate 5 and cleanup -------------------------------------------------------------------
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 single OD read.lmsf)
+//--- DNA extraction from Plate 5 and cleanup -------------------------------------------------------------------
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 and cleanup.lmsf)

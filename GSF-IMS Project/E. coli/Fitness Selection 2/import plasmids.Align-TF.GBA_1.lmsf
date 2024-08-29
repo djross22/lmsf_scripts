@@ -1,5 +1,24 @@
 
+Set(library_1, none)
+Set(library_2, none)
+Set(library_3, none)
+
 ImportDictionary({queueDirectory}\strain_plasmids.Align-TF.GBA_1.txt)
+
+If({isExtractingDNA}_{isClonalTest} == true_false, Set(plasmid_1_1, {library_1}))
+If({isExtractingDNA}_{isClonalTest} == true_false, Set(plasmid_1_2, {library_1}))
+If({isExtractingDNA}_{isClonalTest} == true_false, Set(plasmid_1_3, {library_1}))
+If({isExtractingDNA}_{isClonalTest} == true_false, Set(plasmid_1_4, {library_1}))
+
+If({isExtractingDNA}_{isClonalTest} == true_false, Set(plasmid_2_1, {library_2}))
+If({isExtractingDNA}_{isClonalTest} == true_false, Set(plasmid_2_2, {library_2}))
+If({isExtractingDNA}_{isClonalTest} == true_false, Set(plasmid_2_3, {library_2}))
+If({isExtractingDNA}_{isClonalTest} == true_false, Set(plasmid_2_4, {library_2}))
+
+If({isExtractingDNA}_{isClonalTest} == true_false, Set(plasmid_3_1, {library_3}))
+If({isExtractingDNA}_{isClonalTest} == true_false, Set(plasmid_3_2, {library_3}))
+If({isExtractingDNA}_{isClonalTest} == true_false, Set(plasmid_3_3, {library_3}))
+If({isExtractingDNA}_{isClonalTest} == true_false, Set(plasmid_3_4, {library_3}))
 
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
