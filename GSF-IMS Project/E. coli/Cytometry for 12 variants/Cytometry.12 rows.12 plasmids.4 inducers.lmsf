@@ -8,6 +8,9 @@ Set(inducer4, notAssigned)
 Set(media, notAssigned)
 Set(percentDMSO, 0)
 
+// This indicates that the highest concentration in the growth plate is the stock concentration (not diluted 2x).
+Set(gradStartFullConc, False)
+
 #InsertVariables
 
 //isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
@@ -39,8 +42,7 @@ Set(scriptDir, GSF-IMS Project\E. coli\Cytometry for 12 variants)
 Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep plus bacteria.1 strain.6 plasmids.hsl)
 Set(nonSelectiveGradientMethod, Inducer gradient plate prep_high gradient.hsl)
-// This indicates that the highest concentration in the growth plate is the stock concentration (not diluted 2x).
-Set(gradStartFullConc, True)
+
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 //New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
