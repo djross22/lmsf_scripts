@@ -7,6 +7,10 @@ Set(inducer3, notAssigned)
 Set(media, notAssigned)
 Set(percentDMSO, 0)
 
+//Set readers to be used
+Set(reader1, Neo)
+Set(reader2, Neo2)
+
 #InsertVariables
 
 //isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
@@ -47,10 +51,6 @@ Set(cytometryPrepMethod, Prep cytometry plate_3 ligands.5 variants.hsl)
 Set(cytometryTransferMethod, Transfer cells from old GP to Cytometry Plate_3 ligands.5 variants.hsl)
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
-
-//Set readers to be used
-Set(reader1, Neo)
-Set(reader2, Neo2)
 
 /////////////////////////////////////////
 //Set any other short-hand dictionary keys that will be used repeatedly
