@@ -176,6 +176,21 @@ If({needsInducerInput} !=  true, Set(msg1c, {inducer3} stock concentration shoul
 If({needsInducerInput} !=  true, Set(msg2, At least 15 mL of each inducer stock is needed for this experiment.))
 If({needsInducerInput} !=  true, UserPrompt(Inducer Stocks, {msg1a}\n{msg1b}\n{msg1c}\n{msg2}))
 
+If({needsInducerInput} !=  true,AddXML(additives, additive))
+If({needsInducerInput} !=  true,AddXML(additive, useKey, inducer))
+If({needsInducerInput} !=  true,AddXML(additive, additiveId, {inducer1}))
+If({needsInducerInput} !=  true,AddXML(additive, concentration, {inducer1Stock}))
+
+If({needsInducerInput} !=  true,AddXML(additives, additive))
+If({needsInducerInput} !=  true,AddXML(additive, useKey, inducer))
+If({needsInducerInput} !=  true,AddXML(additive, additiveId, {inducer2}))
+If({needsInducerInput} !=  true,AddXML(additive, concentration, {inducer2Stock}))
+
+If({needsInducerInput} !=  true,AddXML(additives, additive))
+If({needsInducerInput} !=  true,AddXML(additive, useKey, inducer))
+If({needsInducerInput} !=  true,AddXML(additive, additiveId, {inducer3}))
+If({needsInducerInput} !=  true,AddXML(additive, concentration, {inducer3Stock}))
+
 
 Get(note, note)
 
