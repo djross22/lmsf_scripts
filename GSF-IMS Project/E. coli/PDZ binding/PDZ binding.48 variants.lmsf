@@ -92,7 +92,7 @@ Set(plate3Protocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C
 Set(plate3ProtocolTime, 43500)
 
 Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane single read.37C.1C.prt)
-Set(singleReadProtocolTime, 68)
+Set(singleReadProtocolTime, 78)
 
 //Gen5 protocol for testing readers at beginning of run to give consistent starting state
 Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
