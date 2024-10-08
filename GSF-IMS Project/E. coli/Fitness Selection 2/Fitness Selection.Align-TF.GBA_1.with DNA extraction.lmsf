@@ -31,7 +31,7 @@ Set(selector1StockUnits, ug/mL)
 Set(selector2StockUnits, ug/mL)
 Set(selector3StockUnits, ug/mL)
 
-Set(media, M9-gly-kan)
+Set(media, M9-tek-gly-kan)
 Set(percentDMSO, 0.5)
 
 Set(queueDirectory, notAssigned)
