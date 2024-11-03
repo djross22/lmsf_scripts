@@ -62,7 +62,7 @@ If({sub_project}==Align-TF, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli
 //overNightProtocolTime2 = nominal run time + 300
 If({sub_project}==Align-TF, Set(overNightProtocolTime2, 48900))
 
-If({sub_project}==Align-TF, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.50m.37C.1C.Ex569Em593.prt))
+If({sub_project}==Align-TF, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h.40m.37C.1C.Ex569Em593.prt))
 //repeatProtocolTime = nominal run time + 300
 If({sub_project}==Align-TF, Set(repeatProtocolTime, 11100))
 // ****************************
