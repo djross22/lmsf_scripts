@@ -68,6 +68,23 @@ If({sub_project}==Align-TF, Set(repeatProtocolTime, 9900))
 // ****************************
 
 
+// ***** For Align-protease project *****
+If({sub_project}==Align-protease, Set(foundMatchingSub, true))
+
+If({sub_project}==Align-protease, Set(overNightProtocol1, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.GFP-RFP.prt))
+//overNightProtocolTime1 = nominal run time + 300
+If({sub_project}==Align-protease, Set(overNightProtocolTime1, 43500))
+
+If({sub_project}==Align-protease, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 13h.30m.37C.1C.GFP-RFP.prt))
+//overNightProtocolTime2 = nominal run time + 300
+If({sub_project}==Align-protease, Set(overNightProtocolTime2, 48900))
+
+If({sub_project}==Align-protease, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.GFP-RFP.prt))
+//repeatProtocolTime = nominal run time + 300
+If({sub_project}==Align-protease, Set(repeatProtocolTime, 11100))
+// ****************************
+
+
 // ***** For Marionette project *****
 If({sub_project}==Marionette, Set(foundMatchingSub, true))
 
