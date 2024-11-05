@@ -79,9 +79,9 @@ If({sub_project}==Align-protease, Set(overNightProtocol2, {gen5ProtDir}\GSF-IMS-
 //overNightProtocolTime2 = nominal run time + 300
 If({sub_project}==Align-protease, Set(overNightProtocolTime2, 48900))
 
-If({sub_project}==Align-protease, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.GFP-RFP.prt))
+If({sub_project}==Align-protease, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 2h:50m.37C.1C.GFP-RFP.prt))
 //repeatProtocolTime = nominal run time + 300
-If({sub_project}==Align-protease, Set(repeatProtocolTime, 11100))
+If({sub_project}==Align-protease, Set(repeatProtocolTime, 10500))
 // ****************************
 
 
