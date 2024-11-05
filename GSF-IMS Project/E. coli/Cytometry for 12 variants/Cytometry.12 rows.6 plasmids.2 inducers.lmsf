@@ -68,14 +68,17 @@ Set(clearTipRackOvp, {ovpCommDirectory}\Labware\Move Tips from STAR to Waste.ovp
 StartPrompt(E. Coli Fitness Selection, {scriptDir}\Cytometry.1 strain.6 plasmids_two inducers-list.txt)
 
 UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
-UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 108 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
-UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 128 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 112 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least 144 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
 
 Set(msg2, Make sure there are at least five racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
 UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 2.png)
 Set(tips300Index, 5)
 Set(tips1000Index, 0)
 Set(tips50Index, 0)
+
+Set(msg2, Load 6 growth plates with lids into stack no. 7 of the PAA Carousel.\n)
+UserPrompt(Load Growth Plates, {msg2}, {lmsfImageDirectory}\growth plate stack.PNG)
 
 NewXML(growth plate prep)
 
@@ -258,6 +261,15 @@ ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reade
 
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 2)
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader2})
+
+Set(cytometryReadyTime, {readEndTime1})
+Math(cytometryReadyTime, {cytometryReadyTime} + {repeatProtocolTime})
+Math(cytometryReadyTime, {cytometryReadyTime} + {repeatProtocolTime})
+Math(cytometryReadyTime, {cytometryReadyTime} + 1200)
+Set(msg1, Top off the media reservoir on the STAR and then dispose of the bacteria stocks.\n)
+Set(msg2, Then click 'OK' to continue the experiment.)
+Set(msg3, The first cytometry plate will be ready at approximately {cytometryReadyTime}.)
+UserPrompt(Top off Media and Dispose of Stocks, {msg1}{msg2}\n\n{msg3})
 
 //--- Plate 2 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
