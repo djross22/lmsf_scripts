@@ -1,0 +1,344 @@
+
+Set(sub_project, notAssigned)
+Set(queueDirectory, notAssigned)
+Set(inducer1, Sal)
+Set(inducer2, Van)
+Set(selector1, TMP)
+
+Set(inducer1StockConc, 250)
+Set(inducer2_1StockConc, 2000)
+Set(inducer2_2StockConc, 500)
+
+Set(isFourInducer_24plasmid_exp, false)
+Set(isFull_16plasmid_exp, false)
+Set(inducer2_3StockConc, 0)
+Set(inducer2_4StockConc, 0)
+
+Set(selector1StockConc, 125)
+
+Set(inducer1StockUnits, umol/L)
+Set(inducer2StockUnits, umol/L)
+Set(selector1StockUnits, ug/mL)
+
+Set(media, notAssigned)
+Set(percentDMSO, 0)
+
+Set(strain1, notAssigned)
+Set(plasmid1, notAssigned)
+Set(plasmid2, notAssigned)
+Set(plasmid3, notAssigned)
+Set(plasmid4, notAssigned)
+
+#InsertVariables
+
+Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits})
+Set(inducer2_1Stock, {inducer2_1StockConc} {inducer2StockUnits})
+Set(inducer2_2Stock, {inducer2_2StockConc} {inducer2StockUnits})
+Set(inducer2_3Stock, {inducer2_3StockConc} {inducer2StockUnits})
+Set(inducer2_4Stock, {inducer2_4StockConc} {inducer2StockUnits})
+Set(selector1Stock, {selector1StockConc} {selector1StockUnits})
+
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set(isPipetting, true)
+//isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
+Set(isDebugging, false)
+
+//manualSeal controls whether sealing is manual or automatic
+//Set(manualSeal, Yes)
+Set(manualSeal, No)
+
+/////////////////////////////////////////////////////////////////
+//Read in commonly used directories
+ReadScript(Common protocol scripts\Set Common Directories.lmsf)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\Fitness Selection 2.With DNA Extraction)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Set directories for  .hsl, .opv, and .prt files that are specific to this experiment
+// Overlord protocols are the same as for the last version
+Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
+Set(scriptDir, GSF-IMS Project\E. coli\Fitness Selection 2)
+Set(pdzScriptDir, GSF-IMS Project\E. coli\PDZ binding)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Hamilton Venus Methods, in the order that they get run
+Set(initHHCMethod, Turn on pre-heat HHC.hsl)
+Set(startMethod, Uniform non-selective plate prep plus 4 strains.hsl)
+Set(startMethodTime, 950)
+
+If({isFourInducer_24plasmid_exp}==true, Set(startMethod, Uniform non-selective plate prep plus 16 strains.hsl))
+If({isFourInducer_24plasmid_exp}==true, Set(startMethodTime, 950))
+
+If({isFull_16plasmid_exp}==true, Set(startMethod, Uniform non-selective plate prep plus 16 strains.hsl))
+If({isFull_16plasmid_exp}==true, Set(startMethodTime, 950))
+
+Set(nonSelectiveGradientMethod, PDZ binding.plate prep.hsl)
+Set(nonSelectivePlateTime, 1140)
+
+If({isFourInducer_24plasmid_exp}==true, Set(nonSelectiveGradientMethod, PDZ binding.plate prep.4 van.16 plasmids.hsl))
+If({isFourInducer_24plasmid_exp}==true, Set(nonSelectivePlateTime, 1140))
+
+Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
+//Plate pre-heating method takes 12m:16s to run
+//New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
+Set(preHeatPlateTime, 660)
+// Subtract 2 minutes (i.e., start preheat 2 minutes later) for single read 
+Math(preHeatPlateTime, {preHeatPlateTime} - 120)
+
+Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
+
+Set(selectiveGradientMethod, PDZ binding.plate prep.hsl)
+Set(selectivePlateTime, 1140)
+
+If({isFourInducer_24plasmid_exp}==true, Set(selectiveGradientMethod, PDZ binding.plate prep.4 van.16 plasmids.hsl))
+If({isFourInducer_24plasmid_exp}==true, Set(selectivePlateTime, 1140))
+
+//Venus method constrains 200<=cultureVolume<=500
+Set(cultureVolume, 500)
+
+/////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////
+//Gen5 protocols to be run and associated timers:
+//Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 16h.37C.1C.prt)
+Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.prt)
+//overNightProtocolTime = nominal run time + 300
+//Set(overNightProtocolTime, 57900)
+Set(overNightProtocolTime, 43500)
+
+Set(plate2Protocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 3h.37C.1C.prt)
+//protocol time = nominal run time + 300
+Set(plate2ProtocolTime, 11100)
+
+Set(plate3Protocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.prt)
+//protocol time = nominal run time + 300
+Set(plate3ProtocolTime, 43500)
+
+Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane single read.37C.1C.prt)
+Set(singleReadProtocolTime, 68)
+
+//Gen5 protocol for testing readers at beginning of run to give consistent starting state
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
+/////////////////////////////////////////////////////////////////
+
+//Set readers to be used
+Set(mainReader, Neo)
+
+
+//--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
+Set(isExtractingDNA, false)
+ReadScript(GSF-IMS Project\E. coli\PDZ binding\Fitness Selection.init experiment.PDZ binding 3 plates.lmsf)
+
+// For 16-strain experiment, get strain info from file
+If({queueDirectory}==notAssigned, Set(queueDirectory, {pdzScriptDir}))
+
+Set(msg1, Open the file strain_plasmids_16.txt from today's folder in the LMSF Queue: {queueDirectory}.\nThen, verify that it contains the appropriate information for this experiment.)
+Set(msg2, One strain and 16 plasmids.)
+
+Set(msg5, \n\nThe LMSF Queue is on the JCloud at: \\resdata-smb\JCloud2\Shared_Data\LMSF Queue.)
+Set(msg6, \nIt should be pinned to the Quick Access in the Windows file browser.)
+
+If({queueDirectory}=={pdzScriptDir}, Set(msg1, Open the file strain_plasmids_16.txt and edit it to contain the appropriate information for this experiment.))
+If({queueDirectory}=={pdzScriptDir}, Set(msg5, \nThe file should be in the folder: {pdzScriptDir}.))
+If({queueDirectory}=={pdzScriptDir}, Set(msg6, ))
+
+UserPrompt(Strain and Plasmids, {msg1}\n{msg2}{msg5}{msg6})
+
+Set(has16Plasmids, false)
+If({isFourInducer_24plasmid_exp}==true, Set(has16Plasmids, true))
+If({isFull_16plasmid_exp}==true, Set(has16Plasmids, true))
+
+If({has16Plasmids}==true, ImportDictionary({queueDirectory}\strain_plasmids_16.txt))
+
+//Get strain info from user if needed (i.e., if not assigned at #InsertVariables)
+Set(needsStrainInput, false)
+If({strain1} ==  notAssigned, Set(needsStrainInput, true))
+If({needsStrainInput} !=  true, AddXML(strains, strain))
+If({needsStrainInput} !=  true, AddXML(strain, strainId, {strain1}))
+If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid1}))
+
+If({needsStrainInput} !=  true, AddXML(strains, strain))
+If({needsStrainInput} !=  true, AddXML(strain, strainId, {strain1}))
+If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid2}))
+
+If({needsStrainInput} !=  true, AddXML(strains, strain))
+If({needsStrainInput} !=  true, AddXML(strain, strainId, {strain1}))
+If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid3}))
+
+If({needsStrainInput} !=  true, AddXML(strains, strain))
+If({needsStrainInput} !=  true, AddXML(strain, strainId, {strain1}))
+If({needsStrainInput} !=  true, AddXML(strain, plasmidId, {plasmid4}))
+
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid5}))
+
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid6}))
+
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid7}))
+
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid8}))
+
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid9}))
+
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid10}))
+
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid11}))
+
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid12}))
+
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid13}))
+
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid14}))
+
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid15}))
+
+If({has16Plasmids} ==  true, AddXML(strains, strain))
+If({has16Plasmids} ==  true, AddXML(strain, strainId, {strain1}))
+If({has16Plasmids} ==  true, AddXML(strain, plasmidId, {plasmid16}))
+
+Set(msg, Select the bacteria strain used for the experiment:)
+If({needsStrainInput} ==  true, Get(strain, strain1, {msg}))
+
+If({needsStrainInput} ==  true, Get(plasmid, plasmid1, Select the plasmid used for rows A and B: tube position 10))
+If({needsStrainInput} ==  true, Get(plasmid, plasmid2, Select the plasmid used for rows C and D: tube position 11))
+If({needsStrainInput} ==  true, Get(plasmid, plasmid3, Select the plasmid used for rows E and F: tube position 12))
+If({needsStrainInput} ==  true, Get(plasmid, plasmid4, Select the plasmid used for rows G and H: tube position 13))
+//Needed for Hamilton:
+Set(strain2, {strain1})
+
+// For this type of experimentm, the user is never asked for the inducer or antibiotic info
+
+AddXML(additives, additive)
+AddXML(additive, useKey, antibiotic)
+AddXML(additive, additiveId, {selector1})
+AddXML(additive, concentration, {selector1Stock})
+
+AddXML(additives, additive)
+AddXML(additive, useKey, inducer)
+AddXML(additive, additiveId, {inducer1})
+AddXML(additive, concentration, {inducer1Stock})
+
+AddXML(additives, additive)
+AddXML(additive, useKey, inducer)
+AddXML(additive, additiveId, {inducer2})
+AddXML(additive, concentration, {inducer2_1Stock})
+AddXML(additive, concentration, {inducer2_2Stock})
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(additive, concentration, {inducer2_3Stock}))
+If({isFourInducer_24plasmid_exp} ==  true, AddXML(additive, concentration, {inducer2_4Stock}))
+
+
+Set(msg1, {inducer1} stock concentration should be {inducer1Stock}.)
+UserPrompt(Inducer Stocks, {msg1})
+
+Set(msg1, The first {inducer2} stock concentration should be {inducer2_1Stock}.)
+Set(msg1, {msg1}\nThe second {inducer2} stock concentration should be {inducer2_2Stock}.)
+If({isFourInducer_24plasmid_exp} ==  true, Set(msg1, {msg1}\nThe third {inducer2} stock concentration should be {inducer2_3Stock}.))
+If({isFourInducer_24plasmid_exp} ==  true, Set(msg1, {msg1}\nThe forth {inducer2} stock concentration should be {inducer2_4Stock}.))
+UserPrompt(Inducer Stocks, {msg1})
+
+Set(msg1, The {selector1} stock concentration should be {selector1Stock}.)
+UserPrompt(Antibiotic Stock, {msg1})
+
+
+Get(note, note)
+
+GetExpID({startDate}_PDZ-binding_3-plates)
+
+//review experiment ok/abort dialog
+Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
+
+Set(media_str, {media})
+If({percentDMSO} != 0, Set(media_str, {media_str} with {percentDMSO}% DMSO))
+Set(msg2, \tMedia: \t\t{media_str}\n\n \tBacteria: \t\t{strain1}\n\n \tPlasmids:\n\t\t\t{plasmid1}\n\t\t\t{plasmid2}\n\t\t\t{plasmid3}\n\t\t\t{plasmid4}\n\n)
+If({has16Plasmids} ==  true, Set(msg2, \tMedia: \t\t{media_str}\n\n \tBacteria: \t\t{strain1}\n\n \tPlasmids:))
+If({has16Plasmids} ==  true, Set(msg2, {msg2}\n\t\t\t{plasmid1}\t{plasmid5}\t{plasmid9}\t{plasmid13}))
+If({has16Plasmids} ==  true, Set(msg2, {msg2}\n\t\t\t{plasmid2}\t{plasmid6}\t{plasmid10}\t{plasmid14}))
+If({has16Plasmids} ==  true, Set(msg2, {msg2}\n\t\t\t{plasmid3}\t{plasmid7}\t{plasmid11}\t{plasmid15}))
+If({has16Plasmids} ==  true, Set(msg2, {msg2}\n\t\t\t{plasmid4}\t{plasmid8}\t{plasmid12}\t{plasmid16}\n\n))
+
+
+Set(msg3, \tInducer 1: \t{inducer1}, stock concentration: {inducer1Stock}\n)
+Set(msg3, {msg3}\tInducer 2.1: \t{inducer2}, stock concentration: {inducer2_1Stock}\n)
+Set(msg3, {msg3}\tInducer 2.2: \t{inducer2}, stock concentration: {inducer2_2Stock}\n)
+
+Set(msg4, \tAntibiotic:\t{selector1}, stock concentration: {selector1Stock}\n)
+Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
+Set(msg6, \n\n\{overNightProtocol}\n{plate2Protocol}\n{plate3Protocol})
+UserPrompt(Review Experiment Details: {experimentId}, {msg1} {msg2} {msg3}\n{msg4} {msg5}{msg6})
+
+Set(msg1, Set up the STAR deck layout as shown.)
+Set(msg1, {msg1}\n\tInducer 1: {inducer1Stock} {inducer1})
+Set(msg1, {msg1}\n\tInducer 2.1: {inducer2_1Stock} {inducer2})
+Set(msg1, {msg1}\n\tInducer 2.2: {inducer2_2Stock} {inducer2})
+If({isFourInducer_24plasmid_exp}==true, Set(msg1, {msg1}\n\tInducer 2.3: {inducer2_3Stock} {inducer2}))
+If({isFourInducer_24plasmid_exp}==true, Set(msg1, {msg1}\n\tInducer 2.4: {inducer2_4Stock} {inducer2}))
+
+Set(msg1, {msg1}\n\tAntibiotic: {selector1Stock} {selector1})
+
+Set(layoutPng, {pdzScriptDir}\STAR Deck Layout.PDZ binding.PNG)
+If({isFourInducer_24plasmid_exp}==true, Set(layoutPng, {scriptDir}\STAR Deck Layout.Marionette protease.PNG))
+
+UserPrompt(STAR Deck Layout, {msg1}, {layoutPng}, 1000)
+
+Set(msg1, Load the bacterial strains as shown.)
+Set(msg1, {msg1}\n\tPosition 10: {plasmid1} in {strain1})
+Set(msg1, {msg1}\n\tPosition 11: {plasmid2} in {strain1})
+Set(msg1, {msg1}\n\tPosition 12: {plasmid3} in {strain1})
+Set(msg1, {msg1}\n\tPosition 13: {plasmid4} in {strain1})
+
+If({has16Plasmids}==true, Set(msg1, Load the bacterial strains as shown.\n16 culture tubes in positions 1-16:))
+
+Set(loadStrainsPng, {scriptDir}\Load strains.Marionette protease.PNG)
+If({has16Plasmids}==true, Set(loadStrainsPng, {pdzScriptDir}\Load strains.16 plasmids.PNG))
+
+UserPrompt(Load Strains, {msg1}, {loadStrainsPng}, 1000)
+
+//--- Growth Plates 1 and 2 prep and growth ----------------------------------------------------------------------------- 
+Set(startWithInducer, No)
+Set(repeatProtocol, {plate2Protocol})
+Set(repeatProtocolTime, {plate2ProtocolTime})
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 1 and 2.lmsf, lidTestMethod={hamiltonMethodDir}\Pre-run lid test.No Abgene.hsl, growthPlatesNeeded=3)
+
+
+//--- Growth Plate 3 prep and OD Read from Plate 2 ----------------------------------------------------------------------------- 
+
+Set(repeatProtocol, {plate3Protocol})
+Set(repeatProtocolTime, {plate3ProtocolTime})
+Set(clear300TipWaste, true)
+
+// For the isFourInducer_24plasmid_exp experiment, before plate 3 prep, move 24 300 uL tips to another position on the STAR, and the add a new rack of 300 ul tips
+If({isFourInducer_24plasmid_exp}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\Move 24 300 tips out of the way.hsl))
+If({isFourInducer_24plasmid_exp}==true, WaitFor(S-Cell-STAR))
+If({isFourInducer_24plasmid_exp}==true, Overlord({ovpCommDirectory}\LabWare\Move Tips from Carousel to STAR.ovp, [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index} [STAR.Tip.ClearWaste] "true"))
+If({isFourInducer_24plasmid_exp}==true, WaitFor(Overlord))
+If({isFourInducer_24plasmid_exp}==true, Math(tips300Index, {tips300Index} - 1))
+If({isFourInducer_24plasmid_exp}==true, RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Add Tips 300 to Support w Counters.hsl))
+If({isFourInducer_24plasmid_exp}==true, WaitFor(S-Cell-STAR))
+
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+
+//--- OD Read from Plate 3 and cleanup -------------------------------------------------------------------
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 single OD read.lmsf)

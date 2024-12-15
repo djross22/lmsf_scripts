@@ -1,0 +1,68 @@
+//Sub-script for initialization steps of experiment that never change...
+
+/////////////////////////////////////
+//This section sets shorter Gen5 protocols for testing, set isTesting to false for actual experiment
+Set(isTesting, false)
+//GetUserYesNo(isTesting, Testing?, Is this a test run (short Gen5 protocols)?)
+Set(isTesting, No)
+If({isTesting}!=Yes, UserPrompt(Re-Boot STAR, Turn off the power to the Hamilton STAR; wait 10 seconds and turn it back on; then click 'OK' to continue., {lmsfImageDirectory}\dialog-warning.png))
+
+Set(testProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt)
+If({isTesting}==Yes, Set(overNightProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt))
+//overNightProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(overNightProtocolTime, 2400))
+If({isTesting}==Yes, Set(repeatProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 10m.37C.1C.Ex500Em530.prt))
+//repeatProtocolTime = nominal run time + 300
+If({isTesting}==Yes, Set(repeatProtocolTime, 2100))
+/////////////////////////////////////////
+
+/////////////////////////////////////////
+//Set any other short-hand dictionary keys that will be used repeatedly
+Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
+Set(getNewTips, {ovpCommDirectory}\Labware\Move Tips from Carousel to STAR.ovp)
+Set(clearTipRackOvp, {ovpCommDirectory}\Labware\Move Tips from STAR to Waste.ovp)
+Set(getNewSpinPlate, {ovpCommDirectory}\Labware\Move DWP from stack 9 to STAR.ovp)
+Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DWP.ovp)
+/////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+//User input and Overlord initialization section
+
+Set(listFile, {pdzScriptDir}\PDZ binding 3 plates-list.txt)
+If({isFourInducer_24plasmid_exp}==true, Set(listFile, {pdzScriptDir}\PDZ binding 3 plates.4 van-list.txt))
+If({isFull_16plasmid_exp}==true, Set(listFile, {pdzScriptDir}\PDZ binding 3 plates.16 plasmids-list.txt))
+StartPrompt(E. Coli Fitness Selection, {listFile})
+
+//UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
+
+Set(tipsRequired1000, 64)
+If({isFourInducer_24plasmid_exp}==true, Set(tipsRequired1000, 64))
+UserPrompt(Check STAR Hamilton Tips, Make sure there are at least {tipsRequired1000} 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
+UserPrompt(Check STAR Hamilton Tips, Make sure there are two full racks of 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
+
+Set(msg2, Make sure there are at least two racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
+If({isFourInducer_24plasmid_exp}==true, Set(msg2, Make sure there are at least three racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n))
+UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 2.png)
+Set(tips50Index, 0)
+Set(tips300Index, 2)
+If({isFourInducer_24plasmid_exp}==true, Set(tips300Index, 3))
+Set(tips1000Index, 0)
+
+NewXML(fitness selection)
+
+Overlord({ovpCommDirectory}\Initialize Robot Carousel Sealer and Pealer.ovp)
+
+Get(user, user)
+
+//Get media info from user if needed (i.e., if not assigned at #InsertVariables)
+If({media} != notAssigned, Set(msg1, The media for this experiment should be {media}))
+If({percentDMSO} != 0, Set(msg2, with {percentDMSO}% DMSO))
+If({percentDMSO} == 0, Set(msg2, ))
+If({media} != notAssigned, UserPrompt(Media, {msg1} {msg2}.))
+If({media} != notAssigned, AddXML(media, medium))
+Set(media_str, {media})
+If({percentDMSO} != 0, Set(media_str, {media_str} with {percentDMSO}% DMSO))
+If({media} != notAssigned, AddXML(medium, mediaId, {media_str}))
+
+If({media} == notAssigned, Get(media, media))
