@@ -39,7 +39,7 @@ UserPrompt(Check STAR Hamilton Tips, Make sure there are at least {tipsRequired1
 Set(tipsRequired300, 88)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are at least {tipsRequired300} 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
 
-Set(msg2, Make sure there is at least one racks of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
+Set(msg2, Make sure there is at least one rack of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
 UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 2.png)
 Set(tips50Index, 0)
 Set(tips300Index, 1)

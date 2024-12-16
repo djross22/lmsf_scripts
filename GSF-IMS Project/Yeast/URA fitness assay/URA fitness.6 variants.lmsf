@@ -45,7 +45,7 @@ Set(scriptDir, GSF-IMS Project\Yeast\URA fitness assay)
 
 /////////////////////////////////////////////////////////////////
 //Hamilton Venus Methods, in the order that they get run
-Set(lidTestMethod, {hamiltonMethodDir}\URA fitness.6 variants.plate 1.hsl)
+Set(lidTestMethod, {hamiltonMethodDir}\Pre-run lid test.hsl)
 
 Set(initHHCMethod, {hamiltonSharedMethodDir}\Turn on pre-heat HHC.hsl)
 Set(plate_1_Method, {hamiltonMethodDir}\URA fitness.6 variants.plate 1.hsl)
@@ -88,7 +88,7 @@ Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.30C.prt)
 
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
-ReadScript({scriptDir}\URA fitness.init experiment.lmsf)
+ReadScript(GSF-IMS Project\Yeast\URA fitness assay\URA fitness.init experiment.lmsf)
 
 // For 16-strain experiment, get strain info from file
 If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
@@ -108,13 +108,13 @@ UserPrompt(Strain and Plasmids, {msg1}\n{msg2}{msg5}{msg6})
 ReadScript(GSF-IMS Project\Yeast\URA fitness assay\import_6_strain_info.lmsf)
 
 // Add media info to XML file
-AddXML(media, medium))
+AddXML(media, medium)
 AddXML(medium, mediaId, {media_1})
-AddXML(media, medium))
+AddXML(media, medium)
 AddXML(medium, mediaId, {media_2})
-AddXML(media, medium))
+AddXML(media, medium)
 AddXML(medium, mediaId, {media_3})
-AddXML(media, medium))
+AddXML(media, medium)
 AddXML(medium, mediaId, {media_4})
 
 
@@ -126,12 +126,12 @@ GetExpID({startDate}_URA-assay_6-variants)
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
 
 
-Set(msg, \tMedia 1: \t\t{media_1})
-Set(msg, {msg}\n\tMedia 2: \t\t{media_2})
-Set(msg, {msg}\n\tMedia 3: \t\t{media_3})
-Set(msg, {msg}\n\tMedia 4: \t\t{media_4})
+Set(msg, \tMedia 1:\t\t{media_1})
+Set(msg, {msg}\n\tMedia 2:\t\t{media_2})
+Set(msg, {msg}\n\tMedia 3:\t\t{media_3})
+Set(msg, {msg}\n\tMedia 4:\t\t{media_4})
 Set(msg, {msg}\n\n)
-Set(msg, {msg}\tYeast: \t\t{strain1})
+Set(msg, {msg}\tYeast strain:\t{strain1})
 Set(msg, {msg}\n\n\tPlasmids:)
 Set(msg, {msg}\n\t\t\t{plasmid1_1})
 Set(msg, {msg}\n\t\t\t{plasmid1_2})
@@ -141,9 +141,9 @@ Set(msg, {msg}\n\t\t\t{plasmid1_5})
 Set(msg, {msg}\n\t\t\t{plasmid1_6})
 Set(msg, {msg}\n\n)
 
-Set(msg, {msg}\tExperiment ID: \n\t\t{experimentId})
-Set(msg, {msg}\n \tData directory: \n\t\t{dataDirectory})
-Set(msg, {msg}\n\n \tNotes:\n\t\t{note})
+Set(msg, {msg}\tExperiment ID:\n\t\t{experimentId})
+Set(msg, {msg}\n\tData directory:\n\t\t{dataDirectory})
+Set(msg, {msg}\n\n\tNotes:\n\t\t{note})
 Set(msg, {msg}\n\n\{plate1Protocol}\n{plate2Protocol})
 
 UserPrompt(Review Experiment Details: {experimentId}, {msg})
@@ -157,18 +157,6 @@ Set(msg, {msg}\n\tMedia 4: {media_4})
 Set(layoutPng, {scriptDir}\STAR Deck Layout.URA fitness.PNG)
 
 UserPrompt(STAR Deck Layout, {msg}, {layoutPng}, 1000)
-
-Set(msg, Load the Yeast cultures as shown.)
-Set(msg, {msg}\n\tPosition 10: {plasmid1_1} in {strain1})
-Set(msg, {msg}\n\tPosition 11: {plasmid1_2} in {strain1})
-Set(msg, {msg}\n\tPosition 12: {plasmid1_3} in {strain1})
-Set(msg, {msg}\n\tPosition 13: {plasmid1_4} in {strain1})
-Set(msg, {msg}\n\tPosition 13: {plasmid1_5} in {strain1})
-Set(msg, {msg}\n\tPosition 13: {plasmid1_6} in {strain1})
-
-Set(loadStrainsPng, {scriptDir}\Yeast strains.6.PNG)
-
-UserPrompt(Load Strains, {msg}, {loadStrainsPng}, 1000)
 
 //////////////////////////////////////////////////////////////////////////////////////
 //--- Final user instructions ----------------------------------------------
@@ -198,8 +186,6 @@ UserPrompt(Check Pre-Heat HHC, {msg})
 
 
 WaitFor(Overlord)
-//End User input and Overlord initialization section
-//////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////
 //Test readers while 1st plate is pipetting
@@ -216,11 +202,34 @@ RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
 WaitFor(S-Cell-STAR)
 
 
+Set(msg, Load the Yeast cultures as shown.)
+Set(msg, {msg}\n\tPosition 10: {plasmid1_1})
+Set(msg, {msg}\n\tPosition 11: {plasmid1_2})
+Set(msg, {msg}\n\tPosition 12: {plasmid1_3})
+Set(msg, {msg}\n\tPosition 13: {plasmid1_4})
+Set(msg, {msg}\n\tPosition 14: {plasmid1_5})
+Set(msg, {msg}\n\tPosition 15: {plasmid1_6})
+
+Set(loadStrainsPng, {scriptDir}\Yeast strains.6.PNG)
+
+UserPrompt(Load Strains, {msg}, {loadStrainsPng}, 1000)
+
+//End User input and Overlord initialization section
+//////////////////////////////////////////////////////////////////////////////////////
+
+
 //--- Growth Plate 1 ----------------------------------------------------------------------------- 
 Set(plateNum, 1)
 Set(platesInStack, 2)
 
 Set(lineage, 1)
+
+If({lineage}==1, Set(hamilton_plasmid_1, {plasmid1_1}))
+If({lineage}==1, Set(hamilton_plasmid_2, {plasmid1_2}))
+If({lineage}==1, Set(hamilton_plasmid_3, {plasmid1_3}))
+If({lineage}==1, Set(hamilton_plasmid_4, {plasmid1_4}))
+If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_5}))
+If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_6}))
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
 WaitFor(Overlord)
