@@ -1,0 +1,26 @@
+
+ImportDictionary({queueDirectory}\strain_plasmids_6.txt)
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid1_1})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid1_2})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid1_3})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid1_4})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid1_5})
+
+AddXML(strains, strain)
+AddXML(strain, strainId, {strain1})
+AddXML(strain, plasmidId, {plasmid1_6})
