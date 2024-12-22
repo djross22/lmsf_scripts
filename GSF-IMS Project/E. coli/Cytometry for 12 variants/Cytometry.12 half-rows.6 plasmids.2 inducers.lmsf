@@ -37,14 +37,14 @@ Set(scriptDir, GSF-IMS Project\E. coli\Cytometry for 12 variants)
 //Hamilton Venus Methods, in the order that they get run
 Set(initHHCMethod, Turn on pre-heat HHC.hsl)
 Set(startMethod, Uniform non-selective plate prep plus bacteria.1 strain.6 plasmids.hsl)
-Set(nonSelectiveGradientMethod, Inducer gradient plate prep_2 inducers per row.hsl)
+Set(nonSelectiveGradientMethod, Inducer gradient plate prep_2 gradients per row.hsl)
 Set(preHeatPlateMethod, Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
 //New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
 Set(preHeatPlateTime, 660)
 Set(copyPlateMethod, Dilute-copy plate x-fold with 96-head.hsl)
 Set(cytometryPrepMethod, Prep cytometry plate.hsl)
-Set(cytometryTransferMethod, Transfer cells from old GP to Cytometry Plate_2 inducers per row.hsl)
+Set(cytometryTransferMethod, Transfer cells from old GP to Cytometry Plate_2 gradients per row.hsl)
 //Venus method constrains 200<=cultureVolume<=500
 Set(cultureVolume, 500)
 
@@ -113,30 +113,30 @@ ImportDictionary({queueDirectory}\strain_plasmids_6.txt)
 
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmidB1})
+AddXML(strain, plasmidId, {plasmid1})
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmidC1})
+AddXML(strain, plasmidId, {plasmid2})
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmidD1})
+AddXML(strain, plasmidId, {plasmid3})
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmidE1})
+AddXML(strain, plasmidId, {plasmid4})
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmidF1})
+AddXML(strain, plasmidId, {plasmid5})
 AddXML(strains, strain)
 AddXML(strain, strainId, {strain1})
-AddXML(strain, plasmidId, {plasmidG1})
+AddXML(strain, plasmidId, {plasmid6})
 
-//Need to set these to avoid error in Set_params_for_plates.lmsf sub-script
-Set(plasmidB2, none)
-Set(plasmidC2, none)
-Set(plasmidD2, none)
-Set(plasmidE2, none)
-Set(plasmidF2, none)
-Set(plasmidG2, none)
+//Need to set these to avoid error in Set_params_for_plates... sub-script
+Set(plasmid7, none)
+Set(plasmid8, none)
+Set(plasmid9, none)
+Set(plasmid10, none)
+Set(plasmid11, none)
+Set(plasmid12, none)
 
 //Get inducer info from user if needed (i.e., if not assigned at #InsertVariables)
 Set(needsInducerInput, false)
@@ -166,12 +166,12 @@ Get(note, note)
 Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
 Set(msg2, \tMedia: \t\t\t{media}\n\n)
 Set(msg3, \tBacteria strain: \t\t{strain1}\n)
-Set(msg4, \t\tPlasmidB1: \t{plasmidB1}\n)
-Set(msg5, \t\tPlasmidC1: \t{plasmidC1}\n)
-Set(msg6, \t\tPlasmidD1: \t{plasmidD1}\n)
-Set(msg7, \t\tPlasmidE1: \t{plasmidE1}\n)
-Set(msg8, \t\tPlasmidF1: \t{plasmidF1}\n)
-Set(msg9, \t\tPlasmidG1: \t{plasmidG1}\n\n)
+Set(msg4, \t\tPlasmidB1: \t{plasmid1}\n)
+Set(msg5, \t\tPlasmidC1: \t{plasmid2}\n)
+Set(msg6, \t\tPlasmidD1: \t{plasmid3}\n)
+Set(msg7, \t\tPlasmidE1: \t{plasmid4}\n)
+Set(msg8, \t\tPlasmidF1: \t{plasmid5}\n)
+Set(msg9, \t\tPlasmidG1: \t{plasmid6}\n\n)
 
 Set(msg16a, \tInducer 1: \t{inducer1}, stock concentration: {inducer1Stock}\n)
 Set(msg16b, \tInducer 2: \t{inducer2}, stock concentration: {inducer2Stock}\n\n)
@@ -183,12 +183,12 @@ Set(msg1, Set up the STAR deck layout as shown.)
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.12 rows.6 plasmids.2 inducers.PNG, 1000)
 
 Set(msg1, Load the first set of 6 bacteria stocks in tube positions 10-15:)
-Set(msg2b, \n\tPosition 10: {plasmidB1})
-Set(msg2c, \n\tPosition 11: {plasmidC1})
-Set(msg2d, \n\tPosition 12: {plasmidD1})
-Set(msg2e, \n\tPosition 13: {plasmidE1})
-Set(msg2f, \n\tPosition 14: {plasmidF1})
-Set(msg2g, \n\tPosition 15: {plasmidG1})
+Set(msg2b, \n\tPosition 10: {plasmid1})
+Set(msg2c, \n\tPosition 11: {plasmid2})
+Set(msg2d, \n\tPosition 12: {plasmid3})
+Set(msg2e, \n\tPosition 13: {plasmid4})
+Set(msg2f, \n\tPosition 14: {plasmid5})
+Set(msg2g, \n\tPosition 15: {plasmid6})
 Set(msg3, \n\nThen click 'OK' to continue.)
 UserPrompt(STAR Deck Layout, {msg1}{msg2b}{msg2c}{msg2d}{msg2e}{msg2f}{msg2g}{msg3}, {scriptDir}\STAR Deck Layout.bacteria1.PNG, 800)
 
@@ -240,7 +240,7 @@ UserPrompt(Check Pre-Heat HHC, {msg})
 Set(plateNum, 1)
 Set(platesInStack, 3)
 
-ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_24_half_rows_12_plasmids.lmsf, lineage = 1)
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_1.lmsf, reader = {reader1})
 
 Set(cytometryReadyTime, {readEndTime1})
@@ -256,7 +256,7 @@ UserPrompt(Dispose of Stocks, {msg1}{msg2}\n\n{msg3})
 Math(plateNum, {plateNum} + 1)
 Set(sequenceNum, 0)
 
-ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_24_half_rows_12_plasmids.lmsf, lineage = 1)
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_2.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
 
 
@@ -264,14 +264,14 @@ ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_2.lmsf, reade
 //--- Plate 3 ----------------------------------------------------------------------------- 
 Math(plateNum, {plateNum} + 1)
 
-ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_24_half_rows_12_plasmids.lmsf, lineage = 1)
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Plate_3.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
 
 
 
 //--- Cytometry Plate (already on the STAR deck) ---------------------------------------------------------------------------------
 
-ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates.lmsf, lineage = 1)
+ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Set_params_for_plates_24_half_rows_12_plasmids.lmsf, lineage = 1)
 ReadScript(GSF-IMS Project\E. coli\Cytometry for 12 variants\Cytom_plate.lmsf, reader = {reader1}, readEndTime = {readEndTime1})
 
 

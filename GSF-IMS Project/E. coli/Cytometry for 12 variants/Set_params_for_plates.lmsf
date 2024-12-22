@@ -3,18 +3,18 @@
 #InsertVariables
 
 
-If({lineage} == 1, Set(plasmidB, {plasmidB1}))
-If({lineage} == 1, Set(plasmidC, {plasmidC1}))
-If({lineage} == 1, Set(plasmidD, {plasmidD1}))
-If({lineage} == 1, Set(plasmidE, {plasmidE1}))
-If({lineage} == 1, Set(plasmidF, {plasmidF1}))
-If({lineage} == 1, Set(plasmidG, {plasmidG1}))
+If({lineage} == 1, Set(plasmidB, {plasmid1}))
+If({lineage} == 1, Set(plasmidC, {plasmid2}))
+If({lineage} == 1, Set(plasmidD, {plasmid3}))
+If({lineage} == 1, Set(plasmidE, {plasmid4}))
+If({lineage} == 1, Set(plasmidF, {plasmid5}))
+If({lineage} == 1, Set(plasmidG, {plasmid6}))
 
 
 
-If({lineage} == 2, Set(plasmidB, {plasmidB2}))
-If({lineage} == 2, Set(plasmidC, {plasmidC2}))
-If({lineage} == 2, Set(plasmidD, {plasmidD2}))
-If({lineage} == 2, Set(plasmidE, {plasmidE2}))
-If({lineage} == 2, Set(plasmidF, {plasmidF2}))
-If({lineage} == 2, Set(plasmidG, {plasmidG2}))
+If({lineage} == 2, Set(plasmidB, {plasmid7}))
+If({lineage} == 2, Set(plasmidC, {plasmid8}))
+If({lineage} == 2, Set(plasmidD, {plasmid9}))
+If({lineage} == 2, Set(plasmidE, {plasmid10}))
+If({lineage} == 2, Set(plasmidF, {plasmid11}))
+If({lineage} == 2, Set(plasmidG, {plasmid12}))
