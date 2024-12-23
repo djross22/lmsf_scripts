@@ -89,6 +89,7 @@ Set(mainReader, Neo)
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 Set(isExtractingDNA, false)
+Set(isGBA_1_exp, true)
 Set(startWithInducer, No)
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.Align-TF.lmsf)
 
