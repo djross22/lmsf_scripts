@@ -52,7 +52,7 @@ Set(plate_1_Method, {hamiltonMethodDir}\URA fitness.6 variants.plate 1.hsl)
 Set(plate_1_MethodTime, 950)
 
 Set(plate_2_Method, {hamiltonMethodDir}\URA fitness.6 variants.plate 2.hsl)
-Set(plate_2_MethodTime, 1200)
+Set(plate_2_MethodTime, 1980)
 
 Set(preHeatPlateMethod, {hamiltonSharedMethodDir}\Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
