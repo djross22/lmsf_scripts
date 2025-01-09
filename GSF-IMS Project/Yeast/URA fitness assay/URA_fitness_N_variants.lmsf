@@ -230,12 +230,12 @@ Set(msg, {msg}\n\tPosition 13: {plasmid1_4})
 Set(msg, {msg}\n\tPosition 14: {plasmid1_5})
 Set(msg, {msg}\n\tPosition 15: {plasmid1_6})
 
-If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 15: {plasmid1_7}))
-If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 15: {plasmid1_8}))
-If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 15: {plasmid1_9}))
-If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 15: {plasmid1_10}))
-If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 15: {plasmid1_11}))
-If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 15: {plasmid1_12}))
+If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 16: {plasmid1_7}))
+If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 17: {plasmid1_8}))
+If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 18: {plasmid1_9}))
+If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 19: {plasmid1_10}))
+If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 20: {plasmid1_11}))
+If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 21: {plasmid1_12}))
 
 Set(loadStrainsPng, {scriptDir}\Yeast strains.{num_ura_variants}.PNG)
 
