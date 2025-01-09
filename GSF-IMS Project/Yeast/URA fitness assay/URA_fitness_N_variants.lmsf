@@ -116,7 +116,7 @@ If({queueDirectory}=={scriptDir}, Set(msg6, ))
 
 UserPrompt(Strain and Plasmids, {msg1}\n{msg2}{msg5}{msg6})
 
-ReadScript(GSF-IMS Project\Yeast\URA fitness assay\import_6_strain_info.lmsf)
+ReadScript(GSF-IMS Project\Yeast\URA fitness assay\import_N_strain_info.lmsf)
 
 // Add media info to XML file
 AddXML(media, medium)
