@@ -21,6 +21,9 @@ Set(pipettingCushionTime, 2400)
 // Options for num_ura_variants: 6, 12
 Set(num_ura_variants, 12)
 
+// Max fraction of media_2 that gets mixed with media_4 in dilution gradient for plate 2:
+Set(max_media_2_fraction, 0.05)
+
 #InsertVariables
 
 // media_3 only used for 6-variant experiment
