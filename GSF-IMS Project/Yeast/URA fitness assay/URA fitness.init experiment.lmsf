@@ -29,7 +29,7 @@ Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DW
 //////////////////////////////////////////////////////////////////////////////////////
 //User input and Overlord initialization section
 
-Set(listFile, {scriptDir}\URA fitness.6 variants-list.txt)
+Set(listFile, {scriptDir}\URA fitness.{num_ura_variants} variants-list.txt)
 StartPrompt(Yeast Fitness Selection, {listFile})
 
 //UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
