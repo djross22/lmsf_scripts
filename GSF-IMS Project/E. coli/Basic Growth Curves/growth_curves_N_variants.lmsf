@@ -1,0 +1,358 @@
+
+Set(sub_project, notAssigned)
+Set(queueDirectory, notAssigned)
+
+
+Set(media_1, M9-gly-kan)
+
+
+//Set readers to be used
+Set(reader1, Neo)
+
+Set(pipettingCushionTime, 2400)
+
+// Options for num_variants: 32
+Set(num_variants, 32)
+
+#InsertVariables
+
+//isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
+Set(isPipetting, true)
+//isDebugging controls whether or not user debugging prompts/messages are displayed (both in LMSF and Hamilton)
+Set(isDebugging, false)
+
+//manualSeal controls whether sealing is manual or automatic
+//Set(manualSeal, Yes)
+Set(manualSeal, No)
+
+/////////////////////////////////////////////////////////////////
+//Read in commonly used directories
+ReadScript(Common protocol scripts\Set Common Directories.lmsf)
+Set(hamiltonMethodDir, C:\Program Files (x86)\Hamilton\Methods\GSF-IMS Project\E. coli Methods\growth_curves_N_variants)
+Set(hamiltonSharedMethodDir, C:\Program Files (x86)\Hamilton\Methods\Shared Methods\GP pre-heat and dilute-copy)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Set directories for  .hsl, .opv, and .prt files that are specific to this experiment
+// Overlord protocols are the same as for the last version
+Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
+Set(scriptDir, GSF-IMS Project\Yeast\URA fitness assay)
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+//Hamilton Venus Methods, in the order that they get run
+Set(lidTestMethod, {hamiltonMethodDir}\Pre-run lid test.hsl)
+
+Set(initHHCMethod, {hamiltonSharedMethodDir}\Turn on pre-heat HHC.hsl)
+
+Set(plate_1_Method, {hamiltonMethodDir}\growth_curves_N_variants.plates_1-2.hsl)
+Set(plate_1_MethodTime, 600)
+
+Set(plate_2_Method, {hamiltonMethodDir}\growth_curves_N_variants.plates_1-2.hsl)
+Set(plate_2_MethodTime, 400)
+
+Set(preHeatPlateMethod, {hamiltonSharedMethodDir}\Pre-heat growth plate.hsl)
+//Plate pre-heating method takes 12m:16s to run
+//New version of Plate pre-heating method takes 11 minutes to run - leaves HHC on all the time
+Set(preHeatPlateTime, 660)
+// Subtract 2 minutes (i.e., start preheat 2 minutes later) for single read 
+Math(preHeatPlateTime, {preHeatPlateTime} - 120)
+
+Set(copyPlateMethod, {hamiltonSharedMethodDir}\Dilute-copy plate x-fold with 96-head.hsl)
+
+//Venus method constrains 200<=cultureVolume<=500
+Set(cultureVolume, 500)
+
+/////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////
+//Gen5 protocols to be run and associated timers:
+Set(plate1Protocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C.1C.prt)
+//overNightProtocolTime = nominal run time + 300
+Set(plate1ProtocolTime, 43500)
+
+Set(plate2Protocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 24h.37C.1C.no shake.prt)
+//protocol time = nominal run time + 300
+Set(plate2ProtocolTime, 86700)
+
+Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane single read.37C.1C.prt)
+Set(singleReadProtocolTime, 68)
+
+//Gen5 protocol for testing readers at beginning of run to give consistent starting state
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.37C.prt)
+/////////////////////////////////////////////////////////////////
+
+
+//--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
+ReadScript(GSF-IMS Project\E. coli\Basic Growth Curves\growth_curves.init experiment.lmsf)
+
+// Get strain info from file
+If({queueDirectory}==notAssigned, Set(queueDirectory, {scriptDir}))
+
+Set(strain_info_file, strain_plasmids_{num_variants}.txt)
+Set(msg1, Open the file {strain_info_file} from today's folder in the LMSF Queue: {queueDirectory}.\nThen, verify that it contains the appropriate information for this experiment.)
+Set(msg2, One strain and {num_variants} plasmids.)
+
+Set(msg5, \n\nThe LMSF Queue is on the JCloud at: \\resdata-smb\JCloud2\Shared_Data\LMSF Queue.)
+Set(msg6, \nIt should be pinned to the Quick Access in the Windows file browser.)
+
+If({queueDirectory}=={scriptDir}, Set(msg1, Open the file {strain_info_file} and edit it to contain the appropriate information for this experiment.))
+If({queueDirectory}=={scriptDir}, Set(msg5, \nThe file should be in the folder: {scriptDir}.))
+If({queueDirectory}=={scriptDir}, Set(msg6, ))
+
+UserPrompt(Strain and Plasmids, {msg1}\n{msg2}{msg5}{msg6})
+
+ReadScript(GSF-IMS Project\Yeast\URA fitness assay\import_N_strain_info.lmsf)
+
+// Add media info to XML file
+AddXML(media, medium)
+AddXML(medium, mediaId, {media_1})
+
+
+Get(note, note)
+
+GetExpID({startDate}_growth-curves_{num_variants}-variants)
+
+//review experiment ok/abort dialog
+Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort and start over:\n\n)
+
+
+Set(msg, \tMedia 1:\t\t{media_1})
+Set(msg, {msg}\n\n)
+Set(msg, {msg}\tYeast strain:\t{strain1})
+Set(msg, {msg}\n\n\tPlasmids:)
+Set(msg, {msg}\n\t\t\t{plasmid1_1}\t{plasmid1_17})
+Set(msg, {msg}\n\t\t\t{plasmid1_2}\t{plasmid1_18})
+Set(msg, {msg}\n\t\t\t{plasmid1_3}\t{plasmid1_19})
+Set(msg, {msg}\n\t\t\t{plasmid1_4}\t{plasmid1_20})
+Set(msg, {msg}\n\t\t\t{plasmid1_5}\t{plasmid1_21})
+Set(msg, {msg}\n\t\t\t{plasmid1_6}\t{plasmid1_22})
+Set(msg, {msg}\n\t\t\t{plasmid1_7}\t{plasmid1_23})
+Set(msg, {msg}\n\t\t\t{plasmid1_8}\t{plasmid1_24})
+
+Set(msg, {msg}\n\t\t\t{plasmid1_9}\t{plasmid1_25})
+Set(msg, {msg}\n\t\t\t{plasmid1_10}\t{plasmid1_26})
+Set(msg, {msg}\n\t\t\t{plasmid1_11}\t{plasmid1_27})
+Set(msg, {msg}\n\t\t\t{plasmid1_12}\t{plasmid1_28})
+Set(msg, {msg}\n\t\t\t{plasmid1_13}\t{plasmid1_29})
+Set(msg, {msg}\n\t\t\t{plasmid1_14}\t{plasmid1_30})
+Set(msg, {msg}\n\t\t\t{plasmid1_15}\t{plasmid1_31})
+Set(msg, {msg}\n\t\t\t{plasmid1_16}\t{plasmid1_32})
+
+Set(msg, {msg}\n\n)
+
+Set(msg, {msg}\tExperiment ID:\n\t\t{experimentId})
+Set(msg, {msg}\n\tData directory:\n\t\t{dataDirectory})
+Set(msg, {msg}\n\n\tNotes:\n\t\t{note})
+Set(msg, {msg}\n\n\{plate1Protocol}\n{plate2Protocol})
+
+UserPrompt(Review Experiment Details: {experimentId}, {msg})
+
+Set(msg, Set up the STAR deck layout as shown.)
+Set(msg, {msg}\n\tMedia: {media_1})
+
+Set(layoutPng, {scriptDir}\STAR Deck Layout.growth curves.PNG)
+
+UserPrompt(STAR Deck Layout, {msg}, {layoutPng}, 1000)
+
+//////////////////////////////////////////////////////////////////////////////////////
+//--- Final user instructions ----------------------------------------------
+Set(msg, Close the front cover on the STAR.)
+Set(msg, {msg}\nEnsure that the Robot arm is in a safe position and that the Guard Override key is in the 'Off' position.)
+Set(msg, {msg}\nCheck that all the doors of the S-Cell system are closed.)
+Set(msg, {msg}\nThen click 'OK' to start the experiment.\n)
+UserPrompt(Ready to Start, {msg}, {lmsfImageDirectory}\dialog-warning.png)
+
+//Lid movement test
+UserPrompt(Lid Movement Test, Switch to the STAR computer and observe the lid movement test.)
+RemoteHam(S-Cell-STAR, RunMethod, {lidTestMethod})
+Timer(40)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+UserPrompt(Lid Movement Test, If the STAR successfully moved the lids click 'OK' to start the experiment.)
+// end lid movement test
+
+//Turn on HHC for plate pre-warming
+Set(preHeatTemperature, 67)
+Set(preheatTime, 600)
+RemoteHam(S-Cell-STAR, RunMethod, {initHHCMethod})
+Timer(75)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+Set(msg, Verify that HHC no. 1 is now set to the pre-heat temperature, {preHeatTemperature} C, then Click 'OK' to continue.)
+UserPrompt(Check Pre-Heat HHC, {msg})
+
+
+WaitFor(Overlord)
+
+//////////////////////////////////////////////////////////////////////////////////////
+//Test readers while 1st plate is pipetting
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+Set(msg, Plate reader {reader1} should have its carrier out. \nVerify that the carrier is out and empty, then Click 'OK' to continue.)
+UserPrompt(Check Readers, {msg})
+Gen5({reader1}, RunExp, {initProtocol}, pre-run-test, {dataDirectory})
+//////////////////////////////////////////////////////////////////////////////////////
+
+Set(msg, Click 'OK', then switch to STAR computer to edit tip counters.)
+UserPrompt(Check Readers, {msg})
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
+WaitFor(S-Cell-STAR)
+
+
+Set(msg, Click OK, then switch to the Hamilton PC and follow the instructions for loading the cell cultures.)
+
+UserPrompt(Switch to Hamilton to Load Strains, {msg}, {lmsfImageDirectory}\dialog-warning.png)
+
+//End User input and Overlord initialization section
+//////////////////////////////////////////////////////////////////////////////////////
+
+
+//--- Growth Plate 1 ----------------------------------------------------------------------------- 
+Set(plateNum, 1)
+Set(platesInStack, 2)
+
+Set(lineage, 1)
+
+If({lineage}==1, Set(hamilton_plasmid_1, {plasmid1_1}))
+If({lineage}==1, Set(hamilton_plasmid_2, {plasmid1_2}))
+If({lineage}==1, Set(hamilton_plasmid_3, {plasmid1_3}))
+If({lineage}==1, Set(hamilton_plasmid_4, {plasmid1_4}))
+If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_5}))
+If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_6}))
+If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_7}))
+If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_8}))
+
+If({lineage}==1, Set(hamilton_plasmid_1, {plasmid1_9}))
+If({lineage}==1, Set(hamilton_plasmid_2, {plasmid1_10}))
+If({lineage}==1, Set(hamilton_plasmid_3, {plasmid1_11}))
+If({lineage}==1, Set(hamilton_plasmid_4, {plasmid1_12}))
+If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_13}))
+If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_14}))
+If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_15}))
+If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_16}))
+
+If({lineage}==1, Set(hamilton_plasmid_1, {plasmid1_17}))
+If({lineage}==1, Set(hamilton_plasmid_2, {plasmid1_18}))
+If({lineage}==1, Set(hamilton_plasmid_3, {plasmid1_19}))
+If({lineage}==1, Set(hamilton_plasmid_4, {plasmid1_20}))
+If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_21}))
+If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_22}))
+If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_23}))
+If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_24}))
+
+If({lineage}==1, Set(hamilton_plasmid_1, {plasmid1_25}))
+If({lineage}==1, Set(hamilton_plasmid_2, {plasmid1_26}))
+If({lineage}==1, Set(hamilton_plasmid_3, {plasmid1_27}))
+If({lineage}==1, Set(hamilton_plasmid_4, {plasmid1_28}))
+If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_29}))
+If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_30}))
+If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_31}))
+If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_32}))
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+WaitFor(Overlord)
+Math(platesInStack, {platesInStack} - 1)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{lineage}-{plateNum}.csv)
+Set(dilutionFactor, 10)
+RemoteHam(S-Cell-STAR, RunMethod, {plate_1_Method})
+Timer({plate_1_MethodTime})
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+WaitFor({reader1}, false)
+
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader No Seal.ovp, [Gen5.Reader.Name] "{reader1}")
+WaitFor(Overlord)
+
+Gen5({reader1}, RunExp, {singleReadProtocol}, {experimentId}_single-read_{lineage}-0, {dataDirectory})
+Timer({singleReadProtocolTime})
+WaitFor(Timer)
+WaitFor({reader1})
+
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to Reader and Seal.ovp, [Gen5.Reader.Name] "{reader1}" [Gen5.Reader2.Name] "{reader1}")
+WaitFor(Overlord)
+
+
+Gen5({reader1}, RunExp, {plate1Protocol}, {experimentId}_growth-plate_{lineage}-{plateNum}, {dataDirectory})
+GetTimeNow(readStartTime)
+Math(readEndTime, {readStartTime} + {plate1ProtocolTime})
+
+Set(msg1, Remove cell cultures from deck and put in bio-waste.)
+UserPrompt(Dispose of Cell Cultures, {msg1}, {lmsfImageDirectory}\dialog-warning.png)
+
+
+//--- Plate 2 ----------------------------------------------------------------------------- 
+Math(plateNum, {plateNum} + 1)
+
+//Move new plate and tips before WaitFor(Timer) so user can make sure there is no Overlord error
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack} [STAR.Plate.Handling.Labware.Name] "Tips300" [STAR.Tip.300.Index] {tips300Index})
+WaitFor(Overlord)
+Math(tips300Index, {tips300Index} - 1)
+Math(platesInStack, {platesInStack} - 1)
+
+//Wait for reader to get close to finished before starting pipetting method
+Math(pipetteWaitTime, {preHeatPlateTime} + {plate_2_MethodTime})
+Math(pipetteWaitTime, {pipetteWaitTime} + {pipettingCushionTime})
+Math(pipetteStartTime, {readEndTime} - {pipetteWaitTime})
+Timer({pipetteStartTime})
+WaitFor(Timer)
+
+Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{lineage}-{plateNum}.csv)
+Set(dilutionFactor, 50)
+RemoteHam(S-Cell-STAR, RunMethod, {plate_2_Method})
+Timer({plate_2_MethodTime})
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Math(preHeatStartTime, {readEndTime} - {preHeatPlateTime})
+Timer({preHeatStartTime})
+WaitFor(Timer)
+
+RemoteHam(S-Cell-STAR, RunMethod, {preHeatPlateMethod})
+Timer(600)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+WaitFor({reader1})
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from Reader to STAR.ovp, [Gen5.Reader.Name] "{reader1}")
+WaitFor(Overlord)
+
+Gen5({reader1}, CarrierIn)
+WaitFor({reader1}, false)
+
+Set(keepOldGrowthPlate, false)
+RemoteHam(S-Cell-STAR, RunMethod, {copyPlateMethod})
+Timer(180)
+WaitFor(Timer)
+WaitFor(S-Cell-STAR)
+
+Gen5({reader1}, CarrierOut)
+WaitFor({reader1}, false)
+
+Overlord({ovpCommDirectory}\Move Growth Plate from STAR to Reader.ovp, [Gen5.Reader.Name] "{reader1}" [Sealer.ManualSeal] "{manualSeal}")
+WaitFor(Overlord)
+
+Gen5({reader1}, RunExp, {plate2Protocol}, {experimentId}_growth-plate_{lineage}-{plateNum}, {dataDirectory})
+GetTimeNow(readStartTime)
+Math(readEndTime, {readStartTime} + {plate2ProtocolTime})
+
+//--- Clean up --------------------------------------------------------------------------------------
+
+Overlord({ovpCommDirectory}\Sealer Heater Off.ovp)
+WaitFor(Overlord)
+
+SaveXML()
+
+CopyRemoteFiles()
