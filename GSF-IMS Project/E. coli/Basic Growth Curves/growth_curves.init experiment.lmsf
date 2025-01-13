@@ -21,26 +21,22 @@ If({isTesting}==Yes, Set(repeatProtocolTime, 2100))
 Set(getNewGrowthPlate, {ovpCommDirectory}\Labware\Move Tips and New Growth Plate to STAR.ovp)
 Set(getNewTips, {ovpCommDirectory}\Labware\Move Tips from Carousel to STAR.ovp)
 Set(clearTipRackOvp, {ovpCommDirectory}\Labware\Move Tips from STAR to Waste.ovp)
-Set(getNewSpinPlate, {ovpCommDirectory}\Labware\Move DWP from stack 9 to STAR.ovp)
-Set(centrifugeSpinPlate, {ovpCommDirectory}\Get DWP from STAR then Centrifuge DWP.ovp)
 /////////////////////////////////////////
 
 
 //////////////////////////////////////////////////////////////////////////////////////
 //User input and Overlord initialization section
 
-Set(listFile, {scriptDir}\growth_curves_{num_variants}_variants-list.txt.txt)
-StartPrompt(Yeast Fitness Selection, {listFile})
+Set(listFile, {scriptDir}\growth_curves_{num_variants}_variants-list.txt)
+StartPrompt(Bacteria Fitness Selection, {listFile})
 
 //UserPrompt(Check STAR Hamilton Run Control, Make sure that the Hamilton Run Control program on the STAR computer is NOT in simulation mode.)
 
-Set(tipsRequired1000, 112)
-If({num_variants} == 12, Set(tipsRequired1000, 60))
+Set(tipsRequired1000, 56)
 UserPrompt(Check STAR Hamilton Tips, Make sure there are at least {tipsRequired1000} 1000 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 1000.PNG)
 
-Set(tipsRequired300, 88)
-If({num_variants} == 12, Set(tipsRequired300, 20))
-UserPrompt(Check STAR Hamilton Tips, Make sure there are at least {tipsRequired300} 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
+Set(tipsRequired300, 0)
+//UserPrompt(Check STAR Hamilton Tips, Make sure there are at least {tipsRequired300} 300 uL tips in the tip supports on the deck of the STAR., {lmsfImageDirectory}\Tip supports 300.PNG)
 
 Set(msg2, Make sure there is at least one rack of 300 uL tips in the PAA Carousel (hotel no. 2).\n)
 UserPrompt(Tips, {msg2}, {lmsfImageDirectory}\Tip Hotel 2.png)

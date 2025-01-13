@@ -36,7 +36,7 @@ Set(hamiltonSharedMethodDir, C:\Program Files (x86)\Hamilton\Methods\Shared Meth
 //Set directories for  .hsl, .opv, and .prt files that are specific to this experiment
 // Overlord protocols are the same as for the last version
 Set(ovpDirectory, C:\Program Files (x86)\PAA\Overlord3\Procedures\GSF-IMS\E. coli\Fitness Selection 1)
-Set(scriptDir, GSF-IMS Project\Yeast\URA fitness assay)
+Set(scriptDir, GSF-IMS Project\E. coli\Basic Growth Curves)
 /////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////
@@ -72,7 +72,7 @@ Set(plate1Protocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 12h.37C
 //overNightProtocolTime = nominal run time + 300
 Set(plate1ProtocolTime, 43500)
 
-Set(plate2Protocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 24h.37C.1C.no shake.prt)
+Set(plate2Protocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane 24h.37C.1C.prt)
 //protocol time = nominal run time + 300
 Set(plate2ProtocolTime, 86700)
 
@@ -103,7 +103,7 @@ If({queueDirectory}=={scriptDir}, Set(msg6, ))
 
 UserPrompt(Strain and Plasmids, {msg1}\n{msg2}{msg5}{msg6})
 
-ReadScript(GSF-IMS Project\Yeast\URA fitness assay\import_N_strain_info.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Basic Growth Curves\import_N_strain_info.lmsf)
 
 // Add media info to XML file
 AddXML(media, medium)
@@ -120,7 +120,7 @@ Set(msg1, Review the following, then click 'OK' to accept or 'Abort' to abort an
 
 Set(msg, \tMedia 1:\t\t{media_1})
 Set(msg, {msg}\n\n)
-Set(msg, {msg}\tYeast strain:\t{strain1})
+Set(msg, {msg}\tBacteria strain:\t{strain1})
 Set(msg, {msg}\n\n\tPlasmids:)
 Set(msg, {msg}\n\t\t\t{plasmid1_1}\t{plasmid1_17})
 Set(msg, {msg}\n\t\t\t{plasmid1_2}\t{plasmid1_18})
@@ -221,35 +221,35 @@ If({lineage}==1, Set(hamilton_plasmid_3, {plasmid1_3}))
 If({lineage}==1, Set(hamilton_plasmid_4, {plasmid1_4}))
 If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_5}))
 If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_6}))
-If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_7}))
-If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_8}))
+If({lineage}==1, Set(hamilton_plasmid_7, {plasmid1_7}))
+If({lineage}==1, Set(hamilton_plasmid_8, {plasmid1_8}))
 
-If({lineage}==1, Set(hamilton_plasmid_1, {plasmid1_9}))
-If({lineage}==1, Set(hamilton_plasmid_2, {plasmid1_10}))
-If({lineage}==1, Set(hamilton_plasmid_3, {plasmid1_11}))
-If({lineage}==1, Set(hamilton_plasmid_4, {plasmid1_12}))
-If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_13}))
-If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_14}))
-If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_15}))
-If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_16}))
+If({lineage}==1, Set(hamilton_plasmid_9, {plasmid1_9}))
+If({lineage}==1, Set(hamilton_plasmid_10, {plasmid1_10}))
+If({lineage}==1, Set(hamilton_plasmid_11, {plasmid1_11}))
+If({lineage}==1, Set(hamilton_plasmid_12, {plasmid1_12}))
+If({lineage}==1, Set(hamilton_plasmid_13, {plasmid1_13}))
+If({lineage}==1, Set(hamilton_plasmid_14, {plasmid1_14}))
+If({lineage}==1, Set(hamilton_plasmid_15, {plasmid1_15}))
+If({lineage}==1, Set(hamilton_plasmid_16, {plasmid1_16}))
 
-If({lineage}==1, Set(hamilton_plasmid_1, {plasmid1_17}))
-If({lineage}==1, Set(hamilton_plasmid_2, {plasmid1_18}))
-If({lineage}==1, Set(hamilton_plasmid_3, {plasmid1_19}))
-If({lineage}==1, Set(hamilton_plasmid_4, {plasmid1_20}))
-If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_21}))
-If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_22}))
-If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_23}))
-If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_24}))
+If({lineage}==1, Set(hamilton_plasmid_17, {plasmid1_17}))
+If({lineage}==1, Set(hamilton_plasmid_18, {plasmid1_18}))
+If({lineage}==1, Set(hamilton_plasmid_19, {plasmid1_19}))
+If({lineage}==1, Set(hamilton_plasmid_20, {plasmid1_20}))
+If({lineage}==1, Set(hamilton_plasmid_21, {plasmid1_21}))
+If({lineage}==1, Set(hamilton_plasmid_22, {plasmid1_22}))
+If({lineage}==1, Set(hamilton_plasmid_23, {plasmid1_23}))
+If({lineage}==1, Set(hamilton_plasmid_24, {plasmid1_24}))
 
-If({lineage}==1, Set(hamilton_plasmid_1, {plasmid1_25}))
-If({lineage}==1, Set(hamilton_plasmid_2, {plasmid1_26}))
-If({lineage}==1, Set(hamilton_plasmid_3, {plasmid1_27}))
-If({lineage}==1, Set(hamilton_plasmid_4, {plasmid1_28}))
-If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_29}))
-If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_30}))
-If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_31}))
-If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_32}))
+If({lineage}==1, Set(hamilton_plasmid_25, {plasmid1_25}))
+If({lineage}==1, Set(hamilton_plasmid_26, {plasmid1_26}))
+If({lineage}==1, Set(hamilton_plasmid_27, {plasmid1_27}))
+If({lineage}==1, Set(hamilton_plasmid_28, {plasmid1_28}))
+If({lineage}==1, Set(hamilton_plasmid_29, {plasmid1_29}))
+If({lineage}==1, Set(hamilton_plasmid_30, {plasmid1_30}))
+If({lineage}==1, Set(hamilton_plasmid_31, {plasmid1_31}))
+If({lineage}==1, Set(hamilton_plasmid_32, {plasmid1_32}))
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
 WaitFor(Overlord)
