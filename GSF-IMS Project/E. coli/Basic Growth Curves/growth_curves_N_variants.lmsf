@@ -80,7 +80,7 @@ Set(singleReadProtocol, {gen5ProtDir}\GSF-IMS-E-Coli\Growth Plate w Membrane sin
 Set(singleReadProtocolTime, 68)
 
 //Gen5 protocol for testing readers at beginning of run to give consistent starting state
-Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.37C.prt)
+Set(initProtocol, {gen5ProtDir}\Growth Plate w Membrane short test.prt)
 /////////////////////////////////////////////////////////////////
 
 
