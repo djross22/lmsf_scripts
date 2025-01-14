@@ -2,6 +2,11 @@
 Set(sub_project, notAssigned)
 Set(queueDirectory, notAssigned)
 
+// Three conditions for 16-variant experiment:
+//     100% SG-Trp-Ura (test), media_4
+//     100% SG-Trp (positive control), media_3
+//     100% SD-Trp-Ura (negative control), media_2
+//     and SD-Trp, media_1 is used for plate 1.
 
 Set(media_1, SD-Trp)
 Set(media_2, SD-Trp-Ura)
@@ -18,7 +23,7 @@ Set(reader1, Epoch1)
 
 Set(pipettingCushionTime, 2400)
 
-// Options for num_ura_variants: 6, 12
+// Options for num_ura_variants: 6, 12, 16
 Set(num_ura_variants, 12)
 
 // Max fraction of media_2 that gets mixed with media_4 in dilution gradient for plate 2:
@@ -26,8 +31,8 @@ Set(max_media_2_fraction, 0.05)
 
 #InsertVariables
 
-// media_3 only used for 6-variant experiment
-If({num_ura_variants} != 6, Set(media_3, none))
+// media_3 not used for 12-variant experiment
+If({num_ura_variants} == 12, Set(media_3, none))
 
 //isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
 Set(isPipetting, true)
@@ -56,6 +61,7 @@ Set(scriptDir, GSF-IMS Project\Yeast\URA fitness assay)
 //Hamilton Venus Methods, in the order that they get run
 Set(lidTestMethod, {hamiltonMethodDir}\Pre-run lid test.hsl)
 If({num_ura_variants} == 12, Set(lidTestMethod, {hamiltonMethodDir}\Pre-run lid test.12.hsl))
+If({num_ura_variants} == 16, Set(lidTestMethod, {hamiltonMethodDir}\Pre-run lid test.12.hsl))
 
 Set(initHHCMethod, {hamiltonSharedMethodDir}\Turn on pre-heat HHC.hsl)
 Set(plate_1_Method, {hamiltonMethodDir}\URA fitness.{num_ura_variants} variants.plate 1.hsl)
@@ -64,6 +70,7 @@ Set(plate_1_MethodTime, 950)
 Set(plate_2_Method, {hamiltonMethodDir}\URA fitness.{num_ura_variants} variants.plate 2.hsl)
 Set(plate_2_MethodTime, 1980)
 If({num_ura_variants} == 12, Set(plate_2_MethodTime, 1400))
+If({num_ura_variants} == 16, Set(plate_2_MethodTime, 1400))
 
 Set(preHeatPlateMethod, {hamiltonSharedMethodDir}\Pre-heat growth plate.hsl)
 //Plate pre-heating method takes 12m:16s to run
@@ -125,9 +132,9 @@ AddXML(medium, mediaId, {media_1})
 AddXML(media, medium)
 AddXML(medium, mediaId, {media_2})
 
-// media_3 only used for 6-variant experiment
-If({num_ura_variants} == 6, AddXML(media, medium))
-If({num_ura_variants} == 6, AddXML(medium, mediaId, {media_3}))
+// media_3 not used for 12-variant experiment
+If({num_ura_variants} != 12, AddXML(media, medium))
+If({num_ura_variants} != 12, AddXML(medium, mediaId, {media_3}))
 
 AddXML(media, medium)
 AddXML(medium, mediaId, {media_4})
@@ -155,12 +162,17 @@ Set(msg, {msg}\n\t\t\t{plasmid1_4})
 Set(msg, {msg}\n\t\t\t{plasmid1_5})
 Set(msg, {msg}\n\t\t\t{plasmid1_6})
 
-If({num_ura_variants} == 12, Set(msg, {msg}\n\t\t\t{plasmid1_7}))
-If({num_ura_variants} == 12, Set(msg, {msg}\n\t\t\t{plasmid1_8}))
-If({num_ura_variants} == 12, Set(msg, {msg}\n\t\t\t{plasmid1_9}))
-If({num_ura_variants} == 12, Set(msg, {msg}\n\t\t\t{plasmid1_10}))
-If({num_ura_variants} == 12, Set(msg, {msg}\n\t\t\t{plasmid1_11}))
-If({num_ura_variants} == 12, Set(msg, {msg}\n\t\t\t{plasmid1_12}))
+If({num_ura_variants} >= 12, Set(msg, {msg}\n\t\t\t{plasmid1_7}))
+If({num_ura_variants} >= 12, Set(msg, {msg}\n\t\t\t{plasmid1_8}))
+If({num_ura_variants} >= 12, Set(msg, {msg}\n\t\t\t{plasmid1_9}))
+If({num_ura_variants} >= 12, Set(msg, {msg}\n\t\t\t{plasmid1_10}))
+If({num_ura_variants} >= 12, Set(msg, {msg}\n\t\t\t{plasmid1_11}))
+If({num_ura_variants} >= 12, Set(msg, {msg}\n\t\t\t{plasmid1_12}))
+
+If({num_ura_variants} == 16, Set(msg, {msg}\n\t\t\t{plasmid1_13}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\t\t\t{plasmid1_14}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\t\t\t{plasmid1_15}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\t\t\t{plasmid1_16}))
 
 Set(msg, {msg}\n\n)
 
@@ -241,6 +253,27 @@ If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 19: {plasmid1_10}))
 If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 20: {plasmid1_11}))
 If({num_ura_variants} == 12, Set(msg, {msg}\n\tPosition 21: {plasmid1_12}))
 
+If({num_ura_variants} == 16, Set(msg, Load the Yeast cultures as shown.))
+
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 1: {plasmid1_1}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 2: {plasmid1_2}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 3: {plasmid1_3}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 4: {plasmid1_4}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 5: {plasmid1_5}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 6: {plasmid1_6}))
+
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 7: {plasmid1_7}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 8: {plasmid1_8}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 9: {plasmid1_9}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 10: {plasmid1_10}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 11: {plasmid1_11}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 12: {plasmid1_12}))
+
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 13: {plasmid1_13}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 14: {plasmid1_14}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 15: {plasmid1_15}))
+If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 16: {plasmid1_16}))
+
 Set(loadStrainsPng, {scriptDir}\Yeast strains.{num_ura_variants}.PNG)
 
 UserPrompt(Load Strains, {msg}, {loadStrainsPng}, 1000)
@@ -268,6 +301,17 @@ If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_9, {plasmid1_9}))
 If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_10, {plasmid1_10}))
 If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_11, {plasmid1_11}))
 If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_12, {plasmid1_12}))
+
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_7, {plasmid1_7}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_8, {plasmid1_8}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_9, {plasmid1_9}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_10, {plasmid1_10}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_11, {plasmid1_11}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_12, {plasmid1_12}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_13, {plasmid1_13}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_14, {plasmid1_14}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_15, {plasmid1_15}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_16, {plasmid1_16}))
 
 Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
 WaitFor(Overlord)
