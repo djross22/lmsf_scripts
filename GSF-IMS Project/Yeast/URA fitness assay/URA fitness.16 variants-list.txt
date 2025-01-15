@@ -2,8 +2,7 @@ Two Agilent growth plates, with lids, in stack 7 of the Carousel
 
 One Agilent 4-reservoir plate, with lid, on deck of STAR
 
-At least 60 high-volume (1000 uL) tips, in the tip supports on the STAR
-At least 20 standard-volume (300 uL) tips, in the tip supports on the STAR
+At least 72 high-volume (1000 uL) tips, in the tip supports on the STAR
 
 One full rack of standard-volume (300 uL) tips on the Carousel
 
