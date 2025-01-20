@@ -261,7 +261,7 @@ WaitFor(S-Cell-STAR)
 Set(preHeatTemperature, 67)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{initHHCMethod})
 WaitFor(S-Cell-STAR)
-Set(msg, Verify that HHC no. 1 is now set to pre-heat temperature, then Click 'OK' to continue.)
+Set(msg, Verify that HHC no. 1 is now set to the pre-heat temperature, {preHeatTemperature}, then Click 'OK' to continue.)
 UserPrompt(Check Pre-Heat HHC, {msg})
 
 //--- Plate 1 ------------------------------------------------------------------------------
