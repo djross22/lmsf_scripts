@@ -238,6 +238,45 @@ RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Edit Tip Counters.hsl)
 WaitFor(S-Cell-STAR)
 
 
+//End User input and Overlord initialization section
+//////////////////////////////////////////////////////////////////////////////////////
+
+
+//--- Growth Plate 1 ----------------------------------------------------------------------------- 
+Set(plateNum, 1)
+Set(platesInStack, 2)
+
+Set(lineage, 1)
+
+If({lineage}==1, Set(hamilton_plasmid_1, {plasmid1_1}))
+If({lineage}==1, Set(hamilton_plasmid_2, {plasmid1_2}))
+If({lineage}==1, Set(hamilton_plasmid_3, {plasmid1_3}))
+If({lineage}==1, Set(hamilton_plasmid_4, {plasmid1_4}))
+If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_5}))
+If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_6}))
+
+If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_7, {plasmid1_7}))
+If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_8, {plasmid1_8}))
+If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_9, {plasmid1_9}))
+If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_10, {plasmid1_10}))
+If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_11, {plasmid1_11}))
+If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_12, {plasmid1_12}))
+
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_7, {plasmid1_7}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_8, {plasmid1_8}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_9, {plasmid1_9}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_10, {plasmid1_10}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_11, {plasmid1_11}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_12, {plasmid1_12}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_13, {plasmid1_13}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_14, {plasmid1_14}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_15, {plasmid1_15}))
+If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_16, {plasmid1_16}))
+
+Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
+WaitFor(Overlord)
+Math(platesInStack, {platesInStack} - 1)
+
 Set(msg, Load the Yeast cultures as shown.)
 Set(msg, {msg}\n\tPosition 10: {plasmid1_1})
 Set(msg, {msg}\n\tPosition 11: {plasmid1_2})
@@ -277,45 +316,6 @@ If({num_ura_variants} == 16, Set(msg, {msg}\n\tPosition 16: {plasmid1_16}))
 Set(loadStrainsPng, {scriptDir}\Yeast strains.{num_ura_variants}.PNG)
 
 UserPrompt(Load Strains, {msg}, {loadStrainsPng}, 1000)
-
-//End User input and Overlord initialization section
-//////////////////////////////////////////////////////////////////////////////////////
-
-
-//--- Growth Plate 1 ----------------------------------------------------------------------------- 
-Set(plateNum, 1)
-Set(platesInStack, 2)
-
-Set(lineage, 1)
-
-If({lineage}==1, Set(hamilton_plasmid_1, {plasmid1_1}))
-If({lineage}==1, Set(hamilton_plasmid_2, {plasmid1_2}))
-If({lineage}==1, Set(hamilton_plasmid_3, {plasmid1_3}))
-If({lineage}==1, Set(hamilton_plasmid_4, {plasmid1_4}))
-If({lineage}==1, Set(hamilton_plasmid_5, {plasmid1_5}))
-If({lineage}==1, Set(hamilton_plasmid_6, {plasmid1_6}))
-
-If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_7, {plasmid1_7}))
-If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_8, {plasmid1_8}))
-If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_9, {plasmid1_9}))
-If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_10, {plasmid1_10}))
-If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_11, {plasmid1_11}))
-If({lineage}_{num_ura_variants}==1_12, Set(hamilton_plasmid_12, {plasmid1_12}))
-
-If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_7, {plasmid1_7}))
-If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_8, {plasmid1_8}))
-If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_9, {plasmid1_9}))
-If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_10, {plasmid1_10}))
-If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_11, {plasmid1_11}))
-If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_12, {plasmid1_12}))
-If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_13, {plasmid1_13}))
-If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_14, {plasmid1_14}))
-If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_15, {plasmid1_15}))
-If({lineage}_{num_ura_variants}==1_16, Set(hamilton_plasmid_16, {plasmid1_16}))
-
-Overlord({getNewGrowthPlate}, [Carousel.Stack.7.Labware.Count] {platesInStack})
-WaitFor(Overlord)
-Math(platesInStack, {platesInStack} - 1)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{lineage}-{plateNum}.csv)
 Set(dilutionFactor, 10)
