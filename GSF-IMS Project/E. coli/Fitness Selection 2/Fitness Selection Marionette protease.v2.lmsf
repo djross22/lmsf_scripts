@@ -5,9 +5,14 @@ Set(inducer1, Van)
 Set(inducer2, Sal)
 Set(selector1, TMP)
 
+// This is the concentration of Van that gets loaded into the LMSF
 Set(inducer1StockConc, 500)
 
-// These are the final Sal concentration in the growth plates
+// These are the final Van concentration in the growth plates
+Set(van_conc_1, 23.81)
+Set(van_conc_2, 250)
+
+// These are the final Sal concentrations in the growth plates
 Set(sal_conc_1, 0.000000)
 Set(sal_conc_2, 2.360080)
 Set(sal_conc_3, 3.317586)
@@ -20,11 +25,13 @@ Set(sal_conc_9, 14.246961)
 Set(sal_conc_10, 20.884706)
 Set(sal_conc_11, 100.000000)
 
-// These are the concentrations of the two Sal stocks that get loaded into the LMSF
-Set(inducer2_1StockConc, 10)
-Set(inducer2_2StockConc, 100)
+// These are the concentrations of the three Sal stocks that get loaded into the LMSF
+Set(inducer2_1StockConc, 50)
+Set(inducer2_2StockConc, 200)
+Set(inducer2_3StockConc, 1000)
 
-Set(selector1StockConc, 10)
+// This is the concentration of TMP that gets loaded into the LMSF, shold be 20x the concentration in the growth plate.
+Set(selector1StockConc, 20)
 
 Set(inducer1StockUnits, umol/L)
 Set(inducer2StockUnits, umol/L)
@@ -44,6 +51,7 @@ Set(plasmid4, notAssigned)
 Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits})
 Set(inducer2_1Stock, {inducer2_1StockConc} {inducer2StockUnits})
 Set(inducer2_2Stock, {inducer2_2StockConc} {inducer2StockUnits})
+Set(inducer2_3Stock, {inducer2_3StockConc} {inducer3StockUnits})
 Set(selector1Stock, {selector1StockConc} {selector1StockUnits})
 
 //isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
@@ -168,6 +176,7 @@ AddXML(additive, useKey, inducer)
 AddXML(additive, additiveId, {inducer2})
 AddXML(additive, concentration, {inducer2_1Stock})
 AddXML(additive, concentration, {inducer2_2Stock})
+AddXML(additive, concentration, {inducer2_3Stock})
 
 
 Set(msg1, {inducer1} stock concentration should be {inducer1Stock}.)
@@ -175,6 +184,7 @@ UserPrompt(Inducer Stocks, {msg1})
 
 Set(msg1, The first {inducer2} stock concentration should be {inducer2_1Stock}.)
 Set(msg1, {msg1}\nThe second {inducer2} stock concentration should be {inducer2_2Stock}.)
+Set(msg1, {msg1}\nThe third {inducer2} stock concentration should be {inducer2_3Stock}.)
 UserPrompt(Inducer Stocks, {msg1})
 
 Set(msg1, The {selector1} stock concentration should be {selector1Stock}.)
@@ -195,6 +205,7 @@ Set(msg2, \tMedia: \t\t{media_str}\n\n \tBacteria: \t\t{strain1}\n\n \tPlasmids:
 Set(msg3, \tInducer 1: \t{inducer1}, stock concentration: {inducer1Stock}\n)
 Set(msg3, {msg3}\tInducer 2.1: \t{inducer2}, stock concentration: {inducer2_1Stock}\n)
 Set(msg3, {msg3}\tInducer 2.2: \t{inducer2}, stock concentration: {inducer2_2Stock}\n)
+Set(msg3, {msg3}\tInducer 2.3: \t{inducer2}, stock concentration: {inducer2_3Stock}\n)
 
 Set(msg4, \tAntibiotic:\t{selector1}, stock concentration: {selector1Stock}\n)
 Set(msg5, \tExperiment ID: \n\t\t{experimentId}\n \tData directory: \n\t\t{dataDirectory}\n\n \tNotes:\n\t\t{note})
@@ -205,6 +216,7 @@ Set(msg1, Set up the STAR deck layout as shown.)
 Set(msg1, {msg1}\n\tInducer 1: {inducer1Stock} {inducer1})
 Set(msg1, {msg1}\n\tInducer 2.1: {inducer2_1Stock} {inducer2})
 Set(msg1, {msg1}\n\tInducer 2.2: {inducer2_2Stock} {inducer2})
+Set(msg1, {msg1}\n\tInducer 2.3: {inducer2_3Stock} {inducer2})
 Set(msg1, {msg1}\n\tAntibiotic: {selector1Stock} {selector1})
 UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.Marionette protease.PNG, 1000)
 
