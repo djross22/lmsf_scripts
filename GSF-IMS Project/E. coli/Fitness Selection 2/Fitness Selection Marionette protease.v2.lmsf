@@ -51,7 +51,7 @@ Set(plasmid4, notAssigned)
 Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits})
 Set(inducer2_1Stock, {inducer2_1StockConc} {inducer2StockUnits})
 Set(inducer2_2Stock, {inducer2_2StockConc} {inducer2StockUnits})
-Set(inducer2_3Stock, {inducer2_3StockConc} {inducer3StockUnits})
+Set(inducer2_3Stock, {inducer2_3StockConc} {inducer2StockUnits})
 Set(selector1Stock, {selector1StockConc} {selector1StockUnits})
 
 //isPipetting is a variable passed to the Hamilton Venus method; if isPipetting is true, the STAR will pipette liquids; otherwise the STAR just moves plates around
@@ -127,7 +127,7 @@ Set(mainReader, Neo)
 
 //--- Scipt for initial steps that don't change ----------------------------------------------------------------------------- 
 Set(isExtractingDNA, false)
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.Marionette-protease.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.init experiment.Marionette-protease.lmsf, is_v2_experiment=true)
 
 
 //Get strain info from user if needed (i.e., if not assigned at #InsertVariables)
@@ -218,7 +218,11 @@ Set(msg1, {msg1}\n\tInducer 2.1: {inducer2_1Stock} {inducer2})
 Set(msg1, {msg1}\n\tInducer 2.2: {inducer2_2Stock} {inducer2})
 Set(msg1, {msg1}\n\tInducer 2.3: {inducer2_3Stock} {inducer2})
 Set(msg1, {msg1}\n\tAntibiotic: {selector1Stock} {selector1})
-UserPrompt(STAR Deck Layout, {msg1}, {scriptDir}\STAR Deck Layout.Marionette protease.PNG, 1000)
+
+Set(deck_layout_file, {scriptDir}\STAR Deck Layout.Marionette protease.PNG)
+If({is_v2_experiment}==true, Set(deck_layout_file, {scriptDir}\STAR Deck Layout.Marionette protease.v2.PNG))
+
+UserPrompt(STAR Deck Layout, {msg1}, {deck_layout_file}, 1000)
 
 Set(msg1, Load the bacterial strains as shown.)
 Set(msg1, {msg1}\n\tPosition 10: {plasmid1} in {strain1})
@@ -238,12 +242,31 @@ Set(clear300TipWaste, true)
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
 
 // --- Add more tips before plate 4 ---
-ReadScript(Common protocol scripts\Need Tips.lmsf, clearTipRack=true, tips1000Need=96, tips300Need=96)
+// First, get rid of the remaining tips on the deck, this will leave both 300 tip supports empty
+ReadScript(Common protocol scripts\STAR Clear 300 tips.lmsf, clear_300_tips_from=2, clear_300_tips_to=2)
+// Then, add two racks of 300s
+ReadScript(Common protocol scripts\Add a rack of 300 tips.lmsf, clearTipRack=true)
+ReadScript(Common protocol scripts\Add a rack of 300 tips.lmsf, clearTipRack=false)
+
+//Then, check on the count of 1000 tips, and add them if needed
+ReadScript(Common protocol scripts\Need Tips.lmsf, clearTipRack=false, tips1000Need=52)
+
 Set(clear300TipWaste, false)
 
 //--- Growth Plate 4 prep and OD Read from Plate 3 ----------------------------------------------------------------------------- 
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
-Set(clear300TipWaste, true)
+
+
+// --- Add more tips before plate 5 ---
+// First, get rid of any tips remaining in the first support, in case any were skipped becasue of bad pickup
+ReadScript(Common protocol scripts\STAR Clear 300 tips.lmsf, clear_300_tips_from=1, clear_300_tips_to=3)
+// Then, add one more rack of 300s, after plate 4 is put into the reader, there will be an empty tip rack in the STAR handoff position, so need to clear it
+ReadScript(Common protocol scripts\Add a rack of 300 tips.lmsf, clearTipRack=true)
+
+//Then, check on the count of 1000 tips, and add them if needed
+ReadScript(Common protocol scripts\Need Tips.lmsf, clearTipRack=false, tips1000Need=52)
+
+Set(clear300TipWaste, false)
 
 //--- Growth Plate 5 prep and OD Read from Plate 4 ----------------------------------------------------------------------------- 
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
