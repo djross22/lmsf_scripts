@@ -1,0 +1,22 @@
+
+//This script is meant to be used in the middle of a longer protocol to add tips to the deck of the STAR if they are needed
+//It isn't very smart, and just adds tips. So, if both tip supports are full, the STAR method will throw an error.
+// At the end of this script, to robot removes the tip rack from the STAR and throws it to waste.
+
+//The hamiltonTipDir needs to be set before calling this script
+
+Set(clearTipRack, false)
+
+#InsertVariables
+
+
+//300 uL tips -----------------------------------------------------------
+Set(tipSize, 300)
+
+Set(tipIndex, {tips300Index})
+ReadScript(Common protocol scripts\If_addTips_Move Tips from Carousel to STAR.lmsf, clearRackFirst={clearTipRack}, addTips=true)
+Math(tips300Index, {tips300Index} - 1)
+Set(clearTipRack, false)
+
+//----------------------------------------------------------------------
+

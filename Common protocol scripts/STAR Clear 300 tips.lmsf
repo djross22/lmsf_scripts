@@ -1,0 +1,11 @@
+
+Set(clear_300_tips_from, 1)
+Set(clear_300_tips_to, 2)
+
+#InsertVariables
+
+ReadScript(Common protocol scripts\Set Common Directories.lmsf)
+
+
+RemoteHam(S-Cell-STAR, RunMethod, {hamiltonTipDir}\Clear 300 tips.hsl)
+WaitFor(S-Cell-STAR)
