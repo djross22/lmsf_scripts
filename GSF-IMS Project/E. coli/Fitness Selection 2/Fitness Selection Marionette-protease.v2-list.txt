@@ -10,8 +10,8 @@ One full rack of high-volume (10000 uL) tips on the Carousel
 Seven full racks of standard-volume (300 uL) tips on the Carousel
 
 300 mL of media
-40 mL of inducer 1 at the indicated concentration (in column 1 of reagent plate)
-at least 15 mL of each inducer 2 stock at the indicated concentrations (in columns 2-4 of reagent plate)
+60 mL of inducer 1 at the indicated concentration (split between columns 1-2 of reagent plate)
+at least 15 mL of each inducer 2 stock at the indicated concentrations (in columns 3-5 of reagent plate)
 30 mL of antibiotic at 20x concentration (in column 6 of reagent plate)
 
 Four bacteria stocks (5 mL each, in snap-cap tubes on deck of STAR)
