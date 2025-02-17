@@ -4,6 +4,7 @@ Set(lidTestMethod, {hamiltonMethodDir}\Pre-run lid test.No DNA extraction.hsl)
 Set(growthPlatesNeeded, 5)
 
 Set(pipettingCushionTime, 2400)
+Set(plate2DilutionFactor, 50)
 
 #InsertVariables
 
@@ -123,7 +124,7 @@ Timer({pipetteStartTime})
 WaitFor(Timer)
 
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
-Set(dilutionFactor, 50)
+Set(dilutionFactor, {plate2DilutionFactor})
 Math(gradPlateNum, {gradPlateNum} + 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{nonSelectiveGradientMethod})
 Timer(800)
