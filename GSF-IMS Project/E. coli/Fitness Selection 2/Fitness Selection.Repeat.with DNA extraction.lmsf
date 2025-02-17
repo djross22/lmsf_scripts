@@ -1,6 +1,7 @@
 //Sub-script for plates 3, 4, 5...
 
 Set(pipettingCushionTime, 2400)
+Set(repeatDilutionFactor, 10)
 
 #InsertVariables
 
@@ -28,7 +29,7 @@ WaitFor(Timer)
 
 Math(plateNum, {plateNum} + 1)
 Set(worklistFile, {dataDirectory}\{experimentId}_growth-plate_{plateNum}.csv)
-Set(dilutionFactor, 10)
+Set(dilutionFactor, {repeatDilutionFactor})
 Math(gradPlateNum, {gradPlateNum} + 1)
 RemoteHam(S-Cell-STAR, RunMethod, {hamiltonMethodDir}\{selectiveGradientMethod})
 Timer(1000)

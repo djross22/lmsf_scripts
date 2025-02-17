@@ -46,6 +46,8 @@ Set(plasmid2, notAssigned)
 Set(plasmid3, notAssigned)
 Set(plasmid4, notAssigned)
 
+Set(proteaseDilutionFactor, 7)
+
 #InsertVariables
 
 Set(inducer1Stock, {inducer1StockConc} {inducer1StockUnits})
@@ -239,7 +241,7 @@ ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plates 
 // For for this experiment, need to clear waste tip rack (no new 1000s added after plate 2)
 Set(clear300TipWaste, true)
 
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf, repeatDilutionFactor={proteaseDilutionFactor})
 
 // --- Add more tips before plate 4 ---
 // First, get rid of the remaining tips on the deck, this will leave both 300 tip supports empty
@@ -254,7 +256,7 @@ ReadScript(Common protocol scripts\Need Tips.lmsf, clearTipRack=false, tips1000N
 Set(clear300TipWaste, false)
 
 //--- Growth Plate 4 prep and OD Read from Plate 3 ----------------------------------------------------------------------------- 
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf, repeatDilutionFactor={proteaseDilutionFactor})
 
 
 // --- Add more tips before plate 5 ---
@@ -269,7 +271,7 @@ ReadScript(Common protocol scripts\Need Tips.lmsf, clearTipRack=false, tips1000N
 Set(clear300TipWaste, false)
 
 //--- Growth Plate 5 prep and OD Read from Plate 4 ----------------------------------------------------------------------------- 
-ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf)
+ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.Repeat.with single OD read.lmsf, repeatDilutionFactor={proteaseDilutionFactor})
 
 //--- OD Read from Plate 5 and cleanup -------------------------------------------------------------------
 ReadScript(GSF-IMS Project\E. coli\Fitness Selection 2\Fitness Selection.plate 5 single OD read.lmsf)
